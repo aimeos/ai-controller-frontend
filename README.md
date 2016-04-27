@@ -1,2 +1,2 @@
 # ai-controller-frontend
-Aimeos frontend controler
+Aimeos frontend controller

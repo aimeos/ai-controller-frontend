@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+minimum-perc = 1
+minimum_perc = 1
+
+[aimeos-core.controller-frontend]
+file_filter = controller/frontend/i18n/<lang>.po
+source_file = controller/frontend/i18n/core-controller-frontend.pot
+source_lang = en
+type = PO

@@ -35,6 +35,19 @@ abstract class Base
 
 
 	/**
+	 * Catches unknown methods
+	 *
+	 * @param string $name Name of the method
+	 * @param array $param List of method parameter
+	 * @return boolean Returns always false
+	 */
+	public function __call( $name, array $param )
+	{
+		return false;
+	}
+
+
+	/**
 	 * Returns the context object.
 	 *
 	 * @return \Aimeos\MShop\Context\Item\Iface context object implementing \Aimeos\MShop\Context\Item\Iface

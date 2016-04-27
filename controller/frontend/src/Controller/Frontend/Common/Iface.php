@@ -25,7 +25,6 @@ interface Iface
 	 * Initializes the controller.
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @return void
 	 */
 	public function __construct( \Aimeos\MShop\Context\Item\Iface $context );
 

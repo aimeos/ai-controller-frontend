@@ -747,6 +747,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testSetAddressDelete()
+	{
+		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, null );
+
+		$this->setExpectedException( '\Aimeos\MShop\Order\Exception' );
+		$this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
+	}
+
+
 	public function testSetBillingAddressByItem()
 	{
 		$item = $this->getAddress( 'Example company' );

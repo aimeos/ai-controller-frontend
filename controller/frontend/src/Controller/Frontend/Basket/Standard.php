@@ -606,54 +606,6 @@ class Standard extends Base implements Iface, \Aimeos\Controller\Frontend\Common
 
 
 	/**
-	 * Returns the product variants of a selection product that match the given attributes.
-	 *
-	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Product item including sub-products
-	 * @param array $variantAttributeIds IDs for the variant-building attributes
-	 * @param array $domains Names of the domain items that should be fetched too
-	 * @return array List of products matching the given attributes
-	 */
-	protected function getProductVariants( \Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds,
-		array $domains = array( 'attribute', 'media', 'price', 'text' ) )
-	{
-		$subProductIds = array();
-		foreach( $productItem->getRefItems( 'product', 'default', 'default' ) as $item ) {
-			$subProductIds[] = $item->getId();
-		}
-
-		if( count( $subProductIds ) === 0 ) {
-			return array();
-		}
-
-		$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
-		$search = $productManager->createSearch( true );
-
-		$expr = array(
-			$search->compare( '==', 'product.id', $subProductIds ),
-			$search->getConditions(),
-		);
-
-		if( count( $variantAttributeIds ) > 0 )
-		{
-			foreach( $variantAttributeIds as $key => $id ) {
-				$variantAttributeIds[$key] = (string) $id;
-			}
-
-			$listTypeItem = $this->getProductListTypeItem( 'attribute', 'variant' );
-
-			$param = array( 'attribute', $listTypeItem->getId(), $variantAttributeIds );
-			$cmpfunc = $search->createFunction( 'product.contains', $param );
-
-			$expr[] = $search->compare( '==', $cmpfunc, count( $variantAttributeIds ) );
-		}
-
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		return $productManager->searchItems( $search, $domains );
-	}
-
-
-	/**
 	 * Returns the variant attributes and updates the price list if necessary.
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Order product item

@@ -314,8 +314,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductSelectionWithPricelessItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTPSUB01' );
-
 		$this->object->addProduct( $this->testItem->getId(), 1 );
 
 		$this->assertEquals( 'U:TESTPSUB01', $this->object->get()->getProduct( 0 )->getProductCode() );

@@ -19,7 +19,6 @@ namespace Aimeos\Controller\Frontend\Common\Decorator;
  * @subpackage Frontend
  */
 abstract class Base
-	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
 	private $context = null;
 	private $controller = null;

@@ -5,6 +5,9 @@ return array(
 	'depends' => array(
 		'aimeos-core',
 	),
+	'config' => array(
+		'controller/frontend/config',
+	),
 	'include' => array(
 		'controller/frontend/src',
 	),

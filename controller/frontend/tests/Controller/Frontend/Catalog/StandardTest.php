@@ -347,7 +347,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetTextListName()
 	{
-		$filter = $this->object->createTextFilter( 'cafe noire', 'relevance', '-', 0, 25, 'unittype19', 'name' );
+		$filter = $this->object->createTextFilter( 'Cafe Noire', 'relevance', '-', 0, 25, 'unittype19', 'name' );
 		$results = $this->object->getTextList( $filter );
 
 		$this->assertEquals( 1, count( $results ) );

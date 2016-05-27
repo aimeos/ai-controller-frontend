@@ -18,18 +18,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperFrontend::getContext();
+		$this->testItem = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
+
 		$this->object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
-
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'U:TESTP' ) );
-
-		$items = $productManager->searchItems( $search, array( 'text' ) );
-
-		if( ( $this->testItem = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
 	}
 
 
@@ -54,16 +45,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 'U:TESTPSUB01', $basket->getProduct( 0 )->getProductCode() );
 
 
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'CNC' ) );
-
-		$items = $productManager->searchItems( $search, array( 'text' ) );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
 
 		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'default' );
 		$item2 = $this->object->get()->getProduct( 1 );
@@ -77,17 +59,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductBundle()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'U:BUNDLE' ) );
-
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:BUNDLE' );
 
 		$this->object->addProduct( $item->getId(), 1 );
 
@@ -99,17 +71,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductVariant()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'CNC' ) );
-
-		$items = $productManager->searchItems( $search, array( 'text' ) );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
 		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
 
 		$search = $attributeManager->createSearch();
@@ -122,6 +83,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		}
 
 
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
+
 		$this->object->addProduct( $item->getId(), 1, array(), array_keys( $attributes ), array(), array(), array(), 'default' );
 
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
@@ -131,18 +94,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductVariantIncomplete()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'U:TEST' ) );
-
-		$items = $productManager->searchItems( $search, array() );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -159,6 +111,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		}
 
 
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
+
 		$this->object->addProduct( $item->getId(), 1, array(), array_keys( $attributes ) );
 
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
@@ -169,18 +123,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductVariantNonUnique()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'U:TEST' ) );
-
-		$items = $productManager->searchItems( $search, array() );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -197,6 +140,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		}
 
 
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
+
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item->getId(), 1, array(), array_keys( $attributes ) );
 	}
@@ -204,7 +149,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductVariantNotRequired()
 	{
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'attribute.code', 'xs' ) );
@@ -226,7 +171,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductConfigAttribute()
 	{
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'attribute.code', 'xs' ) );
@@ -248,7 +193,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductHiddenAttribute()
 	{
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -285,7 +230,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductCustomAttribute()
 	{
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -312,7 +257,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductAttributeNotAssigned()
 	{
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -342,104 +287,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testAddProductNotEnoughStockException()
-	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'IJKL' ) );
-
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		try
-		{
-			$this->object->addProduct( $item->getId(), 5, array(), array(), array(), array(), array(), 'unit_warehouse3' );
-			throw new \Exception( 'Expected exception not thrown' );
-		}
-		catch( \Aimeos\Controller\Frontend\Basket\Exception $e )
-		{
-			$item = $this->object->get()->getProduct( 0 );
-			$this->assertEquals( 3, $item->getQuantity() );
-		}
-	}
-
-
-	public function testAddProductNoStockException()
-	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'EFGH' ) );
-
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		try
-		{
-			$this->object->addProduct( $item->getId(), 5, array(), array(), array(), array(), array(), 'unit_warehouse2' );
-			throw new \Exception( 'Expected exception not thrown' );
-		}
-		catch( \Aimeos\Controller\Frontend\Basket\Exception $e )
-		{
-			$this->assertEquals( array(), $this->object->get()->getProducts() );
-		}
-	}
-
-
-	public function testAddProductNoStockRequired()
-	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'IJKL' ) );
-
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$this->object->addProduct( $item->getId(), 5, array( 'stock' => false ) );
-	}
-
-
-	public function testAddProductNoStockItem()
-	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'QRST' ) );
-
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( $item->getId(), 1 );
-	}
-
-
 	public function testAddProductNoPriceException()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'MNOP' ) );
-
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'MNOP' );
 
 		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
@@ -455,14 +305,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductEmptySelectionException()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'U:noSel' ) );
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:noSel' );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
@@ -471,17 +314,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductSelectionWithPricelessItem()
 	{
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTPSUB01' );
+
 		$this->object->addProduct( $this->testItem->getId(), 1 );
-
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $productManager->createSearch();
-
-		$search->setConditions( $search->compare( '==', 'product.code', 'U:TESTPSUB01' ) );
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
 
 		$this->assertEquals( 'U:TESTPSUB01', $this->object->get()->getProduct( 0 )->getProductCode() );
 	}
@@ -489,14 +324,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductLowQuantityPriceException()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'IJKL' ) );
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
 
 		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
@@ -505,14 +333,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddProductHigherQuantities()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'IJKL' ) );
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
 
 		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'unit_warehouse3' );
 
@@ -550,16 +371,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testEditProductAttributes()
 	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'U:TESTP' ) );
-		$items = $productManager->searchItems( $search );
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
 		$search = $attributeManager->createSearch();
 		$conditions = array(
 			$search->compare( '==', 'attribute.domain', 'product' ),
@@ -582,6 +395,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		}
 
 
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
+
 		$this->object->addProduct( $item->getId(), 1, array(), array(), array_keys( $attributes ) );
 		$this->object->editProduct( 0, 4 );
 
@@ -596,96 +411,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 3, $item->getQuantity() );
 		$this->assertEquals( 1, count( $item->getAttributes() ) );
 		$this->assertEquals( 'U:TESTPSUB01', $item->getProductCode() );
-	}
-
-
-	public function testEditProductNotEnoughStock()
-	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'IJKL' ) );
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'unit_warehouse3' );
-
-		$item = $this->object->get()->getProduct( 0 );
-		$this->assertEquals( 2, $item->getQuantity() );
-
-		try
-		{
-			$this->object->editProduct( 0, 5 );
-			throw new \Exception( 'Expected exception not thrown' );
-		}
-		catch( \Aimeos\Controller\Frontend\Basket\Exception $e )
-		{
-			$item = $this->object->get()->getProduct( 0 );
-			$this->assertEquals( 3, $item->getQuantity() );
-			$this->assertEquals( 'IJKL', $item->getProductCode() );
-		}
-	}
-
-
-	public function testEditProductNoStock()
-	{
-		$context = \TestHelperFrontend::getContext();
-
-		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'IJKL' ) );
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$orderProductManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' );
-		$orderProductItem = $orderProductManager->createItem();
-		$orderProductItem->copyFrom( $item );
-		$orderProductItem->setQuantity( 2 );
-		$orderProductItem->setWarehouseCode( 'unit_warehouse3' );
-
-		$pos = $this->object->get()->addProduct( $orderProductItem, 1 );
-
-		$item = $this->object->get()->getProduct( $pos );
-		$this->assertEquals( 2, $item->getQuantity() );
-
-		try
-		{
-			$this->object->editProduct( $pos, 5 );
-			throw new \Exception( 'Expected exception not thrown' );
-		}
-		catch( \Aimeos\Controller\Frontend\Basket\Exception $e )
-		{
-			$this->assertEquals( 3, $this->object->get()->getProduct( $pos )->getQuantity() );
-		}
-	}
-
-
-	public function testEditProductStockNotChecked()
-	{
-		$productManager = \Aimeos\MShop\Product\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $productManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'product.code', 'IJKL' ) );
-		$items = $productManager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Product not found' );
-		}
-
-		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'unit_warehouse3' );
-
-		$item = $this->object->get()->getProduct( 0 );
-		$this->assertEquals( 2, $item->getQuantity() );
-
-		$this->object->editProduct( 0, 5, array( 'stock' => false ) );
-
-		$item = $this->object->get()->getProduct( 0 );
-		$this->assertEquals( 5, $item->getQuantity() );
-		$this->assertEquals( 'IJKL', $item->getProductCode() );
 	}
 
 
@@ -873,7 +598,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testSetServicePayment()
 	{
-		$service = $this->getService( 'unitpaymentcode' );
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$service = $manager->findItem( 'unitpaymentcode', array(), 'service', 'payment' );
 
 		$this->object->setService( 'payment', $service->getId(), array() );
 		$this->assertEquals( 'unitpaymentcode', $this->object->get()->getService( 'payment' )->getCode() );
@@ -885,7 +611,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testSetDeliveryOption()
 	{
-		$service = $this->getService( 'unitcode' );
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$service = $manager->findItem( 'unitcode', array(), 'service', 'delivery' );
 
 		$this->object->setService( 'delivery', $service->getId(), array() );
 		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery' )->getCode() );
@@ -897,11 +624,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testCheckLocale()
 	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$payment = $manager->findItem( 'unitpaymentcode', array(), 'service', 'payment' );
+		$delivery = $manager->findItem( 'unitcode', array(), 'service', 'delivery' );
+
 		$this->object->addProduct( $this->testItem->getId(), 2 );
 		$this->object->addCoupon( 'OPQR' );
 
-		$this->object->setService( 'payment', $this->getService( 'unitpaymentcode' )->getId() );
-		$this->object->setService( 'delivery', $this->getService( 'unitcode' )->getId() );
+		$this->object->setService( 'payment', $payment->getId() );
+		$this->object->setService( 'delivery', $delivery->getId() );
 
 		$basket = $this->object->get();
 		$price = $basket->getPrice();
@@ -955,26 +686,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		if( ( $item = reset( $items ) ) === false ) {
 			throw new \Exception( sprintf( 'No address item with company "%1$s" found', $company ) );
-		}
-
-		return $item;
-	}
-
-
-	/**
-	 * @param string $code
-	 */
-	protected function getService( $code )
-	{
-		$serviceManager = \Aimeos\MShop\Service\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $serviceManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'service.code', $code ) );
-
-		$result = $serviceManager->searchItems( $search, array( 'text' ) );
-
-		if( ( $item = reset( $result ) ) === false ) {
-			throw new \Exception( sprintf( 'No service item with code "%1$s" found', $code ) );
 		}
 
 		return $item;

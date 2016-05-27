@@ -18,7 +18,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 	public function testCreateController()
 	{
 		$controller = \Aimeos\Controller\Frontend\Factory::createController( \TestHelperFrontend::getContext(), 'basket' );
-		$this->assertInstanceOf( '\\Aimeos\\Controller\\Frontend\\Common\\Iface', $controller );
+		$this->assertInstanceOf( '\\Aimeos\\Controller\\Frontend\\Iface', $controller );
 	}
 
 

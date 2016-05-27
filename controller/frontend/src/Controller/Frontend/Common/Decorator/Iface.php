@@ -18,8 +18,7 @@ namespace Aimeos\Controller\Frontend\Common\Decorator;
  * @package Controller
  * @subpackage Frontend
  */
-interface Iface
-	extends \Aimeos\Controller\Frontend\Iface
+interface Iface extends \Aimeos\Controller\Frontend\Iface
 {
 	/**
 	 * Initializes a new controller decorator object.

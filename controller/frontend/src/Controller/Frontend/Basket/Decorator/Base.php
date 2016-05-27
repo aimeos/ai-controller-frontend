@@ -1,30 +1,52 @@
 <?php
 
 /**
- * @copyright Metaways Infosystems GmbH, 2012
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015
+ * @copyright Aimeos (aimeos.org), 2016
  * @package Controller
  * @subpackage Frontend
  */
 
 
-namespace Aimeos\Controller\Frontend\Basket;
+namespace Aimeos\Controller\Frontend\Basket\Decorator;
 
 
 /**
- * Interface for basket frontend controllers.
+ * Base for basket frontend controller decorators
  *
  * @package Controller
  * @subpackage Frontend
  */
-interface Iface
+abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 {
+	/**
+	 * Passes unknown methods to wrapped objects.
+	 *
+	 * @param string $name Name of the method
+	 * @param array $param List of method parameter
+	 * @return mixed Returns the value of the called method
+	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
+	 */
+	public function __call( $name, array $param )
+	{
+		if( ( $result = call_user_func_array( array( $this->getController(), $name ), $param ) ) === false )
+		{
+			$cntl = get_class( $this->getController() );
+			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Unable to call method "%1$s::%2$s"', $cntl, $name ) );
+		}
+
+		return $result;
+	}
+
+
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
 	 * @return void
 	 */
-	public function clear();
+	public function clear()
+	{
+		$this->getController()->clear();
+	}
 
 
 	/**
@@ -32,7 +54,10 @@ interface Iface
 	 *
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket holding products, addresses and delivery/payment options
 	 */
-	public function get();
+	public function get()
+	{
+		return $this->getController()->get();
+	}
 
 
 	/**
@@ -58,7 +83,13 @@ interface Iface
 	 */
 	public function addProduct( $prodid, $quantity = 1, array $options = array(), array $variantAttributeIds = array(),
 		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
-		$warehouse = 'default' );
+		$warehouse = 'default' )
+	{
+		$this->getController()->addProduct(
+			$prodid, $quantity, $options, $variantAttributeIds, $configAttributeIds,
+			$hiddenAttributeIds, $customAttributeValues, $warehouse
+		);
+	}
 
 
 	/**
@@ -67,7 +98,10 @@ interface Iface
 	 * @param integer $position Position number (key) of the order product item
 	 * @return void
 	 */
-	public function deleteProduct( $position );
+	public function deleteProduct( $position )
+	{
+		$this->getController()->deleteProduct( $position );
+	}
 
 
 	/**
@@ -78,7 +112,10 @@ interface Iface
 	 * @param array $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 * @return void
 	 */
-	public function editProduct( $position, $quantity, array $configAttributeCodes = array() );
+	public function editProduct( $position, $quantity, array $configAttributeCodes = array() )
+	{
+		$this->getController()->editProduct( $position, $quantity, $configAttributeCodes );
+	}
 
 
 	/**
@@ -88,7 +125,10 @@ interface Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid or not allowed
 	 * @return void
 	 */
-	public function addCoupon( $code );
+	public function addCoupon( $code )
+	{
+		$this->getController()->addCoupon( $code );
+	}
 
 
 	/**
@@ -98,7 +138,10 @@ interface Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid
 	 * @return void
 	 */
-	public function deleteCoupon( $code );
+	public function deleteCoupon( $code )
+	{
+		$this->getController()->deleteCoupon( $code );
+	}
 
 
 	/**
@@ -110,7 +153,10 @@ interface Iface
 	 * 	if one of the keys is invalid when using an array with key/value pairs
 	 * @return void
 	 */
-	public function setAddress( $type, $value );
+	public function setAddress( $type, $value )
+	{
+		$this->getController()->setAddress( $type, $value );
+	}
 
 
 	/**
@@ -123,5 +169,8 @@ interface Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
 	 * @return void
 	 */
-	public function setService( $type, $id, array $attributes = array() );
+	public function setService( $type, $id, array $attributes = array() )
+	{
+		$this->getController()->setService( $type, $id, $attributes );
+	}
 }

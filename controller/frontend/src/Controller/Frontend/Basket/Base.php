@@ -18,7 +18,7 @@ namespace Aimeos\Controller\Frontend\Basket;
  * @package Controller
  * @subpackage Frontend
  */
-abstract class Base extends \Aimeos\Controller\Frontend\Base
+abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 {
 	private $listTypeAttributes = array();
 

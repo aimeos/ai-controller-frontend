@@ -104,6 +104,187 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
+	 * Checks for a locale mismatch and migrates the products to the new basket if necessary.
+	 */
+	protected function checkLocale()
+	{
+		$errors = array();
+		$context = $this->getContext();
+		$session = $context->getSession();
+		$locale = $this->get()->getLocale();
+
+		$localeStr = $session->get( 'aimeos/basket/locale' );
+		$localeKey = $locale->getSite()->getCode() . '|' . $locale->getLanguageId() . '|' . $locale->getCurrencyId();
+
+		if( $localeStr !== null && $localeStr !== $localeKey )
+		{
+			$locParts = explode( '|', $localeStr );
+			$locSite = ( isset( $locParts[0] ) ? $locParts[0] : '' );
+			$locLanguage = ( isset( $locParts[1] ) ? $locParts[1] : '' );
+			$locCurrency = ( isset( $locParts[2] ) ? $locParts[2] : '' );
+
+			$localeManager = \Aimeos\MShop\Factory::createManager( $context, 'locale' );
+			$locale = $localeManager->bootstrap( $locSite, $locLanguage, $locCurrency, false );
+
+			$context = clone $context;
+			$context->setLocale( $locale );
+
+			$manager = \Aimeos\MShop\Order\Manager\Factory::createManager( $context )->getSubManager( 'base' );
+			$basket = $manager->getSession();
+
+			$this->copyAddresses( $basket, $errors, $localeKey );
+			$this->copyServices( $basket, $errors );
+			$this->copyProducts( $basket, $errors, $localeKey );
+			$this->copyCoupons( $basket, $errors, $localeKey );
+
+			$manager->setSession( $basket );
+		}
+
+		$session->set( 'aimeos/basket/locale', $localeKey );
+	}
+
+
+	/**
+	 * Migrates the addresses from the old basket to the current one.
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param array $errors Associative list of previous errors
+	 * @param string $localeKey Unique identifier of the site, language and currency
+	 * @return array Associative list of errors occured
+	 */
+	protected function copyAddresses( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
+	{
+		foreach( $basket->getAddresses() as $type => $item )
+		{
+			try
+			{
+				$this->setAddress( $type, $item->toArray() );
+				$basket->deleteAddress( $type );
+			}
+			catch( \Exception $e )
+			{
+				$logger = $this->getContext()->getLogger();
+				$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
+				$logger->log( sprintf( $str, $type, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+				$errors['address'][$type] = $e->getMessage();
+			}
+		}
+
+		return $errors;
+	}
+
+
+	/**
+	 * Migrates the coupons from the old basket to the current one.
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param array $errors Associative list of previous errors
+	 * @param string $localeKey Unique identifier of the site, language and currency
+	 * @return array Associative list of errors occured
+	 */
+	protected function copyCoupons( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
+	{
+		foreach( $basket->getCoupons() as $code => $list )
+		{
+			try
+			{
+				$this->addCoupon( $code );
+				$basket->deleteCoupon( $code, true );
+			}
+			catch( \Exception $e )
+			{
+				$logger = $this->getContext()->getLogger();
+				$str = 'Error migrating coupon with code "%1$s" in basket to locale "%2$s": %3$s';
+				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+				$errors['coupon'][$code] = $e->getMessage();
+			}
+		}
+
+		return $errors;
+	}
+
+
+	/**
+	 * Migrates the products from the old basket to the current one.
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param array $errors Associative list of previous errors
+	 * @param string $localeKey Unique identifier of the site, language and currency
+	 * @return array Associative list of errors occured
+	 */
+	protected function copyProducts( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
+	{
+		foreach( $basket->getProducts() as $pos => $product )
+		{
+			if( $product->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE ) {
+				continue;
+			}
+
+			try
+			{
+				$attrIds = array();
+
+				foreach( $product->getAttributes() as $attrItem ) {
+					$attrIds[$attrItem->getType()][] = $attrItem->getAttributeId();
+				}
+
+				$this->addProduct(
+						$product->getProductId(),
+						$product->getQuantity(),
+						array(),
+						$this->getValue( $attrIds, 'variant', array() ),
+						$this->getValue( $attrIds, 'config', array() ),
+						$this->getValue( $attrIds, 'hidden', array() ),
+						$this->getValue( $attrIds, 'custom', array() ),
+						$product->getWarehouseCode()
+				);
+
+				$basket->deleteProduct( $pos );
+			}
+			catch( \Exception $e )
+			{
+				$code = $product->getProductCode();
+				$logger = $this->getContext()->getLogger();
+				$str = 'Error migrating product with code "%1$s" in basket to locale "%2$s": %3$s';
+				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+				$errors['product'][$pos] = $e->getMessage();
+			}
+		}
+
+		return $errors;
+	}
+
+
+	/**
+	 * Migrates the services from the old basket to the current one.
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param array $errors Associative list of previous errors
+	 * @return array Associative list of errors occured
+	 */
+	protected function copyServices( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors )
+	{
+		foreach( $basket->getServices() as $type => $item )
+		{
+			try
+			{
+				$attributes = array();
+
+				foreach( $item->getAttributes() as $attrItem ) {
+					$attributes[$attrItem->getCode()] = $attrItem->getValue();
+				}
+
+				$this->setService( $type, $item->getServiceId(), $attributes );
+				$basket->deleteService( $type );
+			}
+			catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically
+		}
+
+		return $errors;
+	}
+
+
+	/**
 	 * Creates the order product attribute items from the given attribute IDs and updates the price item if necessary.
 	 *
 	 * @param \Aimeos\MShop\Price\Item\Iface $price Price item of the ordered product
@@ -391,88 +572,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
-	 * Edits the changed product to the basket if it's in stock.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Old order product from basket
-	 * @param string $productId Unique ID of the product item that belongs to the order product
-	 * @param integer $quantity Number of products to add to the basket
-	 * @param array $options Associative list of options
-	 * @param string $warehouse Warehouse code for retrieving the stock level
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there's not enough stock available
-	 * @deprecated 2016.05
-	 */
-	protected function addProductInStock( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-			$productId, $quantity, array $options, $warehouse )
-	{
-		$stocklevel = null;
-		if( !isset( $options['stock'] ) || $options['stock'] != false ) {
-			$stocklevel = $this->getStockLevel( $productId, $warehouse );
-		}
-
-		if( $stocklevel === null || $stocklevel > 0 )
-		{
-			$position = $this->get()->addProduct( $orderBaseProductItem );
-			$orderBaseProductItem = clone $this->get()->getProduct( $position );
-			$quantity = $orderBaseProductItem->getQuantity();
-
-			if( $stocklevel > 0 && $stocklevel < $quantity )
-			{
-				$this->get()->deleteProduct( $position );
-				$orderBaseProductItem->setQuantity( $stocklevel );
-				$this->get()->addProduct( $orderBaseProductItem, $position );
-			}
-		}
-
-		if( $stocklevel !== null && $stocklevel < $quantity )
-		{
-			$msg = sprintf( 'There are not enough products "%1$s" in stock', $orderBaseProductItem->getName() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-	}
-
-
-	/**
-	 * Edits the changed product to the basket if it's in stock.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $product Old order product from basket
-	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Product item that belongs to the order product
-	 * @param integer $quantity New product quantity
-	 * @param integer $position Position of the old order product in the basket
-	 * @param array Associative list of options
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there's not enough stock available
-	 * @deprecated 2016.05
-	 */
-	protected function editProductInStock( \Aimeos\MShop\Order\Item\Base\Product\Iface $product,
-			\Aimeos\MShop\Product\Item\Iface $productItem, $quantity, $position, array $options )
-	{
-		$stocklevel = null;
-		if( !isset( $options['stock'] ) || $options['stock'] != false ) {
-			$stocklevel = $this->getStockLevel( $productItem->getId(), $product->getWarehouseCode() );
-		}
-
-		$product->setQuantity( ( $stocklevel !== null && $stocklevel > 0 ? min( $stocklevel, $quantity ) : $quantity ) );
-
-		$this->get()->deleteProduct( $position );
-
-		if( $stocklevel === null || $stocklevel > 0 ) {
-			$this->get()->addProduct( $product, $position );
-		}
-
-		if( $stocklevel !== null && $stocklevel < $quantity )
-		{
-			$msg = sprintf( 'There are not enough products "%1$s" in stock', $productItem->getName() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-	}
-
-
-	/**
 	 * Returns the highest stock level for the product.
 	 *
 	 * @param string $prodid Unique ID of the product
 	 * @param string $warehouse Unique code of the warehouse
 	 * @return integer|null Number of available items in stock (null for unlimited stock)
-	 * @deprecated 2016.04 Use basket stock decorator instead
 	 */
 	protected function getStockLevel( $prodid, $warehouse )
 	{

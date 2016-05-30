@@ -20,26 +20,6 @@ namespace Aimeos\Controller\Frontend\Basket\Decorator;
 abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 {
 	/**
-	 * Passes unknown methods to wrapped objects.
-	 *
-	 * @param string $name Name of the method
-	 * @param array $param List of method parameter
-	 * @return mixed Returns the value of the called method
-	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
-	 */
-	public function __call( $name, array $param )
-	{
-		if( ( $result = call_user_func_array( array( $this->getController(), $name ), $param ) ) === false )
-		{
-			$cntl = get_class( $this->getController() );
-			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Unable to call method "%1$s::%2$s"', $cntl, $name ) );
-		}
-
-		return $result;
-	}
-
-
-	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
 	 * @return void
 	 */

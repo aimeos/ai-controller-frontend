@@ -37,8 +37,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( empty( $prices ) )
 		{
-			$parentItem = $this->getDomainItem( 'product', 'product.id', $product->getProductId(), array( 'price' ) );
-			$prices = $parentItem->getRefItems( 'price', 'default' );
+			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+			$prices = $manager->getItem( $product->getProductId(), array( 'price' ) )->getRefItems( 'price', 'default' );
 		}
 
 		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
@@ -285,56 +285,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
-	 * Creates the order product attribute items from the given attribute IDs and updates the price item if necessary.
-	 *
-	 * @param \Aimeos\MShop\Price\Item\Iface $price Price item of the ordered product
-	 * @param string $prodid Unique product ID where the given attributes must be attached to
-	 * @param integer $quantity Number of products that should be added to the basket
-	 * @param array $attributeIds List of attributes IDs of the given type
-	 * @param string $type Attribute type
-	 * @param array $attributeValues Associative list of attribute IDs as keys and their codes as values
-	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
-	 */
-	protected function createOrderProductAttributes( \Aimeos\MShop\Price\Item\Iface $price, $prodid, $quantity,
-			array $attributeIds, $type, array $attributeValues = array() )
-	{
-		if( empty( $attributeIds ) ) {
-			return array();
-		}
-
-		$attrTypeId = $this->getProductListTypeItem( 'attribute', $type )->getId();
-		$this->checkReferences( $prodid, 'attribute', $attrTypeId, $attributeIds );
-
-		$list = array();
-		$context = $this->getContext();
-
-		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
-		$orderProductAttributeManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product/attribute' );
-
-		foreach( $this->getAttributes( $attributeIds ) as $id => $attrItem )
-		{
-			$prices = $attrItem->getRefItems( 'price', 'default', 'default' );
-
-			if( !empty( $prices ) ) {
-				$price->addItem( $priceManager->getLowestPrice( $prices, $quantity ) );
-			}
-
-			$item = $orderProductAttributeManager->createItem();
-			$item->copyFrom( $attrItem );
-			$item->setType( $type );
-
-			if( isset( $attributeValues[$id] ) ) {
-				$item->setValue( $attributeValues[$id] );
-			}
-
-			$list[] = $item;
-		}
-
-		return $list;
-	}
-
-
-	/**
 	 * Returns the attribute items for the given attribute IDs.
 	 *
 	 * @param array $attributeIds List of attribute IDs
@@ -404,39 +354,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		$search->setConditions( $search->combine( '||', $expr ) );
 		return $attributeManager->searchItems( $search, array( 'price' ) );
-	}
-
-
-	/**
-	 * Retrieves the domain item specified by the given key and value.
-	 *
-	 * @param string $domain Product manager search key
-	 * @param string $key Domain manager search key
-	 * @param string $value Unique domain identifier
-	 * @param string[] $ref List of referenced items that should be fetched too
-	 * @return \Aimeos\MShop\Common\Item\Iface Domain item object
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception
-	 */
-	protected function getDomainItem( $domain, $key, $value, array $ref )
-	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $domain );
-
-		$search = $manager->createSearch( true );
-		$expr = array(
-			$search->compare( '==', $key, $value ),
-			$search->getConditions(),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$result = $manager->searchItems( $search, $ref );
-
-		if( ( $item = reset( $result ) ) === false )
-		{
-			$msg = sprintf( 'No item for "%1$s" (%2$s) found', $value, $key );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-
-		return $item;
 	}
 
 

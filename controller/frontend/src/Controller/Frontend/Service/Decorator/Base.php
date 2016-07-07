@@ -1,24 +1,23 @@
 <?php
 
 /**
- * @copyright Metaways Infosystems GmbH, 2012
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015
+ * @copyright Aimeos (aimeos.org), 2016
  * @package Controller
  * @subpackage Frontend
  */
 
 
-namespace Aimeos\Controller\Frontend\Service;
+namespace Aimeos\Controller\Frontend\Service\Decorator;
 
 
 /**
- * Interface for service frontend controllers.
+ * Base for basket frontend controller decorators
  *
  * @package Controller
  * @subpackage Frontend
  */
-interface Iface
+abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 {
 	/**
 	 * Returns the service items that are available for the service type and the content of the basket.
@@ -29,7 +28,11 @@ interface Iface
 	 * @return array List of service items implementing \Aimeos\MShop\Service\Item\Iface with referenced items
 	 */
 	public function getServices( $type, \Aimeos\MShop\Order\Item\Base\Iface $basket,
-		$ref = array( 'media', 'price', 'text' ) );
+		$ref = array( 'media', 'price', 'text' ) )
+	{
+		$this->getController()->getServices( $type, $basket, $ref );
+	}
+
 
 	/**
 	 * Returns the list of attribute definitions which must be used to render the input form where the customer can
@@ -40,7 +43,11 @@ interface Iface
 	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
 	 * @return array List of attribute definitions implementing \Aimeos\MW\Criteria\Attribute\Iface
 	 */
-	public function getServiceAttributes( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket );
+	public function getServiceAttributes( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
+	{
+		$this->getController()->getServiceAttributes( $type, $serviceId, $basket );
+	}
+
 
 	/**
 	 * Returns the price of the service.
@@ -53,7 +60,11 @@ interface Iface
 	 * @throws \Aimeos\MShop\Exception If service provider isn't available
 	 * @throws \Exception If an error occurs
 	 */
-	public function getServicePrice( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket );
+	public function getServicePrice( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
+	{
+		$this->getController()->getServicePrice( $type, $serviceId, $basket );
+	}
+
 
 	/**
 	 * Returns a list of attributes that are invalid.
@@ -65,5 +76,8 @@ interface Iface
 	 * @return array List of key/value pairs of attributes keys and an error message for values that are invalid or
 	 * 	missing
 	 */
-	public function checkServiceAttributes( $type, $serviceId, array $attributes );
+	public function checkServiceAttributes( $type, $serviceId, array $attributes )
+	{
+		$this->getController()->checkServiceAttributes( $type, $serviceId, $attributes );
+	}
 }

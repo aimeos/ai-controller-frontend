@@ -20,7 +20,7 @@ namespace Aimeos\Controller\Frontend\Catalog;
  */
 class Standard
 	extends \Aimeos\Controller\Frontend\Base
-	implements \Aimeos\Controller\Frontend\Catalog\Iface
+	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	/**
 	 * Returns the manager for the given name

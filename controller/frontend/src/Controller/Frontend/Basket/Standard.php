@@ -18,7 +18,9 @@ namespace Aimeos\Controller\Frontend\Basket;
  * @package Controller
  * @subpackage Frontend
  */
-class Standard extends Base implements Iface, \Aimeos\Controller\Frontend\Common\Iface
+class Standard
+	extends Base
+	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	private $basket;
 	private $domainManager;

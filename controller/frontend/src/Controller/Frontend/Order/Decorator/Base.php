@@ -1,24 +1,23 @@
 <?php
 
 /**
- * @copyright Metaways Infosystems GmbH, 2014
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015
+ * @copyright Aimeos (aimeos.org), 2016
  * @package Controller
  * @subpackage Frontend
  */
 
 
-namespace Aimeos\Controller\Frontend\Order;
+namespace Aimeos\Controller\Frontend\Order\Decorator;
 
 
 /**
- * Interface for order frontend controllers.
+ * Base for order frontend controller decorators
  *
  * @package Controller
  * @subpackage Frontend
  */
-interface Iface
+abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 {
 	/**
 	 * Creates a new order from the given basket.
@@ -30,7 +29,10 @@ interface Iface
 	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object to be stored
 	 * @return \Aimeos\MShop\Order\Item\Iface Order item that belongs to the stored basket
 	 */
-	public function store( \Aimeos\MShop\Order\Item\Base\Iface $basket );
+	public function store( \Aimeos\MShop\Order\Item\Base\Iface $basket )
+	{
+		$this->getController()->store( $basket );
+	}
 
 
 	/**
@@ -52,7 +54,10 @@ interface Iface
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
 	 * @return void
 	 */
-	public function block( \Aimeos\MShop\Order\Item\Iface $orderItem );
+	public function block( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	{
+		$this->getController()->block( $orderItem );
+	}
 
 
 	/**
@@ -74,7 +79,10 @@ interface Iface
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
 	 * @return void
 	 */
-	public function unblock( \Aimeos\MShop\Order\Item\Iface $orderItem );
+	public function unblock( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	{
+		$this->getController()->unblock( $orderItem );
+	}
 
 
 	/**
@@ -93,4 +101,7 @@ interface Iface
 	 * @return void
 	 */
 	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem );
+	{
+		$this->getController()->update( $orderItem );
+	}
 }

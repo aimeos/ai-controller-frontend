@@ -20,7 +20,7 @@ namespace Aimeos\Controller\Frontend\Order;
  */
 class Standard
 	extends \Aimeos\Controller\Frontend\Base
-	implements \Aimeos\Controller\Frontend\Order\Iface
+	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	/**
 	 * Creates a new order from the given basket.

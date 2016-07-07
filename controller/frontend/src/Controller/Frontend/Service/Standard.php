@@ -20,7 +20,7 @@ namespace Aimeos\Controller\Frontend\Service;
  */
 class Standard
 	extends \Aimeos\Controller\Frontend\Base
-	implements \Aimeos\Controller\Frontend\Service\Iface
+	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	private $items = array();
 	private $providers = array();

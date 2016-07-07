@@ -100,7 +100,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
 	 * @return void
 	 */
-	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem );
+	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem )
 	{
 		$this->getController()->update( $orderItem );
 	}

@@ -36,6 +36,12 @@ interface Iface
 
 
 	/**
+	 * Explicitely persists the basket content
+	 */
+	public function save();
+
+
+	/**
 	 * Adds a categorized product to the basket of the user stored in the session.
 	 *
 	 * @param string $prodid ID of the base product to add

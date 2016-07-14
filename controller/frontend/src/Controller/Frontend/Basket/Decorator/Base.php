@@ -41,6 +41,15 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 
 
 	/**
+	 * Explicitely persists the basket content
+	 */
+	public function save()
+	{
+		$this->getController()->save();
+	}
+
+
+	/**
 	 * Adds a categorized product to the basket of the user stored in the session.
 	 *
 	 * @param string $prodid ID of the base product to add

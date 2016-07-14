@@ -44,6 +44,17 @@ class Standard
 
 
 	/**
+	 * Explicitely persists the basket content
+	 */
+	public function save()
+	{
+		if( $this->basket->isModified() ) {
+			$this->domainManager->setSession( $this->basket );
+		}
+	}
+
+
+	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
 	 */
 	public function clear()

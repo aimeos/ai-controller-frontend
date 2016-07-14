@@ -30,7 +30,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	public function getServices( $type, \Aimeos\MShop\Order\Item\Base\Iface $basket,
 		$ref = array( 'media', 'price', 'text' ) )
 	{
-		$this->getController()->getServices( $type, $basket, $ref );
+		return $this->getController()->getServices( $type, $basket, $ref );
 	}
 
 
@@ -45,7 +45,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	 */
 	public function getServiceAttributes( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
-		$this->getController()->getServiceAttributes( $type, $serviceId, $basket );
+		return $this->getController()->getServiceAttributes( $type, $serviceId, $basket );
 	}
 
 
@@ -62,7 +62,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	 */
 	public function getServicePrice( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
-		$this->getController()->getServicePrice( $type, $serviceId, $basket );
+		return $this->getController()->getServicePrice( $type, $serviceId, $basket );
 	}
 
 
@@ -78,6 +78,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	 */
 	public function checkServiceAttributes( $type, $serviceId, array $attributes )
 	{
-		$this->getController()->checkServiceAttributes( $type, $serviceId, $attributes );
+		return $this->getController()->checkServiceAttributes( $type, $serviceId, $attributes );
 	}
 }

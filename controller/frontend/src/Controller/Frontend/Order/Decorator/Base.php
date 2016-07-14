@@ -31,7 +31,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	 */
 	public function store( \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
-		$this->getController()->store( $basket );
+		return $this->getController()->store( $basket );
 	}
 
 

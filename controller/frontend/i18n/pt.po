@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-16 23:34+0200\n"
-"PO-Revision-Date: 2016-08-09 19:22+0000\n"
+"PO-Revision-Date: 2016-08-11 18:17+0000\n"
 "Last-Translator: Tadeu Pagliarini <tadeu_up@hotmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/aimeos/aimeos-core/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "Não é permitido adicionar o produto com ID \"%1$s\""
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "IDs do atributo disponível \"%1$s\" são diferentes do IDs de atributo informados \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
@@ -44,7 +44,7 @@ msgstr "Classe \"%1$s\" não disponível"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Caminho do controlador está vazio"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
@@ -72,7 +72,7 @@ msgstr "Caracteres inválidos no nome da classe \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Caracteres inválidos no nome do controlador \"%1$s\" em \"%2$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
@@ -88,31 +88,31 @@ msgstr "Tipo de endereço \"%1$s\" inválido"
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Tipo de lista para o domínio \"%1$s\" and code \"%2$s\" não encontrado"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Nenhum item encontrado para os atributos selecionados e ID do produto \"%1$s\""
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Nenhum item encontrado para \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and warehouse \"%2$s\" available"
-msgstr ""
+msgstr "Não existe estoque para o ID do produto \"%1$s\" e depósitos \"%2$s\" disponíveis"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Nenhum item único encontrado para os atributos selecionados e ID do produto \"%1$s\""
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Os requisitos para o código do cupom \"%1$s\" não foram cumpridos"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Item de serviço do tipo \"%1$s\" e ID \"%2$s\" não encontrado"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"

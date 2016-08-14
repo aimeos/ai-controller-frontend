@@ -330,7 +330,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$filter = $this->object->createIndexFilterText( 'Expresso', 'relevance', '+', 0, 1, 'unittype13' );
 		$results = $this->object->getIndexItems( $filter, array(), $total );
 
-		$this->assertEquals( 1, $total );
+		$this->assertEquals( 2, $total );
 		$this->assertEquals( 1, count( $results ) );
 	}
 

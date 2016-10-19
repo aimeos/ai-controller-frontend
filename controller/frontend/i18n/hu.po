@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-16 23:34+0200\n"
-"PO-Revision-Date: 2016-09-28 12:12+0000\n"
+"PO-Revision-Date: 2016-10-17 13:16+0000\n"
 "Last-Translator: Péter Kozma <kopegrafika@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/aimeos/aimeos-core/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "\"%1$s\" azonosítóval nem adhat hozzá terméket"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr "\"%1$s\" elérhető tulajdonság nem egyezik a/az \"%2$s\" kapott tulajdnosággal"
+msgstr "\"%1$s\" elérhető jellemző nem egyezik a/az \"%2$s\" kapott jellemzővel"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
@@ -93,7 +93,7 @@ msgstr ""
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr "A választott tulajdonságokkal és \"%1$s\" azonosítóval nem található cikk"
+msgstr "A választott jellemzőkkel és \"%1$s\" azonosítóval nem található cikk"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"

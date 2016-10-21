@@ -434,15 +434,20 @@ class Standard
 		if( $stocklevel === null || $stocklevel > 0 )
 		{
 			$position = $this->get()->addProduct( $orderBaseProductItem );
-			$orderBaseProductItem = clone $this->get()->getProduct( $position );
-			$quantity = $orderBaseProductItem->getQuantity();
 
-			if( $stocklevel > 0 && $stocklevel < $quantity )
+			try
 			{
-				$this->get()->deleteProduct( $position );
-				$orderBaseProductItem->setQuantity( $stocklevel );
-				$this->get()->addProduct( $orderBaseProductItem, $position );
+				$orderBaseProductItem = clone $this->get()->getProduct( $position );
+				$quantity = $orderBaseProductItem->getQuantity();
+
+				if( $stocklevel > 0 && $stocklevel < $quantity )
+				{
+					$this->get()->deleteProduct( $position );
+					$orderBaseProductItem->setQuantity( $stocklevel );
+					$this->get()->addProduct( $orderBaseProductItem, $position );
+				}
 			}
+			catch( \Aimeos\MShop\Order\Exception $e ) {} // hide error if product position changed by plugin
 		}
 
 		if( $stocklevel !== null && $stocklevel < $quantity )

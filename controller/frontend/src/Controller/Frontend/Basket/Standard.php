@@ -604,8 +604,14 @@ class Standard
 
 			$subprices = $productItem->getRefItems( 'price', 'default', 'default' );
 
-			if( count( $subprices ) > 0 ) {
+			if( !empty( $subprices ) ) {
 				$prices = $subprices;
+			}
+
+			$submedia = $productItem->getRefItems( 'media', 'default', 'default' );
+
+			if( ( $mediaItem = reset( $submedia ) ) !== false ) {
+				$orderBaseProductItem->setMediaUrl( $mediaItem->getPreview() );
 			}
 
 			$orderProductAttrManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product/attribute' );

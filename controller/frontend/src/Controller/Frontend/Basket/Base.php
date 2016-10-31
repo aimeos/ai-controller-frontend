@@ -417,8 +417,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$search = $productManager->createSearch( true );
 
 		$expr = array(
-				$search->compare( '==', 'product.id', $subProductIds ),
-				$search->getConditions(),
+			$search->compare( '==', 'product.id', $subProductIds ),
+			$search->getConditions(),
 		);
 
 		if( count( $variantAttributeIds ) > 0 )

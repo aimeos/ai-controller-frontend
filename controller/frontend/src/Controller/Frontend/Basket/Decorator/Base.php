@@ -98,12 +98,13 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	 *
 	 * @param integer $position Position number (key) of the order product item
 	 * @param integer $quantity New quantiy of the product item
+	 * @param array $options Possible options are: 'stock'=>true|false
 	 * @param array $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 * @return void
 	 */
-	public function editProduct( $position, $quantity, array $configAttributeCodes = array() )
+	public function editProduct( $position, $quantity, array $options = array(), array $configAttributeCodes = array() )
 	{
-		$this->getController()->editProduct( $position, $quantity, $configAttributeCodes );
+		$this->getController()->editProduct( $position, $quantity, $options, $configAttributeCodes );
 	}
 
 

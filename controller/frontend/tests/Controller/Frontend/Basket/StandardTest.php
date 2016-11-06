@@ -79,7 +79,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( count( $attributes ) === 0 ) {
-			throw new \Exception( 'Attributes not found' );
+			throw new \RuntimeException( 'Attributes not found' );
 		}
 
 
@@ -107,7 +107,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( count( $attributes ) === 0 ) {
-			throw new \Exception( 'Attributes not found' );
+			throw new \RuntimeException( 'Attributes not found' );
 		}
 
 
@@ -136,7 +136,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( count( $attributes ) === 0 ) {
-			throw new \Exception( 'Attributes not found' );
+			throw new \RuntimeException( 'Attributes not found' );
 		}
 
 
@@ -157,7 +157,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( count( $attributes ) === 0 ) {
-			throw new \Exception( 'Attribute not found' );
+			throw new \RuntimeException( 'Attribute not found' );
 		}
 
 		$options = array( 'variant' => false );
@@ -179,7 +179,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( empty( $attributes ) ) {
-			throw new \Exception( 'Attribute not found' );
+			throw new \RuntimeException( 'Attribute not found' );
 		}
 
 		$this->object->addProduct( $this->testItem->getId(), 1, array(), array(), array_keys( $attributes ) );
@@ -205,7 +205,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( empty( $attributes ) ) {
-			throw new \Exception( 'Attribute not found' );
+			throw new \RuntimeException( 'Attribute not found' );
 		}
 
 		$this->object->addProduct( $this->testItem->getId(), 1, array(), array(), array(), array_keys( $attributes ) );
@@ -220,7 +220,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, count( $attributes ) );
 
 		if( ( $attribute = reset( $attributes ) ) === false ) {
-			throw new \Exception( 'No attribute' );
+			throw new \RuntimeException( 'No attribute' );
 		}
 
 		$this->assertEquals( 'hidden', $attribute->getType() );
@@ -242,7 +242,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( ( $attrItem = reset( $attributes ) ) === false ) {
-			throw new \Exception( 'Attribute not found' );
+			throw new \RuntimeException( 'Attribute not found' );
 		}
 
 		$attrValues = array( $attrItem->getId() => '2000-01-01' );
@@ -269,7 +269,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attribute = $attributeManager->searchItems( $search );
 
 		if( empty( $attribute ) ) {
-			throw new \Exception( 'Attribute not found' );
+			throw new \RuntimeException( 'Attribute not found' );
 		}
 
 		$hiddenAttrIds = array_keys( $attribute );
@@ -389,7 +389,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$attributes = $attributeManager->searchItems( $search );
 
 		if( ( $attribute = reset( $attributes ) ) === false ) {
-			throw new \Exception( 'No attributes available' );
+			throw new \RuntimeException( 'No attributes available' );
 		}
 
 
@@ -683,7 +683,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$items = $addressManager->searchItems( $search );
 
 		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( sprintf( 'No address item with company "%1$s" found', $company ) );
+			throw new \RuntimeException( sprintf( 'No address item with company "%1$s" found', $company ) );
 		}
 
 		return $item;

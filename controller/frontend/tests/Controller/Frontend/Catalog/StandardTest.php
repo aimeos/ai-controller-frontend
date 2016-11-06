@@ -96,7 +96,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 
 		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \Exception( 'Wrong expression' );
+			throw new \RuntimeException( 'Wrong expression' );
 		}
 		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
 		$this->assertEquals( 0, $list[0]->getValue() );
@@ -116,7 +116,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$sort = $filter->getSortations();
 		if( ( $item = reset( $sort ) ) === false ) {
-			throw new \Exception( 'Sortation not set' );
+			throw new \RuntimeException( 'Sortation not set' );
 		}
 
 		$this->assertEquals( 'sort:index.catalog.position("test",0)', $item->getName() );
@@ -135,7 +135,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$sort = $filter->getSortations();
 		if( ( $item = reset( $sort ) ) === false ) {
-			throw new \Exception( 'Sortation not set' );
+			throw new \RuntimeException( 'Sortation not set' );
 		}
 
 		$this->assertStringStartsWith( 'product.code', $item->getName() );
@@ -150,7 +150,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$sort = $filter->getSortations();
 		if( ( $item = reset( $sort ) ) === false ) {
-			throw new \Exception( 'Sortation not set' );
+			throw new \RuntimeException( 'Sortation not set' );
 		}
 
 		$this->assertEquals( 'sort:index.text.value("default","de","name")', $item->getName() );
@@ -165,7 +165,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$sort = $filter->getSortations();
 		if( ( $item = reset( $sort ) ) === false ) {
-			throw new \Exception( 'Sortation not set' );
+			throw new \RuntimeException( 'Sortation not set' );
 		}
 
 		$this->assertStringStartsWith( 'sort:index.price.value("default","EUR","default")', $item->getName() );
@@ -189,7 +189,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$list = $filter->getConditions()->getExpressions();
 
 		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \Exception( 'Wrong expression' );
+			throw new \RuntimeException( 'Wrong expression' );
 		}
 
 		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
@@ -208,7 +208,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 
 		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \Exception( 'Wrong expression' );
+			throw new \RuntimeException( 'Wrong expression' );
 		}
 		$this->assertEquals( 'index.text.relevance("default","de","Espresso")', $list[0]->getName() );
 		$this->assertEquals( 0, $list[0]->getValue() );
@@ -239,7 +239,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$sort = $filter->getSortations();
 		if( ( $item = reset( $sort ) ) === false ) {
-			throw new \Exception( 'Sortation not set' );
+			throw new \RuntimeException( 'Sortation not set' );
 		}
 
 		$this->assertEquals( 'product.code', $item->getName() );
@@ -254,7 +254,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$sort = $filter->getSortations();
 		if( ( $item = reset( $sort ) ) === false ) {
-			throw new \Exception( 'Sortation not set' );
+			throw new \RuntimeException( 'Sortation not set' );
 		}
 
 		$this->assertEquals( 'sort:index.text.value("default","de","name")', $item->getName() );
@@ -269,7 +269,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$sort = $filter->getSortations();
 		if( ( $item = reset( $sort ) ) === false ) {
-			throw new \Exception( 'Sortation not set' );
+			throw new \RuntimeException( 'Sortation not set' );
 		}
 
 		$this->assertStringStartsWith( 'sort:index.price.value("default","EUR","default")', $item->getName() );
@@ -293,7 +293,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$list = $filter->getConditions()->getExpressions();
 
 		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \Exception( 'Wrong expression' );
+			throw new \RuntimeException( 'Wrong expression' );
 		}
 
 		$this->assertEquals( 'index.text.relevance("default","de","Espresso")', $list[0]->getName() );
@@ -312,7 +312,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$items = $catalogManager->searchItems( $search );
 
 		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( 'Catalog item not found' );
+			throw new \RuntimeException( 'Catalog item not found' );
 		}
 
 		$total = 0;

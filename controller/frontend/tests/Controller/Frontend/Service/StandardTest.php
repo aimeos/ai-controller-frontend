@@ -77,7 +77,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$services = $this->object->getServices( 'delivery', $basket );
 
 		if( ( $service = reset( $services ) ) === false ) {
-			throw new \Exception( 'No service item found' );
+			throw new \RuntimeException( 'No service item found' );
 		}
 
 		$attributes = $this->object->getServiceAttributes( 'delivery', $service->getId(), self::$basket );
@@ -114,7 +114,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$services = $this->object->getServices( 'delivery', $basket );
 
 		if( ( $service = reset( $services ) ) === false ) {
-			throw new \Exception( 'No service item found' );
+			throw new \RuntimeException( 'No service item found' );
 		}
 
 		$price = $this->object->getServicePrice( 'delivery', $service->getId(), $basket );
@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$services = $serviceManager->searchItems( $search );
 
 		if( ( $service = reset( $services ) ) === false ) {
-			throw new \Exception( 'No service item found' );
+			throw new \RuntimeException( 'No service item found' );
 		}
 
 		return $service;

@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Nóra Antal <nora1984antal@gmail.com>, 2016
 # Péter Kozma <kopegrafika@gmail.com>, 2016
@@ -100,7 +100,7 @@ msgid "No item for \"%1$s\" (%2$s) found"
 msgstr ""
 
 #, php-format
-msgid "No stock for product ID \"%1$s\" and warehouse \"%2$s\" available"
+msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
 msgstr "\"%1$s\" azonosítószámú termék nincs készleten, elérhető raktáron: \"%2$s\" "
 
 #, php-format

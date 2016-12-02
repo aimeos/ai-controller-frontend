@@ -333,7 +333,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
 
-		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'unit_warehouse3' );
+		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'unit_type3' );
 
 		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
 		$this->assertEquals( 'IJKL', $this->object->get()->getProduct( 0 )->getProductCode() );

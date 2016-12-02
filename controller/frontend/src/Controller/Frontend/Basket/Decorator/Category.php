@@ -38,12 +38,12 @@ class Category
 	 * @param array $hiddenAttributeIds List of attribute IDs that should be stored along with the product in the order
 	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
 	 * 	along with the product in the order
-	 * @param string $warehouse Unique code of the warehouse to deliver the products from
+	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( $prodid, $quantity = 1, array $options = array(), array $variantAttributeIds = array(),
 		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
-		$warehouse = 'default' )
+		$stocktype = 'default' )
 	{
 		$catalogListManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog/lists' );
 
@@ -65,7 +65,7 @@ class Category
 
 		$this->getController()->addProduct(
 			$prodid, $quantity, $options, $variantAttributeIds, $configAttributeIds,
-			$hiddenAttributeIds, $customAttributeValues, $warehouse
+			$hiddenAttributeIds, $customAttributeValues, $stocktype
 		);
 	}
 }

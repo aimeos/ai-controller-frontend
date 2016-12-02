@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Dimitri <doleiynyk@metaways.de>, 2013
 # Андрей Аксёнов <aksenovaa@bk.ru>, 2014-2015
@@ -100,7 +100,7 @@ msgid "No item for \"%1$s\" (%2$s) found"
 msgstr "Не найдено элементов для \"%1$s\" (%2$s)"
 
 #, php-format
-msgid "No stock for product ID \"%1$s\" and warehouse \"%2$s\" available"
+msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
 msgstr "Товара № \"%1$s\" отсутствует на складе \"%2$s\""
 
 #, php-format

@@ -98,8 +98,8 @@ msgid "No item for \"%1$s\" (%2$s) found"
 msgstr "No item for \"%1$s\" (%2$s) found"
 
 #, php-format
-msgid "No stock for product ID \"%1$s\" and warehouse \"%2$s\" available"
-msgstr "No stock for product ID \"%1$s\" and warehouse \"%2$s\" available"
+msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
+msgstr "No stock for product ID \"%1$s\" and type \"%2$s\" available"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""

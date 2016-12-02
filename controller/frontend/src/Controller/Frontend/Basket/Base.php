@@ -236,7 +236,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 						$this->getValue( $attrIds, 'config', array() ),
 						$this->getValue( $attrIds, 'hidden', array() ),
 						$this->getValue( $attrIds, 'custom', array() ),
-						$product->getWarehouseCode()
+						$product->getStockType()
 				);
 
 				$basket->deleteProduct( $pos );
@@ -492,10 +492,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Returns the highest stock level for the product.
 	 *
 	 * @param string $prodid Unique ID of the product
-	 * @param string $warehouse Unique code of the warehouse
+	 * @param string $stocktype Unique code of the stock type
 	 * @return integer|null Number of available items in stock (null for unlimited stock)
 	 */
-	protected function getStockLevel( $prodid, $warehouse )
+	protected function getStockLevel( $prodid, $stocktype )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product/stock' );
 
@@ -503,7 +503,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$expr = array(
 				$search->compare( '==', 'product.stock.parentid', $prodid ),
 				$search->getConditions(),
-				$search->compare( '==', 'product.stock.warehouse.code', $warehouse ),
+				$search->compare( '==', 'product.stock.type.code', $stocktype ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -511,7 +511,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( empty( $result ) )
 		{
-			$msg = sprintf( 'No stock for product ID "%1$s" and warehouse "%2$s" available', $prodid, $warehouse );
+			$msg = sprintf( 'No stock for product ID "%1$s" and type "%2$s" available', $prodid, $stocktype );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 

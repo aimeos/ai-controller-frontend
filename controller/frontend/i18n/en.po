@@ -98,7 +98,7 @@ msgid "No item for \"%1$s\" (%2$s) found"
 msgstr ""
 
 #, php-format
-msgid "No stock for product ID \"%1$s\" and warehouse \"%2$s\" available"
+msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
 msgstr ""
 
 #, php-format

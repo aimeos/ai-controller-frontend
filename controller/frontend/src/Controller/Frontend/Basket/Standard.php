@@ -92,12 +92,12 @@ class Standard
 	 * @param array $hiddenAttributeIds List of attribute IDs that should be stored along with the product in the order
 	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
 	 * 	along with the product in the order
-	 * @param string $warehouse Unique code of the warehouse to deliver the products from
+	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( $prodid, $quantity = 1, array $options = array(), array $variantAttributeIds = array(),
 		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
-		$warehouse = 'default' )
+		$stocktype = 'default' )
 	{
 		$context = $this->getContext();
 
@@ -106,7 +106,7 @@ class Standard
 		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem );
 		$orderBaseProductItem->setQuantity( $quantity );
-		$orderBaseProductItem->setWarehouseCode( $warehouse );
+		$orderBaseProductItem->setStockType( $stocktype );
 
 		$attr = array();
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
@@ -117,7 +117,7 @@ class Standard
 				$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds, $options );
 				break;
 			case 'bundle':
-				$this->addBundleProducts( $orderBaseProductItem, $productItem, $variantAttributeIds, $warehouse );
+				$this->addBundleProducts( $orderBaseProductItem, $productItem, $variantAttributeIds, $stocktype );
 				break;
 		}
 
@@ -134,7 +134,7 @@ class Standard
 		$orderBaseProductItem->setPrice( $price );
 		$orderBaseProductItem->setAttributes( $attr );
 
-		$this->addProductInStock( $orderBaseProductItem, $productItem->getId(), $quantity, $options, $warehouse );
+		$this->addProductInStock( $orderBaseProductItem, $productItem->getId(), $quantity, $options, $stocktype );
 
 		$this->domainManager->setSession( $this->basket );
 	}
@@ -370,10 +370,10 @@ class Standard
 	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Order product item
 	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Bundle product item
 	 * @param array $variantAttributeIds List of product variant attribute IDs
-	 * @param string $warehouse
+	 * @param string $stocktype
 	 */
 	protected function addBundleProducts( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-		\Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds, $warehouse )
+		\Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds, $stocktype )
 	{
 		$quantity = $orderBaseProductItem->getQuantity();
 		$products = $subProductIds = $orderProducts = array();
@@ -403,7 +403,7 @@ class Standard
 
 			$orderProduct = $orderProductManager->createItem();
 			$orderProduct->copyFrom( $product );
-			$orderProduct->setWarehouseCode( $warehouse );
+			$orderProduct->setStockType( $stocktype );
 			$orderProduct->setPrice( $this->calcPrice( $orderProduct, $prices, $quantity ) );
 
 			$orderProducts[] = $orderProduct;
@@ -420,15 +420,15 @@ class Standard
 	 * @param string $productId Unique ID of the product item that belongs to the order product
 	 * @param integer $quantity Number of products to add to the basket
 	 * @param array $options Associative list of options
-	 * @param string $warehouse Warehouse code for retrieving the stock level
+	 * @param string $stocktype Stock type for retrieving the stock level
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there's not enough stock available
 	 */
 	protected function addProductInStock( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-			$productId, $quantity, array $options, $warehouse )
+			$productId, $quantity, array $options, $stocktype )
 	{
 		$stocklevel = null;
 		if( !isset( $options['stock'] ) || $options['stock'] != false ) {
-			$stocklevel = $this->getStockLevel( $productId, $warehouse );
+			$stocklevel = $this->getStockLevel( $productId, $stocktype );
 		}
 
 		if( $stocklevel === null || $stocklevel > 0 )
@@ -523,7 +523,7 @@ class Standard
 	{
 		$stocklevel = null;
 		if( !isset( $options['stock'] ) || $options['stock'] != false ) {
-			$stocklevel = $this->getStockLevel( $productItem->getId(), $product->getWarehouseCode() );
+			$stocklevel = $this->getStockLevel( $productItem->getId(), $product->getStockType() );
 		}
 
 		$product->setQuantity( ( $stocklevel !== null && $stocklevel > 0 ? min( $stocklevel, $quantity ) : $quantity ) );

@@ -134,7 +134,7 @@ class Standard
 		$orderBaseProductItem->setPrice( $price );
 		$orderBaseProductItem->setAttributes( $attr );
 
-		$this->addProductInStock( $orderBaseProductItem, $productItem->getId(), $quantity, $options, $stocktype );
+		$this->basket->addProduct( $orderBaseProductItem );
 
 		$this->domainManager->setSession( $this->basket );
 	}
@@ -173,13 +173,14 @@ class Standard
 		array $configAttributeCodes = array() )
 	{
 		$product = $this->basket->getProduct( $position );
-		$product->setQuantity( $quantity ); // Enforce check immediately
 
 		if( $product->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
 			$msg = sprintf( 'Basket item at position "%1$d" cannot be changed', $position );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
+
+		$product->setQuantity( $quantity );
 
 		$attributes = $product->getAttributes();
 		foreach( $attributes as $key => $attribute )
@@ -192,10 +193,10 @@ class Standard
 
 		$productItem = $this->getDomainItem( 'product', 'product.code', $product->getProductCode(), array( 'price', 'text' ) );
 		$prices = $productItem->getRefItems( 'price', 'default' );
-
 		$product->setPrice( $this->calcPrice( $product, $prices, $quantity ) );
 
-		$this->editProductInStock( $product, $productItem, $quantity, $position, $options );
+		$this->basket->deleteProduct( $position );
+		$this->basket->addProduct( $product, $position );
 
 		$this->domainManager->setSession( $this->basket );
 	}
@@ -414,51 +415,6 @@ class Standard
 
 
 	/**
-	 * Edits the changed product to the basket if it's in stock.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Old order product from basket
-	 * @param string $productId Unique ID of the product item that belongs to the order product
-	 * @param integer $quantity Number of products to add to the basket
-	 * @param array $options Associative list of options
-	 * @param string $stocktype Stock type for retrieving the stock level
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there's not enough stock available
-	 */
-	protected function addProductInStock( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-			$productId, $quantity, array $options, $stocktype )
-	{
-		$stocklevel = null;
-		if( !isset( $options['stock'] ) || $options['stock'] != false ) {
-			$stocklevel = $this->getStockLevel( $productId, $stocktype );
-		}
-
-		if( $stocklevel === null || $stocklevel > 0 )
-		{
-			$position = $this->get()->addProduct( $orderBaseProductItem );
-
-			try
-			{
-				$orderBaseProductItem = clone $this->get()->getProduct( $position );
-				$quantity = $orderBaseProductItem->getQuantity();
-
-				if( $stocklevel > 0 && $stocklevel < $quantity )
-				{
-					$this->get()->deleteProduct( $position );
-					$orderBaseProductItem->setQuantity( $stocklevel );
-					$this->get()->addProduct( $orderBaseProductItem, $position );
-				}
-			}
-			catch( \Aimeos\MShop\Order\Exception $e ) {} // hide error if product position changed by plugin
-		}
-
-		if( $stocklevel !== null && $stocklevel < $quantity )
-		{
-			$msg = sprintf( 'There are not enough products "%1$s" in stock', $orderBaseProductItem->getName() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-	}
-
-
-	/**
 	 * Creates the order product attribute items from the given attribute IDs and updates the price item if necessary.
 	 *
 	 * @param \Aimeos\MShop\Price\Item\Iface $price Price item of the ordered product
@@ -505,40 +461,6 @@ class Standard
 		}
 
 		return $list;
-	}
-
-
-	/**
-	 * Edits the changed product to the basket if it's in stock.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $product Old order product from basket
-	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Product item that belongs to the order product
-	 * @param integer $quantity New product quantity
-	 * @param integer $position Position of the old order product in the basket
-	 * @param array Associative list of options
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there's not enough stock available
-	 */
-	protected function editProductInStock( \Aimeos\MShop\Order\Item\Base\Product\Iface $product,
-			\Aimeos\MShop\Product\Item\Iface $productItem, $quantity, $position, array $options )
-	{
-		$stocklevel = null;
-		if( !isset( $options['stock'] ) || $options['stock'] != false ) {
-			$stocklevel = $this->getStockLevel( $productItem->getId(), $product->getStockType() );
-		}
-
-		$product->setQuantity( ( $stocklevel !== null && $stocklevel > 0 ? min( $stocklevel, $quantity ) : $quantity ) );
-
-		$this->get()->deleteProduct( $position );
-
-		if( $stocklevel === null || $stocklevel > 0 ) {
-			$this->get()->addProduct( $product, $position );
-		}
-
-		if( $stocklevel !== null && $stocklevel < $quantity )
-		{
-			$msg = sprintf( 'There are not enough products "%1$s" in stock', $productItem->getName() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
 	}
 
 

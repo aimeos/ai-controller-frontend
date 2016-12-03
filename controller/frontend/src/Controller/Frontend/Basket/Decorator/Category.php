@@ -49,6 +49,7 @@ class Category
 
 		$search = $catalogListManager->createSearch( true );
 		$expr = array(
+			$search->compare( '==', 'catalog.lists.domain', 'product' ),
 			$search->compare( '==', 'catalog.lists.refid', $prodid ),
 			$search->getConditions()
 		);

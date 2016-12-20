@@ -452,8 +452,8 @@ class Standard
 
 		if( $stocklevel !== null && $stocklevel < $quantity )
 		{
-			$msg = sprintf( 'There are not enough products "%1$s" in stock', $orderBaseProductItem->getName() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'There are not enough products "%1$s" in stock' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $orderBaseProductItem->getName() ) );
 		}
 	}
 

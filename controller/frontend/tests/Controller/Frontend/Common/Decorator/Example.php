@@ -19,17 +19,9 @@ namespace Aimeos\Controller\Frontend\Common\Decorator;
  * @subpackage Frontend
  */
 class Example
-	extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
-	public function getContext()
+	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
-		return parent::getContext();
-	}
-
-
-	public function getController()
-	{
-		return parent::getController();
 	}
 }

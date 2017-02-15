@@ -18,7 +18,7 @@ namespace Aimeos\Controller\Frontend\Basket\Decorator;
  * @subpackage Frontend
  */
 class Category
-	extends \Aimeos\Controller\Frontend\Basket\Decorator\Base
+	extends Base
 	implements \Aimeos\Controller\Frontend\Basket\Iface, \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
 	/**

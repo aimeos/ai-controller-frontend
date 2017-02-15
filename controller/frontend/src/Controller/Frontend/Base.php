@@ -43,7 +43,7 @@ abstract class Base
 	 */
 	public function __call( $name, array $param )
 	{
-		return false;
+		throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Unable to call method "%1$s::%2$s"', get_class( $this ), $name ) );
 	}
 
 

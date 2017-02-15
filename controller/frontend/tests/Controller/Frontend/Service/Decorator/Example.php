@@ -19,8 +19,7 @@ namespace Aimeos\Controller\Frontend\Service\Decorator;
  * @subpackage Frontend
  */
 class Example
-	extends \Aimeos\Controller\Frontend\Common\Decorator\Base
+	extends Base
 	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
-
 }

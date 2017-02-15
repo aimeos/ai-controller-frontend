@@ -17,8 +17,41 @@ namespace Aimeos\Controller\Frontend\Basket\Decorator;
  * @package Controller
  * @subpackage Frontend
  */
-abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
+abstract class Base
+	extends \Aimeos\Controller\Frontend\Basket\Base
+	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
+	private $context;
+	private $controller;
+
+
+	/**
+	 * Initializes the controller decorator.
+	 *
+	 * @param \Aimeos\Controller\Frontend\Iface $controller Controller object
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
+	 */
+	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
+	{
+		$this->context = $context;
+		$this->controller = $controller;
+	}
+
+
+	/**
+	 * Passes unknown methods to wrapped objects.
+	 *
+	 * @param string $name Name of the method
+	 * @param array $param List of method parameter
+	 * @return mixed Returns the value of the called method
+	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
+	 */
+	public function __call( $name, array $param )
+	{
+		return call_user_func_array( array( $this->controller, $name ), $param );
+	}
+
+
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
 	 * @return void
@@ -162,5 +195,27 @@ abstract class Base extends \Aimeos\Controller\Frontend\Common\Decorator\Base
 	public function setService( $type, $id, array $attributes = array() )
 	{
 		$this->getController()->setService( $type, $id, $attributes );
+	}
+
+
+	/**
+	 * Returns the context item
+	 *
+	 * @return \Aimeos\MShop\Context\Item\Iface Context item object
+	 */
+	protected function getContext()
+	{
+		return $this->context;
+	}
+
+
+	/**
+	 * Returns the frontend controller
+	 *
+	 * @return \Aimeos\Controller\Frontend\Common\Iface Frontend controller object
+	 */
+	protected function getController()
+	{
+		return $this->controller;
 	}
 }

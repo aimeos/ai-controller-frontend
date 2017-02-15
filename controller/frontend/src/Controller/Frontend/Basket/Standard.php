@@ -100,8 +100,8 @@ class Standard
 		$stocktype = 'default' )
 	{
 		$context = $this->getContext();
-
-		$productItem = $this->getDomainItem( 'product', 'product.id', $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ) );
+		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ) );
 
 		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem );
@@ -110,16 +110,6 @@ class Standard
 
 		$attr = array();
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
-
-		switch( $productItem->getType() )
-		{
-			case 'select':
-				$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds, $options );
-				break;
-			case 'bundle':
-				$this->addBundleProducts( $orderBaseProductItem, $productItem, $variantAttributeIds, $stocktype );
-				break;
-		}
 
 		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
 		$price = $priceManager->getLowestPrice( $prices, $quantity );
@@ -362,199 +352,6 @@ class Standard
 
 		$this->basket->setService( $orderServiceItem, $type );
 		$this->domainManager->setSession( $this->basket );
-	}
-
-
-	/**
-	 * Adds the bundled products to the order product item.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Order product item
-	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Bundle product item
-	 * @param array $variantAttributeIds List of product variant attribute IDs
-	 * @param string $stocktype
-	 */
-	protected function addBundleProducts( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-		\Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds, $stocktype )
-	{
-		$quantity = $orderBaseProductItem->getQuantity();
-		$products = $subProductIds = $orderProducts = array();
-		$orderProductManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product' );
-
-		foreach( $productItem->getRefItems( 'product', null, 'default' ) as $item ) {
-			$subProductIds[] = $item->getId();
-		}
-
-		if( count( $subProductIds ) > 0 )
-		{
-			$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
-
-			$search = $productManager->createSearch( true );
-			$expr = array(
-				$search->compare( '==', 'product.id', $subProductIds ),
-				$search->getConditions(),
-			);
-			$search->setConditions( $search->combine( '&&', $expr ) );
-
-			$products = $productManager->searchItems( $search, array( 'attribute', 'media', 'price', 'text' ) );
-		}
-
-		foreach( $products as $product )
-		{
-			$prices = $product->getRefItems( 'price', 'default', 'default' );
-
-			$orderProduct = $orderProductManager->createItem();
-			$orderProduct->copyFrom( $product );
-			$orderProduct->setStockType( $stocktype );
-			$orderProduct->setPrice( $this->calcPrice( $orderProduct, $prices, $quantity ) );
-
-			$orderProducts[] = $orderProduct;
-		}
-
-		$orderBaseProductItem->setProducts( $orderProducts );
-	}
-
-
-	/**
-	 * Creates the order product attribute items from the given attribute IDs and updates the price item if necessary.
-	 *
-	 * @param \Aimeos\MShop\Price\Item\Iface $price Price item of the ordered product
-	 * @param string $prodid Unique product ID where the given attributes must be attached to
-	 * @param integer $quantity Number of products that should be added to the basket
-	 * @param array $attributeIds List of attributes IDs of the given type
-	 * @param string $type Attribute type
-	 * @param array $attributeValues Associative list of attribute IDs as keys and their codes as values
-	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
-	 */
-	protected function createOrderProductAttributes( \Aimeos\MShop\Price\Item\Iface $price, $prodid, $quantity,
-			array $attributeIds, $type, array $attributeValues = array() )
-	{
-		if( empty( $attributeIds ) ) {
-			return array();
-		}
-
-		$attrTypeId = $this->getProductListTypeItem( 'attribute', $type )->getId();
-		$this->checkReferences( $prodid, 'attribute', $attrTypeId, $attributeIds );
-
-		$list = array();
-		$context = $this->getContext();
-
-		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
-		$orderProductAttributeManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product/attribute' );
-
-		foreach( $this->getAttributes( $attributeIds ) as $id => $attrItem )
-		{
-			$prices = $attrItem->getRefItems( 'price', 'default', 'default' );
-
-			if( !empty( $prices ) ) {
-				$price->addItem( $priceManager->getLowestPrice( $prices, $quantity ) );
-			}
-
-			$item = $orderProductAttributeManager->createItem();
-			$item->copyFrom( $attrItem );
-			$item->setType( $type );
-
-			if( isset( $attributeValues[$id] ) ) {
-				$item->setValue( $attributeValues[$id] );
-			}
-
-			$list[] = $item;
-		}
-
-		return $list;
-	}
-
-
-	/**
-	 * Retrieves the domain item specified by the given key and value.
-	 *
-	 * @param string $domain Product manager search key
-	 * @param string $key Domain manager search key
-	 * @param string $value Unique domain identifier
-	 * @param string[] $ref List of referenced items that should be fetched too
-	 * @return \Aimeos\MShop\Common\Item\Iface Domain item object
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception
-	 */
-	protected function getDomainItem( $domain, $key, $value, array $ref )
-	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $domain );
-
-		$search = $manager->createSearch( true );
-		$expr = array(
-				$search->compare( '==', $key, $value ),
-				$search->getConditions(),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$result = $manager->searchItems( $search, $ref );
-
-		if( ( $item = reset( $result ) ) === false )
-		{
-			$msg = sprintf( 'No item for "%1$s" (%2$s) found', $value, $key );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-
-		return $item;
-	}
-
-
-	/**
-	 * Returns the variant attributes and updates the price list if necessary.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Order product item
-	 * @param \Aimeos\MShop\Product\Item\Iface &$productItem Product item which is replaced if necessary
-	 * @param array &$prices List of product prices that will be updated if necessary
-	 * @param array $variantAttributeIds List of product variant attribute IDs
-	 * @param array $options Associative list of options
-	 * @return \Aimeos\MShop\Order\Item\Base\Product\Attribute\Iface[] List of order product attributes
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If no product variant is found
-	 */
-	protected function getVariantDetails( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-		\Aimeos\MShop\Product\Item\Iface &$productItem, array &$prices, array $variantAttributeIds, array $options )
-	{
-		$attr = array();
-		$productItems = $this->getProductVariants( $productItem, $variantAttributeIds );
-
-		if( count( $productItems ) > 1 )
-		{
-			$msg = sprintf( 'No unique article found for selected attributes and product ID "%1$s"', $productItem->getId() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-		else if( ( $result = reset( $productItems ) ) !== false ) // count == 1
-		{
-			$productItem = $result;
-			$orderBaseProductItem->setProductCode( $productItem->getCode() );
-
-			$subprices = $productItem->getRefItems( 'price', 'default', 'default' );
-
-			if( !empty( $subprices ) ) {
-				$prices = $subprices;
-			}
-
-			$submedia = $productItem->getRefItems( 'media', 'default', 'default' );
-
-			if( ( $mediaItem = reset( $submedia ) ) !== false ) {
-				$orderBaseProductItem->setMediaUrl( $mediaItem->getPreview() );
-			}
-
-			$orderProductAttrManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product/attribute' );
-			$variantAttributes = $productItem->getRefItems( 'attribute', null, 'variant' );
-
-			foreach( $this->getAttributes( array_keys( $variantAttributes ), array( 'text' ) ) as $attrItem )
-			{
-				$orderAttributeItem = $orderProductAttrManager->createItem();
-				$orderAttributeItem->copyFrom( $attrItem );
-				$orderAttributeItem->setType( 'variant' );
-
-				$attr[] = $orderAttributeItem;
-			}
-		}
-		else if( !isset( $options['variant'] ) || $options['variant'] != false ) // count == 0
-		{
-			$msg = sprintf( 'No article found for selected attributes and product ID "%1$s"', $productItem->getId() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-
-		return $attr;
 	}
 
 

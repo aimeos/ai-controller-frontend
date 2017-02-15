@@ -1,13 +1,14 @@
 <?php
 
-namespace Aimeos\Controller\Frontend\Basket;
-
-
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2012
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
+
+namespace Aimeos\Controller\Frontend\Basket;
+
+
 class StandardTest extends \PHPUnit_Framework_TestCase
 {
 	private $object;
@@ -36,195 +37,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testAddDeleteProduct()
 	{
 		$basket = $this->object->get();
-
-
-		$this->object->addProduct( $this->testItem->getId(), 2 );
-
-		$this->assertEquals( 1, count( $basket->getProducts() ) );
-		$this->assertEquals( 2, $basket->getProduct( 0 )->getQuantity() );
-		$this->assertEquals( 'U:TESTPSUB01', $basket->getProduct( 0 )->getProductCode() );
-
-
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
 
 		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'default' );
-		$item2 = $this->object->get()->getProduct( 1 );
+		$item2 = $this->object->get()->getProduct( 0 );
 		$this->object->deleteProduct( 0 );
 
-		$this->assertEquals( 1, count( $basket->getProducts() ) );
-		$this->assertEquals( $item2, $basket->getProduct( 1 ) );
-		$this->assertEquals( 'CNC', $basket->getProduct( 1 )->getProductCode() );
-	}
-
-
-	public function testAddProductBundle()
-	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:BUNDLE' );
-
-		$this->object->addProduct( $item->getId(), 1 );
-
-		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
-		$this->assertEquals( 'U:BUNDLE', $this->object->get()->getProduct( 0 )->getProductCode() );
-		$this->assertEquals( 2, count( $this->object->get()->getProduct( 0 )->getProducts() ) );
-	}
-
-
-	public function testAddProductVariant()
-	{
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $attributeManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'attribute.code', array( 'xs', 'white' ) ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( count( $attributes ) === 0 ) {
-			throw new \RuntimeException( 'Attributes not found' );
-		}
-
-
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
-
-		$this->object->addProduct( $item->getId(), 1, array(), array_keys( $attributes ), array(), array(), array(), 'default' );
-
-		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
-		$this->assertEquals( 'CNC', $this->object->get()->getProduct( 0 )->getProductCode() );
-	}
-
-
-	public function testAddProductVariantIncomplete()
-	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.domain', 'product' ),
-			$search->compare( '==', 'attribute.code', '30' ),
-			$search->compare( '==', 'attribute.type.code', 'length' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( count( $attributes ) === 0 ) {
-			throw new \RuntimeException( 'Attributes not found' );
-		}
-
-
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
-
-		$this->object->addProduct( $item->getId(), 1, array(), array_keys( $attributes ) );
-
-		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
-		$this->assertEquals( 'U:TESTSUB02', $this->object->get()->getProduct( 0 )->getProductCode() );
-		$this->assertEquals( 2, count( $this->object->get()->getProduct( 0 )->getAttributes() ) );
-	}
-
-
-	public function testAddProductVariantNonUnique()
-	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.domain', 'product' ),
-			$search->compare( '==', 'attribute.code', '30' ),
-			$search->compare( '==', 'attribute.type.code', 'width' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( count( $attributes ) === 0 ) {
-			throw new \RuntimeException( 'Attributes not found' );
-		}
-
-
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
-
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( $item->getId(), 1, array(), array_keys( $attributes ) );
-	}
-
-
-	public function testAddProductVariantNotRequired()
-	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'attribute.code', 'xs' ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( count( $attributes ) === 0 ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
-		$options = array( 'variant' => false );
-
-		$this->object->addProduct( $this->testItem->getId(), 1, $options, array_keys( $attributes ) );
-
-		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
-		$this->assertEquals( 'U:TESTP', $this->object->get()->getProduct( 0 )->getProductCode() );
-	}
-
-
-	public function testAddProductConfigAttribute()
-	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$search->setConditions( $search->compare( '==', 'attribute.code', 'xs' ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( empty( $attributes ) ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
-		$this->object->addProduct( $this->testItem->getId(), 1, array(), array(), array_keys( $attributes ) );
-		$basket = $this->object->get();
-
-		$this->assertEquals( 1, count( $basket->getProducts() ) );
-		$this->assertEquals( 'U:TESTPSUB01', $basket->getProduct( 0 )->getProductCode() );
-		$this->assertEquals( 'xs', $basket->getProduct( 0 )->getAttribute( 'size', 'config' ) );
-	}
-
-
-	public function testAddProductHiddenAttribute()
-	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.code', '29' ),
-			$search->compare( '==', 'attribute.type.code', 'width' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( empty( $attributes ) ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
-		$this->object->addProduct( $this->testItem->getId(), 1, array(), array(), array(), array_keys( $attributes ) );
-
-		$basket = $this->object->get();
-		$this->assertEquals( 1, count( $basket->getProducts() ) );
-
-		$product = $basket->getProduct( 0 );
-		$this->assertEquals( 'U:TESTPSUB01', $product->getProductCode() );
-
-		$attributes = $product->getAttributes();
-		$this->assertEquals( 1, count( $attributes ) );
-
-		if( ( $attribute = reset( $attributes ) ) === false ) {
-			throw new \RuntimeException( 'No attribute' );
-		}
-
-		$this->assertEquals( 'hidden', $attribute->getType() );
-		$this->assertEquals( '29', $product->getAttribute( 'width', 'hidden' ) );
+		$this->assertEquals( 0, count( $basket->getProducts() ) );
+		$this->assertEquals( 'CNC', $item2->getProductCode() );
 	}
 
 
@@ -303,23 +123,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testAddProductEmptySelectionException()
-	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:noSel' );
-
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( $item->getId(), 1 );
-	}
-
-
-	public function testAddProductSelectionWithPricelessItem()
-	{
-		$this->object->addProduct( $this->testItem->getId(), 1 );
-
-		$this->assertEquals( 'U:TESTPSUB01', $this->object->get()->getProduct( 0 )->getProductCode() );
-	}
-
-
 	public function testAddProductLowQuantityPriceException()
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
@@ -363,7 +166,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 4, $item->getQuantity() );
-		$this->assertEquals( 'U:TESTPSUB01', $item->getProductCode() );
+		$this->assertEquals( 'U:TESTP', $item->getProductCode() );
 	}
 
 
@@ -408,7 +211,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 3, $item->getQuantity() );
 		$this->assertEquals( 1, count( $item->getAttributes() ) );
-		$this->assertEquals( 'U:TESTPSUB01', $item->getProductCode() );
+		$this->assertEquals( 'U:TESTP', $item->getProductCode() );
 	}
 
 

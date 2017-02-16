@@ -1,13 +1,15 @@
 <?php
 
-namespace Aimeos\Controller\Frontend\Catalog;
-
-
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2012
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
+
+
+namespace Aimeos\Controller\Frontend\Catalog;
+
+
 class StandardTest extends \PHPUnit_Framework_TestCase
 {
 	private $object;
@@ -99,7 +101,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
-		$this->assertEquals( 0, $list[0]->getValue() );
+		$this->assertEquals( array( 0 ), $list[0]->getValue() );
 
 
 		$this->assertEquals( array(), $filter->getSortations() );
@@ -119,7 +121,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertEquals( 'sort:index.catalog.position("test",0)', $item->getName() );
+		$this->assertEquals( 'sort:index.catalog.position("test",["0"])', $item->getName() );
 		$this->assertEquals( '-', $item->getOperator() );
 
 		$this->assertEquals( 1, $filter->getSliceStart() );
@@ -193,7 +195,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		}
 
 		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
-		$this->assertEquals( 0, $list[0]->getValue() );
+		$this->assertEquals( array( 0 ), $list[0]->getValue() );
 		$this->assertEquals( array(), $filter->getSortations() );
 	}
 

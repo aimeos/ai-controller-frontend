@@ -81,191 +81,6 @@ class Standard
 
 
 	/**
-	 * Returns the aggregated count of products for the given key.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @param string $key Search key to aggregate for, e.g. "index.attribute.id"
-	 * @return array Associative list of key values as key and the product count for this key as value
-	 * @since 2015.08
-	 */
-	public function aggregateIndex( \Aimeos\MW\Criteria\Iface $filter, $key )
-	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index' )->aggregate( $filter, $key );
-	}
-
-
-	/**
-	 * Returns the default index filter.
-	 *
-	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
-	 * @param integer $start Position in the list of found products where to begin retrieving the items
-	 * @param integer $size Number of products that should be returned
-	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2015.08
-	 */
-	public function createIndexFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
-	{
-		$sortations = array();
-		$context = $this->getContext();
-
-		$search = \Aimeos\MShop\Factory::createManager( $context, 'index' )->createSearch( true );
-		$expr = array( $search->compare( '!=', 'index.catalog.id', null ) );
-
-		switch( $sort )
-		{
-			case 'code':
-				$sortations[] = $search->sort( $direction, 'product.code' );
-				break;
-
-			case 'name':
-				$langid = $context->getLocale()->getLanguageId();
-
-				$cmpfunc = $search->createFunction( 'index.text.value', array( $listtype, $langid, 'name', 'product' ) );
-				$expr[] = $search->compare( '>=', $cmpfunc, '' );
-
-				$sortfunc = $search->createFunction( 'sort:index.text.value', array( $listtype, $langid, 'name' ) );
-				$sortations[] = $search->sort( $direction, $sortfunc );
-				break;
-
-			case 'price':
-				$currencyid = $context->getLocale()->getCurrencyId();
-
-				$cmpfunc = $search->createFunction( 'index.price.value', array( $listtype, $currencyid, 'default' ) );
-				$expr[] = $search->compare( '>=', $cmpfunc, '0.00' );
-
-				$sortfunc = $search->createFunction( 'sort:index.price.value', array( $listtype, $currencyid, 'default' ) );
-				$sortations[] = $search->sort( $direction, $sortfunc );
-				break;
-		}
-
-		$expr[] = $search->getConditions();
-
-		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSortations( $sortations );
-		$search->setSlice( $start, $size );
-
-		return $search;
-	}
-
-
-	/**
-	 * Returns the index filter for the given category ID.
-	 *
-	 * @param integer $catid ID of the category to get the product list from
-	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
-	 * @param integer $start Position in the list of found products where to begin retrieving the items
-	 * @param integer $size Number of products that should be returned
-	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2015.08
-	 */
-	public function createIndexFilterCategory( $catid, $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
-	{
-		$search = $this->createIndexFilter( $sort, $direction, $start, $size, $listtype );
-		$expr = array( $search->compare( '==', 'index.catalog.id', $catid ) );
-
-		if( $sort === 'relevance' )
-		{
-			$cmpfunc = $search->createFunction( 'index.catalog.position', array( $listtype, $catid ) );
-			$expr[] = $search->compare( '>=', $cmpfunc, 0 );
-
-			$sortfunc = $search->createFunction( 'sort:index.catalog.position', array( $listtype, $catid ) );
-			$search->setSortations( array( $search->sort( $direction, $sortfunc ) ) );
-		}
-
-		$expr[] = $search->getConditions();
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		return $search;
-	}
-
-
-	/**
-	 * Returns the index filter for the given search string.
-	 *
-	 * @param string $input Search string entered by the user
-	 * @param string|null $sort Sortation of the product list like "name", "price" and "relevance", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
-	 * @param integer $start Position in the list of found products where to begin retrieving the items
-	 * @param integer $size Number of products that should be returned
-	 * @param string $listtype List type of the text associated to the product, usually "default"
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2015.08
-	 */
-	public function createIndexFilterText( $input, $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
-	{
-		$langid = $this->getContext()->getLocale()->getLanguageId();
-		$search = $this->createIndexFilter( $sort, $direction, $start, $size, $listtype );
-		$expr = array( $search->compare( '>', $search->createFunction( 'index.text.relevance', array( $listtype, $langid, $input ) ), 0 ) );
-
-		// we don't need to sort by 'sort:index.text.relevance' because it's a boolean match (relevance is either 0 or 1)
-
-		$expr[] = $search->getConditions();
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		return $search;
-	}
-
-
-	/**
-	 * Returns the given search filter with the conditions attached for filtering by category.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $search Criteria object used for product search
-	 * @param string $catid Selected category by the user
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2015.08
-	 */
-	public function addIndexFilterCategory( \Aimeos\MW\Criteria\Iface $search, $catid )
-	{
-		$expr = array( $search->compare( '==', 'index.catalog.id', $catid ) );
-
-		$expr[] = $search->getConditions();
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		return $search;
-	}
-
-
-	/**
-	 * Returns the given search filter with the conditions attached for filtering by text.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $search Criteria object used for product search
-	 * @param string $input Search string entered by the user
-	 * @param string $listtype List type of the text associated to the product, usually "default"
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2015.08
-	 */
-	public function addIndexFilterText( \Aimeos\MW\Criteria\Iface $search, $input, $listtype = 'default' )
-	{
-		$langid = $this->getContext()->getLocale()->getLanguageId();
-		$expr = array( $search->compare( '>', $search->createFunction( 'index.text.relevance', array( $listtype, $langid, $input ) ), 0 ) );
-
-		$expr[] = $search->getConditions();
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		return $search;
-	}
-
-
-	/**
-	 * Returns the products from the index filtered by the given criteria object.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
-	 * @param integer &$total Parameter where the total number of found products will be stored in
-	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
-	 * @since 2015.08
-	 */
-	public function getIndexItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
-	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index' )->searchItems( $filter, $domains, $total );
-	}
-
-
-	/**
 	 * Returns the product item for the given ID if it's available
 	 *
 	 * @param array $ids List of product IDs
@@ -291,6 +106,139 @@ class Standard
 
 
 	/**
+	 * Returns the aggregated count of products for the given key.
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
+	 * @param string $key Search key to aggregate for, e.g. "index.attribute.id"
+	 * @return array Associative list of key values as key and the product count for this key as value
+	 * @since 2015.08
+	 * @deprecated Use method in index controller instead
+	 */
+	public function aggregateIndex( \Aimeos\MW\Criteria\Iface $filter, $key )
+	{
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		return $cntl->aggregate( $filter, $key );
+	}
+
+
+	/**
+	 * Returns the default index filter.
+	 *
+	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
+	 * @param string $direction Sort direction of the product list ("+", "-")
+	 * @param integer $start Position in the list of found products where to begin retrieving the items
+	 * @param integer $size Number of products that should be returned
+	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
+	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @since 2015.08
+	 * @deprecated Use method in index controller instead
+	 */
+	public function createIndexFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
+	{
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		return $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
+	}
+
+
+	/**
+	 * Returns the index filter for the given category ID.
+	 *
+	 * @param integer $catid ID of the category to get the product list from
+	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
+	 * @param string $direction Sort direction of the product list ("+", "-")
+	 * @param integer $start Position in the list of found products where to begin retrieving the items
+	 * @param integer $size Number of products that should be returned
+	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
+	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @since 2015.08
+	 * @deprecated Use createIndexFilter() and addIndexFilterCategory() instead
+	 */
+	public function createIndexFilterCategory( $catid, $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
+	{
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+
+		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
+		$filter = $cntl->addFilterCategory( $filter, $catid, \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort, $direction, $listtype );
+
+		return $filter;
+	}
+
+
+	/**
+	 * Returns the index filter for the given search string.
+	 *
+	 * @param string $input Search string entered by the user
+	 * @param string|null $sort Sortation of the product list like "name", "price" and "relevance", null for no sortation
+	 * @param string $direction Sort direction of the product list ("+", "-")
+	 * @param integer $start Position in the list of found products where to begin retrieving the items
+	 * @param integer $size Number of products that should be returned
+	 * @param string $listtype List type of the text associated to the product, usually "default"
+	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @since 2015.08
+	 * @deprecated Use createIndexFilter() and addIndexFilterText() instead
+	 */
+	public function createIndexFilterText( $input, $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
+	{
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+
+		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
+		$filter = $cntl->addFilterText( $filter, $input, $listtype );
+
+		return $filter;
+	}
+
+
+	/**
+	 * Returns the given search filter with the conditions attached for filtering by category.
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $search Criteria object used for product search
+	 * @param string $catid Selected category by the user
+	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @since 2015.08
+	 * @deprecated Use method in index controller instead
+	 */
+	public function addIndexFilterCategory( \Aimeos\MW\Criteria\Iface $search, $catid )
+	{
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		return $cntl->addFilterCategory( $search, $catid );
+	}
+
+
+	/**
+	 * Returns the given search filter with the conditions attached for filtering by text.
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $search Criteria object used for product search
+	 * @param string $input Search string entered by the user
+	 * @param string $listtype List type of the text associated to the product, usually "default"
+	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @since 2015.08
+	 * @deprecated Use method in index controller instead
+	 */
+	public function addIndexFilterText( \Aimeos\MW\Criteria\Iface $search, $input, $listtype = 'default' )
+	{
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		return $cntl->addFilterText( $search, $input, $listtype );
+	}
+
+
+	/**
+	 * Returns the products from the index filtered by the given criteria object.
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
+	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @param integer &$total Parameter where the total number of found products will be stored in
+	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
+	 * @since 2015.08
+	 * @deprecated Use method in index controller instead
+	 */
+	public function getIndexItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
+	{
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		return $cntl->getItems( $filter, $domains, $total );
+	}
+
+
+	/**
 	 * Returns text filter for the given search string.
 	 *
 	 * @param string $input Search string entered by the user
@@ -301,40 +249,12 @@ class Standard
 	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @param string $type Type of the text like "name", "short", "long", etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @deprecated Use method in index controller instead
 	 */
 	public function createTextFilter( $input, $sort = null, $direction = '+', $start = 0, $size = 25, $listtype = 'default', $type = 'name' )
 	{
-		$locale = $this->getContext()->getLocale();
-		$langid = $locale->getLanguageId();
-
-		$search = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index/text' )->createSearch( true );
-
-		$expr = array(
-			$search->compare( '>', $search->createFunction( 'index.text.relevance', array( $listtype, $langid, $input ) ), 0 ),
-			$search->compare( '>', $search->createFunction( 'index.text.value', array( $listtype, $langid, $type, 'product' ) ), '' ),
-		);
-
-		$sortations = array();
-
-		switch( $sort )
-		{
-			case 'name':
-				$cmpfunc = $search->createFunction( 'index.text.value', array( $listtype, $langid, 'name', 'product' ) );
-				$expr[] = $search->compare( '>=', $cmpfunc, '' );
-
-				$sortfunc = $search->createFunction( 'sort:index.text.value', array( $listtype, $langid, 'name' ) );
-				$sortations[] = $search->sort( $direction, $sortfunc );
-				break;
-
-			case 'relevance':
-				// we don't need to sort by 'sort:index.text.relevance' because it's a boolean match (relevance is either 0 or 1)
-		}
-
-		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSortations( $sortations );
-		$search->setSlice( $start, $size );
-
-		return $search;
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		return $cntl->createTextFilter( $input, $sort, $direction, $start, $size, $listtype, $type );
 	}
 
 
@@ -343,9 +263,10 @@ class Standard
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
 	 * @return array Associative list of the product ID as key and the product text as value
+	 * @deprecated Use method in index controller instead
 	 */
 	public function getTextList( \Aimeos\MW\Criteria\Iface $filter )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index/text' )->searchTexts( $filter );
+		return \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' )->getTextList( $filter );
 	}
 }

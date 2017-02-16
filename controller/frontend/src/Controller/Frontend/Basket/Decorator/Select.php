@@ -64,13 +64,14 @@ class Select
 
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 		$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds, $options );
+		$prodIds = array( $prodid, $productItem->getId() );
 
 		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
 		$price = $priceManager->getLowestPrice( $prices, $quantity );
 
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodid, $quantity, $configAttributeIds, 'config' ) );
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodid, $quantity, $hiddenAttributeIds, 'hidden' ) );
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodid, $quantity, array_keys( $customAttributeValues ), 'custom', $customAttributeValues ) );
+		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodIds, $quantity, $configAttributeIds, 'config' ) );
+		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodIds, $quantity, $hiddenAttributeIds, 'hidden' ) );
+		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodIds, $quantity, array_keys( $customAttributeValues ), 'custom', $customAttributeValues ) );
 
 		// remove product rebate of original price in favor to rebates granted for the order
 		$price->setRebate( '0.00' );

@@ -65,7 +65,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Checks if the IDs of the given items are really associated to the product.
 	 *
-	 * @param string $prodId Unique ID of the product
+	 * @param string|array $prodId Unique ID of the product or list of product IDs
 	 * @param string $domain Domain the references must be of
 	 * @param integer $listTypeId ID of the list type the referenced items must be
 	 * @param array $refIds List of IDs that must be associated to the product
@@ -288,7 +288,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Creates the order product attribute items from the given attribute IDs and updates the price item if necessary.
 	 *
 	 * @param \Aimeos\MShop\Price\Item\Iface $price Price item of the ordered product
-	 * @param string $prodid Unique product ID where the given attributes must be attached to
+	 * @param string|array $prodid Unique product ID or list of product IDs where the given attributes must be attached to
 	 * @param integer $quantity Number of products that should be added to the basket
 	 * @param array $attributeIds List of attributes IDs of the given type
 	 * @param string $type Attribute type

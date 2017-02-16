@@ -74,4 +74,28 @@ interface Iface
 	 * @since 2015.08
 	 */
 	public function getProductItems( array $ids, array $domains = array( 'media', 'price', 'text' ) );
+
+
+	/**
+	 * Returns text filter for the given search string.
+	 *
+	 * @param string $input Search string entered by the user
+	 * @param string|null $sort Sortation of the product list like "name" and "relevance", null for no sortation
+	 * @param string $direction Sort direction of the product list ("+", "-")
+	 * @param integer $start Position in the list of found products where to begin retrieving the items
+	 * @param integer $size Number of products that should be returned
+	 * @param string $listtype List type of the text associated to the product, usually "default"
+	 * @param string $type Type of the text like "name", "short", "long", etc.
+	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 */
+	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' );
+
+
+	/**
+	 * Returns an list of product text strings matched by the filter.
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
+	 * @return array Associative list of the product ID as key and the product text as value
+	 */
+	public function getTextList( \Aimeos\MW\Criteria\Iface $filter );
 }

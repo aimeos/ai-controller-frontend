@@ -46,6 +46,54 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testAddFilterAttribute()
+	{
+		$filter = $this->object->createFilter();
+		$filter = $this->object->addFilterAttribute( $filter, array( 0, 1 ), array(), array() );
+
+		$list = $filter->getConditions()->getExpressions();
+
+		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Wrong expression' );
+		}
+
+		$this->assertEquals( 'index.attributeaggregate([0,1])', $list[0]->getName() );
+		$this->assertEquals( 2, $list[0]->getValue() );
+	}
+
+
+	public function testAddFilterAttributeOptions()
+	{
+		$filter = $this->object->createFilter();
+		$filter = $this->object->addFilterAttribute( $filter, array(), array( 1 ), array() );
+
+		$list = $filter->getConditions()->getExpressions();
+
+		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Wrong expression' );
+		}
+
+		$this->assertEquals( 'index.attributeaggregate([1])', $list[0]->getName() );
+		$this->assertEquals( 0, $list[0]->getValue() );
+	}
+
+
+	public function testAddFilterAttributeOne()
+	{
+		$filter = $this->object->createFilter();
+		$filter = $this->object->addFilterAttribute( $filter, array(), array(), array( 'test' => array( 2 ) ) );
+
+		$list = $filter->getConditions()->getExpressions();
+
+		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Wrong expression' );
+		}
+
+		$this->assertEquals( 'index.attributeaggregate([2])', $list[0]->getName() );
+		$this->assertEquals( 0, $list[0]->getValue() );
+	}
+
+
 	public function testAddFilterCategory()
 	{
 		$filter = $this->object->createFilter();

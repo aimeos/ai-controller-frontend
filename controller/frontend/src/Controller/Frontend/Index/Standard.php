@@ -25,7 +25,9 @@ class Standard
 	 * Returns the given search filter with the conditions attached for filtering by attribute.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
-	 * @param string|array $catid Selected category by the user
+	 * @param array $attrIds List of attribute IDs for faceted search
+	 * @param array $optIds List of OR-combined attribute IDs for faceted search
+	 * @param array $attrIds Associative list of OR-combined attribute IDs per attribute type for faceted search
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
@@ -37,20 +39,20 @@ class Standard
 
 			$func = $filter->createFunction( 'index.attributeaggregate', array( $attrIds ) );
 			$expr = array(
-				$filter->getConditions(),
 				$filter->compare( '==', $func, count( $attrIds ) ),
+				$filter->getConditions(),
 			);
 			$filter->setConditions( $filter->combine( '&&', $expr ) );
 		}
 
 		if( !empty( $optIds ) )
 		{
-			$attrIds = $this->validateIds( $attrIds );
+			$optIds = $this->validateIds( $optIds );
 
 			$func = $filter->createFunction( 'index.attributeaggregate', array( $optIds ) );
 			$expr = array(
-				$filter->getConditions(),
 				$filter->compare( '>', $func, 0 ),
+				$filter->getConditions(),
 			);
 			$filter->setConditions( $filter->combine( '&&', $expr ) );
 		}
@@ -61,8 +63,8 @@ class Standard
 			{
 				$func = $filter->createFunction( 'index.attributeaggregate', array( $list ) );
 				$expr = array(
-					$filter->getConditions(),
 					$filter->compare( '>', $func, 0 ),
+					$filter->getConditions(),
 				);
 				$filter->setConditions( $filter->combine( '&&', $expr ) );
 			}

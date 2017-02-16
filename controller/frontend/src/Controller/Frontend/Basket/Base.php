@@ -97,7 +97,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( count( $productManager->searchItems( $search, array() ) ) === 0 )
 		{
-			$msg = sprintf( 'Invalid "%1$s" references for product with ID "%2$s"', $domain, $prodId );
+			$msg = sprintf( 'Invalid "%1$s" references for product with ID "%2$s"', $domain, json_encode( $prodId ) );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 	}

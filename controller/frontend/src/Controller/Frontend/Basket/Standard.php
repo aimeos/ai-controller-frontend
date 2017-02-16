@@ -115,6 +115,7 @@ class Standard
 		{
 			case 'select':
 				$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds, $options );
+				$prodid = array( $prodid, $productItem->getId() );
 				break;
 			case 'bundle':
 				$this->addBundleProducts( $orderBaseProductItem, $productItem, $variantAttributeIds, $warehouse );

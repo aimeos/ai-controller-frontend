@@ -66,12 +66,13 @@ abstract class Base
 	/**
 	 * Returns the default catalog filter
 	 *
+	 * @param boolean True to add default criteria, e.g. status > 0
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object for filtering
 	 * @since 2015.08
 	 */
-	public function createCatalogFilter()
+	public function createCatalogFilter( $default = true )
 	{
-		return $this->getController()->createCatalogFilter();
+		return $this->getController()->createCatalogFilter( $default );
 	}
 
 
@@ -173,14 +174,14 @@ abstract class Base
 	 *
 	 * @param integer $catid ID of the category to get the product list from
 	 * @param string $sort Sortation of the product list like "name", "price" and "position"
-	 * @param string $direction Sort direction of the product list ("asc", "desc")
+	 * @param string $direction Sort direction of the product list ("+", "-")
 	 * @param integer $start Position in the list of found products where to begin retrieving the items
 	 * @param integer $size Number of products that should be returned
 	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2015.08
 	 */
-	public function createIndexFilterCategory( $catid, $sort = 'position', $direction = 'asc', $start = 0, $size = 100, $listtype = 'default' )
+	public function createIndexFilterCategory( $catid, $sort = 'position', $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
 		return $this->getController()->createIndexFilter( $catid, $sort, $direction, $start, $size, $listtype );
 	}
@@ -191,14 +192,14 @@ abstract class Base
 	 *
 	 * @param string $input Search string entered by the user
 	 * @param string $sort Sortation of the product list like "name", "price" and "relevance"
-	 * @param string $direction Sort direction of the product list ("asc", "desc", but not for relevance )
+	 * @param string $direction Sort direction of the product list ("+", "-", but not for relevance )
 	 * @param integer $start Position in the list of found products where to begin retrieving the items
 	 * @param integer $size Number of products that should be returned
 	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2015.08
 	 */
-	public function createIndexFilterText( $input, $sort = 'relevance', $direction = 'asc', $start = 0, $size = 100, $listtype = 'default' )
+	public function createIndexFilterText( $input, $sort = 'relevance', $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
 		return $this->getController()->createIndexFilter( $input, $sort, $direction, $start, $size, $listtype );
 	}
@@ -238,14 +239,14 @@ abstract class Base
 	 *
 	 * @param string $input Search string entered by the user
 	 * @param string|null $sort Sortation of the product list like "name" and "relevance", null for no sortation
-	 * @param string $direction Sort direction of the product list ("asc", "desc")
+	 * @param string $direction Sort direction of the product list ("+", "-")
 	 * @param integer $start Position in the list of found products where to begin retrieving the items
 	 * @param integer $size Number of products that should be returned
 	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @param string $type Type of the text like "name", "short", "long", etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 */
-	public function createTextFilter( $input, $sort = null, $direction = 'desc', $start = 0, $size = 25, $listtype = 'default', $type = 'name' )
+	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' )
 	{
 		return $this->getController()->createTextFilter( $input, $sort, $direction, $start, $size, $listtype, $type );
 	}

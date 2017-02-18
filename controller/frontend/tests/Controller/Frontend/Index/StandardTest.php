@@ -242,10 +242,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testGetIndexItemsText()
+	public function testGetItemsText()
 	{
 		$filter = $this->object->createFilter( 'relevance', '+', 0, 1, 'unittype13' );
-		$filter = $this->object->addFilterText( $filter, 'Expresso', 'unittype13' );
+		$filter = $this->object->addFilterText( $filter, 'Expresso', 'relevance', '+', 'unittype13' );
 
 		$total = 0;
 		$results = $this->object->getItems( $filter, array(), $total );

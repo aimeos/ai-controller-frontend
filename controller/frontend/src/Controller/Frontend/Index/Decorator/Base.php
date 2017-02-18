@@ -2,24 +2,55 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Metaways Infosystems GmbH, 2012
- * @copyright Aimeos (aimeos.org), 2017
+ * @copyright Aimeos (aimeos.org), 2016
  * @package Controller
  * @subpackage Frontend
  */
 
 
-namespace Aimeos\Controller\Frontend\Index;
+namespace Aimeos\Controller\Frontend\Index\Decorator;
 
 
 /**
- * Interface for catalog frontend controllers.
+ * Base for index frontend controller decorators
  *
  * @package Controller
  * @subpackage Frontend
  */
-interface Iface
+abstract class Base
+	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
+	private $context;
+	private $controller;
+
+
+	/**
+	 * Initializes the controller decorator.
+	 *
+	 * @param \Aimeos\Controller\Frontend\Iface $controller Controller object
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
+	 */
+	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
+	{
+		$this->context = $context;
+		$this->controller = $controller;
+	}
+
+
+	/**
+	 * Passes unknown methods to wrapped objects.
+	 *
+	 * @param string $name Name of the method
+	 * @param array $param List of method parameter
+	 * @return mixed Returns the value of the called method
+	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
+	 */
+	public function __call( $name, array $param )
+	{
+		return call_user_func_array( array( $this->controller, $name ), $param );
+	}
+
+
 	/**
 	 * Returns the given search filter with the conditions attached for filtering by attribute.
 	 *
@@ -30,7 +61,10 @@ interface Iface
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function addFilterAttribute( \Aimeos\MW\Criteria\Iface $filter, array $attrIds, array $optIds, array $oneIds );
+	public function addFilterAttribute( \Aimeos\MW\Criteria\Iface $filter, array $attrIds, array $optIds, array $oneIds )
+	{
+		return $this->getController()->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
+	}
 
 
 	/**
@@ -46,7 +80,10 @@ interface Iface
 	 * @since 2017.03
 	 */
 	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
-		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' );
+		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' )
+	{
+		return $this->getController()->addFilterCategory( $search, $catid, $level, $sort, $direction, $listtype );
+	}
 
 
 	/**
@@ -60,7 +97,10 @@ interface Iface
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' );
+	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' )
+	{
+		return $this->getController()->addIndexFilterText( $search, $input, $sort, $direction, $listtype );
+	}
 
 
 	/**
@@ -69,9 +109,12 @@ interface Iface
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
 	 * @param string $key Search key to aggregate for, e.g. "index.attribute.id"
 	 * @return array Associative list of key values as key and the product count for this key as value
-	 * @since 2017.03
+	 * @since 2015.08
 	 */
-	public function aggregate( \Aimeos\MW\Criteria\Iface $filter, $key );
+	public function aggregate( \Aimeos\MW\Criteria\Iface $filter, $key )
+	{
+		return $this->getController()->aggregate( $filter, $key );
+	}
 
 
 	/**
@@ -83,9 +126,27 @@ interface Iface
 	 * @param integer $size Number of products that should be returned
 	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2017.03
+	 * @since 2015.08
 	 */
-	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' );
+	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
+	{
+		return $this->getController()->createFilter( $sort, $direction, $start, $size, $listtype );
+	}
+
+
+	/**
+	 * Returns the products from the index filtered by the given criteria object.
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
+	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @param integer &$total Parameter where the total number of found products will be stored in
+	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
+	 * @since 2015.08
+	 */
+	public function getItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
+	{
+		return $this->getController()->getItems( $filter, $domains, $total );
+	}
 
 
 	/**
@@ -100,19 +161,10 @@ interface Iface
 	 * @param string $type Type of the text like "name", "short", "long", etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 */
-	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' );
-
-
-	/**
-	 * Returns the products from the index filtered by the given criteria object.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
-	 * @param integer &$total Parameter where the total number of found products will be stored in
-	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
-	 * @since 2017.03
-	 */
-	public function getItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null );
+	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' )
+	{
+		return $this->getController()->createTextFilter( $input, $sort, $direction, $start, $size, $listtype, $type );
+	}
 
 
 	/**
@@ -121,5 +173,30 @@ interface Iface
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
 	 * @return array Associative list of the product ID as key and the product text as value
 	 */
-	public function getTextList( \Aimeos\MW\Criteria\Iface $filter );
+	public function getTextList( \Aimeos\MW\Criteria\Iface $filter )
+	{
+		return $this->getController()->getTextList( $filter );
+	}
+
+
+	/**
+	 * Returns the context item
+	 *
+	 * @return \Aimeos\MShop\Context\Item\Iface Context item object
+	 */
+	protected function getContext()
+	{
+		return $this->context;
+	}
+
+
+	/**
+	 * Returns the frontend controller
+	 *
+	 * @return \Aimeos\Controller\Frontend\Common\Iface Frontend controller object
+	 */
+	protected function getController()
+	{
+		return $this->controller;
+	}
 }

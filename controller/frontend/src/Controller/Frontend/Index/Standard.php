@@ -80,6 +80,9 @@ class Standard
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
 	 * @param string|array $catId Selected category by the user
 	 * @param integer $level Constant for current category only, categories of next level (LEVEL_LIST) or whole subtree (LEVEL_SUBTREE)
+	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
+	 * @param string $direction Sort direction of the product list ("+", "-")
+	 * @param string $listtype List type of the product associated to the category, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
@@ -125,11 +128,13 @@ class Standard
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
 	 * @param string $input Search string entered by the user
+	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
+	 * @param string $direction Sort direction of the product list ("+", "-")
 	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $listtype = 'default' )
+	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' )
 	{
 		$langid = $this->getContext()->getLocale()->getLanguageId();
 		$cmpfunc = $filter->createFunction( 'index.text.relevance', array( $listtype, $langid, $input ) );

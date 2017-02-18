@@ -182,7 +182,7 @@ class Standard
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
 
 		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
-		$filter = $cntl->addFilterText( $filter, $input, $listtype );
+		$filter = $cntl->addFilterText( $filter, $input, $sort, $direction, $listtype );
 
 		return $filter;
 	}

@@ -89,18 +89,14 @@ interface Iface
 
 
 	/**
-	 * Returns text filter for the given search string.
+	 * Returns the product for the given product ID from the index
 	 *
-	 * @param string $input Search string entered by the user
-	 * @param string|null $sort Sortation of the product list like "name" and "relevance", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
-	 * @param integer $start Position in the list of found products where to begin retrieving the items
-	 * @param integer $size Number of products that should be returned
-	 * @param string $listtype List type of the text associated to the product, usually "default"
-	 * @param string $type Type of the text like "name", "short", "long", etc.
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @param string $productId Unique product ID
+	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
+	 * @since 2017.03
 	 */
-	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' );
+	public function getItem( $productId, array $domains = array( 'attribute', 'media', 'price', 'product', 'product/property', 'text' ) );
 
 
 	/**
@@ -112,14 +108,5 @@ interface Iface
 	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2017.03
 	 */
-	public function getItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null );
-
-
-	/**
-	 * Returns an list of product text strings matched by the filter.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @return array Associative list of the product ID as key and the product text as value
-	 */
-	public function getTextList( \Aimeos\MW\Criteria\Iface $filter );
+	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null );
 }

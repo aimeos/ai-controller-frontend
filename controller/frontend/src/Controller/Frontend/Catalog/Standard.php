@@ -234,7 +234,7 @@ class Standard
 	public function getIndexItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
 	{
 		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
-		return $cntl->getItems( $filter, $domains, $total );
+		return $cntl->searchItems( $filter, $domains, $total );
 	}
 
 
@@ -249,12 +249,41 @@ class Standard
 	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @param string $type Type of the text like "name", "short", "long", etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @deprecated Use method in index controller instead
+	 * @deprecated Use createFilter() method in index controller instead
 	 */
 	public function createTextFilter( $input, $sort = null, $direction = '+', $start = 0, $size = 25, $listtype = 'default', $type = 'name' )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
-		return $cntl->createTextFilter( $input, $sort, $direction, $start, $size, $listtype, $type );
+		$locale = $this->getContext()->getLocale();
+		$langid = $locale->getLanguageId();
+
+		$search = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index/text' )->createSearch( true );
+
+		$expr = array(
+			$search->compare( '>', $search->createFunction( 'index.text.relevance', array( $listtype, $langid, $input ) ), 0 ),
+			$search->compare( '>', $search->createFunction( 'index.text.value', array( $listtype, $langid, $type, 'product' ) ), '' ),
+		);
+
+		$sortations = array();
+
+		switch( $sort )
+		{
+			case 'name':
+				$cmpfunc = $search->createFunction( 'index.text.value', array( $listtype, $langid, 'name', 'product' ) );
+				$expr[] = $search->compare( '>=', $cmpfunc, '' );
+
+				$sortfunc = $search->createFunction( 'sort:index.text.value', array( $listtype, $langid, 'name' ) );
+				$sortations[] = $search->sort( $direction, $sortfunc );
+				break;
+
+			case 'relevance':
+				// we don't need to sort by 'sort:index.text.relevance' because it's a boolean match (relevance is either 0 or 1)
+		}
+
+		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setSortations( $sortations );
+		$search->setSlice( $start, $size );
+
+		return $search;
 	}
 
 
@@ -263,10 +292,10 @@ class Standard
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
 	 * @return array Associative list of the product ID as key and the product text as value
-	 * @deprecated Use method in index controller instead
+	 * @deprecated Use searchItems() method in index controller to retrieve product items instead
 	 */
 	public function getTextList( \Aimeos\MW\Criteria\Iface $filter )
 	{
-		return \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' )->getTextList( $filter );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index/text' )->searchTexts( $filter );
 	}
 }

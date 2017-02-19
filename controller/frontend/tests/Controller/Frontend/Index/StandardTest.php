@@ -218,7 +218,24 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testGetItemsCategory()
+	public function testGetItem()
+	{
+		$context = \TestHelperFrontend::getContext();
+		$id = \Aimeos\MShop\Factory::createManager( $context, 'product' )->findItem( 'CNC' )->getId();
+
+		$result = $this->object->getItem( $id );
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Product\Item\Iface', $result );
+		$this->assertGreaterThan( 0, $result->getPropertyItems() );
+		$this->assertGreaterThan( 0, $result->getRefItems( 'attribute' ) );
+		$this->assertGreaterThan( 0, $result->getRefItems( 'media' ) );
+		$this->assertGreaterThan( 0, $result->getRefItems( 'price' ) );
+		$this->assertGreaterThan( 0, $result->getRefItems( 'product' ) );
+		$this->assertGreaterThan( 0, $result->getRefItems( 'text' ) );
+	}
+
+
+	public function testSearchItemsCategory()
 	{
 		$catalogManager = \Aimeos\MShop\Catalog\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
 		$search = $catalogManager->createSearch();
@@ -235,43 +252,22 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$filter = $this->object->addFilterCategory( $filter, $item->getId() );
 
 		$total = 0;
-		$results = $this->object->getItems( $filter, array(), $total );
+		$results = $this->object->searchItems( $filter, array(), $total );
 
 		$this->assertEquals( 3, $total );
 		$this->assertEquals( 1, count( $results ) );
 	}
 
 
-	public function testGetItemsText()
+	public function testSearchItemsText()
 	{
 		$filter = $this->object->createFilter( 'relevance', '+', 0, 1, 'unittype13' );
 		$filter = $this->object->addFilterText( $filter, 'Expresso', 'relevance', '+', 'unittype13' );
 
 		$total = 0;
-		$results = $this->object->getItems( $filter, array(), $total );
+		$results = $this->object->searchItems( $filter, array(), $total );
 
 		$this->assertEquals( 2, $total );
 		$this->assertEquals( 1, count( $results ) );
 	}
-
-
-	public function testCreateTextFilter()
-	{
-		$filter = $this->object->createTextFilter( 'Expresso', 'name', '+', 0, 1 );
-
-		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Expression\\Combine\\Iface', $filter->getConditions() );
-		$this->assertEquals( 3, count( $filter->getConditions()->getExpressions() ) );
-	}
-
-
-	public function testGetTextListName()
-	{
-		$filter = $this->object->createTextFilter( 'Cafe Noire', 'relevance', '-', 0, 25, 'unittype19', 'name' );
-		$results = $this->object->getTextList( $filter );
-
-		$this->assertEquals( 1, count( $results ) );
-		$this->assertContains( 'Cafe Noire Cappuccino', $results );
-	}
-
 }

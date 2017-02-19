@@ -100,6 +100,17 @@ interface Iface
 
 
 	/**
+	 * Returns the product for the given product ID from the index
+	 *
+	 * @param string[] $productIds List of unique product ID
+	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @return \Aimeos\MShop\Product\Item\Iface[] Associative list of product IDs as keys and product items as values
+	 * @since 2017.03
+	 */
+	public function getItems( array $productIds, array $domains = array( 'media', 'price', 'text' ) );
+
+
+	/**
 	 * Returns the products from the index filtered by the given criteria object.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions

@@ -235,6 +235,30 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testGetItems()
+	{
+		$context = \TestHelperFrontend::getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+
+		$search = $manager->createSearch();
+		$search->setConditions( $search->compare( '==', 'product.code', array( 'CNC', 'CNE' ) ) );
+
+		$ids = array();
+		foreach( $manager->searchItems( $search ) as $productItem ) {
+			$ids[] = $productItem->getId();
+		}
+
+
+		$result = $this->object->getItems( $ids );
+
+		$this->assertEquals( 2, count( $result ) );
+
+		foreach( $result as $productItem ) {
+			$this->assertInstanceOf( '\Aimeos\MShop\Product\Item\Iface', $productItem );
+		}
+	}
+
+
 	public function testSearchItemsCategory()
 	{
 		$catalogManager = \Aimeos\MShop\Catalog\Manager\Factory::createManager( \TestHelperFrontend::getContext() );

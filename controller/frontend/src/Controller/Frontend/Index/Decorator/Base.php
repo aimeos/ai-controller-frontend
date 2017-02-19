@@ -149,6 +149,20 @@ abstract class Base
 
 
 	/**
+	 * Returns the product for the given product ID from the index
+	 *
+	 * @param string[] $productIds List of unique product ID
+	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @return \Aimeos\MShop\Product\Item\Iface[] Associative list of product IDs as keys and product items as values
+	 * @since 2017.03
+	 */
+	public function getItems( array $productIds, array $domains = array( 'media', 'price', 'text' ) )
+	{
+		return $this->getController()->getItems( $productIds, $domains );
+	}
+
+
+	/**
 	 * Returns the products from the index filtered by the given criteria object.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
@@ -157,7 +171,7 @@ abstract class Base
 	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2015.08
 	 */
-	public function getItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
+	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
 	{
 		return $this->getController()->searchItems( $filter, $domains, $total );
 	}

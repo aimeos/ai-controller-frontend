@@ -88,20 +88,12 @@ class Standard
 	 * @return string[] List of product items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @throws \Aimeos\Controller\Frontend\Catalog\Exception If product isn't available
 	 * @since 2015.08
+	 * @deprecated Use getItems() method in index controller instead
 	 */
 	public function getProductItems( array $ids, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
-
-		$search = $manager->createSearch( true );
-		$expr = array(
-			$search->compare( '==', 'product.id', $ids ),
-			$search->getConditions(),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSlice( 0, count( $ids ) );
-
-		return $manager->searchItems( $search, $domains );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		return $cntl->getItems( $ids, $domains );
 	}
 
 

@@ -72,6 +72,7 @@ interface Iface
 	 * @param array $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @return array List of product items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2015.08
+	 * @deprecated Use getItems() method in index controller instead
 	 */
 	public function getProductItems( array $ids, array $domains = array( 'media', 'price', 'text' ) );
 
@@ -87,6 +88,7 @@ interface Iface
 	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @param string $type Type of the text like "name", "short", "long", etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @deprecated Use createFilter() method in index controller instead
 	 */
 	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' );
 
@@ -96,6 +98,7 @@ interface Iface
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
 	 * @return array Associative list of the product ID as key and the product text as value
+	 * @deprecated Use searchItems() method in index controller to retrieve product items instead
 	 */
 	public function getTextList( \Aimeos\MW\Criteria\Iface $filter );
 }

@@ -35,19 +35,6 @@ abstract class Base
 
 
 	/**
-	 * Catches unknown methods
-	 *
-	 * @param string $name Name of the method
-	 * @param array $param List of method parameter
-	 * @return boolean Returns always false
-	 */
-	public function __call( $name, array $param )
-	{
-		throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Unable to call method "%1$s::%2$s"', get_class( $this ), $name ) );
-	}
-
-
-	/**
 	 * Returns the context object.
 	 *
 	 * @return \Aimeos\MShop\Context\Item\Iface context object implementing \Aimeos\MShop\Context\Item\Iface

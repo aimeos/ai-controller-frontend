@@ -27,7 +27,7 @@ class Factory
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param string|null $name Name of the controller implementaton (default: "Standard")
-	 * @return \Aimeos\Controller\Frontend\Iface Controller object
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Controller object
 	 */
 	public static function createController( \Aimeos\MShop\Context\Item\Iface $context, $name = null )
 	{

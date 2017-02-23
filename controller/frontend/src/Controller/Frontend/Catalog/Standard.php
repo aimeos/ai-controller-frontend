@@ -92,7 +92,7 @@ class Standard
 	 */
 	public function getProductItems( array $ids, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 		return $cntl->getItems( $ids, $domains );
 	}
 
@@ -108,7 +108,7 @@ class Standard
 	 */
 	public function aggregateIndex( \Aimeos\MW\Criteria\Iface $filter, $key )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 		return $cntl->aggregate( $filter, $key );
 	}
 
@@ -127,7 +127,7 @@ class Standard
 	 */
 	public function createIndexFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 		return $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
 	}
 
@@ -147,7 +147,7 @@ class Standard
 	 */
 	public function createIndexFilterCategory( $catid, $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 
 		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
 		$filter = $cntl->addFilterCategory( $filter, $catid, \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort, $direction, $listtype );
@@ -171,7 +171,7 @@ class Standard
 	 */
 	public function createIndexFilterText( $input, $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 
 		$filter = $cntl->createFilter( $sort, $direction, $start, $size, $listtype );
 		$filter = $cntl->addFilterText( $filter, $input, $sort, $direction, $listtype );
@@ -191,7 +191,7 @@ class Standard
 	 */
 	public function addIndexFilterCategory( \Aimeos\MW\Criteria\Iface $search, $catid )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 		return $cntl->addFilterCategory( $search, $catid );
 	}
 
@@ -208,7 +208,7 @@ class Standard
 	 */
 	public function addIndexFilterText( \Aimeos\MW\Criteria\Iface $search, $input, $listtype = 'default' )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 		return $cntl->addFilterText( $search, $input, $listtype );
 	}
 
@@ -225,7 +225,7 @@ class Standard
 	 */
 	public function getIndexItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
 	{
-		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'index' );
+		$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'product' );
 		return $cntl->searchItems( $filter, $domains, $total );
 	}
 

@@ -8,11 +8,11 @@
  */
 
 
-namespace Aimeos\Controller\Frontend\Index;
+namespace Aimeos\Controller\Frontend\Product;
 
 
 /**
- * Default implementation of the index frontend controller.
+ * Default implementation of the product frontend controller.
  *
  * @package Controller
  * @subpackage Frontend
@@ -159,7 +159,7 @@ class Standard
 
 
 	/**
-	 * Returns the default index filter.
+	 * Returns the default product filter.
 	 *
 	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
 	 * @param string $direction Sort direction of the product list ("+", "-")
@@ -215,7 +215,7 @@ class Standard
 
 
 	/**
-	 * Returns the product for the given product ID from the index
+	 * Returns the product for the given product ID from the product
 	 *
 	 * @param string $productId Unique product ID
 	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
@@ -229,7 +229,7 @@ class Standard
 
 
 	/**
-	 * Returns the product for the given product ID from the index
+	 * Returns the product for the given product ID from the product
 	 *
 	 * @param string[] $productIds List of unique product ID
 	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
@@ -253,7 +253,7 @@ class Standard
 
 
 	/**
-	 * Returns the products from the index filtered by the given criteria object.
+	 * Returns the products from the product filtered by the given criteria object.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
 	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too

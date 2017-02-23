@@ -6,19 +6,19 @@
  */
 
 
-namespace Aimeos\Controller\Frontend\Index;
+namespace Aimeos\Controller\Frontend\Product;
 
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
 	public function testCreateController()
 	{
-		$target = '\\Aimeos\\Controller\\Frontend\\Index\\Iface';
+		$target = '\\Aimeos\\Controller\\Frontend\\Product\\Iface';
 
-		$controller = \Aimeos\Controller\Frontend\Index\Factory::createController( \TestHelperFrontend::getContext() );
+		$controller = \Aimeos\Controller\Frontend\Product\Factory::createController( \TestHelperFrontend::getContext() );
 		$this->assertInstanceOf( $target, $controller );
 
-		$controller = \Aimeos\Controller\Frontend\Index\Factory::createController( \TestHelperFrontend::getContext(), 'Standard' );
+		$controller = \Aimeos\Controller\Frontend\Product\Factory::createController( \TestHelperFrontend::getContext(), 'Standard' );
 		$this->assertInstanceOf( $target, $controller );
 	}
 
@@ -26,20 +26,20 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 	public function testCreateControllerInvalidImplementation()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend\Index\Factory::createController( \TestHelperFrontend::getContext(), 'Invalid' );
+		\Aimeos\Controller\Frontend\Product\Factory::createController( \TestHelperFrontend::getContext(), 'Invalid' );
 	}
 
 
 	public function testCreateControllerInvalidName()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend\Index\Factory::createController( \TestHelperFrontend::getContext(), '%^' );
+		\Aimeos\Controller\Frontend\Product\Factory::createController( \TestHelperFrontend::getContext(), '%^' );
 	}
 
 
 	public function testCreateControllerNotExisting()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend\Index\Factory::createController( \TestHelperFrontend::getContext(), 'notexist' );
+		\Aimeos\Controller\Frontend\Product\Factory::createController( \TestHelperFrontend::getContext(), 'notexist' );
 	}
 }

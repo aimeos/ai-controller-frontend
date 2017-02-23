@@ -6,7 +6,7 @@
  */
 
 
-namespace Aimeos\Controller\Frontend\Index;
+namespace Aimeos\Controller\Frontend\Product;
 
 
 class StandardTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->object = new \Aimeos\Controller\Frontend\Index\Standard( \TestHelperFrontend::getContext() );
+		$this->object = new \Aimeos\Controller\Frontend\Product\Standard( \TestHelperFrontend::getContext() );
 	}
 
 
@@ -269,7 +269,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$items = $catalogManager->searchItems( $search );
 
 		if( ( $item = reset( $items ) ) === false ) {
-			throw new \RuntimeException( 'Index item not found' );
+			throw new \RuntimeException( 'Product item not found' );
 		}
 
 		$filter = $this->object->createFilter( 'position', '+', 1, 1 );

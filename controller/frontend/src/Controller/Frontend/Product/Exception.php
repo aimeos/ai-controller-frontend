@@ -8,11 +8,11 @@
  */
 
 
-namespace Aimeos\Controller\Frontend\Index;
+namespace Aimeos\Controller\Frontend\Product;
 
 
 /**
- * Exception for index frontend controller classes
+ * Exception for product frontend controller classes
  *
  * @package Controller
  * @subpackage Frontend

@@ -128,7 +128,7 @@ abstract class Base
 	/**
 	 * Returns the frontend controller
 	 *
-	 * @return \Aimeos\Controller\Frontend\Common\Iface Frontend controller object
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Frontend controller object
 	 */
 	protected function getController()
 	{

@@ -47,7 +47,7 @@ abstract class Base
 	 */
 	public function __call( $name, array $param )
 	{
-		return call_user_func_array( array( $this->controller, $name ), $param );
+		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
 
 

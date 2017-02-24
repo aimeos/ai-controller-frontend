@@ -34,9 +34,9 @@ interface Iface
 	 *
 	 * @param boolean True to add default criteria, e.g. status > 0
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object for filtering
-	 * @since 2015.08
+	 * @since 2017.03
 	 */
-	public function createCatalogFilter( $default = true );
+	public function createFilter( $default = true );
 
 
 	/**
@@ -45,9 +45,9 @@ interface Iface
 	 * @param integer $id Category ID to start from, null for root node
 	 * @param string[] $domains Domain names of items that are associated with the categories and that should be fetched too
 	 * @return array Associative list of items implementing \Aimeos\MShop\Catalog\Item\Iface with their IDs as keys
-	 * @since 2015.08
+	 * @since 2017.03
 	 */
-	public function getCatalogPath( $id, array $domains = array( 'text', 'media' ) );
+	public function getPath( $id, array $domains = array( 'text', 'media' ) );
 
 
 	/**
@@ -59,46 +59,8 @@ interface Iface
 	 * 	specific node only, LEVEL_LIST for node and all direct child nodes, LEVEL_TREE for the whole tree
 	 * @param \Aimeos\MW\Criteria\Iface|null $search Optional criteria object with conditions
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog node, maybe with children depending on the level constant
-	 * @since 2015.08
+	 * @since 2017.03
 	 */
-	public function getCatalogTree( $id = null, array $domains = array( 'text', 'media' ),
+	public function getTree( $id = null, array $domains = array( 'text', 'media' ),
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE, \Aimeos\MW\Criteria\Iface $search = null );
-
-
-	/**
-	 * Returns the product item for the given ID if it's available
-	 *
-	 * @param array $ids List of product IDs
-	 * @param array $domains Domain names of items that are associated with the products and that should be fetched too
-	 * @return array List of product items implementing \Aimeos\MShop\Product\Item\Iface
-	 * @since 2015.08
-	 * @deprecated Use getItems() method in index controller instead
-	 */
-	public function getProductItems( array $ids, array $domains = array( 'media', 'price', 'text' ) );
-
-
-	/**
-	 * Returns text filter for the given search string.
-	 *
-	 * @param string $input Search string entered by the user
-	 * @param string|null $sort Sortation of the product list like "name" and "relevance", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
-	 * @param integer $start Position in the list of found products where to begin retrieving the items
-	 * @param integer $size Number of products that should be returned
-	 * @param string $listtype List type of the text associated to the product, usually "default"
-	 * @param string $type Type of the text like "name", "short", "long", etc.
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @deprecated Use createFilter() method in index controller instead
-	 */
-	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' );
-
-
-	/**
-	 * Returns an list of product text strings matched by the filter.
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @return array Associative list of the product ID as key and the product text as value
-	 * @deprecated Use searchItems() method in index controller to retrieve product items instead
-	 */
-	public function getTextList( \Aimeos\MW\Criteria\Iface $filter );
 }

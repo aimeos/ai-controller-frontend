@@ -38,13 +38,12 @@ class Standard
 	/**
 	 * Returns the default catalog filter
 	 *
-	 * @param boolean True to add default criteria, e.g. status > 0
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object for filtering
 	 * @since 2017.03
 	 */
-	public function createFilter( $default = true )
+	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog' )->createSearch( $default );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog' )->createSearch( true );
 	}
 
 
@@ -90,7 +89,7 @@ class Standard
 	 */
 	public function createCatalogFilter( $default = true )
 	{
-		return $this->createFilter( $default );
+		return $this->createFilter();
 	}
 
 

@@ -32,11 +32,10 @@ interface Iface
 	/**
 	 * Returns the default catalog filter
 	 *
-	 * @param boolean True to add default criteria, e.g. status > 0
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object for filtering
 	 * @since 2017.03
 	 */
-	public function createFilter( $default = true );
+	public function createFilter();
 
 
 	/**

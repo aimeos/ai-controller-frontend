@@ -103,7 +103,6 @@ abstract class Base
 	 * Returns the stock item for the given stock ID
 	 *
 	 * @param string $id Unique stock ID
-	 * @param string[] $domains Domain names of items that are associated with the stocks and that should be fetched too
 	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item including the referenced domains items
 	 * @since 2017.03
 	 */

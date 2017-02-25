@@ -75,7 +75,7 @@ interface Iface
 
 
 	/**
-	 * Returns the default index filter.
+	 * Returns the default product filter.
 	 *
 	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
 	 * @param string $direction Sort direction of the product list ("+", "-")

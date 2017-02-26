@@ -36,6 +36,35 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testConstructException()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Iface' )->getMock();
+
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Exception' );
+
+		$this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Decorator\Base' )
+			->setConstructorArgs( [$stub, $this->context] )
+			->getMockForAbstractClass();
+	}
+
+
+	public function testCall()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Standard' )
+			->disableOriginalConstructor()
+			->setMethods( ['invalid'] )
+			->getMock();
+
+		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Decorator\Base' )
+			->setConstructorArgs( [$stub, $this->context] )
+			->getMockForAbstractClass();
+
+		$stub->expects( $this->once() )->method( 'invalid' )->will( $this->returnValue( true ) );
+
+		$this->assertTrue( $object->invalid() );
+	}
+
+
 	public function testAddFilterCodes()
 	{
 		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'stock' )->createSearch();
@@ -91,11 +120,11 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testGetContext()
+	public function testGetController()
 	{
-		$result = $this->access( 'getContext' )->invokeArgs( $this->object, [] );
+		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Context\Item\Iface', $result );
+		$this->assertSame( $this->stub, $result );
 	}
 
 

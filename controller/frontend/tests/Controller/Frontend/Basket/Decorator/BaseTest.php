@@ -11,27 +11,57 @@ namespace Aimeos\Controller\Frontend\Basket\Decorator;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
+	private $context;
 	private $object;
 	private $stub;
 
 
 	protected function setUp()
 	{
-		$context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::getContext();
 
 		$this->stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$this->object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Decorator\Base' )
-			->setConstructorArgs( [$this->stub, $context] )
+			->setConstructorArgs( [$this->stub, $this->context] )
 			->getMockForAbstractClass();
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object, $this->stub );
+		unset( $this->context, $this->object, $this->stub );
+	}
+
+
+	public function testConstructException()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Iface' )->getMock();
+
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Exception' );
+
+		$this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Decorator\Base' )
+			->setConstructorArgs( [$stub, $this->context] )
+			->getMockForAbstractClass();
+	}
+
+
+	public function testCall()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+			->disableOriginalConstructor()
+			->setMethods( ['invalid'] )
+			->getMock();
+
+		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Decorator\Base' )
+			->setConstructorArgs( [$stub, $this->context] )
+			->getMockForAbstractClass();
+
+		$stub->expects( $this->once() )->method( 'invalid' )->will( $this->returnValue( true ) );
+
+		$this->assertTrue( $object->invalid() );
 	}
 
 
@@ -124,14 +154,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );
 
 		$this->assertSame( $this->stub, $result );
-	}
-
-
-	public function testGetContext()
-	{
-		$result = $this->access( 'getContext' )->invokeArgs( $this->object, [] );
-
-		$this->assertInstanceOf( '\Aimeos\MShop\Context\Item\Iface', $result );
 	}
 
 

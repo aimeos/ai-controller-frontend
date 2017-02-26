@@ -36,6 +36,35 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testConstructException()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Iface' )->getMock();
+
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Exception' );
+
+		$this->getMockBuilder( '\Aimeos\Controller\Frontend\Order\Decorator\Base' )
+			->setConstructorArgs( [$stub, $this->context] )
+			->getMockForAbstractClass();
+	}
+
+
+	public function testCall()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Order\Standard' )
+			->disableOriginalConstructor()
+			->setMethods( ['invalid'] )
+			->getMock();
+
+		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Order\Decorator\Base' )
+			->setConstructorArgs( [$stub, $this->context] )
+			->getMockForAbstractClass();
+
+		$stub->expects( $this->once() )->method( 'invalid' )->will( $this->returnValue( true ) );
+
+		$this->assertTrue( $object->invalid() );
+	}
+
+
 	public function testStore()
 	{
 		$orderItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
@@ -83,14 +112,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );
 
 		$this->assertSame( $this->stub, $result );
-	}
-
-
-	public function testGetContext()
-	{
-		$result = $this->access( 'getContext' )->invokeArgs( $this->object, [] );
-
-		$this->assertInstanceOf( '\Aimeos\MShop\Context\Item\Iface', $result );
 	}
 
 

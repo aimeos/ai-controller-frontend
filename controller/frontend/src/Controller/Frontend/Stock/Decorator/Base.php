@@ -18,9 +18,9 @@ namespace Aimeos\Controller\Frontend\Stock\Decorator;
  * @subpackage Frontend
  */
 abstract class Base
+	extends \Aimeos\Controller\Frontend\Base
 	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
-	private $context;
 	private $controller;
 
 
@@ -39,8 +39,9 @@ abstract class Base
 			throw new \Aimeos\Controller\Frontend\Exception( $msg );
 		}
 
-		$this->context = $context;
 		$this->controller = $controller;
+
+		parent::__construct( $context );
 	}
 
 
@@ -123,17 +124,6 @@ abstract class Base
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
 	{
 		return $this->controller->searchItems( $filter, $total );
-	}
-
-
-	/**
-	 * Returns the context item
-	 *
-	 * @return \Aimeos\MShop\Context\Item\Iface Context item object
-	 */
-	protected function getContext()
-	{
-		return $this->context;
 	}
 
 

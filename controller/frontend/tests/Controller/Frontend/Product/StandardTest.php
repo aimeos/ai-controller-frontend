@@ -96,8 +96,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddFilterCategory()
 	{
+		$context = \TestHelperFrontend::getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'catalog' );
+
+		$catId = $manager->findItem( 'root' )->getId();
+		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
+
 		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterCategory( $filter, 0 );
+		$filter = $this->object->addFilterCategory( $filter, $catId, $level );
 
 		$list = $filter->getConditions()->getExpressions();
 
@@ -106,7 +112,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		}
 
 		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
-		$this->assertEquals( array( 0 ), $list[0]->getValue() );
+		$this->assertEquals( 3, count( $list[0]->getValue() ) );
 		$this->assertEquals( array(), $filter->getSortations() );
 	}
 

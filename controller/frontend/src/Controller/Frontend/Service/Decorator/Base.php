@@ -69,7 +69,7 @@ abstract class Base
 	public function getServices( $type, \Aimeos\MShop\Order\Item\Base\Iface $basket,
 		$ref = array( 'media', 'price', 'text' ) )
 	{
-		return $this->getController()->getServices( $type, $basket, $ref );
+		return $this->controller->getServices( $type, $basket, $ref );
 	}
 
 
@@ -84,7 +84,7 @@ abstract class Base
 	 */
 	public function getServiceAttributes( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
-		return $this->getController()->getServiceAttributes( $type, $serviceId, $basket );
+		return $this->controller->getServiceAttributes( $type, $serviceId, $basket );
 	}
 
 
@@ -101,7 +101,7 @@ abstract class Base
 	 */
 	public function getServicePrice( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
-		return $this->getController()->getServicePrice( $type, $serviceId, $basket );
+		return $this->controller->getServicePrice( $type, $serviceId, $basket );
 	}
 
 
@@ -117,7 +117,7 @@ abstract class Base
 	 */
 	public function checkServiceAttributes( $type, $serviceId, array $attributes )
 	{
-		return $this->getController()->checkServiceAttributes( $type, $serviceId, $attributes );
+		return $this->controller->checkServiceAttributes( $type, $serviceId, $attributes );
 	}
 
 

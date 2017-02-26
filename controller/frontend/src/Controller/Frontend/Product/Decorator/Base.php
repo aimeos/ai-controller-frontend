@@ -70,7 +70,7 @@ abstract class Base
 	 */
 	public function addFilterAttribute( \Aimeos\MW\Criteria\Iface $filter, array $attrIds, array $optIds, array $oneIds )
 	{
-		return $this->getController()->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
+		return $this->controller->addFilterAttribute( $filter, $attrIds, $optIds, $oneIds );
 	}
 
 
@@ -89,7 +89,7 @@ abstract class Base
 	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' )
 	{
-		return $this->getController()->addFilterCategory( $search, $catid, $level, $sort, $direction, $listtype );
+		return $this->controller->addFilterCategory( $filter, $catId, $level, $sort, $direction, $listtype );
 	}
 
 
@@ -106,7 +106,7 @@ abstract class Base
 	 */
 	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' )
 	{
-		return $this->getController()->addProductFilterText( $search, $input, $sort, $direction, $listtype );
+		return $this->controller->addFilterText( $filter, $input, $sort, $direction, $listtype );
 	}
 
 
@@ -120,7 +120,7 @@ abstract class Base
 	 */
 	public function aggregate( \Aimeos\MW\Criteria\Iface $filter, $key )
 	{
-		return $this->getController()->aggregate( $filter, $key );
+		return $this->controller->aggregate( $filter, $key );
 	}
 
 
@@ -137,7 +137,7 @@ abstract class Base
 	 */
 	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		return $this->getController()->createFilter( $sort, $direction, $start, $size, $listtype );
+		return $this->controller->createFilter( $sort, $direction, $start, $size, $listtype );
 	}
 
 
@@ -151,7 +151,7 @@ abstract class Base
 	 */
 	public function getItem( $productId, array $domains = array( 'attribute', 'media', 'price', 'product', 'product/property', 'text' ) )
 	{
-		return $this->getController()->getItem( $productId, $domains );
+		return $this->controller->getItem( $productId, $domains );
 	}
 
 
@@ -165,7 +165,7 @@ abstract class Base
 	 */
 	public function getItems( array $productIds, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		return $this->getController()->getItems( $productIds, $domains );
+		return $this->controller->getItems( $productIds, $domains );
 	}
 
 
@@ -180,7 +180,7 @@ abstract class Base
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
 	{
-		return $this->getController()->searchItems( $filter, $domains, $total );
+		return $this->controller->searchItems( $filter, $domains, $total );
 	}
 
 

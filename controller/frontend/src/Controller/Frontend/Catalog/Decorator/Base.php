@@ -66,7 +66,7 @@ abstract class Base
 	 */
 	public function createManager( $name )
 	{
-		return $this->getController()->createManager( $name );
+		return $this->controller->createManager( $name );
 	}
 
 
@@ -79,7 +79,7 @@ abstract class Base
 	 */
 	public function createFilter()
 	{
-		return $this->getController()->createFilter();
+		return $this->controller->createFilter();
 	}
 
 
@@ -94,7 +94,7 @@ abstract class Base
 	 */
 	public function getPath( $id, array $domains = array( 'text', 'media' ) )
 	{
-		return $this->getController()->getPath( $id, $domains );
+		return $this->controller->getPath( $id, $domains );
 	}
 
 
@@ -112,7 +112,7 @@ abstract class Base
 	public function getTree( $id = null, array $domains = array( 'text', 'media' ),
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE, \Aimeos\MW\Criteria\Iface $search = null )
 	{
-		return $this->getController()->getTree( $id, $domains, $level, $search );
+		return $this->controller->getTree( $id, $domains, $level, $search );
 	}
 
 
@@ -126,7 +126,7 @@ abstract class Base
 	 */
 	public function createCatalogFilter( $default = true )
 	{
-		return $this->getController()->createCatalogFilter( $default );
+		return $this->controller->createCatalogFilter( $default );
 	}
 
 
@@ -142,7 +142,7 @@ abstract class Base
 	 */
 	public function getCatalogPath( $id, array $domains = array( 'text', 'media' ) )
 	{
-		return $this->getController()->getCatalogPath( $id, $domains );
+		return $this->controller->getCatalogPath( $id, $domains );
 	}
 
 
@@ -161,7 +161,7 @@ abstract class Base
 	public function getCatalogTree( $id = null, array $domains = array( 'text', 'media' ),
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE, \Aimeos\MW\Criteria\Iface $search = null )
 	{
-		return $this->getController()->getCatalogTree( $id, $domains, $level, $search );
+		return $this->controller->getCatalogTree( $id, $domains, $level, $search );
 	}
 
 
@@ -176,7 +176,7 @@ abstract class Base
 	 */
 	public function aggregateIndex( \Aimeos\MW\Criteria\Iface $filter, $key )
 	{
-		return $this->getController()->aggregateIndex( $filter, $key );
+		return $this->controller->aggregateIndex( $filter, $key );
 	}
 
 
@@ -191,7 +191,7 @@ abstract class Base
 	 */
 	public function addIndexFilterCategory( \Aimeos\MW\Criteria\Iface $search, $catid )
 	{
-		return $this->getController()->addIndexFilterCategory( $search, $catid );
+		return $this->controller->addIndexFilterCategory( $search, $catid );
 	}
 
 
@@ -207,7 +207,7 @@ abstract class Base
 	 */
 	public function addIndexFilterText( \Aimeos\MW\Criteria\Iface $search, $input, $listtype = 'default' )
 	{
-		return $this->getController()->addIndexFilterText( $search, $input, $listtype );
+		return $this->controller->addIndexFilterText( $search, $input, $listtype );
 	}
 
 
@@ -225,7 +225,7 @@ abstract class Base
 	 */
 	public function createIndexFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		return $this->getController()->createIndexFilter( $sort, $direction, $start, $size, $listtype );
+		return $this->controller->createIndexFilter( $sort, $direction, $start, $size, $listtype );
 	}
 
 
@@ -244,7 +244,7 @@ abstract class Base
 	 */
 	public function createIndexFilterCategory( $catid, $sort = 'position', $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		return $this->getController()->createIndexFilter( $catid, $sort, $direction, $start, $size, $listtype );
+		return $this->controller->createIndexFilterCategory( $catid, $sort, $direction, $start, $size, $listtype );
 	}
 
 
@@ -263,7 +263,7 @@ abstract class Base
 	 */
 	public function createIndexFilterText( $input, $sort = 'relevance', $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		return $this->getController()->createIndexFilter( $input, $sort, $direction, $start, $size, $listtype );
+		return $this->controller->createIndexFilterText( $input, $sort, $direction, $start, $size, $listtype );
 	}
 
 
@@ -279,7 +279,7 @@ abstract class Base
 	 */
 	public function getIndexItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
 	{
-		return $this->getController()->getIndexItems( $filter, $domains, $total );
+		return $this->controller->getIndexItems( $filter, $domains, $total );
 	}
 
 
@@ -294,7 +294,7 @@ abstract class Base
 	 */
 	public function getProductItems( array $ids, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		return $this->getController()->getProductItems( $ids, $domains );
+		return $this->controller->getProductItems( $ids, $domains );
 	}
 
 
@@ -313,7 +313,7 @@ abstract class Base
 	 */
 	public function createTextFilter( $input, $sort = null, $direction = '-', $start = 0, $size = 25, $listtype = 'default', $type = 'name' )
 	{
-		return $this->getController()->createTextFilter( $input, $sort, $direction, $start, $size, $listtype, $type );
+		return $this->controller->createTextFilter( $input, $sort, $direction, $start, $size, $listtype, $type );
 	}
 
 
@@ -326,7 +326,7 @@ abstract class Base
 	 */
 	public function getTextList( \Aimeos\MW\Criteria\Iface $filter )
 	{
-		return $this->getController()->getTextList( $filter );
+		return $this->controller->getTextList( $filter );
 	}
 
 

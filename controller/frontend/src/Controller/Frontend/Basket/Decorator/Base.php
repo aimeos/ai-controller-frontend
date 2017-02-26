@@ -65,7 +65,7 @@ abstract class Base
 	 */
 	public function clear()
 	{
-		$this->getController()->clear();
+		$this->controller->clear();
 	}
 
 
@@ -76,7 +76,7 @@ abstract class Base
 	 */
 	public function get()
 	{
-		return $this->getController()->get();
+		return $this->controller->get();
 	}
 
 
@@ -85,7 +85,7 @@ abstract class Base
 	 */
 	public function save()
 	{
-		$this->getController()->save();
+		$this->controller->save();
 	}
 
 
@@ -114,7 +114,7 @@ abstract class Base
 		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
 		$stocktype = 'default' )
 	{
-		$this->getController()->addProduct(
+		$this->controller->addProduct(
 			$prodid, $quantity, $options, $variantAttributeIds, $configAttributeIds,
 			$hiddenAttributeIds, $customAttributeValues, $stocktype
 		);
@@ -129,7 +129,7 @@ abstract class Base
 	 */
 	public function deleteProduct( $position )
 	{
-		$this->getController()->deleteProduct( $position );
+		$this->controller->deleteProduct( $position );
 	}
 
 
@@ -144,7 +144,7 @@ abstract class Base
 	 */
 	public function editProduct( $position, $quantity, array $options = array(), array $configAttributeCodes = array() )
 	{
-		$this->getController()->editProduct( $position, $quantity, $options, $configAttributeCodes );
+		$this->controller->editProduct( $position, $quantity, $options, $configAttributeCodes );
 	}
 
 
@@ -157,7 +157,7 @@ abstract class Base
 	 */
 	public function addCoupon( $code )
 	{
-		$this->getController()->addCoupon( $code );
+		$this->controller->addCoupon( $code );
 	}
 
 
@@ -170,7 +170,7 @@ abstract class Base
 	 */
 	public function deleteCoupon( $code )
 	{
-		$this->getController()->deleteCoupon( $code );
+		$this->controller->deleteCoupon( $code );
 	}
 
 
@@ -185,7 +185,7 @@ abstract class Base
 	 */
 	public function setAddress( $type, $value )
 	{
-		$this->getController()->setAddress( $type, $value );
+		$this->controller->setAddress( $type, $value );
 	}
 
 
@@ -201,7 +201,7 @@ abstract class Base
 	 */
 	public function setService( $type, $id, array $attributes = array() )
 	{
-		$this->getController()->setService( $type, $id, $attributes );
+		$this->controller->setService( $type, $id, $attributes );
 	}
 
 

@@ -19,7 +19,7 @@ namespace Aimeos\Controller\Frontend\Basket\Decorator;
  */
 abstract class Base
 	extends \Aimeos\Controller\Frontend\Basket\Base
-	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
+	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface, \Aimeos\Controller\Frontend\Basket\Iface
 {
 	private $controller;
 

@@ -19,7 +19,7 @@ namespace Aimeos\Controller\Frontend\Catalog\Decorator;
  */
 abstract class Base
 	extends \Aimeos\Controller\Frontend\Base
-	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
+	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface, \Aimeos\Controller\Frontend\Catalog\Iface
 {
 	private $controller;
 

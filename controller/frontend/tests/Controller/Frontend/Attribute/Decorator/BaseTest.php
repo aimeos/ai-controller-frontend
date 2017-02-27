@@ -98,6 +98,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testGetItems()
+	{
+		$this->stub->expects( $this->once() )->method( 'getItems' )
+			->will( $this->returnValue( [] ) );
+
+		$this->assertEquals( [], $this->object->getItems( [-1], ['media'] ) );
+	}
+
+
 	public function testSearchItems()
 	{
 		$filter = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' )->createSearch();

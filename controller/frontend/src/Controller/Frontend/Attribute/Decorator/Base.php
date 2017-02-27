@@ -101,6 +101,20 @@ abstract class Base
 
 
 	/**
+	 * Returns the attribute items for the given attribute IDs
+	 *
+	 * @param string $ids Unique attribute IDs
+	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
+	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Associative list of attribute item including the referenced domains items
+	 * @since 2017.03
+	 */
+	public function getItems( array $ids, array $domains = array( 'media', 'price', 'text' ) )
+	{
+		return $this->controller->getItems( $ids, $domains );
+	}
+
+
+	/**
 	 * Returns the attributes filtered by the given criteria object
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions

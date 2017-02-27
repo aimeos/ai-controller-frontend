@@ -66,6 +66,25 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testGetItems()
+	{
+		$context = \TestHelperFrontend::getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'attribute' );
+		$id = $manager->findItem( 'xs', [], 'product', 'size' )->getId();
+
+		$result = $this->object->getItems( [$id], ['text'] );
+
+		$this->assertInternalType( 'array', $result );
+		$this->assertEquals( 1, count( $result ) );
+
+		foreach( $result as $attrItem )
+		{
+			$this->assertInstanceOf( '\Aimeos\MShop\Attribute\Item\Iface', $attrItem );
+			$this->assertEquals( 3, count( $attrItem->getRefItems( 'text' ) ) );
+		}
+	}
+
+
 	public function testSearchItems()
 	{
 		$filter = $this->object->createFilter();

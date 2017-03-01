@@ -3,16 +3,13 @@
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2013
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 
 namespace Aimeos\Controller\Frontend;
 
 
-/**
- * Test class for \Aimeos\Controller\Frontend\Factory.
- */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
 	public function testCreateController()
@@ -25,7 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 	public function testCreateControllerEmpty()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend\Factory::createController( \TestHelperFrontend::getContext(), "\t\n" );
+		\Aimeos\Controller\Frontend\Factory::createController( \TestHelperFrontend::getContext(), '' );
 	}
 
 

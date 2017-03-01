@@ -46,6 +46,18 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testAddProductNoSelection()
+	{
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
+
+		$this->object->addProduct( $item->getId(), 1 );
+
+		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
+		$this->assertEquals( 'CNC', $this->object->get()->getProduct( 0 )->getProductCode() );
+		$this->assertEquals( 0, count( $this->object->get()->getProduct( 0 )->getProducts() ) );
+	}
+
+
 	public function testAddProductVariant()
 	{
 		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );

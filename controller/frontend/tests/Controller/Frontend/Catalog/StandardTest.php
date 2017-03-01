@@ -337,6 +337,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testGetProductItems()
+	{
+		$list = $this->object->getProductItems( [-1] );
+		$this->assertEquals( 0, count( $list ) );
+	}
+
+
 	public function testCreateTextFilter()
 	{
 		$filter = $this->object->createTextFilter( 'Expresso', 'name', '+', 0, 1 );

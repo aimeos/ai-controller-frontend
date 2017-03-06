@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-16 23:34+0200\n"
-"PO-Revision-Date: 2016-06-07 09:37+0000\n"
+"POT-Creation-Date: 2017-01-03 12:08+0100\n"
+"PO-Revision-Date: 2016-12-02 09:52+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: Serbian (http://www.transifex.com/aimeos/aimeos-core/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgid "No item for \"%1$s\" (%2$s) found"
 msgstr ""
 
 #, php-format
-msgid "No stock for product ID \"%1$s\" and warehouse \"%2$s\" available"
+msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
 msgstr ""
 
 #, php-format

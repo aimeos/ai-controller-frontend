@@ -93,6 +93,30 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testSetType()
+	{
+		$this->stub->expects( $this->once() )->method( 'setType' );
+
+		$this->object->setType( 'test' );
+	}
+
+
+	public function testStore()
+	{
+		$this->stub->expects( $this->once() )->method( 'store' );
+
+		$this->object->store();
+	}
+
+
+	public function testLoad()
+	{
+		$this->stub->expects( $this->once() )->method( 'load' );
+
+		$this->object->load( -1 );
+	}
+
+
 	public function testAddProduct()
 	{
 		$this->stub->expects( $this->once() )->method( 'addProduct' );

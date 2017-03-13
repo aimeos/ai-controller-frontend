@@ -13,24 +13,105 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 {
 	private $object;
 	private $context;
-	private $testItem;
+	private static $testItem;
+
+
+	public static function setUpBeforeClass()
+	{
+		$context = \TestHelperFrontend::getContext();
+		self::$testItem = \Aimeos\MShop\Factory::createManager( $context, 'product' )->findItem( 'U:TESTP' );
+	}
 
 
 	protected function setUp()
 	{
-		$this->context = \TestHelperFrontend::getContext();
-		$this->testItem = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
+		\Aimeos\MShop\Factory::setCache( true );
 
+		$this->context = \TestHelperFrontend::getContext();
 		$this->object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 	}
 
 
 	protected function tearDown()
 	{
+		\Aimeos\MShop\Factory::setCache( false );
+		\Aimeos\MShop\Factory::clear();
+
 		$this->object->clear();
 		$this->context->getSession()->set( 'aimeos', array() );
 
-		unset( $this->object, $this->testItem );
+		unset( $this->context, $this->object );
+	}
+
+
+	public function testClear()
+	{
+		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->clear();
+
+		$this->assertEquals( 0, count( $this->object->get()->getProducts() ) );
+	}
+
+
+	public function testGet()
+	{
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Iface', $this->object->get() );
+	}
+
+
+	public function testSave()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\MShop\Order\Manager\Base\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['setSession'] )
+			->getMock();
+
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'order/base', $stub );
+
+		$stub->expects( $this->exactly( 2 ) )->method( 'setSession' );
+
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+		$object->addProduct( self::$testItem->getId(), 2 );
+		$object->save();
+	}
+
+
+	public function testSetType()
+	{
+		$this->assertInstanceOf( '\Aimeos\Controller\Frontend\Basket\Iface', $this->object->setType( 'test' ) );
+	}
+
+
+	public function testStore()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\MShop\Order\Manager\Base\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['store'] )
+			->getMock();
+
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'order/base', $stub );
+
+		$stub->expects( $this->once() )->method( 'store' );
+
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+		$object->store();
+	}
+
+
+	public function testLoad()
+	{
+		$stub = $this->getMockBuilder( '\Aimeos\MShop\Order\Manager\Base\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['load'] )
+			->getMock();
+
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'order/base', $stub );
+
+		$stub->expects( $this->once() )->method( 'load' )
+			->will( $this->returnValue( $stub->createItem() ) );
+
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+		$object->load( -1 );
 	}
 
 
@@ -67,7 +148,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$attrValues = array( $attrItem->getId() => '2000-01-01' );
 
-		$this->object->addProduct( $this->testItem->getId(), 1, array(), array(), array(), array(), $attrValues );
+		$this->object->addProduct( self::$testItem->getId(), 1, array(), array(), array(), array(), $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
@@ -96,14 +177,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$configAttrIds = array_keys( $attribute );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( $this->testItem->getId(), 1, array(), array(), $configAttrIds, $hiddenAttrIds );
+		$this->object->addProduct( self::$testItem->getId(), 1, array(), array(), $configAttrIds, $hiddenAttrIds );
 	}
 
 
 	public function testAddProductNegativeQuantityException()
 	{
 		$this->setExpectedException( '\\Aimeos\\MShop\\Order\\Exception' );
-		$this->object->addProduct( $this->testItem->getId(), -1 );
+		$this->object->addProduct( self::$testItem->getId(), -1 );
 	}
 
 
@@ -119,7 +200,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testAddProductConfigAttributeException()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( $this->testItem->getId(), 1, array(), array(), array( -1 ) );
+		$this->object->addProduct( self::$testItem->getId(), 1, array(), array(), array( -1 ) );
 	}
 
 
@@ -145,7 +226,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testDeleteProductFlagError()
 	{
-		$this->object->addProduct( $this->testItem->getId(), 2 );
+		$this->object->addProduct( self::$testItem->getId(), 2 );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
@@ -157,7 +238,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testEditProduct()
 	{
-		$this->object->addProduct( $this->testItem->getId(), 1 );
+		$this->object->addProduct( self::$testItem->getId(), 1 );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 1, $item->getQuantity() );
@@ -217,7 +298,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testEditProductFlagError()
 	{
-		$this->object->addProduct( $this->testItem->getId(), 2 );
+		$this->object->addProduct( self::$testItem->getId(), 2 );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
@@ -229,7 +310,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testAddCoupon()
 	{
-		$this->object->addProduct( $this->testItem->getId(), 2 );
+		$this->object->addProduct( self::$testItem->getId(), 2 );
 		$this->object->addCoupon( 'GHIJ' );
 
 		$basket = $this->object->get();
@@ -254,22 +335,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testDeleteCoupon()
 	{
-		$this->object->addProduct( $this->testItem->getId(), 2 );
+		$this->object->addProduct( self::$testItem->getId(), 2 );
 		$this->object->addCoupon( '90AB' );
 		$this->object->deleteCoupon( '90AB' );
 
 		$basket = $this->object->get();
 
 		$this->assertEquals( 0, count( $basket->getCoupons() ) );
-	}
-
-
-	public function testClear()
-	{
-		$this->object->addProduct( $this->testItem->getId(), 2 );
-		$this->object->clear();
-
-		$this->assertEquals( 0, count( $this->object->get()->getProducts() ) );
 	}
 
 
@@ -429,7 +501,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$payment = $manager->findItem( 'unitpaymentcode', array(), 'service', 'payment' );
 		$delivery = $manager->findItem( 'unitcode', array(), 'service', 'delivery' );
 
-		$this->object->addProduct( $this->testItem->getId(), 2 );
+		$this->object->addProduct( self::$testItem->getId(), 2 );
 		$this->object->addCoupon( 'OPQR' );
 
 		$this->object->setService( 'payment', $payment->getId() );

@@ -31,6 +31,7 @@ class Standard
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object to be stored
 	 * @return \Aimeos\MShop\Order\Item\Iface Order item that belongs to the stored basket
+	 * @deprecated 2017.04 Use store() from basket controller instead
 	 */
 	public function store( \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{

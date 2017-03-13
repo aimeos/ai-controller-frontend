@@ -101,6 +101,36 @@ class Standard
 
 
 	/**
+	 * Creates a new order base object from the current basket
+	 *
+	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including products, addresses and services
+	 */
+	public function store()
+	{
+		$basket = $this->get();
+
+		$this->domainManager->begin();
+		$this->domainManager->store( $basket );
+		$this->domainManager->commit();
+
+		return $basket;
+	}
+
+
+	/**
+	 * Returns the order base object for the given ID
+	 *
+	 * @param string $id Unique ID of the order base object
+	 * @param integer $parts Constants which parts of the order base object should be loaded
+	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including the given parts
+	 */
+	public function load( $id, $parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_ALL )
+	{
+		return $this->domainManager->load( $id, $parts );
+	}
+
+
+	/**
 	 * Adds a categorized product to the basket of the user stored in the session.
 	 *
 	 * @param string $prodid ID of the base product to add

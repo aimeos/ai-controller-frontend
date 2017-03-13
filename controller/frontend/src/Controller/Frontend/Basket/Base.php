@@ -231,14 +231,14 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				}
 
 				$this->addProduct(
-						$product->getProductId(),
-						$product->getQuantity(),
-						array(),
-						$this->getValue( $attrIds, 'variant', array() ),
-						$this->getValue( $attrIds, 'config', array() ),
-						$this->getValue( $attrIds, 'hidden', array() ),
-						$this->getValue( $attrIds, 'custom', array() ),
-						$product->getStockType()
+					$product->getProductId(),
+					$product->getQuantity(),
+					array(),
+					$this->getValue( $attrIds, 'variant', array() ),
+					$this->getValue( $attrIds, 'config', array() ),
+					$this->getValue( $attrIds, 'hidden', array() ),
+					$this->getValue( $attrIds, 'custom', array() ),
+					$product->getStockType()
 				);
 
 				$basket->deleteProduct( $pos );
@@ -247,9 +247,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			{
 				$code = $product->getProductCode();
 				$logger = $this->getContext()->getLogger();
+				$errors['product'][$pos] = $e->getMessage();
+
 				$str = 'Error migrating product with code "%1$s" in basket to locale "%2$s": %3$s';
 				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
-				$errors['product'][$pos] = $e->getMessage();
 			}
 		}
 
@@ -425,8 +426,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		$search = $manager->createSearch( true );
 		$expr = array(
-				$search->compare( '==', $key, $value ),
-				$search->getConditions(),
+			$search->compare( '==', $key, $value ),
+			$search->getConditions(),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 

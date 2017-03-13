@@ -22,7 +22,8 @@ interface Iface
 {
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
-	 * @return void
+	 *
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
 	 */
 	public function clear();
 
@@ -37,8 +38,37 @@ interface Iface
 
 	/**
 	 * Explicitely persists the basket content
+	 *
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
 	 */
 	public function save();
+
+
+	/**
+	 * Sets the new basket type
+	 *
+	 * @param string $type Basket type
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
+	 */
+	public function setType( $type );
+
+
+	/**
+	 * Creates a new order base object from the current basket
+	 *
+	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including products, addresses and services
+	 */
+	public function store();
+
+
+	/**
+	 * Returns the order base object for the given ID
+	 *
+	 * @param string $id Unique ID of the order base object
+	 * @param integer $parts Constants which parts of the order base object should be loaded
+	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including the given parts
+	 */
+	public function load( $id, $parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_ALL );
 
 
 	/**

@@ -22,8 +22,9 @@ class Standard
 	extends Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $basket;
+	private $baskets = array();
 	private $domainManager;
+	private $type = 'default';
 
 
 	/**
@@ -37,19 +38,20 @@ class Standard
 		parent::__construct( $context );
 
 		$this->domainManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base' );
-		$this->basket = $this->domainManager->getSession();
-
-		$this->checkLocale();
 	}
 
 
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
+	 *
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
 	 */
 	public function clear()
 	{
-		$this->basket = $this->domainManager->createItem();
-		$this->domainManager->setSession( $this->basket );
+		$this->baskets[$this->type] = $this->domainManager->createItem();
+		$this->domainManager->setSession( $this->baskets[$this->type], $this->type );
+
+		return $this;
 	}
 
 
@@ -60,18 +62,41 @@ class Standard
 	 */
 	public function get()
 	{
-		return $this->basket;
+		if( !isset( $this->baskets[$this->type] ) )
+		{
+			$this->baskets[$this->type] = $this->domainManager->getSession( $this->type );
+			$this->checkLocale( $this->type );
+		}
+
+		return $this->baskets[$this->type];
 	}
 
 
 	/**
 	 * Explicitely persists the basket content
+	 *
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
 	 */
 	public function save()
 	{
-		if( $this->basket->isModified() ) {
-			$this->domainManager->setSession( $this->basket );
+		if( isset( $this->baskets[$this->type] ) && $this->baskets[$this->type]->isModified() ) {
+			$this->domainManager->setSession( $this->baskets[$this->type], $this->type );
 		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Sets the new basket type
+	 *
+	 * @param string $type Basket type
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
+	 */
+	public function setType( $type )
+	{
+		$this->type = $type;
+		return $this;
 	}
 
 
@@ -124,9 +149,8 @@ class Standard
 		$orderBaseProductItem->setPrice( $price );
 		$orderBaseProductItem->setAttributes( $attr );
 
-		$this->basket->addProduct( $orderBaseProductItem );
-
-		$this->domainManager->setSession( $this->basket );
+		$this->get()->addProduct( $orderBaseProductItem );
+		$this->save();
 	}
 
 
@@ -137,7 +161,7 @@ class Standard
 	 */
 	public function deleteProduct( $position )
 	{
-		$product = $this->basket->getProduct( $position );
+		$product = $this->get()->getProduct( $position );
 
 		if( $product->getFlags() === \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
@@ -145,8 +169,8 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
-		$this->basket->deleteProduct( $position );
-		$this->domainManager->setSession( $this->basket );
+		$this->get()->deleteProduct( $position );
+		$this->save();
 	}
 
 
@@ -162,7 +186,7 @@ class Standard
 	public function editProduct( $position, $quantity, array $options = array(),
 		array $configAttributeCodes = array() )
 	{
-		$product = $this->basket->getProduct( $position );
+		$product = $this->get()->getProduct( $position );
 
 		if( $product->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
@@ -185,10 +209,10 @@ class Standard
 		$prices = $productItem->getRefItems( 'price', 'default' );
 		$product->setPrice( $this->calcPrice( $product, $prices, $quantity ) );
 
-		$this->basket->deleteProduct( $position );
-		$this->basket->addProduct( $product, $position );
+		$this->get()->deleteProduct( $position );
+		$this->get()->addProduct( $product, $position );
 
-		$this->domainManager->setSession( $this->basket );
+		$this->save();
 	}
 
 
@@ -236,12 +260,12 @@ class Standard
 
 		$provider = $manager->getProvider( $item, $code );
 
-		if( $provider->isAvailable( $this->basket ) !== true ) {
+		if( $provider->isAvailable( $this->get() ) !== true ) {
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Requirements for coupon code "%1$s" aren\'t met', $code ) );
 		}
 
-		$provider->addCoupon( $this->basket );
-		$this->domainManager->setSession( $this->basket );
+		$provider->addCoupon( $this->get() );
+		$this->save();
 	}
 
 
@@ -265,8 +289,8 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Coupon code "%1$s" is invalid', $code ) );
 		}
 
-		$manager->getProvider( $item, $code )->deleteCoupon( $this->basket );
-		$this->domainManager->setSession( $this->basket );
+		$manager->getProvider( $item, $code )->deleteCoupon( $this->get() );
+		$this->save();
 	}
 
 
@@ -286,23 +310,23 @@ class Standard
 		if( $value instanceof \Aimeos\MShop\Common\Item\Address\Iface )
 		{
 			$address->copyFrom( $value );
-			$this->basket->setAddress( $address, $type );
+			$this->get()->setAddress( $address, $type );
 		}
 		else if( is_array( $value ) )
 		{
 			$this->setAddressFromArray( $address, $value );
-			$this->basket->setAddress( $address, $type );
+			$this->get()->setAddress( $address, $type );
 		}
 		else if( $value === null )
 		{
-			$this->basket->deleteAddress( $type );
+			$this->get()->deleteAddress( $type );
 		}
 		else
 		{
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Invalid value for address type "%1$s"', $type ) );
 		}
 
-		$this->domainManager->setSession( $this->basket );
+		$this->save();
 	}
 
 
@@ -343,15 +367,15 @@ class Standard
 		$orderServiceItem = $orderBaseServiceManager->createItem();
 		$orderServiceItem->copyFrom( $serviceItem );
 
-		$price = $provider->calcPrice( $this->basket );
+		$price = $provider->calcPrice( $this->get() );
 		// remove service rebate of original price
 		$price->setRebate( '0.00' );
 		$orderServiceItem->setPrice( $price );
 
 		$provider->setConfigFE( $orderServiceItem, $attributes );
 
-		$this->basket->setService( $orderServiceItem, $type );
-		$this->domainManager->setSession( $this->basket );
+		$this->get()->setService( $orderServiceItem, $type );
+		$this->save();
 	}
 
 

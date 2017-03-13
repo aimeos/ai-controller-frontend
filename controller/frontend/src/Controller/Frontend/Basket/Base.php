@@ -105,8 +105,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 	/**
 	 * Checks for a locale mismatch and migrates the products to the new basket if necessary.
+	 *
+	 * @param string $type Basket type
 	 */
-	protected function checkLocale()
+	protected function checkLocale( $type )
 	{
 		$errors = array();
 		$context = $this->getContext();
@@ -130,14 +132,14 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$context->setLocale( $locale );
 
 			$manager = \Aimeos\MShop\Order\Manager\Factory::createManager( $context )->getSubManager( 'base' );
-			$basket = $manager->getSession();
+			$basket = $manager->getSession( $type );
 
 			$this->copyAddresses( $basket, $errors, $localeKey );
 			$this->copyServices( $basket, $errors );
 			$this->copyProducts( $basket, $errors, $localeKey );
 			$this->copyCoupons( $basket, $errors, $localeKey );
 
-			$manager->setSession( $basket );
+			$manager->setSession( $basket, $type );
 		}
 
 		$session->set( 'aimeos/basket/locale', $localeKey );

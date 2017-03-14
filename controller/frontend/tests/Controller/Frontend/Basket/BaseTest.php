@@ -50,7 +50,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods()
+			->setMethods( null )
 			->getMock();
 
 		$result = $this->access( 'copyAddresses' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
@@ -107,7 +107,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods()
+			->setMethods( null )
 			->getMock();
 
 		$object->addProduct( $product->getId() );
@@ -156,7 +156,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods()
+			->setMethods( null )
 			->getMock();
 
 		$result = $this->access( 'copyProducts' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
@@ -211,7 +211,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods()
+			->setMethods( null )
 			->getMock();
 
 		$result = $this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );

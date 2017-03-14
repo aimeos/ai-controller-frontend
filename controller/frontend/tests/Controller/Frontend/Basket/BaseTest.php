@@ -31,7 +31,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	{
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods()
+			->setMethods( null )
 			->getMock();
 
 		$this->context->getSession()->set( 'aimeos/basket/locale', 'unittest|en|EUR' );

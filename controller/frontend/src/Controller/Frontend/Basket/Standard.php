@@ -122,11 +122,12 @@ class Standard
 	 *
 	 * @param string $id Unique ID of the order base object
 	 * @param integer $parts Constants which parts of the order base object should be loaded
+	 * @param boolean $default True to add default criteria (user logged in), false if not
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including the given parts
 	 */
-	public function load( $id, $parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_ALL )
+	public function load( $id, $parts = \Aimeos\MShop\Order\Manager\Base\Base::PARTS_ALL, $default = true )
 	{
-		return $this->domainManager->load( $id, $parts );
+		return $this->domainManager->load( $id, $parts, false, $default );
 	}
 
 

@@ -108,6 +108,8 @@ class Standard
 	public function store()
 	{
 		$basket = $this->get();
+		$basket->setCustomerId( $this->getContext()->getUserId() );
+		$basket->finish();
 
 		$this->domainManager->begin();
 		$this->domainManager->store( $basket );
@@ -401,9 +403,8 @@ class Standard
 		$orderServiceItem = $orderBaseServiceManager->createItem();
 		$orderServiceItem->copyFrom( $serviceItem );
 
-		$price = $provider->calcPrice( $this->get() );
 		// remove service rebate of original price
-		$price->setRebate( '0.00' );
+		$price = $provider->calcPrice( $this->get() )->setRebate( '0.00' );
 		$orderServiceItem->setPrice( $price );
 
 		$provider->setConfigFE( $orderServiceItem, $attributes );

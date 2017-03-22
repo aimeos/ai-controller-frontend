@@ -150,7 +150,7 @@ interface Iface
 	 * Sets the delivery/payment service item based on the service ID.
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
-	 * @param string $id Unique ID of the service item
+	 * @param string $id|null Unique ID of the service item or null to remove it
 	 * @param array $attributes Associative list of key/value pairs containing the attributes selected or
 	 * 	entered by the customer when choosing one of the delivery or payment options
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached

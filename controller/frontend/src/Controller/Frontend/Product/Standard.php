@@ -224,7 +224,7 @@ class Standard
 	 */
 	public function getItem( $productId, array $domains = array( 'attribute', 'media', 'price', 'product', 'product/property', 'text' ) )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' )->getItem( $productId, $domains );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' )->getItem( $productId, $domains, true );
 	}
 
 

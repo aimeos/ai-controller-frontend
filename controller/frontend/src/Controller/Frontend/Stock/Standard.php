@@ -86,7 +86,7 @@ class Standard
 	 */
 	public function getItem( $id )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' )->getItem( $id );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' )->getItem( $id, [], true );
 	}
 
 

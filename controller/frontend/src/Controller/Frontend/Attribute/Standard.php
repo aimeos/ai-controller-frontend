@@ -77,7 +77,7 @@ class Standard
 	 */
 	public function getItem( $id, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' )->getItem( $id, $domains );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' )->getItem( $id, $domains, true );
 	}
 
 

@@ -55,7 +55,7 @@ class Standard
 	 */
 	public function getItem( $id, array $domains = array() )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->getItem( $id );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->getItem( $id, $domains, true );
 	}
 
 
@@ -70,6 +70,6 @@ class Standard
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array(), &$total = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->searchItems( $filter, [], $total );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->searchItems( $filter, $domains, $total );
 	}
 }

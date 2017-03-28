@@ -47,7 +47,7 @@ class Select
 	{
 		$context = $this->getContext();
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
-		$productItem = $productManager->getItem( $prodid );
+		$productItem = $productManager->getItem( $prodid, [], true );
 
 		if( $productItem->getType() !== 'select' )
 		{
@@ -57,7 +57,7 @@ class Select
 			);
 		}
 
-		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ) );
+		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ), true );
 
 		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem );

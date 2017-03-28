@@ -155,7 +155,7 @@ class Standard
 	{
 		$context = $this->getContext();
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
-		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ) );
+		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ), true );
 
 		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem );

@@ -89,8 +89,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 	public function testDeleteItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->createItem();
-
 		$this->stub->expects( $this->once() )->method( 'deleteItem' );
 
 		$this->object->deleteItem( -1 );
@@ -153,8 +151,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 	public function testDeleteAddressItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/address' )->createItem();
-
 		$this->stub->expects( $this->once() )->method( 'deleteAddressItem' );
 
 		$this->object->deleteAddressItem( -1 );

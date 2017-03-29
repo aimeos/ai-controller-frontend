@@ -147,7 +147,7 @@ class Standard
 	 * Creates and returns a new item object
 	 *
 	 * @param array $values Values added to the newly created customer item like "customer.birthday"
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer address item
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
 	 * @since 2017.04
 	 */
 	public function addAddressItem( array $values )
@@ -203,7 +203,7 @@ class Standard
 	 *
 	 * @param string $id Unique customer address ID
 	 * @param array $values Values added to the customer item like "customer.address.city"
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer address item
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
 	 * @since 2017.04
 	 */
 	public function editAddressItem( $id, array $values )

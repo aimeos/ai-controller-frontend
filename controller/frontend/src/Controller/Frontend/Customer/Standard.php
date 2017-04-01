@@ -106,7 +106,7 @@ class Standard
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
 
-		if( $id === null ) {
+		if( $id == null ) {
 			return $manager->getItem( $this->getContext()->getUserId(), $domains, true );
 		}
 

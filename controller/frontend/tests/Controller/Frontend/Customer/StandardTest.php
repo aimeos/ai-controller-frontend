@@ -64,7 +64,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$id = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $id );
 
-		$result = $this->object->getItem( $id, ['address', 'text'] );
+		$result = $this->object->getItem( $id, ['customer/address', 'text'] );
 
 		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $result );
 		$this->assertEquals( 1, count( $result->getRefItems( 'text' ) ) );

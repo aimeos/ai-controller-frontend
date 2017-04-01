@@ -90,7 +90,7 @@ abstract class Base
 	 *
 	 * @param string $type Service type, e.g. "delivery" (shipping related) or "payment" (payment related)
 	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
-	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
+	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
 	 */
 	public function getProviders( $type, $ref = ['media', 'price', 'text'] )
 	{

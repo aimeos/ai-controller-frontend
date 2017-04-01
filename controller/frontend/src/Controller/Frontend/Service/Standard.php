@@ -58,23 +58,27 @@ class Standard
 	/**
 	 * Returns the service providers of the given type
 	 *
-	 * @param string $type Service type, e.g. "delivery" (shipping related) or "payment" (payment related)
+	 * @param string|null $type Service type, e.g. "delivery" (shipping related), "payment" (payment related) or null for all
 	 * @param string[] $ref List of domain names whose items should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
 	 */
-	public function getProviders( $type, $ref = ['media', 'price', 'text'] )
+	public function getProviders( $type = null, $ref = ['media', 'price', 'text'] )
 	{
 		$list = [];
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
 
 		$search = $manager->createSearch( true );
-		$expr = array(
-			$search->getConditions(),
-			$search->compare( '==', 'service.type.code', $type ),
-			$search->compare( '==', 'service.type.domain', 'service' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSortations( array( $search->sort( '+', 'service.position' ) ) );
+
+		if( $type != null )
+		{
+			$expr = array(
+				$search->getConditions(),
+				$search->compare( '==', 'service.type.code', $type ),
+				$search->compare( '==', 'service.type.domain', 'service' ),
+			);
+			$search->setConditions( $search->combine( '&&', $expr ) );
+		}
 
 		foreach( $manager->searchItems( $search, $ref ) as $id => $item ) {
 			$list[$id] = $manager->getProvider( $item );

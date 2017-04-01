@@ -44,7 +44,7 @@ class Standard
 	/**
 	 * Returns the service item for the given ID
 	 *
-	 * @param string $id Unique service ID
+	 * @param string $serviceId Unique service ID
 	 * @param string[] $ref List of domain names whose items should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */

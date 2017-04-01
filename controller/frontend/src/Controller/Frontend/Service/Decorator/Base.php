@@ -60,13 +60,11 @@ abstract class Base
 
 
 	/**
-	 * Returns a list of attributes that are invalid.
+	 * Returns a list of attributes that are invalid
 	 *
-	 * @param string $serviceId Identifier of the service option chosen by the customer
-	 * @param array $attributes List of key/value pairs with name of the attribute from attribute definition object as
-	 * 	key and the string entered by the customer as value
-	 * @return array List of key/value pairs of attributes keys and an error message for values that are invalid or
-	 * 	missing
+	 * @param string $serviceId Unique service ID
+	 * @param string[] $attributes List of attribute codes as keys and strings entered by the customer as value
+	 * @return string[] List of attributes codes as keys and error messages as values for invalid or missing values
 	 */
 	public function checkAttributes( $serviceId, array $attributes )
 	{
@@ -77,9 +75,9 @@ abstract class Base
 	/**
 	 * Returns the service item for the given ID
 	 *
-	 * @param string $id Unique service ID
+	 * @param string $serviceId Unique service ID
 	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
-	 * @return \Aimeos\MShop\Service\Item\Iface Service item object
+	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
 	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] )
 	{
@@ -88,12 +86,11 @@ abstract class Base
 
 
 	/**
-	 * Returns the service providers for the given
+	 * Returns the service providers for the given type
 	 *
 	 * @param string $type Service type, e.g. "delivery" (shipping related) or "payment" (payment related)
-	 * @param string $serviceId Identifier of one of the service option returned by getService()
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
-	 * @return array List of attribute definitions implementing \Aimeos\MW\Criteria\Attribute\Iface
+	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
+	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
 	public function getProviders( $type, $ref = ['media', 'price', 'text'] )
 	{

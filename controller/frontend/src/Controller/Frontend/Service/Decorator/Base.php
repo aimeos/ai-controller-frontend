@@ -60,12 +60,56 @@ abstract class Base
 
 
 	/**
+	 * Returns a list of attributes that are invalid.
+	 *
+	 * @param string $serviceId Identifier of the service option chosen by the customer
+	 * @param array $attributes List of key/value pairs with name of the attribute from attribute definition object as
+	 * 	key and the string entered by the customer as value
+	 * @return array List of key/value pairs of attributes keys and an error message for values that are invalid or
+	 * 	missing
+	 */
+	public function checkAttributes( $serviceId, array $attributes )
+	{
+		return $this->controller->checkAttributes( $serviceId, $attributes );
+	}
+
+
+	/**
+	 * Returns the service item for the given ID
+	 *
+	 * @param string $id Unique service ID
+	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
+	 * @return \Aimeos\MShop\Service\Item\Iface Service item object
+	 */
+	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] )
+	{
+		return $this->controller->getProvider( $serviceId, $ref );
+	}
+
+
+	/**
+	 * Returns the service providers for the given
+	 *
+	 * @param string $type Service type, e.g. "delivery" (shipping related) or "payment" (payment related)
+	 * @param string $serviceId Identifier of one of the service option returned by getService()
+	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @return array List of attribute definitions implementing \Aimeos\MW\Criteria\Attribute\Iface
+	 */
+	public function getProviders( $type, $ref = ['media', 'price', 'text'] )
+	{
+		return $this->controller->getProviders( $type, $ref );
+	}
+
+
+
+	/**
 	 * Returns the service items that are available for the service type and the content of the basket.
 	 *
 	 * @param string $type Service type, e.g. "delivery" (shipping related) or "payment" (payment related)
 	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket of the user
 	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
 	 * @return array List of service items implementing \Aimeos\MShop\Service\Item\Iface with referenced items
+	 * @deprecated Use getProviders() instead
 	 */
 	public function getServices( $type, \Aimeos\MShop\Order\Item\Base\Iface $basket,
 		$ref = array( 'media', 'price', 'text' ) )
@@ -82,6 +126,7 @@ abstract class Base
 	 * @param string $serviceId Identifier of one of the service option returned by getService()
 	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
 	 * @return array List of attribute definitions implementing \Aimeos\MW\Criteria\Attribute\Iface
+	 * @deprecated Use getProvider() instead
 	 */
 	public function getServiceAttributes( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
@@ -99,6 +144,7 @@ abstract class Base
 	 * @throws \Aimeos\Controller\Frontend\Service\Exception If no active service provider for this ID is available
 	 * @throws \Aimeos\MShop\Exception If service provider isn't available
 	 * @throws \Exception If an error occurs
+	 * @deprecated Use getProvider() instead
 	 */
 	public function getServicePrice( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
@@ -115,6 +161,7 @@ abstract class Base
 	 * 	key and the string entered by the customer as value
 	 * @return array List of key/value pairs of attributes keys and an error message for values that are invalid or
 	 * 	missing
+	 * @deprecated Use checkAttributes() instead
 	 */
 	public function checkServiceAttributes( $type, $serviceId, array $attributes )
 	{

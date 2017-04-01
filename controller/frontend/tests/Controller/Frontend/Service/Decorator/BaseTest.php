@@ -65,6 +65,36 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testGetProvider()
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$provider = $manager->getProvider( $manager->findItem( 'unitcode', [], 'service', 'delivery' ) );
+
+		$this->stub->expects( $this->once() )->method( 'getProvider' )
+			->will( $this->returnValue( $provider ) );
+
+		$this->assertSame( $provider, $this->object->getProvider( -1 ) );
+	}
+
+
+	public function testGetProvideres()
+	{
+		$this->stub->expects( $this->once() )->method( 'getProviders' )
+			->will( $this->returnValue( [] ) );
+
+		$this->assertEquals( [], $this->object->getProviders( 'payment' ) );
+	}
+
+
+	public function testCheckAttributes()
+	{
+		$this->stub->expects( $this->once() )->method( 'checkAttributes' )
+			->will( $this->returnValue( [] ) );
+
+		$this->assertEquals( [], $this->object->checkAttributes( -1, [] ) );
+	}
+
+
 	public function testGetServices()
 	{
 		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();

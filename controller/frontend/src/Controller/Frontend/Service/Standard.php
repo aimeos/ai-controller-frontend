@@ -3,7 +3,7 @@
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2012
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  * @package Controller
  * @subpackage Frontend
  */
@@ -22,8 +22,66 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $items = array();
 	private $providers = array();
+
+
+	/**
+	 * Returns a list of attributes that are invalid
+	 *
+	 * @param string $serviceId Unique service ID
+	 * @param string[] $attributes List of attribute codes as keys and strings entered by the customer as value
+	 * @return string[] List of attributes codes as keys and error messages as values for invalid or missing values
+	 */
+	public function checkAttributes( $serviceId, array $attributes )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$provider = $manager->getProvider( $manager->getItem( $serviceId, [], true ) );
+
+		return array_filter( $provider->checkConfigFE( $attributes ) );
+	}
+
+
+	/**
+	 * Returns the service item for the given ID
+	 *
+	 * @param string $id Unique service ID
+	 * @param string[] $ref List of domain names whose items should be fetched too
+	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
+	 */
+	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		return $manager->getProvider( $manager->getItem( $serviceId, $ref, true ) );
+	}
+
+
+	/**
+	 * Returns the service providers of the given type
+	 *
+	 * @param string $type Service type, e.g. "delivery" (shipping related) or "payment" (payment related)
+	 * @param string[] $ref List of domain names whose items should be fetched too
+	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
+	 */
+	public function getProviders( $type, $ref = ['media', 'price', 'text'] )
+	{
+		$list = [];
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+
+		$search = $manager->createSearch( true );
+		$expr = array(
+			$search->getConditions(),
+			$search->compare( '==', 'service.type.code', $type ),
+			$search->compare( '==', 'service.type.domain', 'service' ),
+		);
+		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setSortations( array( $search->sort( '+', 'service.position' ) ) );
+
+		foreach( $manager->searchItems( $search, $ref ) as $id => $item ) {
+			$list[$id] = $manager->getProvider( $item );
+		}
+
+		return $list;
+	}
 
 
 	/**
@@ -34,14 +92,10 @@ class Standard
 	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
 	 * @return array List of service items implementing \Aimeos\MShop\Service\Item\Iface with referenced items
 	 * @throws \Exception If an error occurs
+	 * @deprecated Use getProviders() instead
 	 */
-	public function getServices( $type, \Aimeos\MShop\Order\Item\Base\Iface $basket,
-		$ref = array( 'media', 'price', 'text' ) )
+	public function getServices( $type, \Aimeos\MShop\Order\Item\Base\Iface $basket, $ref = ['media', 'price', 'text'] )
 	{
-		if( isset( $this->items[$type] ) ) {
-			return $this->items[$type];
-		}
-
 		$serviceManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
 
 		$search = $serviceManager->createSearch( true );
@@ -53,10 +107,10 @@ class Standard
 		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSortations( array( $search->sort( '+', 'service.position' ) ) );
 
-		$this->items[$type] = $serviceManager->searchItems( $search, $ref );
+		$items = $serviceManager->searchItems( $search, $ref );
 
 
-		foreach( $this->items[$type] as $id => $service )
+		foreach( $items as $id => $service )
 		{
 			try
 			{
@@ -65,7 +119,7 @@ class Standard
 				if( $provider->isAvailable( $basket ) ) {
 					$this->providers[$type][$id] = $provider;
 				} else {
-					unset( $this->items[$type][$id] );
+					unset( $items[$id] );
 				}
 			}
 			catch( \Aimeos\MShop\Service\Exception $e )
@@ -75,7 +129,7 @@ class Standard
 			}
 		}
 
-		return $this->items[$type];
+		return $items;
 	}
 
 
@@ -90,6 +144,7 @@ class Standard
 	 * @throws \Aimeos\Controller\Frontend\Service\Exception If no active service provider for this ID is available
 	 * @throws \Aimeos\MShop\Exception If service provider isn't available
 	 * @throws \Exception If an error occurs
+	 * @deprecated Use getProvider() instead
 	 */
 	public function getServiceAttributes( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
@@ -97,8 +152,8 @@ class Standard
 			return $this->providers[$type][$serviceId]->getConfigFE( $basket );
 		}
 
-		$item = $this->getServiceItem( $type, $serviceId );
 		$serviceManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$item = $serviceManager->getItem( $serviceId, ['price'], true );
 
 		return $serviceManager->getProvider( $item )->getConfigFE( $basket );
 	}
@@ -114,6 +169,7 @@ class Standard
 	 * @throws \Aimeos\Controller\Frontend\Service\Exception If no active service provider for this ID is available
 	 * @throws \Aimeos\MShop\Exception If service provider isn't available
 	 * @throws \Exception If an error occurs
+	 * @deprecated Use getProvider() instead
 	 */
 	public function getServicePrice( $type, $serviceId, \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
@@ -121,8 +177,8 @@ class Standard
 			return $this->providers[$type][$serviceId]->calcPrice( $basket );
 		}
 
-		$item = $this->getServiceItem( $type, $serviceId );
 		$serviceManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$item = $serviceManager->getItem( $serviceId, ['price'], true );
 
 		return $serviceManager->getProvider( $item )->calcPrice( $basket );
 	}
@@ -138,48 +194,27 @@ class Standard
 	 * @return array An array with the attribute keys as key and an error message as values for all attributes that are
 	 * 	known by the provider but aren't valid resp. null for attributes whose values are OK
 	 * @throws \Aimeos\Controller\Frontend\Service\Exception If no active service provider for this ID is available
+	 * @deprecated Use checkAttributes() instead
 	 */
 	public function checkServiceAttributes( $type, $serviceId, array $attributes )
 	{
-		if( isset( $this->providers[$type][$serviceId] ) ) {
-			return $this->providers[$type][$serviceId]->checkConfigFE( $attributes );
-		}
-
-		$item = $this->getServiceItem( $type, $serviceId );
-		$serviceManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
-
-		return $serviceManager->getProvider( $item )->checkConfigFE( $attributes );
-	}
-
-
-	/**
-	 * Returns the service item specified by its type and ID.
-	 *
-	 * @param string $type Service type, e.g. "delivery" (shipping related) or "payment" (payment related)
-	 * @param string $serviceId Identifier of the service option chosen by the customer
-	 * @throws \Aimeos\Controller\Frontend\Service\Exception If no active service provider for this ID is available
-	 */
-	protected function getServiceItem( $type, $serviceId )
-	{
-		$serviceManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
-
-		$search = $serviceManager->createSearch( true );
-		$expr = array(
-			$search->getConditions(),
-			$search->compare( '==', 'service.id', $serviceId ),
-			$search->compare( '==', 'service.type.domain', 'service' ),
-			$search->compare( '==', 'service.type.code', $type ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$items = $serviceManager->searchItems( $search, array( 'price' ) );
-
-		if( ( $item = reset( $items ) ) === false )
+		if( !isset( $this->providers[$type][$serviceId] ) )
 		{
-			$msg = sprintf( 'Service item for type "%1$s" and ID "%2$s" not found', $type, $serviceId );
-			throw new \Aimeos\Controller\Frontend\Service\Exception( $msg );
+			$serviceManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+			$item = $serviceManager->getItem( $serviceId, ['price'], true );
+
+			$this->providers[$type][$serviceId] = $serviceManager->getProvider( $item );
 		}
 
-		return $item;
+		$errors = $this->providers[$type][$serviceId]->checkConfigFE( $attributes );
+
+		foreach( $errors as $key => $msg )
+		{
+			if( $msg === null ) {
+				unset( $errors[$key] );
+			}
+		}
+
+		return $errors;
 	}
 }

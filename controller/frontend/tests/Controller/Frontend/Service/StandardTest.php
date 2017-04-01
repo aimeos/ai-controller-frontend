@@ -34,6 +34,31 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testCheckAttributes()
+	{
+		$attributes = $this->object->checkAttributes( $this->getServiceItem()->getId(), [] );
+		$this->assertEquals( [], $attributes );
+	}
+
+
+	public function testGetProviders()
+	{
+		$providers = $this->object->getProviders( 'delivery' );
+		$this->assertGreaterThan( 0, count( $providers ) );
+
+		foreach( $providers as $provider ) {
+			$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Provider\\Iface', $provider );
+		}
+	}
+
+
+	public function testGetProvider()
+	{
+		$provider = $this->object->getProvider( $this->getServiceItem()->getId() );
+		$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Provider\\Iface', $provider );
+	}
+
+
 	public function testGetServices()
 	{
 		$orderManager = \Aimeos\MShop\Order\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
@@ -45,18 +70,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		foreach( $services as $service ) {
 			$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Item\\Iface', $service );
 		}
-	}
-
-
-	public function testGetServicesCache()
-	{
-		$orderManager = \Aimeos\MShop\Order\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$basket = $orderManager->getSubManager( 'base' )->createItem();
-
-		$this->object->getServices( 'delivery', $basket );
-		$services = $this->object->getServices( 'delivery', $basket );
-
-		$this->assertGreaterThan( 0, count( $services ) );
 	}
 
 
@@ -88,7 +101,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetServiceAttributesNoItems()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Service\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\MShop\\Exception' );
 		$this->object->getServiceAttributes( 'invalid', -1, self::$basket );
 	}
 
@@ -129,7 +142,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$orderManager = \Aimeos\MShop\Order\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
 		$basket = $orderManager->getSubManager( 'base' )->createItem();
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Service\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\MShop\\Exception' );
 		$this->object->getServicePrice( 'invalid', -1, $basket );
 	}
 
@@ -144,27 +157,11 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 
 	/**
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface
+	 * @return \Aimeos\MShop\Service\Item\Iface
 	 */
 	protected function getServiceItem()
 	{
-		$serviceManager = \Aimeos\MShop\Service\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-
-		$search = $serviceManager->createSearch( true );
-		$expr = array(
-			$search->getConditions(),
-			$search->compare( '==', 'service.provider', 'Standard' ),
-			$search->compare( '==', 'service.type.domain', 'service' ),
-			$search->compare( '==', 'service.type.code', 'delivery' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$services = $serviceManager->searchItems( $search );
-
-		if( ( $service = reset( $services ) ) === false ) {
-			throw new \RuntimeException( 'No service item found' );
-		}
-
-		return $service;
+		$manager = \Aimeos\MShop\Service\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		return $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 	}
 }

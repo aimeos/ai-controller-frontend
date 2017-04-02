@@ -107,9 +107,7 @@ class Standard
 	 */
 	public function store()
 	{
-		$basket = $this->get();
-		$basket->setCustomerId( $this->getContext()->getUserId() );
-		$basket->finish();
+		$basket = $this->get()->finish();
 
 		$this->domainManager->begin();
 		$this->domainManager->store( $basket );

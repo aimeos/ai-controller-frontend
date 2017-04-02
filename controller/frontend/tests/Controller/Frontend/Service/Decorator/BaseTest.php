@@ -65,6 +65,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testCheckAttributes()
+	{
+		$this->stub->expects( $this->once() )->method( 'checkAttributes' )
+			->will( $this->returnValue( [] ) );
+
+		$this->assertEquals( [], $this->object->checkAttributes( -1, [] ) );
+	}
+
+
 	public function testGetProvider()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
@@ -77,7 +86,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testGetProvideres()
+	public function testGetProviders()
 	{
 		$this->stub->expects( $this->once() )->method( 'getProviders' )
 			->will( $this->returnValue( [] ) );
@@ -86,12 +95,27 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testCheckAttributes()
+	public function testProcess()
 	{
-		$this->stub->expects( $this->once() )->method( 'checkAttributes' )
-			->will( $this->returnValue( [] ) );
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
 
-		$this->assertEquals( [], $this->object->checkAttributes( -1, [] ) );
+		$this->stub->expects( $this->once() )->method( 'process' )
+			->will( $this->returnValue( new \Aimeos\MShop\Common\Item\Helper\Form\Standard() ) );
+
+		$this->assertInstanceOf( 'Aimeos\MShop\Common\Item\Helper\Form\Iface', $this->object->process( $item, -1, [], [] ) );
+	}
+
+
+	public function testUpdateSync()
+	{
+		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();
+		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'updateSync' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( 'Aimeos\MShop\Order\Item\Iface', $this->object->updateSync( $request, $response, [] ) );
 	}
 
 

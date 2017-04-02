@@ -149,7 +149,7 @@ class Standard
 				$provider->query( $orderItem );
 			}
 
-			 // update stock, coupons, etc.
+			// update stock, coupons, etc.
 			\Aimeos\Controller\Frontend\Factory::createController( $context, 'order' )->update( $orderItem );
 		}
 

@@ -65,25 +65,43 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testStore()
+	public function testAddItem()
 	{
-		$orderItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
-		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'store' )
-			->will( $this->returnValue( $orderItem ) );
+		$this->stub->expects( $this->once() )->method( 'addItem' )->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->store( $basket ) );
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->addItem( -1, '' ) );
 	}
 
 
-	public function testBlock()
+	public function testCreateFilter()
 	{
-		$orderItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createSearch();
 
-		$this->stub->expects( $this->once() )->method( 'block' );
+		$this->stub->expects( $this->once() )->method( 'createFilter' )->will( $this->returnValue( $search ) );
 
-		$this->object->block( $orderItem );
+		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->createFilter() );
+	}
+
+
+	public function testGetItem()
+	{
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'getItem' )->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->getItem( -1 ) );
+	}
+
+
+	public function testSearchItems()
+	{
+		$search = $this->getMockBuilder( '\Aimeos\MW\Criteria\Iface' )->getMock();
+
+		$this->stub->expects( $this->once() )->method( 'searchItems' )->will( $this->returnValue( [] ) );
+
+		$this->assertEquals( [], $this->object->searchItems( $search ) );
 	}
 
 
@@ -104,6 +122,18 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 		$this->stub->expects( $this->once() )->method( 'update' );
 
 		$this->object->update( $orderItem );
+	}
+
+
+	public function testStore()
+	{
+		$orderItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'store' )
+			->will( $this->returnValue( $orderItem ) );
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->store( $basket ) );
 	}
 
 

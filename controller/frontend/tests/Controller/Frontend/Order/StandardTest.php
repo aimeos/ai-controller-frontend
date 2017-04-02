@@ -1,30 +1,94 @@
 <?php
 
-namespace Aimeos\Controller\Frontend\Order;
-
-
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2014
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
+
+
+namespace Aimeos\Controller\Frontend\Order;
+
+
 class StandardTest extends \PHPUnit_Framework_TestCase
 {
+	private $object;
+	private $context;
+
+
+	protected function setUp()
+	{
+		\Aimeos\MShop\Factory::setCache( true );
+
+		$this->context = \TestHelperFrontend::getContext();
+		$this->object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
+	}
+
+
+	protected function tearDown()
+	{
+		unset( $this->object, $this->context );
+
+		\Aimeos\MShop\Factory::setCache( false );
+		\Aimeos\MShop\Factory::clear();
+	}
+
+
+	public function testAddItem()
+	{
+		$manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['saveItem'] )
+			->getMock();
+
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'order', $manager );
+
+		$manager->expects( $this->once() )->method( 'saveItem' );
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->addItem( -1, 'test' ) );
+	}
+
+
+	public function testCreateFilter()
+	{
+		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->createFilter() );
+	}
+
+
+	public function testGetItem()
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order' );
+		$search = $manager->createSearch()->setSlice( 0, 1 );
+		$result = $manager->searchItems( $search );
+
+		if( ( $item = reset( $result ) ) === false ) {
+			throw new \RuntimeException( 'No order item found' );
+		}
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->getItem( $item->getId() ) );
+	}
+
+
+	public function testSearchItems()
+	{
+		$this->assertGreaterThan( 1, $this->object->searchItems( $this->object->createFilter() ) );
+	}
+
+
 	public function testStore()
 	{
-		$context = \TestHelperFrontend::getContext();
 		$name = 'ControllerFrontendOrderStore';
-		$context->getConfig()->set( 'mshop/order/manager/name', $name );
+		$this->context->getConfig()->set( 'mshop/order/manager/name', $name );
 
 
 		$orderManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
 			->setMethods( array( 'saveItem', 'getSubManager' ) )
-			->setConstructorArgs( array( $context ) )
+			->setConstructorArgs( array( $this->context ) )
 			->getMock();
 
 		$orderBaseManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Base\\Standard' )
 			->setMethods( array( 'store' ) )
-			->setConstructorArgs( array( $context ) )
+			->setConstructorArgs( array( $this->context ) )
 			->getMock();
 
 		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Order\\Manager\\' . $name, $orderManagerStub );
@@ -42,21 +106,19 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$orderManagerStub->expects( $this->once() )->method( 'saveItem' );
 
 
-		$object = new \Aimeos\Controller\Frontend\Order\Standard( $context );
-		$object->store( $orderBaseItem );
+		$this->object->store( $orderBaseItem );
 	}
 
 
 	public function testBlock()
 	{
-		$context = \TestHelperFrontend::getContext();
 		$name = 'ControllerFrontendOrderBlock';
-		$context->getConfig()->set( 'controller/common/order/name', $name );
+		$this->context->getConfig()->set( 'controller/common/order/name', $name );
 
 
 		$orderCntlStub = $this->getMockBuilder( '\\Aimeos\\Controller\\Common\\Order\\Standard' )
 			->setMethods( array( 'block' ) )
-			->setConstructorArgs( array( $context ) )
+			->setConstructorArgs( array( $this->context ) )
 			->getMock();
 
 		\Aimeos\Controller\Common\Order\Factory::injectController( '\\Aimeos\\Controller\\Common\\Order\\' . $name, $orderCntlStub );
@@ -64,21 +126,19 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$orderCntlStub->expects( $this->once() )->method( 'block' );
 
 
-		$object = new \Aimeos\Controller\Frontend\Order\Standard( $context );
-		$object->block( \Aimeos\MShop\Factory::createManager( $context, 'order' )->createItem() );
+		$this->object->block( \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem() );
 	}
 
 
 	public function testUnblock()
 	{
-		$context = \TestHelperFrontend::getContext();
 		$name = 'ControllerFrontendOrderUnblock';
-		$context->getConfig()->set( 'controller/common/order/name', $name );
+		$this->context->getConfig()->set( 'controller/common/order/name', $name );
 
 
 		$orderCntlStub = $this->getMockBuilder( '\\Aimeos\\Controller\\Common\\Order\\Standard' )
 			->setMethods( array( 'unblock' ) )
-			->setConstructorArgs( array( $context ) )
+			->setConstructorArgs( array( $this->context ) )
 			->getMock();
 
 		\Aimeos\Controller\Common\Order\Factory::injectController( '\\Aimeos\\Controller\\Common\\Order\\' . $name, $orderCntlStub );
@@ -86,21 +146,19 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$orderCntlStub->expects( $this->once() )->method( 'unblock' );
 
 
-		$object = new \Aimeos\Controller\Frontend\Order\Standard( $context );
-		$object->unblock( \Aimeos\MShop\Factory::createManager( $context, 'order' )->createItem() );
+		$this->object->unblock( \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem() );
 	}
 
 
 	public function testUpdate()
 	{
-		$context = \TestHelperFrontend::getContext();
 		$name = 'ControllerFrontendOrderUpdate';
-		$context->getConfig()->set( 'controller/common/order/name', $name );
+		$this->context->getConfig()->set( 'controller/common/order/name', $name );
 
 
 		$orderCntlStub = $this->getMockBuilder( '\\Aimeos\\Controller\\Common\\Order\\Standard' )
 			->setMethods( array( 'update' ) )
-			->setConstructorArgs( array( $context ) )
+			->setConstructorArgs( array( $this->context ) )
 			->getMock();
 
 		\Aimeos\Controller\Common\Order\Factory::injectController( '\\Aimeos\\Controller\\Common\\Order\\' . $name, $orderCntlStub );
@@ -108,7 +166,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$orderCntlStub->expects( $this->once() )->method( 'update' );
 
 
-		$object = new \Aimeos\Controller\Frontend\Order\Standard( $context );
-		$object->update( \Aimeos\MShop\Factory::createManager( $context, 'order' )->createItem() );
+		$this->object->update( \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem() );
 	}
 }

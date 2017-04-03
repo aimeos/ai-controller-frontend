@@ -47,7 +47,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' )->createSearch();
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' )->createSearch( true );
 	}
 
 
@@ -59,7 +59,24 @@ class Standard
 	 */
 	public function getItem( $id )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' )->getItem( $id );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+
+		$search = $manager->createSearch( true );
+		$expr = [
+			$search->compare( '==', 'order.id', $id ),
+			$search->compare( '==', 'order.base.customerid', $context->getUserId() ),
+			$search->getConditions(),
+		];
+		$search->setConditions( $search->combine( '&&', $expr ) );
+
+		$items = $manager->searchItems( $search );
+
+		if( ( $item = reset( $items ) ) !== false ) {
+			return $item;
+		}
+
+		throw new \Aimeos\Controller\Frontend\Order\Exception( sprintf( 'No order item for ID "%1$s" found', $id ) );
 	}
 
 
@@ -72,7 +89,16 @@ class Standard
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' )->searchItems( $filter, [], $total );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+
+		$expr = [
+			$filter->getConditions(),
+			$filter->compare( '==', 'order.base.customerid', $context->getUserId() ),
+		];
+		$filter->setConditions( $filter->combine( '&&', $expr ) );
+
+		return $manager->searchItems( $filter, [], $total );
 	}
 
 

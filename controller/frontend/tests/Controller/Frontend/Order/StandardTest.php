@@ -57,6 +57,26 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetItem()
 	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$customerItem = $manager->findItem( 'UTC001' );
+
+		$this->context->setUserId( $customerItem->getId() );
+
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order' );
+		$search = $manager->createSearch()->setSlice( 0, 1 );
+		$search->setConditions( $search->compare( '==', 'order.base.customerid', $customerItem->getId() ) );
+		$result = $manager->searchItems( $search );
+
+		if( ( $item = reset( $result ) ) === false ) {
+			throw new \RuntimeException( 'No order item found' );
+		}
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->getItem( $item->getId() ) );
+	}
+
+
+	public function testGetItemException()
+	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$result = $manager->searchItems( $search );
@@ -65,7 +85,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 			throw new \RuntimeException( 'No order item found' );
 		}
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->getItem( $item->getId() ) );
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Order\Exception' );
+		$this->object->getItem( $item->getId() );
 	}
 
 

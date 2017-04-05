@@ -107,7 +107,7 @@ class Standard
 	 */
 	public function store()
 	{
-		$basket = $this->get()->finish();
+		$basket = $this->get()->finish()->setStatus( 1 );
 
 		$this->domainManager->begin();
 		$this->domainManager->store( $basket );

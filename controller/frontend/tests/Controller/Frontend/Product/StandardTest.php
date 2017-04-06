@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$filter = $this->object->createFilter();
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( array(), $filter->getSortations() );
+		$this->assertEquals( [], $filter->getSortations() );
 		$this->assertEquals( 0, $filter->getSliceStart() );
 		$this->assertEquals( 100, $filter->getSliceSize() );
 	}
@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testAddFilterAttribute()
 	{
 		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterAttribute( $filter, array( 0, 1 ), array(), array() );
+		$filter = $this->object->addFilterAttribute( $filter, array( 0, 1 ), [], [] );
 
 		$list = $filter->getConditions()->getExpressions();
 
@@ -65,7 +65,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testAddFilterAttributeOptions()
 	{
 		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterAttribute( $filter, array(), array( 1 ), array() );
+		$filter = $this->object->addFilterAttribute( $filter, [], array( 1 ), [] );
 
 		$list = $filter->getConditions()->getExpressions();
 
@@ -81,7 +81,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testAddFilterAttributeOne()
 	{
 		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterAttribute( $filter, array(), array(), array( 'test' => array( 2 ) ) );
+		$filter = $this->object->addFilterAttribute( $filter, [], [], array( 'test' => array( 2 ) ) );
 
 		$list = $filter->getConditions()->getExpressions();
 
@@ -113,7 +113,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
 		$this->assertEquals( 3, count( $list[0]->getValue() ) );
-		$this->assertEquals( array(), $filter->getSortations() );
+		$this->assertEquals( [], $filter->getSortations() );
 	}
 
 
@@ -133,7 +133,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 'index.text.relevance("default","de","Espresso")', $list[0]->getName() );
 		$this->assertEquals( 0, $list[0]->getValue() );
 
-		$this->assertEquals( array(), $filter->getSortations() );
+		$this->assertEquals( [], $filter->getSortations() );
 		$this->assertEquals( 0, $filter->getSliceStart() );
 		$this->assertEquals( 100, $filter->getSliceSize() );
 	}
@@ -164,7 +164,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$filter = $this->object->addFilterText( $filter, 'Espresso' );
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( array(), $filter->getSortations() );
+		$this->assertEquals( [], $filter->getSortations() );
 		$this->assertEquals( 1, $filter->getSliceStart() );
 		$this->assertEquals( 2, $filter->getSliceSize() );
 	}
@@ -220,7 +220,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$filter = $this->object->createFilter( '', 'failure' );
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( array(), $filter->getSortations() );
+		$this->assertEquals( [], $filter->getSortations() );
 	}
 
 
@@ -249,7 +249,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'product.code', array( 'CNC', 'CNE' ) ) );
 
-		$ids = array();
+		$ids = [];
 		foreach( $manager->searchItems( $search ) as $productItem ) {
 			$ids[] = $productItem->getId();
 		}
@@ -282,7 +282,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$filter = $this->object->addFilterCategory( $filter, $item->getId() );
 
 		$total = 0;
-		$results = $this->object->searchItems( $filter, array(), $total );
+		$results = $this->object->searchItems( $filter, [], $total );
 
 		$this->assertEquals( 3, $total );
 		$this->assertEquals( 1, count( $results ) );
@@ -295,7 +295,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$filter = $this->object->addFilterText( $filter, 'Expresso', 'relevance', '+', 'unittype13' );
 
 		$total = 0;
-		$results = $this->object->searchItems( $filter, array(), $total );
+		$results = $this->object->searchItems( $filter, [], $total );
 
 		$this->assertEquals( 2, $total );
 		$this->assertEquals( 1, count( $results ) );

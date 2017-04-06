@@ -59,7 +59,7 @@ class Standard
 
 		foreach( $oneIds as $type => $list )
 		{
-			if( ( $list = $this->validateIds( (array) $list ) ) !== array() )
+			if( ( $list = $this->validateIds( (array) $list ) ) !== [] )
 			{
 				$func = $filter->createFunction( 'index.attributeaggregate', array( $list ) );
 				$expr = array(
@@ -93,12 +93,12 @@ class Standard
 
 		if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 		{
-			$list = array();
+			$list = [];
 			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'catalog' );
 
 			foreach( $catIds as $catId )
 			{
-				$tree = $cntl->getCatalogTree( $catId, array(), $level );
+				$tree = $cntl->getCatalogTree( $catId, [], $level );
 				$list = array_merge( $list, $this->getCatalogIdsFromTree( $tree ) );
 			}
 
@@ -171,7 +171,7 @@ class Standard
 	 */
 	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
 	{
-		$sortations = array();
+		$sortations = [];
 		$context = $this->getContext();
 
 		$search = \Aimeos\MShop\Factory::createManager( $context, 'index' )->createSearch( true );
@@ -293,7 +293,7 @@ class Standard
 	 */
 	protected function validateIds( array $ids )
 	{
-		$list = array();
+		$list = [];
 
 		foreach( $ids as $id )
 		{

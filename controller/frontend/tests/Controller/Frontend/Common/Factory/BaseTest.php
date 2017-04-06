@@ -20,9 +20,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 		$this->context = \TestHelperFrontend::getContext();
 		$config = $this->context->getConfig();
 
-		$config->set( 'controller/frontend/common/decorators/default', array() );
-		$config->set( 'controller/frontend/catalog/decorators/global', array() );
-		$config->set( 'controller/frontend/catalog/decorators/local', array() );
+		$config->set( 'controller/frontend/common/decorators/default', [] );
+		$config->set( 'controller/frontend/catalog/decorators/global', [] );
+		$config->set( 'controller/frontend/catalog/decorators/local', [] );
 
 	}
 

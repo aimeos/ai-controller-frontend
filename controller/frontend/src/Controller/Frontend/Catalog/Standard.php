@@ -302,7 +302,7 @@ class Standard
 			$search->compare( '>', $search->createFunction( 'index.text.value', array( $listtype, $langid, $type, 'product' ) ), '' ),
 		);
 
-		$sortations = array();
+		$sortations = [];
 
 		switch( $sort )
 		{

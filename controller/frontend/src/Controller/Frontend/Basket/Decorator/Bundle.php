@@ -41,8 +41,8 @@ class Bundle
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = array(), array $variantAttributeIds = array(),
-		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
+	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
 		$stocktype = 'default' )
 	{
 		$context = $this->getContext();
@@ -97,7 +97,7 @@ class Bundle
 		\Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds, $stocktype )
 	{
 		$quantity = $orderBaseProductItem->getQuantity();
-		$products = $subProductIds = $orderProducts = array();
+		$products = $subProductIds = $orderProducts = [];
 		$orderProductManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product' );
 
 		foreach( $productItem->getRefItems( 'product', null, 'default' ) as $item ) {

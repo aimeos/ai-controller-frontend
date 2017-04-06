@@ -53,7 +53,7 @@ class Standard
 	 * @return \Aimeos\MShop\Locale\Item\Iface Locale item including the referenced domains items
 	 * @since 2017.03
 	 */
-	public function getItem( $id, array $domains = array() )
+	public function getItem( $id, array $domains = [] )
 	{
 		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->getItem( $id, $domains, true );
 	}
@@ -68,7 +68,7 @@ class Standard
 	 * @return array Ordered list of locale items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2017.03
 	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array(), &$total = null )
+	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = [], &$total = null )
 	{
 		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->searchItems( $filter, $domains, $total );
 	}

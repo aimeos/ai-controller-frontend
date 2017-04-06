@@ -25,7 +25,7 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $providers = array();
+	private $providers = [];
 
 
 	/**

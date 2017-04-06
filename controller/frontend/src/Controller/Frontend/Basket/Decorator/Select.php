@@ -41,8 +41,8 @@ class Select
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = array(), array $variantAttributeIds = array(),
-		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
+	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
 		$stocktype = 'default' )
 	{
 		$context = $this->getContext();
@@ -100,7 +100,7 @@ class Select
 	protected function getVariantDetails( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
 		\Aimeos\MShop\Product\Item\Iface &$productItem, array &$prices, array $variantAttributeIds, array $options )
 	{
-		$attr = array();
+		$attr = [];
 		$productItems = $this->getProductVariants( $productItem, $variantAttributeIds );
 
 		if( count( $productItems ) > 1 )

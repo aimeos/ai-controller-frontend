@@ -26,7 +26,7 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 	protected function tearDown()
 	{
 		$this->object->clear();
-		$this->context->getSession()->set( 'aimeos', array() );
+		$this->context->getSession()->set( 'aimeos', [] );
 
 		unset( $this->object );
 	}

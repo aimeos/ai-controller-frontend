@@ -80,7 +80,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Locale\Item\Iface Locale item including the referenced domains items
 	 * @since 2017.03
 	 */
-	public function getItem( $id, array $domains = array() )
+	public function getItem( $id, array $domains = [] )
 	{
 		return $this->controller->getItem( $id, $domains );
 	}
@@ -95,7 +95,7 @@ abstract class Base
 	 * @return array Ordered list of locale items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2017.03
 	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array(), &$total = null )
+	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = [], &$total = null )
 	{
 		return $this->controller->searchItems( $filter, $domains, $total );
 	}

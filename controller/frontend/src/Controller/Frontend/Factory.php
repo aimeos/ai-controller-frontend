@@ -19,7 +19,7 @@ namespace Aimeos\Controller\Frontend;
 class Factory
 {
 	static private $cache = true;
-	static private $controllers = array();
+	static private $controllers = [];
 
 
 	/**
@@ -37,13 +37,13 @@ class Factory
 			if( $path !== null ) {
 				self::$controllers[$id][$path] = null;
 			} else {
-				self::$controllers[$id] = array();
+				self::$controllers[$id] = [];
 			}
 
 			return;
 		}
 
-		self::$controllers = array();
+		self::$controllers = [];
 	}
 
 

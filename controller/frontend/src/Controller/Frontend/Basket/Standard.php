@@ -22,7 +22,7 @@ class Standard
 	extends Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $baskets = array();
+	private $baskets = [];
 	private $domainManager;
 	private $type = 'default';
 
@@ -147,8 +147,8 @@ class Standard
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = array(), array $variantAttributeIds = array(),
-		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
+	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
 		$stocktype = 'default' )
 	{
 		$context = $this->getContext();
@@ -160,7 +160,7 @@ class Standard
 		$orderBaseProductItem->setQuantity( $quantity );
 		$orderBaseProductItem->setStockType( $stocktype );
 
-		$attr = array();
+		$attr = [];
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 
 		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
@@ -210,8 +210,8 @@ class Standard
 	 * 	The 'stock'=>false option allows adding products without being in stock.
 	 * @param string[] $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 */
-	public function editProduct( $position, $quantity, array $options = array(),
-		array $configAttributeCodes = array() )
+	public function editProduct( $position, $quantity, array $options = [],
+		array $configAttributeCodes = [] )
 	{
 		$product = $this->get()->getProduct( $position );
 
@@ -366,7 +366,7 @@ class Standard
 	 * 	entered by the customer when choosing one of the delivery or payment options
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
 	 */
-	public function setService( $type, $id, array $attributes = array() )
+	public function setService( $type, $id, array $attributes = [] )
 	{
 		if( $id === null )
 		{

@@ -20,7 +20,7 @@ namespace Aimeos\Controller\Frontend\Basket;
  */
 abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 {
-	private $listTypeAttributes = array();
+	private $listTypeAttributes = [];
 
 
 	/**
@@ -95,7 +95,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
-		if( count( $productManager->searchItems( $search, array() ) ) === 0 )
+		if( count( $productManager->searchItems( $search, [] ) ) === 0 )
 		{
 			$msg = sprintf( 'Invalid "%1$s" references for product with ID %2$s', $domain, json_encode( $prodId ) );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
@@ -110,7 +110,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function checkLocale( $type )
 	{
-		$errors = array();
+		$errors = [];
 		$context = $this->getContext();
 		$session = $context->getSession();
 		$locale = $this->get()->getLocale();
@@ -224,7 +224,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 			try
 			{
-				$attrIds = array();
+				$attrIds = [];
 
 				foreach( $product->getAttributes() as $attrItem ) {
 					$attrIds[$attrItem->getType()][] = $attrItem->getAttributeId();
@@ -233,11 +233,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$this->addProduct(
 					$product->getProductId(),
 					$product->getQuantity(),
-					array(),
-					$this->getValue( $attrIds, 'variant', array() ),
-					$this->getValue( $attrIds, 'config', array() ),
-					$this->getValue( $attrIds, 'hidden', array() ),
-					$this->getValue( $attrIds, 'custom', array() ),
+					[],
+					$this->getValue( $attrIds, 'variant', [] ),
+					$this->getValue( $attrIds, 'config', [] ),
+					$this->getValue( $attrIds, 'hidden', [] ),
+					$this->getValue( $attrIds, 'custom', [] ),
 					$product->getStockType()
 				);
 
@@ -271,7 +271,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			try
 			{
-				$attributes = array();
+				$attributes = [];
 
 				foreach( $item->getAttributes() as $attrItem ) {
 					$attributes[$attrItem->getCode()] = $attrItem->getValue();
@@ -299,16 +299,16 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
 	 */
 	protected function createOrderProductAttributes( \Aimeos\MShop\Price\Item\Iface $price, $prodid, $quantity,
-			array $attributeIds, $type, array $attributeValues = array() )
+			array $attributeIds, $type, array $attributeValues = [] )
 	{
 		if( empty( $attributeIds ) ) {
-			return array();
+			return [];
 		}
 
 		$attrTypeId = $this->getProductListTypeItem( 'attribute', $type )->getId();
 		$this->checkReferences( $prodid, 'attribute', $attrTypeId, $attributeIds );
 
-		$list = array();
+		$list = [];
 		$context = $this->getContext();
 
 		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
@@ -348,7 +348,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function getAttributes( array $attributeIds, array $domains = array( 'price', 'text' ) )
 	{
 		if( empty( $attributeIds ) ) {
-			return array();
+			return [];
 		}
 
 		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' );
@@ -385,12 +385,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function getAttributeItems( array $orderAttributes )
 	{
 		if( empty( $orderAttributes ) ) {
-			return array();
+			return [];
 		}
 
 		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' );
 		$search = $attributeManager->createSearch( true );
-		$expr = array();
+		$expr = [];
 
 		foreach( $orderAttributes as $item )
 		{
@@ -490,13 +490,13 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function getProductVariants( \Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds,
 			array $domains = array( 'attribute', 'media', 'price', 'text' ) )
 	{
-		$subProductIds = array();
+		$subProductIds = [];
 		foreach( $productItem->getRefItems( 'product', 'default', 'default' ) as $item ) {
 			$subProductIds[] = $item->getId();
 		}
 
 		if( count( $subProductIds ) === 0 ) {
-			return array();
+			return [];
 		}
 
 		$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );

@@ -89,8 +89,8 @@ interface Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 * @return void
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = array(), array $variantAttributeIds = array(),
-		array $configAttributeIds = array(), array $hiddenAttributeIds = array(), array $customAttributeValues = array(),
+	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
 		$stocktype = 'default' );
 
 
@@ -111,7 +111,7 @@ interface Iface
 	 * @param array $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 * @return void
 	 */
-	public function editProduct( $position, $quantity, array $configAttributeCodes = array() );
+	public function editProduct( $position, $quantity, array $configAttributeCodes = [] );
 
 
 	/**
@@ -156,5 +156,5 @@ interface Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
 	 * @return void
 	 */
-	public function setService( $type, $id, array $attributes = array() );
+	public function setService( $type, $id, array $attributes = [] );
 }

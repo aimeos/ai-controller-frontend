@@ -21,7 +21,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 	protected function tearDown()
 	{
-		$this->context->getSession()->set( 'aimeos', array() );
+		$this->context->getSession()->set( 'aimeos', [] );
 
 		unset( $this->context );
 	}

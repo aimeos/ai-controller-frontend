@@ -38,7 +38,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		\Aimeos\MShop\Factory::clear();
 
 		$this->object->clear();
-		$this->context->getSession()->set( 'aimeos', array() );
+		$this->context->getSession()->set( 'aimeos', [] );
 
 		unset( $this->context, $this->object );
 	}
@@ -120,7 +120,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$basket = $this->object->get();
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
 
-		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'default' );
+		$this->object->addProduct( $item->getId(), 2, [], [], [], [], [], 'default' );
 		$item2 = $this->object->get()->getProduct( 0 );
 		$this->object->deleteProduct( 0 );
 
@@ -148,7 +148,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$attrValues = array( $attrItem->getId() => '2000-01-01' );
 
-		$this->object->addProduct( self::$testItem->getId(), 1, array(), array(), array(), array(), $attrValues );
+		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [], [], $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
@@ -177,7 +177,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$configAttrIds = array_keys( $attribute );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, array(), array(), $configAttrIds, $hiddenAttrIds );
+		$this->object->addProduct( self::$testItem->getId(), 1, [], [], $configAttrIds, $hiddenAttrIds );
 	}
 
 
@@ -200,7 +200,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testAddProductConfigAttributeException()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, array(), array(), array( -1 ) );
+		$this->object->addProduct( self::$testItem->getId(), 1, [], [], array( -1 ) );
 	}
 
 
@@ -217,7 +217,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
 
-		$this->object->addProduct( $item->getId(), 2, array(), array(), array(), array(), array(), 'unit_type3' );
+		$this->object->addProduct( $item->getId(), 2, [], [], [], [], [], 'unit_type3' );
 
 		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
 		$this->assertEquals( 'IJKL', $this->object->get()->getProduct( 0 )->getProductCode() );
@@ -279,7 +279,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
 
-		$this->object->addProduct( $item->getId(), 1, array(), array(), array_keys( $attributes ) );
+		$this->object->addProduct( $item->getId(), 1, [], [], array_keys( $attributes ) );
 		$this->object->editProduct( 0, 4 );
 
 		$item = $this->object->get()->getProduct( 0 );
@@ -287,7 +287,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 4, $item->getQuantity() );
 
 
-		$this->object->editProduct( 0, 3, array(), array( $attribute->getType() ) );
+		$this->object->editProduct( 0, 3, [], array( $attribute->getType() ) );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 3, $item->getQuantity() );
@@ -472,9 +472,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testSetServicePayment()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
-		$service = $manager->findItem( 'unitpaymentcode', array(), 'service', 'payment' );
+		$service = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
 
-		$this->object->setService( 'payment', $service->getId(), array() );
+		$this->object->setService( 'payment', $service->getId(), [] );
 		$this->assertEquals( 'unitpaymentcode', $this->object->get()->getService( 'payment' )->getCode() );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
@@ -485,9 +485,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testSetDeliveryOption()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
-		$service = $manager->findItem( 'unitcode', array(), 'service', 'delivery' );
+		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
-		$this->object->setService( 'delivery', $service->getId(), array() );
+		$this->object->setService( 'delivery', $service->getId(), [] );
 		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery' )->getCode() );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
@@ -498,8 +498,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testCheckLocale()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
-		$payment = $manager->findItem( 'unitpaymentcode', array(), 'service', 'payment' );
-		$delivery = $manager->findItem( 'unitcode', array(), 'service', 'delivery' );
+		$payment = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
+		$delivery = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
 		$this->object->addProduct( self::$testItem->getId(), 2 );
 		$this->object->addCoupon( 'OPQR' );

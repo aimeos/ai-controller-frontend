@@ -214,9 +214,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testCheckServiceAttributes()
 	{
 		$service = $this->getServiceItem();
-		$attributes = $this->object->checkServiceAttributes( 'delivery', $service->getId(), array() );
+		$attributes = $this->object->checkServiceAttributes( 'delivery', $service->getId(), [] );
 
-		$this->assertEquals( array(), $attributes );
+		$this->assertEquals( [], $attributes );
 	}
 
 

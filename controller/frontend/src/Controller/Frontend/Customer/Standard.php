@@ -257,7 +257,7 @@ class Standard
 	 */
 	protected function checkUser( $id )
 	{
-		if( $id !== $this->getContext()->getUserId() )
+		if( $id != $this->getContext()->getUserId() )
 		{
 			$msg = sprintf( 'Not allowed to access customer data for ID "%1$s"', $id );
 			throw new \Aimeos\Controller\Frontend\Customer\Exception( $msg );

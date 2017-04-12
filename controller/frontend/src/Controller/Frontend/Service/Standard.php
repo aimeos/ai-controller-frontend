@@ -124,19 +124,18 @@ class Standard
 	 */
 	public function updateSync( ServerRequestInterface $request, ResponseInterface $response, array $urls )
 	{
-		$queryParams = $request->getQueryParams();
+		$params = (array) $request->getAttributes() + (array) $request->getParsedBody() + (array) $request->getQueryParams();
 
-		if( !isset( $queryParams['code'] ) ) {
+		if( !isset( $params['code'] ) ) {
 			return;
 		}
 
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
 
-		$provider = $manager->getProvider( $manager->findItem( $queryParams['code'] ) );
+		$provider = $manager->getProvider( $manager->findItem( $params['code'] ) );
 		$provider->injectGlobalConfigBE( $urls );
 
-		$params = array_merge( $queryParams, (array) $request->getParsedBody() );
 		$body = (string) $request->getBody();
 		$response = null;
 		$headers = [];

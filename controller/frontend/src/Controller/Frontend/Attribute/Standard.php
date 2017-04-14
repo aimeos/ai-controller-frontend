@@ -91,14 +91,18 @@ class Standard
 	 */
 	public function getItems( array $ids, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		$filter = $this->createFilter();
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' );
+
+		$filter = $manager->createSearch( true );
 		$expr = [
+			$filter->compare( '==', 'attribute.domain', 'product' ),
 			$filter->compare( '==', 'attribute.id', $ids ),
 			$filter->getConditions(),
 		];
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
+		$filter->setSortations( array( $filter->sort( '+', 'attribute.position' ) ) );
 
-		return $this->searchItems( $filter, $domains );
+		return $manager->searchItems( $filter, $domains );
 	}
 
 

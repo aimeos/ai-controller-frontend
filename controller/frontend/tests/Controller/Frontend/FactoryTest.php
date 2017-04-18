@@ -10,7 +10,7 @@
 namespace Aimeos\Controller\Frontend;
 
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
 	public function testCreateController()
 	{

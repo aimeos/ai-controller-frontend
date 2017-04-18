@@ -8,7 +8,7 @@
 namespace Aimeos\Controller\Frontend\Basket;
 
 
-class BaseTest extends \PHPUnit_Framework_TestCase
+class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
 

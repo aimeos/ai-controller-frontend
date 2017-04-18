@@ -9,7 +9,7 @@
 namespace Aimeos\Controller\Frontend\Product\Decorator;
 
 
-class BaseTest extends \PHPUnit_Framework_TestCase
+class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
 	private $object;

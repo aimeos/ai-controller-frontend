@@ -9,7 +9,7 @@
 namespace Aimeos\Controller\Frontend\Basket\Decorator;
 
 
-class BundleTest extends \PHPUnit_Framework_TestCase
+class BundleTest extends \PHPUnit\Framework\TestCase
 {
 	private $object;
 	private $context;

@@ -49,6 +49,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddItemLimit()
+	{
+		$this->context->getConfig()->set( 'controller/frontend/order/limit-seconds', 86400 * 365 );
+
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' );
+		$result = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1 ) );
+
+		if( ( $item = reset( $result ) ) === false ) {
+			throw new \RuntimeException( 'No order item found' );
+		}
+
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Order\Exception' );
+		$this->object->addItem( $item->getId(), 'test' );
+	}
+
+
 	public function testCreateFilter()
 	{
 		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->createFilter() );

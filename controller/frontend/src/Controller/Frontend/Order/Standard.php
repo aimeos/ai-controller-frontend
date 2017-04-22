@@ -31,7 +31,41 @@ class Standard
 	 */
 	public function addItem( $baseId, $type )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' );
+		$total = 0;
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+
+		/** controller/frontend/order/limit-seconds
+		 * Order limitation time frame in seconds
+		 *
+		 * Creating new orders is limited to avoid abuse and mitigate denial of
+		 * service attacks. Within the configured time frame, only one order
+		 * item can be created per order base item. All orders for the order
+		 * base item within the last X seconds are counted.  If there's already
+		 * one available, an error message will be shown to the user instead of
+		 * creating the new order item.
+		 *
+		 * @param integer Number of seconds to check order items within
+		 * @since 2017.05
+		 * @category Developer
+		 * @see controller/frontend/basket/limit-count
+		 * @see controller/frontend/basket/limit-seconds
+		 */
+		$seconds = $context->getConfig()->get( 'controller/frontend/order/limit-seconds', 300 );
+
+		$search = $manager->createSearch();
+		$expr = [
+			$search->compare( '==', 'order.baseid', $baseId ),
+			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
+		];
+		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setSlice( 0, 0 );
+
+		$manager->searchItems( $search, [], $total );
+
+		if( $total > 0 ) {
+			throw new \Aimeos\Controller\Frontend\Order\Exception( sprintf( 'The order has already been created' ) );
+		}
 
 		$item = $manager->createItem()->setBaseId( $baseId )->setType( $type );
 		$manager->saveItem( $item );

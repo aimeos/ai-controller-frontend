@@ -98,6 +98,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testStoreLimit()
+	{
+		$this->context->setEditor( 'core:unittest' );
+		$config = $this->context->getConfig();
+		$config->set( 'controller/frontend/basket/limit-count', 0 );
+		$config->set( 'controller/frontend/basket/limit-seconds', 86400 * 365 );
+
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Basket\Exception' );
+		$object->store();
+	}
+
+
 	public function testLoad()
 	{
 		$stub = $this->getMockBuilder( '\Aimeos\MShop\Order\Manager\Base\Standard' )

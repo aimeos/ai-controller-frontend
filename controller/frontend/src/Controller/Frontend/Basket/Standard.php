@@ -107,7 +107,61 @@ class Standard
 	 */
 	public function store()
 	{
-		$basket = $this->get()->finish()->setStatus( 1 );
+		$total = 0;
+		$config = $this->getContext()->getConfig();
+
+		/** controller/frontend/basket/limit-count
+		 * Maximum number of orders within the time frame
+		 *
+		 * Creating new orders is limited to avoid abuse and mitigate denial of
+		 * service attacks. The number of orders created within the time frame
+		 * configured by "controller/frontend/basket/limit-seconds" are counted
+		 * before a new order of the same user (either logged in or identified
+		 * by the IP address) is created. If the number of orders is higher than
+		 * the configured value, an error message will be shown to the user
+		 * instead of creating a new order.
+		 *
+		 * @param integer Number of orders allowed within the time frame
+		 * @since 2017.05
+		 * @category Developer
+		 * @see controller/frontend/basket/limit-seconds
+		 */
+		$count = $config->get( 'controller/frontend/basket/limit-count', 5 );
+
+		/** controller/frontend/basket/limit-seconds
+		 * Order limitation time frame in seconds
+		 *
+		 * Creating new orders is limited to avoid abuse and mitigate denial of
+		 * service attacks. Within the configured time frame, only a limited
+		 * number of orders can be created. All orders of the current user
+		 * (either logged in or identified by the IP address) within the last X
+		 * seconds are counted. If the total value is higher then the number
+		 * configured in "controller/frontend/basket/limit-count", an error
+		 * message will be shown to the user instead of creating a new order.
+		 *
+		 * @param integer Number of seconds to check orders within
+		 * @since 2017.05
+		 * @category Developer
+		 * @see controller/frontend/basket/limit-count
+		 */
+		$seconds = $config->get( 'controller/frontend/basket/limit-seconds', 300 );
+
+		$search = $this->domainManager->createSearch();
+		$expr = [
+			$search->compare( '==', 'order.base.editor', $this->getContext()->getEditor() ),
+			$search->compare( '>=', 'order.base.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
+		];
+		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setSlice( 0, 0 );
+
+		$this->domainManager->searchItems( $search, [], $total );
+
+		if( $total > $count ) {
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Temporary order limit reached' ) );
+		}
+
+
+		$basket = $this->get()->finish();
 
 		$this->domainManager->begin();
 		$this->domainManager->store( $basket );

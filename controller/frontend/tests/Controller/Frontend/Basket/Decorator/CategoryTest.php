@@ -46,7 +46,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'product' );
 		$item = $manager->findItem( 'ABCD' );
 
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Basket\Exception' );
+		$this->expectException( '\Aimeos\Controller\Frontend\Basket\Exception' );
 		$this->object->addProduct( $item->getId(), 5 );
 	}
 }

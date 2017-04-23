@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'No order item found' );
 		}
 
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Order\Exception' );
+		$this->expectException( '\Aimeos\Controller\Frontend\Order\Exception' );
 		$this->object->addItem( $item->getId(), 'test' );
 	}
 
@@ -101,7 +101,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'No order item found' );
 		}
 
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Order\Exception' );
+		$this->expectException( '\Aimeos\Controller\Frontend\Order\Exception' );
 		$this->object->getItem( $item->getId() );
 	}
 

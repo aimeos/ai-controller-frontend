@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->object->deleteItem( $item->getId() );
 
-		$this->expectException( '\Aimeos\MShop\Exception' );
+		$this->setExpectedException( '\Aimeos\MShop\Exception' );
 		$manager->findItem( 'unittest-ctnl' );
 	}
 

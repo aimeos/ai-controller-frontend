@@ -131,7 +131,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
 
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item->getId(), 1, [], array_keys( $attributes ) );
 	}
 
@@ -162,7 +162,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:noSel' );
 
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
 	}
 

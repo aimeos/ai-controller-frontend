@@ -165,7 +165,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetServiceAttributesNoItems()
 	{
-		$this->expectException( '\\Aimeos\\MShop\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\MShop\\Exception' );
 		$this->object->getServiceAttributes( 'invalid', -1, self::$basket );
 	}
 
@@ -206,7 +206,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$orderManager = \Aimeos\MShop\Order\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
 		$basket = $orderManager->getSubManager( 'base' )->createItem();
 
-		$this->expectException( '\\Aimeos\\MShop\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\MShop\\Exception' );
 		$this->object->getServicePrice( 'invalid', -1, $basket );
 	}
 

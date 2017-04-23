@@ -107,7 +107,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
-		$this->expectException( '\Aimeos\Controller\Frontend\Basket\Exception' );
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Basket\Exception' );
 		$object->store();
 	}
 
@@ -190,14 +190,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$hiddenAttrIds = array_keys( $attribute );
 		$configAttrIds = array_keys( $attribute );
 
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( self::$testItem->getId(), 1, [], [], $configAttrIds, $hiddenAttrIds );
 	}
 
 
 	public function testAddProductNegativeQuantityException()
 	{
-		$this->expectException( '\\Aimeos\\MShop\\Order\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\MShop\\Order\\Exception' );
 		$this->object->addProduct( self::$testItem->getId(), -1 );
 	}
 
@@ -206,14 +206,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'MNOP' );
 
-		$this->expectException( '\\Aimeos\\MShop\\Price\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
 	}
 
 
 	public function testAddProductConfigAttributeException()
 	{
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( self::$testItem->getId(), 1, [], [], array( -1 ) );
 	}
 
@@ -222,7 +222,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
 
-		$this->expectException( '\\Aimeos\\MShop\\Price\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
 	}
 
@@ -245,7 +245,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
 
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->deleteProduct( 0 );
 	}
 
@@ -317,7 +317,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
 
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->editProduct( 0, 4 );
 	}
 
@@ -335,14 +335,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddCouponInvalidCode()
 	{
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addCoupon( 'invalid' );
 	}
 
 
 	public function testAddCouponMissingRequirements()
 	{
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addCoupon( 'OPQR' );
 	}
 
@@ -363,7 +363,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, null );
 
-		$this->expectException( '\Aimeos\MShop\Order\Exception' );
+		$this->setExpectedException( '\Aimeos\MShop\Order\Exception' );
 		$this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
 	}
 
@@ -414,14 +414,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSetBillingAddressByArrayError()
 	{
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, array( 'error' => false ) );
 	}
 
 
 	public function testSetBillingAddressParameterError()
 	{
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 'error' );
 	}
 
@@ -471,14 +471,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSetDeliveryAddressByArrayError()
 	{
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, array( 'error' => false ) );
 	}
 
 
 	public function testSetDeliveryAddressTypeError()
 	{
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 'error' );
 	}
 
@@ -491,7 +491,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->setService( 'payment', $service->getId(), [] );
 		$this->assertEquals( 'unitpaymentcode', $this->object->get()->getService( 'payment' )->getCode() );
 
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->setService( 'payment', $service->getId(), array( 'prepay' => true ) );
 	}
 
@@ -504,7 +504,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->setService( 'delivery', $service->getId(), [] );
 		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery' )->getCode() );
 
-		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->setService( 'delivery', $service->getId(), array( 'fast shipping' => true, 'air shipping' => false ) );
 	}
 

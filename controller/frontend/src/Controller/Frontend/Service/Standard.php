@@ -137,10 +137,10 @@ class Standard
 		$provider->injectGlobalConfigBE( $urls );
 
 		$body = (string) $request->getBody();
-		$response = null;
+		$output = null;
 		$headers = [];
 
-		if( ( $orderItem = $provider->updateSync( $params, $body, $response, $headers ) ) !== null )
+		if( ( $orderItem = $provider->updateSync( $params, $body, $output, $headers ) ) !== null )
 		{
 			if( $orderItem->getPaymentStatus() === \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED
 				&& $provider->isImplemented( \Aimeos\MShop\Service\Provider\Payment\Base::FEAT_QUERY )
@@ -151,6 +151,12 @@ class Standard
 			// update stock, coupons, etc.
 			\Aimeos\Controller\Frontend\Factory::createController( $context, 'order' )->update( $orderItem );
 		}
+
+		foreach( $headers as $name => $header ) {
+			$response->withHeader( $name, $header );
+		}
+
+		$response->withBody( $response->createStreamFromString( $output ) );
 
 		return $orderItem;
 	}

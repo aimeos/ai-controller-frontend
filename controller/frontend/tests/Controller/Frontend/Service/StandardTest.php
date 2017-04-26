@@ -97,8 +97,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
 
-		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();
+		$stream = $this->getMockBuilder( 'Psr\Http\Message\StreamInterface' )->getMock();
 		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
+		$response = $this->getMockBuilder( '\Aimeos\MW\View\Helper\Response\Iface' )
+			->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
 			->setMethods( ['updateSync', 'query', 'isImplemented'] )
@@ -114,6 +116,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$request->expects( $this->once() )->method( 'getQueryParams' )->will( $this->returnValue( ['code' => 'unitcode'] ) );
+		$response->expects( $this->once() )->method( 'createStreamFromString' )->will( $this->returnValue( $stream ) );
 		$manager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
 		$provider->expects( $this->once() )->method( 'updateSync' )->will( $this->returnValue( $item ) );
 		$provider->expects( $this->once() )->method( 'isImplemented' )->will( $this->returnValue( true ) );

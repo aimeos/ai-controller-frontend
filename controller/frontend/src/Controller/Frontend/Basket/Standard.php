@@ -286,7 +286,8 @@ class Standard
 		}
 		$product->setAttributes( $attributes );
 
-		$productItem = $this->getDomainItem( 'product', 'product.code', $product->getProductCode(), array( 'price', 'text' ) );
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ) );
 		$prices = $productItem->getRefItems( 'price', 'default' );
 		$product->setPrice( $this->calcPrice( $product, $prices, $quantity ) );
 
@@ -432,7 +433,7 @@ class Standard
 		$context = $this->getContext();
 
 		$serviceManager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
-		$serviceItem = $this->getDomainItem( 'service', 'service.id', $id, array( 'media', 'price', 'text' ) );
+		$serviceItem = $serviceManager->getItem( $id, array( 'media', 'price', 'text' ) );
 
 		$provider = $serviceManager->getProvider( $serviceItem );
 		$result = $provider->checkConfigFE( $attributes );

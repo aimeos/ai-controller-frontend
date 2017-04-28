@@ -419,6 +419,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param string[] $ref List of referenced items that should be fetched too
 	 * @return \Aimeos\MShop\Common\Item\Iface Domain item object
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception
+	 * @deprecated Use getItem() or findItem() instead
 	 */
 	protected function getDomainItem( $domain, $key, $value, array $ref )
 	{

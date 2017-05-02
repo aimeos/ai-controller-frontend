@@ -120,4 +120,62 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->object->getAddressItem( $item->getId() );
 		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $result );
 	}
+
+
+	public function testAddEditDeleteListsItem()
+	{
+		$customer = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
+		$this->context->setUserId( $customer->getId() );
+
+		$values = [
+			'customer.lists.type' => 'favorite',
+			'customer.lists.domain' => 'product',
+			'customer.lists.refid' => '-1'
+		];
+
+		$item = $this->object->addListsItem( $values );
+		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
+
+		$item = $this->object->editListsItem( $item->getId(), ['customer.lists.refid' => '-2'] );
+		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
+
+		$this->object->deleteListsItem( $item->getId() );
+
+		$this->setExpectedException( '\Aimeos\MShop\Exception' );
+		$this->object->getListsItem( $item->getId() );
+	}
+
+
+	public function testGetListsItem()
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists' );
+		$search = $manager->createSearch();
+		$search->setSlice( 0, 1 );
+		$result = $manager->searchItems( $search );
+
+		if( ( $item = reset( $result ) ) === false ) {
+			throw new \RuntimeException( 'No customer lists item available' );
+		}
+
+		$this->context->setUserId( $item->getParentId() );
+		$result = $this->object->getListsItem( $item->getId() );
+		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $result );
+	}
+
+
+	public function testSearchListsItem()
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$customer = $manager->findItem( 'UTC001' );
+		$this->context->setUserId( $customer->getId() );
+
+		$filter = $this->object->createListsFilter();
+		$result = $this->object->searchListsItems( $filter );
+
+		foreach( $result as $item )
+		{
+			$this->assertEquals( $customer->getId(), $item->getParentId() );
+			$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
+		}
+	}
 }

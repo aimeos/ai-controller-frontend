@@ -34,6 +34,7 @@ class Standard
 
 		$item = $manager->createItem();
 		$item->fromArray( $values );
+		$item->setId( null );
 		$manager->saveItem( $item );
 
 		return $item;
@@ -51,6 +52,7 @@ class Standard
 
 		$item = $manager->createItem();
 		$item->fromArray( $values );
+		$item->setId( null );
 		$item->setStatus( 1 );
 
 		return $item;
@@ -88,6 +90,7 @@ class Standard
 
 		$item = $manager->getItem( $id, [], true );
 		$item->fromArray( $values );
+		$item->setId( $id );
 		$manager->saveItem( $item );
 
 		return $item;
@@ -157,7 +160,9 @@ class Standard
 
 		$item = $manager->createItem();
 		$item->fromArray( $values );
+		$item->setId( null );
 		$item->setParentId( $context->getUserId() );
+
 		$manager->saveItem( $item );
 
 		return $item;
@@ -176,6 +181,8 @@ class Standard
 
 		$item = $manager->createItem();
 		$item->fromArray( $values );
+		$item->setId( null );
+
 		$item->setParentId( $context->getUserId() );
 
 		return $item;
@@ -214,6 +221,8 @@ class Standard
 		$this->checkUser( $item->getParentId() );
 
 		$item->fromArray( $values );
+		$item->setId( $id );
+
 		$manager->saveItem( $item );
 
 		return $item;
@@ -230,8 +239,8 @@ class Standard
 	public function getAddressItem( $id )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' );
-		$item = $manager->getItem( $id );
 
+		$item = $manager->getItem( $id );
 		$this->checkUser( $item->getParentId() );
 
 		return $item;
@@ -246,6 +255,136 @@ class Standard
 	public function saveAddressItem( \Aimeos\MShop\Customer\Item\Address\Iface $item )
 	{
 		\Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' )->saveItem( $item );
+	}
+
+
+	/**
+	 * Creates and returns a new list item object
+	 *
+	 * @param array $values Values added to the newly created customer item like "customer.lists.refid"
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
+	 * @since 2017.06
+	 */
+	public function addListsItem( array $values )
+	{
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
+
+		if( !isset( $values['customer.lists.typeid'] ) )
+		{
+			if( !isset( $values['customer.lists.type'] ) ) {
+				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists type code' ) );
+			}
+
+			if( !isset( $values['customer.lists.domain'] ) ) {
+				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists domain' ) );
+			}
+
+			$typeManager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists/type' );
+			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'] );
+			$values['customer.lists.typeid'] = $typeItem->getId();
+		}
+
+		$item = $manager->createItem();
+		$item->fromArray( $values );
+		$item->setId( null );
+		$item->setParentId( $context->getUserId() );
+
+		$manager->saveItem( $item );
+
+		return $item;
+	}
+
+
+	/**
+	 * Returns a new customer lists filter criteria object
+	 *
+	 * @return \Aimeos\MW\Criteria\Iface New filter object
+	 * @since 2017.06
+	 */
+	public function createListsFilter()
+	{
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
+
+		$filter = $manager->createSearch();
+		$filter->setConditions( $filter->compare( '==', 'customer.lists.parentid', $context->getUserId() ) );
+
+		return $filter;
+	}
+
+
+	/**
+	 * Deletes a customer item that belongs to the current authenticated user
+	 *
+	 * @param string $id Unique customer address ID
+	 * @since 2017.06
+	 */
+	public function deleteListsItem( $id )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+
+		$this->checkUser( $manager->getItem( $id )->getParentId() );
+
+		$manager->deleteItem( $id );
+	}
+
+
+	/**
+	 * Saves a modified customer lists item object
+	 *
+	 * @param string $id Unique customer lists ID
+	 * @param array $values Values added to the customer lists item like "customer.lists.refid"
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
+	 * @since 2017.06
+	 */
+	public function editListsItem( $id, array $values )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+
+		$item = $manager->getItem( $id, [], true );
+		$this->checkUser( $item->getParentId() );
+
+		$item->fromArray( $values );
+		$item->setId( $id );
+
+		$manager->saveItem( $item );
+
+		return $item;
+	}
+
+
+	/**
+	 * Returns the customer item for the given customer ID
+	 *
+	 * @param string $id Unique customer address ID
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
+	 * @since 2017.06
+	 */
+	public function getListsItem( $id )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+		$item = $manager->getItem( $id );
+
+		$this->checkUser( $item->getParentId() );
+
+		return $item;
+	}
+
+
+	/**
+	 * Returns the customer lists items filtered by the given criteria
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object which contains the filter conditions
+	 * @param integer &$total Parameter where the total number of found attributes will be stored in
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface[] Customer list items
+	 * @since 2017.06
+	 */
+	public function searchListsItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+
+		return $manager->searchItems( $filter, [], $total );
 	}
 
 

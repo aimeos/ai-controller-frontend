@@ -147,4 +147,58 @@ interface Iface
 	 * @since 2017.04
 	 */
 	public function saveAddressItem( \Aimeos\MShop\Customer\Item\Address\Iface $item );
+
+	/**
+	 * Creates and returns a new list item object
+	 *
+	 * @param array $values Values added to the newly created customer item like "customer.lists.refid"
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
+	 * @since 2017.06
+	 */
+	public function addListsItem( array $values );
+
+	/**
+	 * Returns a new customer lists filter criteria object
+	 *
+	 * @return \Aimeos\MW\Criteria\Iface New filter object
+	 * @since 2017.06
+	 */
+	public function createListsFilter();
+
+	/**
+	 * Deletes a customer item that belongs to the current authenticated user
+	 *
+	 * @param string $id Unique customer address ID
+	 * @since 2017.06
+	 */
+	public function deleteListsItem( $id );
+
+	/**
+	 * Saves a modified customer lists item object
+	 *
+	 * @param string $id Unique customer lists ID
+	 * @param array $values Values added to the customer lists item like "customer.lists.refid"
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
+	 * @since 2017.06
+	 */
+	public function editListsItem( $id, array $values );
+
+	/**
+	 * Returns the customer item for the given customer ID
+	 *
+	 * @param string $id Unique customer address ID
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
+	 * @since 2017.06
+	 */
+	public function getListsItem( $id );
+
+	/**
+	 * Returns the customer lists items filtered by the given criteria
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object which contains the filter conditions
+	 * @param integer &$total Parameter where the total number of found attributes will be stored in
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface[] Customer list items
+	 * @since 2017.06
+	 */
+	public function searchListsItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null );
 }

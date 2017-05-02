@@ -340,10 +340,26 @@ class Standard
 	 */
 	public function editListsItem( $id, array $values )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
 
 		$item = $manager->getItem( $id, [], true );
 		$this->checkUser( $item->getParentId() );
+
+		if( !isset( $values['customer.lists.typeid'] ) )
+		{
+			if( !isset( $values['customer.lists.type'] ) ) {
+				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists type code' ) );
+			}
+
+			if( !isset( $values['customer.lists.domain'] ) ) {
+				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists domain' ) );
+			}
+
+			$typeManager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists/type' );
+			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'] );
+			$values['customer.lists.typeid'] = $typeItem->getId();
+		}
 
 		$item->fromArray( $values );
 		$item->setId( $id );

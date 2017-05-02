@@ -136,7 +136,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->addListsItem( $values );
 		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
 
-		$item = $this->object->editListsItem( $item->getId(), ['customer.lists.refid' => '-2'] );
+		$values = [
+			'customer.lists.type' => 'favorite',
+			'customer.lists.domain' => 'product',
+			'customer.lists.refid' => '-2'
+		];
+
+		$item = $this->object->editListsItem( $item->getId(), $values );
 		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
 
 		$this->object->deleteListsItem( $item->getId() );

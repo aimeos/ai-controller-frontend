@@ -265,7 +265,7 @@ class Standard
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
 	 * @since 2017.06
 	 */
-	public function addListsItem( array $values )
+	public function addListItem( array $values )
 	{
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
@@ -320,7 +320,7 @@ class Standard
 	 * @param string $id Unique customer address ID
 	 * @since 2017.06
 	 */
-	public function deleteListsItem( $id )
+	public function deleteListItem( $id )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
 
@@ -338,7 +338,7 @@ class Standard
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
 	 * @since 2017.06
 	 */
-	public function editListsItem( $id, array $values )
+	public function editListItem( $id, array $values )
 	{
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
@@ -377,7 +377,7 @@ class Standard
 	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
 	 * @since 2017.06
 	 */
-	public function getListsItem( $id )
+	public function getListItem( $id )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
 		$item = $manager->getItem( $id );
@@ -396,7 +396,7 @@ class Standard
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface[] Customer list items
 	 * @since 2017.06
 	 */
-	public function searchListsItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
+	public function searchListItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
 

@@ -122,7 +122,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAddEditDeleteListsItem()
+	public function testAddEditDeleteListItem()
 	{
 		$customer = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
 		$this->context->setUserId( $customer->getId() );
@@ -133,7 +133,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'customer.lists.refid' => '-1'
 		];
 
-		$item = $this->object->addListsItem( $values );
+		$item = $this->object->addListItem( $values );
 		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
 
 		$values = [
@@ -142,17 +142,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'customer.lists.refid' => '-2'
 		];
 
-		$item = $this->object->editListsItem( $item->getId(), $values );
+		$item = $this->object->editListItem( $item->getId(), $values );
 		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
 
-		$this->object->deleteListsItem( $item->getId() );
+		$this->object->deleteListItem( $item->getId() );
 
 		$this->setExpectedException( '\Aimeos\MShop\Exception' );
-		$this->object->getListsItem( $item->getId() );
+		$this->object->getListItem( $item->getId() );
 	}
 
 
-	public function testGetListsItem()
+	public function testGetListItem()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists' );
 		$search = $manager->createSearch();
@@ -164,19 +164,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		}
 
 		$this->context->setUserId( $item->getParentId() );
-		$result = $this->object->getListsItem( $item->getId() );
+		$result = $this->object->getListItem( $item->getId() );
 		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $result );
 	}
 
 
-	public function testSearchListsItem()
+	public function testSearchListItem()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
 		$customer = $manager->findItem( 'UTC001' );
 		$this->context->setUserId( $customer->getId() );
 
 		$filter = $this->object->createListsFilter();
-		$result = $this->object->searchListsItems( $filter );
+		$result = $this->object->searchListItems( $filter );
 
 		foreach( $result as $item )
 		{

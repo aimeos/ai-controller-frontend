@@ -155,7 +155,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
 	 * @since 2017.06
 	 */
-	public function addListsItem( array $values );
+	public function addListItem( array $values );
 
 	/**
 	 * Returns a new customer lists filter criteria object
@@ -171,7 +171,7 @@ interface Iface
 	 * @param string $id Unique customer address ID
 	 * @since 2017.06
 	 */
-	public function deleteListsItem( $id );
+	public function deleteListItem( $id );
 
 	/**
 	 * Saves a modified customer lists item object
@@ -181,7 +181,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface Customer lists item
 	 * @since 2017.06
 	 */
-	public function editListsItem( $id, array $values );
+	public function editListItem( $id, array $values );
 
 	/**
 	 * Returns the customer item for the given customer ID
@@ -190,7 +190,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
 	 * @since 2017.06
 	 */
-	public function getListsItem( $id );
+	public function getListItem( $id );
 
 	/**
 	 * Returns the customer lists items filtered by the given criteria
@@ -200,5 +200,5 @@ interface Iface
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface[] Customer list items
 	 * @since 2017.06
 	 */
-	public function searchListsItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null );
+	public function searchListItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null );
 }

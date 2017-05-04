@@ -291,8 +291,7 @@ class Standard
 		$prices = $productItem->getRefItems( 'price', 'default' );
 		$product->setPrice( $this->calcPrice( $product, $prices, $quantity ) );
 
-		$this->get()->deleteProduct( $position );
-		$this->get()->addProduct( $product, $position );
+		$this->get()->editProduct( $product, $position );
 
 		$this->save();
 	}

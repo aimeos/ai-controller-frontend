@@ -65,7 +65,7 @@ class Standard
 		$search = $manager->createSearch( true );
 		$expr = [
 			$search->compare( '==', 'order.id', $id ),
-			$search->compare( '==', 'order.base.customerid', (string) $context->getUserId() ),
+			$search->compare( '==', 'order.editor', $context->getEditor() ),
 			$search->getConditions(),
 		];
 		$search->setConditions( $search->combine( '&&', $expr ) );

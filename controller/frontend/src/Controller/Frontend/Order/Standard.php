@@ -89,9 +89,10 @@ class Standard
 	 * Returns the order item for the given ID
 	 *
 	 * @param string $id Unique order ID
+	 * @param boolean $default Use default criteria to limit orders
 	 * @return \Aimeos\MShop\Order\Item\Iface Order object
 	 */
-	public function getItem( $id )
+	public function getItem( $id, $default = true )
 	{
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
@@ -99,9 +100,13 @@ class Standard
 		$search = $manager->createSearch( true );
 		$expr = [
 			$search->compare( '==', 'order.id', $id ),
-			$search->compare( '==', 'order.editor', $context->getEditor() ),
 			$search->getConditions(),
 		];
+
+		if( $default !== false ) {
+			$expr[] = $search->compare( '==', 'order.editor', $context->getEditor() );
+		}
+
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
 		$items = $manager->searchItems( $search );

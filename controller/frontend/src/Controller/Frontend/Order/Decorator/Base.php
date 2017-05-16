@@ -87,9 +87,10 @@ abstract class Base
 	 * Returns the order item for the given ID
 	 *
 	 * @param string $id Unique order ID
+	 * @param boolean $default Use default criteria to limit orders
 	 * @return \Aimeos\MShop\Order\Item\Iface Order object
 	 */
-	public function getItem( $id )
+	public function getItem( $id, $default = true )
 	{
 		return $this->controller->getItem( $id );
 	}

@@ -125,11 +125,13 @@ abstract class Base
 	 * @param ResponseInterface $response Response object that will contain HTTP status and response body
 	 * @param array $urls Associative list of keys and the corresponding URLs
 	 * 	(keys are <type>.url-self, <type>.url-success, <type>.url-update where type can be "delivery" or "payment")
+	 * @param string $code Unique code of the service used for the current order
+	 * @param string $orderid Unique ID of the order whose payment status should be updated
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Order item that has been updated
 	 */
-	public function updateSync( ServerRequestInterface $request, ResponseInterface $response, array $urls )
+	public function updateSync( ServerRequestInterface $request, ResponseInterface $response, array $urls, $code, $orderid )
 	{
-		return $this->controller->updateSync( $request, $response, $urls );
+		return $this->controller->updateSync( $request, $response, $urls, $code, $orderid );
 	}
 
 

@@ -115,7 +115,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 		$this->stub->expects( $this->once() )->method( 'updateSync' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( 'Aimeos\MShop\Order\Item\Iface', $this->object->updateSync( $request, $response, [] ) );
+		$this->assertInstanceOf( 'Aimeos\MShop\Order\Item\Iface', $this->object->updateSync( $request, $response, [], 'test', -1 ) );
 	}
 
 

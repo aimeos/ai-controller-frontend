@@ -122,7 +122,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$provider->expects( $this->once() )->method( 'isImplemented' )->will( $this->returnValue( true ) );
 		$provider->expects( $this->once() )->method( 'query' );
 
-		$this->object->updateSync( $request, $response, [] );
+		$this->object->updateSync( $request, $response, [], 'paypalexpress', -1 );
 	}
 
 

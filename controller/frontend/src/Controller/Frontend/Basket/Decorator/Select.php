@@ -49,7 +49,7 @@ class Select
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
 		$productItem = $productManager->getItem( $prodid, [], true );
 
-		if( $productItem->getType() !== 'select' )
+		if( $productManager->getItem( $prodid, [], true )->getType() !== 'select' )
 		{
 			return $this->getController()->addProduct(
 				$prodid, $quantity, $options, $variantAttributeIds, $configAttributeIds,
@@ -58,28 +58,26 @@ class Select
 		}
 
 		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ), true );
+		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 
 		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
-		$orderBaseProductItem->copyFrom( $productItem );
-		$orderBaseProductItem->setQuantity( $quantity );
-		$orderBaseProductItem->setStockType( $stocktype );
+		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
-		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 		$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds, $options );
-		$prodIds = array( $prodid, $productItem->getId() );
 
-		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
-		$price = $priceManager->getLowestPrice( $prices, $quantity );
+		$attributeMap = [
+			'custom' => array_keys( $customAttributeValues ),
+			'config' => $configAttributeIds,
+			'hidden' => $hiddenAttributeIds,
+		];
+		$this->checkListRef( array( $prodid, $productItem->getId() ), 'attribute', $attributeMap );
 
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodIds, $quantity, $configAttributeIds, 'config' ) );
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodIds, $quantity, $hiddenAttributeIds, 'hidden' ) );
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodIds, $quantity, array_keys( $customAttributeValues ), 'custom', $customAttributeValues ) );
+		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues ) );
+		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'config', $configAttributeIds ) );
+		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'hidden', $hiddenAttributeIds ) );
 
-		// remove product rebate of original price in favor to rebates granted for the order
-		$price->setRebate( '0.00' );
-
-		$orderBaseProductItem->setPrice( $price );
 		$orderBaseProductItem->setAttributes( $attr );
+		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );
 		$this->getController()->save();

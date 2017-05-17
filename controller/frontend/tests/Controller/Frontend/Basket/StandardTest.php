@@ -170,6 +170,57 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddProductCustomPrice()
+	{
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+
+		$search = $attributeManager->createSearch();
+		$expr = array(
+			$search->compare( '==', 'attribute.code', 'custom' ),
+			$search->compare( '==', 'attribute.type.code', 'price' ),
+		);
+		$search->setConditions( $search->combine( '&&', $expr ) );
+
+		$attributes = $attributeManager->searchItems( $search );
+
+		if( ( $attrItem = reset( $attributes ) ) === false ) {
+			throw new \RuntimeException( 'Attribute not found' );
+		}
+
+		$attrValues = array( $attrItem->getId() => '0.01' );
+
+		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [], [], $attrValues );
+		$basket = $this->object->get();
+
+		$this->assertEquals( 1, count( $basket->getProducts() ) );
+		$this->assertEquals( '0.01', $basket->getProduct( 0 )->getPrice()->getValue() );
+	}
+
+
+	public function testAddProductCustomPriceException()
+	{
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+
+		$search = $attributeManager->createSearch();
+		$expr = array(
+			$search->compare( '==', 'attribute.code', 'custom' ),
+			$search->compare( '==', 'attribute.type.code', 'price' ),
+		);
+		$search->setConditions( $search->combine( '&&', $expr ) );
+
+		$attributes = $attributeManager->searchItems( $search );
+
+		if( ( $attrItem = reset( $attributes ) ) === false ) {
+			throw new \RuntimeException( 'Attribute not found' );
+		}
+
+		$attrValues = array( $attrItem->getId() => ',' );
+
+		$this->setExpectedException( '\Aimeos\Controller\Frontend\Basket\Exception' );
+		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [], [], $attrValues );
+	}
+
+
 	public function testAddProductAttributeNotAssigned()
 	{
 		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );

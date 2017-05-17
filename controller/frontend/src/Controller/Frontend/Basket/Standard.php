@@ -205,30 +205,28 @@ class Standard
 		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
 		$stocktype = 'default' )
 	{
+		$attributeMap = [
+			'custom' => array_keys( $customAttributeValues ),
+			'config' => $configAttributeIds,
+			'hidden' => $hiddenAttributeIds,
+		];
+		$this->checkListRef( $prodid, 'attribute', $attributeMap );
+
+
 		$context = $this->getContext();
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
 		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ), true );
-
-		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
-		$orderBaseProductItem->copyFrom( $productItem );
-		$orderBaseProductItem->setQuantity( $quantity );
-		$orderBaseProductItem->setStockType( $stocktype );
-
-		$attr = [];
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 
-		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
-		$price = $priceManager->getLowestPrice( $prices, $quantity );
+		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
+		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodid, $quantity, $configAttributeIds, 'config' ) );
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodid, $quantity, $hiddenAttributeIds, 'hidden' ) );
-		$attr = array_merge( $attr, $this->createOrderProductAttributes( $price, $prodid, $quantity, array_keys( $customAttributeValues ), 'custom', $customAttributeValues ) );
+		$attr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
+		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'config', $configAttributeIds ) );
+		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'hidden', $hiddenAttributeIds ) );
 
-		// remove product rebate of original price in favor to rebates granted for the order
-		$price->setRebate( '0.00' );
-
-		$orderBaseProductItem->setPrice( $price );
 		$orderBaseProductItem->setAttributes( $attr );
+		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->get()->addProduct( $orderBaseProductItem );
 		$this->save();
@@ -288,8 +286,7 @@ class Standard
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
 		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ) );
-		$prices = $productItem->getRefItems( 'price', 'default' );
-		$product->setPrice( $this->calcPrice( $product, $prices, $quantity ) );
+		$product->setPrice( $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity ) );
 
 		$this->get()->editProduct( $product, $position );
 

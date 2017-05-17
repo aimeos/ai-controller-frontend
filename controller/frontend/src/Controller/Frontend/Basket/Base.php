@@ -20,7 +20,7 @@ namespace Aimeos\Controller\Frontend\Basket;
  */
 abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 {
-	private $listTypeAttributes = [];
+	private $listTypeItems = [];
 
 
 	/**
@@ -41,9 +41,23 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$prices = $manager->getItem( $product->getProductId(), array( 'price' ) )->getRefItems( 'price', 'default' );
 		}
 
+
 		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
 		$price = $priceManager->getLowestPrice( $prices, $quantity );
 
+		// customers can pay what they would like to pay
+		if( ( $attr = $product->getAttributeItem( 'price', 'custom' ) ) !== null )
+		{
+			$amount = $attr->getValue();
+
+			if( preg_match( '/^[0-9]*(\.[0-9]+)?$/', $amount ) !== 1 || ((double) $amount) < 0.01 ) {
+				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Invalid price value "%1$s"', $amount ) );
+			}
+
+			$price->setValue( $amount );
+		}
+
+		// add prices of (optional) attributes
 		foreach( $this->getAttributeItems( $product->getAttributes() ) as $attrItem )
 		{
 			$prices = $attrItem->getRefItems( 'price', 'default' );
@@ -63,6 +77,54 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
+	 * Checks if the reference IDs are really associated to the product
+	 *
+	 * @param string|array $prodId Unique ID of the product or list of product IDs
+	 * @param string $domain Domain the references must be of
+	 * @param array $refMap Associative list of list type codes as keys and lists of reference IDs as values
+	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If one or more of the IDs are not associated
+	 */
+	protected function checkListRef( $prodId, $domain, array $refMap )
+	{
+		if( empty( $refMap ) ) {
+			return;
+		}
+
+		$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+		$search = $productManager->createSearch( true );
+
+		$expr = array(
+			$search->compare( '==', 'product.id', $prodId ),
+			$search->getConditions(),
+		);
+
+		foreach( $refMap as $listType => $refIds )
+		{
+			if( empty( $refIds ) ) {
+				continue;
+			}
+
+			foreach( $refIds as $key => $refId ) {
+				$refIds[$key] = (string) $refId;
+			}
+
+			$param = array( $domain, $this->getProductListTypeItem( $domain, $listType )->getId(), $refIds );
+			$cmpfunc = $search->createFunction( 'product.contains', $param );
+
+			$expr[] = $search->compare( '==', $cmpfunc, count( $refIds ) );
+		}
+
+		$search->setConditions( $search->combine( '&&', $expr ) );
+
+		if( count( $productManager->searchItems( $search, [] ) ) === 0 )
+		{
+			$msg = sprintf( 'Invalid "%1$s" references for product with ID %2$s', $domain, json_encode( $prodId ) );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+		}
+	}
+
+
+	/**
 	 * Checks if the IDs of the given items are really associated to the product.
 	 *
 	 * @param string|array $prodId Unique ID of the product or list of product IDs
@@ -70,6 +132,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param integer $listTypeId ID of the list type the referenced items must be
 	 * @param array $refIds List of IDs that must be associated to the product
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If one or more of the IDs are not associated
+	 * @deprecated Use checkListRef() instead
 	 */
 	protected function checkReferences( $prodId, $domain, $listTypeId, array $refIds )
 	{
@@ -297,6 +360,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param string $type Attribute type
 	 * @param array $attributeValues Associative list of attribute IDs as keys and their codes as values
 	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
+	 * @deprecated Use getOrderProductAttributes(), checkReferences() and calcPrice() instead
 	 */
 	protected function createOrderProductAttributes( \Aimeos\MShop\Price\Item\Iface $price, $prodid, $quantity,
 			array $attributeIds, $type, array $attributeValues = [] )
@@ -355,8 +419,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		$search = $attributeManager->createSearch( true );
 		$expr = array(
-				$search->compare( '==', 'attribute.id', $attributeIds ),
-				$search->getConditions(),
+			$search->compare( '==', 'attribute.id', $attributeIds ),
+			$search->getConditions(),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSlice( 0, 0x7fffffff );
@@ -445,6 +509,40 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
+	 * Returns the order product attribute items for the given IDs and values
+	 *
+	 * @param string $type Attribute type code
+	 * @param array $attributeIds List of attributes IDs of the given type
+	 * @param array $attributeValues Associative list of attribute IDs as keys and their codes as values
+	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
+	 */
+	protected function getOrderProductAttributes( $type, array $attributeIds, array $attributeValues = [] )
+	{
+		if( empty( $attributeIds ) ) {
+			return [];
+		}
+
+		$list = [];
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product/attribute' );
+
+		foreach( $this->getAttributes( $attributeIds ) as $id => $attrItem )
+		{
+			$item = $manager->createItem();
+			$item->copyFrom( $attrItem );
+			$item->setType( $type );
+
+			if( isset( $attributeValues[$id] ) ) {
+				$item->setValue( $attributeValues[$id] );
+			}
+
+			$list[] = $item;
+		}
+
+		return $list;
+	}
+
+
+	/**
 	 * Returns the list type item for the given domain and code.
 	 *
 	 * @param string $domain Domain name of the list type
@@ -453,30 +551,22 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function getProductListTypeItem( $domain, $code )
 	{
-		if( !isset( $this->listTypeAttributes[$domain][$code] ) )
+		if( empty( $this->listTypeItems ) )
 		{
-			$listTypeManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product/lists/type' );
+			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product/lists/type' );
 
-			$listTypeSearch = $listTypeManager->createSearch( true );
-			$expr = array(
-				$listTypeSearch->compare( '==', 'product.lists.type.domain', $domain ),
-				$listTypeSearch->compare( '==', 'product.lists.type.code', $code ),
-				$listTypeSearch->getConditions(),
-			);
-			$listTypeSearch->setConditions( $listTypeSearch->combine( '&&', $expr ) );
-
-			$listTypeItems = $listTypeManager->searchItems( $listTypeSearch );
-
-			if( ( $listTypeItem = reset( $listTypeItems ) ) === false )
-			{
-				$msg = sprintf( 'List type for domain "%1$s" and code "%2$s" not found', $domain, $code );
-				throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			foreach( $manager->searchItems( $manager->createSearch( true ) ) as $item ) {
+				$this->listTypeItems[ $item->getDomain() ][ $item->getCode() ] = $item;
 			}
-
-			$this->listTypeAttributes[$domain][$code] = $listTypeItem;
 		}
 
-		return $this->listTypeAttributes[$domain][$code];
+		if( !isset( $this->listTypeItems[$domain][$code] ) )
+		{
+			$msg = sprintf( 'List type for domain "%1$s" and code "%2$s" not found', $domain, $code );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+		}
+
+		return $this->listTypeItems[$domain][$code];
 	}
 
 

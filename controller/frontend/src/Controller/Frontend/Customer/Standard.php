@@ -87,10 +87,11 @@ class Standard
 		$this->checkUser( $id );
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
-
 		$item = $manager->getItem( $id, [], true );
+
+		unset( $values['customer.id'] );
 		$item->fromArray( $values );
-		$item->setId( $id );
+
 		$manager->saveItem( $item );
 
 		return $item;
@@ -220,8 +221,8 @@ class Standard
 		$item = $manager->getItem( $id, [], true );
 		$this->checkUser( $item->getParentId() );
 
+		unset( $values['customer.address.id'] );
 		$item->fromArray( $values );
-		$item->setId( $id );
 
 		$manager->saveItem( $item );
 
@@ -361,8 +362,8 @@ class Standard
 			$values['customer.lists.typeid'] = $typeItem->getId();
 		}
 
+		unset( $values['customer.lists.id'] );
 		$item->fromArray( $values );
-		$item->setId( $id );
 
 		$manager->saveItem( $item );
 

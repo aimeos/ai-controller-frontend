@@ -68,9 +68,7 @@ class Standard
 		}
 
 		$item = $manager->createItem()->setBaseId( $baseId )->setType( $type );
-		$manager->saveItem( $item );
-
-		return $item;
+		return $manager->saveItem( $item );
 	}
 
 
@@ -235,9 +233,7 @@ class Standard
 		$orderItem = $orderManager->createItem();
 		$orderItem->setBaseId( $basket->getId() );
 		$orderItem->setType( \Aimeos\MShop\Order\Item\Base::TYPE_WEB );
-		$orderManager->saveItem( $orderItem );
 
-
-		return $orderItem;
+		return $orderManager->saveItem( $orderItem );
 	}
 }

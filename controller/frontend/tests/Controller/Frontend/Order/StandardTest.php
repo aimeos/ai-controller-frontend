@@ -43,7 +43,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\MShop\Factory::injectManager( $this->context, 'order', $manager );
 
-		$manager->expects( $this->once() )->method( 'saveItem' );
+		$manager->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->returnValue( $manager->createItem() ) );
 
 		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->addItem( -1, 'test' ) );
 	}

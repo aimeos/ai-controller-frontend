@@ -42,7 +42,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $item );
 
 		$item->setStatus( 0 );
-		$this->object->saveItem( $item );
+		$item = $this->object->saveItem( $item );
 		$this->assertEquals( 0, $item->getStatus() );
 
 		$this->object->deleteItem( $item->getId() );

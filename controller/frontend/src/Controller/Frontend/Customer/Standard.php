@@ -35,9 +35,8 @@ class Standard
 		$item = $manager->createItem();
 		$item->fromArray( $values );
 		$item->setId( null );
-		$manager->saveItem( $item );
 
-		return $item;
+		return $manager->saveItem( $item );
 	}
 
 
@@ -92,9 +91,7 @@ class Standard
 		unset( $values['customer.id'] );
 		$item->fromArray( $values );
 
-		$manager->saveItem( $item );
-
-		return $item;
+		return $manager->saveItem( $item );
 	}
 
 
@@ -139,11 +136,12 @@ class Standard
 	/**
 	 * Stores a modified customer item
 	 *
-	 * @param \Aimeos\MShop\Customer\Item\Iface Customer item
+	 * @param \Aimeos\MShop\Customer\Item\Iface $item Customer item
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item including the generated ID
 	 */
 	public function saveItem( \Aimeos\MShop\Customer\Item\Iface $item )
 	{
-		\Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->saveItem( $item );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->saveItem( $item );
 	}
 
 
@@ -164,9 +162,7 @@ class Standard
 		$item->setId( null );
 		$item->setParentId( $context->getUserId() );
 
-		$manager->saveItem( $item );
-
-		return $item;
+		return $manager->saveItem( $item );
 	}
 
 
@@ -224,9 +220,7 @@ class Standard
 		unset( $values['customer.address.id'] );
 		$item->fromArray( $values );
 
-		$manager->saveItem( $item );
-
-		return $item;
+		return $manager->saveItem( $item );
 	}
 
 
@@ -251,11 +245,12 @@ class Standard
 	/**
 	 * Stores a modified customer address item
 	 *
-	 * @param \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
+	 * @param \Aimeos\MShop\Customer\Item\Address\Iface $item Customer address item
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item including the generated ID
 	 */
 	public function saveAddressItem( \Aimeos\MShop\Customer\Item\Address\Iface $item )
 	{
-		\Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' )->saveItem( $item );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' )->saveItem( $item );
 	}
 
 
@@ -291,9 +286,7 @@ class Standard
 		$item->setId( null );
 		$item->setParentId( $context->getUserId() );
 
-		$manager->saveItem( $item );
-
-		return $item;
+		return $manager->saveItem( $item );
 	}
 
 
@@ -365,9 +358,7 @@ class Standard
 		unset( $values['customer.lists.id'] );
 		$item->fromArray( $values );
 
-		$manager->saveItem( $item );
-
-		return $item;
+		return $manager->saveItem( $item );
 	}
 
 

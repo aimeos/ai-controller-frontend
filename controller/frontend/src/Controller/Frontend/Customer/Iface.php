@@ -85,7 +85,8 @@ interface Iface
 	/**
 	 * Stores a modified customer item
 	 *
-	 * @param \Aimeos\MShop\Customer\Item\Iface Customer item
+	 * @param \Aimeos\MShop\Customer\Item\Iface $item Customer item
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item including the generated ID
 	 * @since 2017.04
 	 */
 	public function saveItem( \Aimeos\MShop\Customer\Item\Iface $item );
@@ -143,7 +144,8 @@ interface Iface
 	/**
 	 * Stores a modified customer address item
 	 *
-	 * @param \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
+	 * @param \Aimeos\MShop\Customer\Item\Address\Iface $item Customer address item
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item including the generated ID
 	 * @since 2017.04
 	 */
 	public function saveAddressItem( \Aimeos\MShop\Customer\Item\Address\Iface $item );

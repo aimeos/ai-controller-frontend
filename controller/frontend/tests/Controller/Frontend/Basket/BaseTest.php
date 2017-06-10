@@ -267,6 +267,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], ['1' => 'test']] );
 
 		$this->assertEquals( 1, count( $result ) );
+		$this->assertEquals( 'test', $result[0]->getValue() );
 	}
 
 

@@ -254,6 +254,22 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGetOrderProductAttributes()
+	{
+		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['getAttributes'] )
+			->getMock();
+
+		$list = [1 => new \Aimeos\MShop\Attribute\Item\Standard()];
+		$object->expects( $this->once() )->method( 'getAttributes' )->will( $this->returnValue( $list ) );
+
+		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], ['1' => 'test']] );
+
+		$this->assertEquals( 1, count( $result ) );
+	}
+
+
 	/**
 	 * @param string $company
 	 */

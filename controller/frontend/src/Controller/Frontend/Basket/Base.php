@@ -522,6 +522,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return [];
 		}
 
+		foreach( $attributeValues as $key => $value ) {
+			$attributeValues[(string) $key] = $value; // Workaround for PHP bug #74739
+		}
+
 		$list = [];
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product/attribute' );
 

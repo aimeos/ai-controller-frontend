@@ -261,10 +261,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['getAttributes'] )
 			->getMock();
 
-		$list = [1 => new \Aimeos\MShop\Attribute\Item\Standard()];
+		$list = [1 => new \Aimeos\MShop\Attribute\Item\Standard( ['attribute.code' => 'special_instructions'] )];
 		$object->expects( $this->once() )->method( 'getAttributes' )->will( $this->returnValue( $list ) );
 
-		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], ['1' => 'test']] );
+		$values = new \stdClass(); // test for PHP bug
+		$values->{'1'} = 'test';
+		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], (array) $values] );
 
 		$this->assertEquals( 1, count( $result ) );
 		$this->assertEquals( 'test', $result[0]->getValue() );

@@ -108,7 +108,8 @@ class Standard
 	public function store()
 	{
 		$total = 0;
-		$config = $this->getContext()->getConfig();
+		$context = $this->getContext();
+		$config = $context->getConfig();
 
 		/** controller/frontend/basket/limit-count
 		 * Maximum number of orders within the time frame
@@ -148,7 +149,7 @@ class Standard
 
 		$search = $this->domainManager->createSearch();
 		$expr = [
-			$search->compare( '==', 'order.base.editor', $this->getContext()->getEditor() ),
+			$search->compare( '==', 'order.base.editor', $context->getEditor() ),
 			$search->compare( '>=', 'order.base.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
 		];
 		$search->setConditions( $search->combine( '&&', $expr ) );
@@ -162,6 +163,7 @@ class Standard
 
 
 		$basket = $this->get()->finish();
+		$basket->setCustomerId( (string) $context->getUserId() );
 
 		$this->domainManager->begin();
 		$this->domainManager->store( $basket );

@@ -42,6 +42,8 @@ class Standard
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
+			$this->checkLimit( $values );
+
 			$item = $manager->createItem();
 			$item->fromArray( $values );
 			$item->setId( null );
@@ -468,6 +470,71 @@ class Standard
 		}
 
 		return $values;
+	}
+
+
+	/**
+	 * Checks if the current user is allowed to create more customer accounts
+	 *
+	 * @param string[] $values Associative list of customer keys (e.g. "customer.label") and their values
+	 * @throws \Aimeos\Controller\Frontend\Customer\Exception If access isn't allowed
+	 */
+	protected function checkLimit( array $values )
+	{
+		$total = 0;
+		$context = $this->getContext();
+		$config = $context->getConfig();
+
+		/** controller/frontend/customer/limit-count
+		 * Maximum number of customers within the time frame
+		 *
+		 * Creating new customers is limited to avoid abuse and mitigate denial of
+		 * service attacks. The number of customer accountss created within the
+		 * time frame configured by "controller/frontend/customer/limit-seconds"
+		 * are counted before a new customer account (identified by the IP address)
+		 * is created. If the number of accounts is higher than the configured value,
+		 * an error message will be shown to the user instead of creating a new account.
+		 *
+		 * @param integer Number of customer accounts allowed within the time frame
+		 * @since 2017.07
+		 * @category Developer
+		 * @see controller/frontend/customer/limit-seconds
+		 */
+		$count = $config->get( 'controller/frontend/customer/limit-count', 5 );
+
+		/** controller/frontend/customer/limit-seconds
+		 * Customer account limitation time frame in seconds
+		 *
+		 * Creating new customer accounts is limited to avoid abuse and mitigate
+		 * denial of service attacks. Within the configured time frame, only a
+		 * limited number of customer accounts can be created. All accounts from
+		 * the same source (identified by the IP address) within the last X
+		 * seconds are counted. If the total value is higher then the number
+		 * configured in "controller/frontend/customer/limit-count", an error
+		 * message will be shown to the user instead of creating a new account.
+		 *
+		 * @param integer Number of seconds to check customer accounts within
+		 * @since 2017.07
+		 * @category Developer
+		 * @see controller/frontend/customer/limit-count
+		 */
+		$seconds = $config->get( 'controller/frontend/customer/limit-seconds', 300 );
+
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
+
+		$search = $manager->createSearch();
+		$expr = [
+			$search->compare( '==', 'customer.editor', $context->getEditor() ),
+			$search->compare( '>=', 'customer.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
+		];
+		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setSlice( 0, 0 );
+
+		$manager->searchItems( $search, [], $total );
+
+		if( $total > $count ) {
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Temporary limit reached' ) );
+		}
 	}
 
 

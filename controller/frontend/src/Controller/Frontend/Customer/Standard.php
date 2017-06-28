@@ -30,13 +30,37 @@ class Standard
 	 */
 	public function addItem( array $values )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
+		$context = $this->getContext();
+		$config = $context->getConfig();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
 
+		$values = $this->addItemDefaults( $values );
 		$item = $manager->createItem();
 		$item->fromArray( $values );
 		$item->setId( null );
 
-		return $manager->saveItem( $item );
+		/** controller/frontend/customer/groupids
+		 * List of groups new customers should be assigned to
+		 *
+		 * Newly created customers will be assigned automatically to the groups
+		 * given by their IDs. This is especially useful if those groups limit
+		 * functionality for those users.
+		 *
+		 * @param array List of group IDs
+		 * @since 2017.07
+		 * @category User
+		 * @category Developer
+		 */
+		$gids = $config->get( 'client/html/checkout/standard/order/account/standard/groupids', [] ); // @deprecated
+		$item->setGroups( (array) $config->get( 'controller/frontend/customer/groupids', $gids ) );
+
+		$item = $manager->saveItem( $item );
+
+		$msg = $item->toArray();
+		$msg['customer.password'] = $values['customer.password'];
+		$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
+
+		return $item;
 	}
 
 
@@ -393,6 +417,49 @@ class Standard
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
 
 		return $manager->searchItems( $filter, [], $total );
+	}
+
+
+	/**
+	 * Adds the default values for customer items if not yet available
+	 *
+	 * @param string[] $values Associative list of customer keys (e.g. "customer.label") and their values
+	 * @return string[] Associative list of customer key/value pairs with default values set
+	 */
+	protected function addItemDefaults( array $values )
+	{
+		if( !isset( $values['customer.label'] ) || $values['customer.label'] == '' )
+		{
+			$label = '';
+
+			if( isset( $values['customer.lastname'] ) ) {
+				$label = $values['customer.lastname'];
+			}
+
+			if( isset( $values['customer.firstname'] ) && $values['customer.firstname'] != '' ) {
+				$label = $values['customer.firstname'] . ' ' . $label;
+			}
+
+			if( isset( $values['customer.company'] ) && $values['customer.company'] != '' ) {
+				$label .= ' (' . $values['customer.company'] . ')';
+			}
+
+			$values['customer.label'] = $label;
+		}
+
+		if( !isset( $values['customer.code'] ) ) {
+			$values['customer.code'] = $values['customer.email'];
+		}
+
+		if( !isset( $values['customer.status'] ) ) {
+			$values['customer.status'] = 1;
+		}
+
+		if( !isset( $values['customer.password'] ) ) {
+			$values['customer.password'] = substr( md5( microtime( true ) . getmypid() . rand() ), -8 );
+		}
+
+		return $values;
 	}
 
 

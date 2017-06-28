@@ -32,33 +32,41 @@ class Standard
 	{
 		$context = $this->getContext();
 		$config = $context->getConfig();
+
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
-
 		$values = $this->addItemDefaults( $values );
-		$item = $manager->createItem();
-		$item->fromArray( $values );
-		$item->setId( null );
 
-		/** controller/frontend/customer/groupids
-		 * List of groups new customers should be assigned to
-		 *
-		 * Newly created customers will be assigned automatically to the groups
-		 * given by their IDs. This is especially useful if those groups limit
-		 * functionality for those users.
-		 *
-		 * @param array List of group IDs
-		 * @since 2017.07
-		 * @category User
-		 * @category Developer
-		 */
-		$gids = $config->get( 'client/html/checkout/standard/order/account/standard/groupids', [] ); // @deprecated
-		$item->setGroups( (array) $config->get( 'controller/frontend/customer/groupids', $gids ) );
+		try
+		{
+			$item = $manager->findItem( $values['customer.code'] );
+		}
+		catch( \Aimeos\MShop\Exception $e )
+		{
+			$item = $manager->createItem();
+			$item->fromArray( $values );
+			$item->setId( null );
 
-		$item = $manager->saveItem( $item );
+			/** controller/frontend/customer/groupids
+			 * List of groups new customers should be assigned to
+			 *
+			 * Newly created customers will be assigned automatically to the groups
+			 * given by their IDs. This is especially useful if those groups limit
+			 * functionality for those users.
+			 *
+			 * @param array List of group IDs
+			 * @since 2017.07
+			 * @category User
+			 * @category Developer
+			 */
+			$gids = $config->get( 'client/html/checkout/standard/order/account/standard/groupids', [] ); // @deprecated
+			$item->setGroups( (array) $config->get( 'controller/frontend/customer/groupids', $gids ) );
 
-		$msg = $item->toArray();
-		$msg['customer.password'] = $values['customer.password'];
-		$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
+			$item = $manager->saveItem( $item );
+
+			$msg = $item->toArray();
+			$msg['customer.password'] = $values['customer.password'];
+			$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
+		}
 
 		return $item;
 	}

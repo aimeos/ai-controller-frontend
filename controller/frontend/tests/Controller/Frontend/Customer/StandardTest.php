@@ -55,7 +55,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddExistingItem()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
-		$id = $manager->findItem( 'UTC001' )->getId();
 
 		$item = $this->object->addItem( ['customer.code' => 'UTC001'] );
 		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $item );

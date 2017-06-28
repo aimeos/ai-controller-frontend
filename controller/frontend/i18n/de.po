@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-03 12:08+0100\n"
-"PO-Revision-Date: 2017-01-03 11:46+0000\n"
+"POT-Creation-Date: 2017-06-28 18:43+0200\n"
+"PO-Revision-Date: 2017-06-28 16:58+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: German (http://www.transifex.com/aimeos/aimeos-core/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -64,6 +64,10 @@ msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
 msgstr "Das Produkt mit der ID \"%2$s\" beinhaltet nicht die übergebenen \"%1$s\" Referenzen"
 
 #, php-format
+msgid "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr "Das Produkt mit der ID \"%2$s\" beinhaltet nicht die übergebenen \"%1$s\" Referenzen"
+
+#, php-format
 msgid "Invalid address properties, please check your input"
 msgstr "Ein oder mehrere Adressteile sind ungültig. Bitte überprüfen Sie Ihre Eingaben"
 
@@ -84,6 +88,10 @@ msgid "Invalid factory \"%1$s\""
 msgstr "Ungültige Factory \"%1$s\""
 
 #, php-format
+msgid "Invalid price value \"%1$s\""
+msgstr "Ungültiger Preis \"%1$s\""
+
+#, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Es wurde kein gültiger Wert für den Adresstyp \"%1$s\" übergeben"
 
@@ -96,8 +104,20 @@ msgid "No article found for selected attributes and product ID \"%1$s\""
 msgstr "Es wurde kein Artikel für das Produkt mit der ID \"%1$s\" und den gewählten Attributen gefunden"
 
 #, php-format
+msgid "No customer lists domain"
+msgstr "Keine Domäne für referenzierte Kundendaten"
+
+#, php-format
+msgid "No customer lists type code"
+msgstr "Kein Typ für referenzierte Kundendaten"
+
+#, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
 msgstr "Es konnte kein Eintrag für \"%1$s\" (%2$s) gefunden werden"
+
+#, php-format
+msgid "No order item for ID \"%1$s\" found"
+msgstr "Bestellung mit ID \"%1$s\" nicht gefunden"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
@@ -108,6 +128,10 @@ msgid "No unique article found for selected attributes and product ID \"%1$s\""
 msgstr "Es wurde kein eindeutiger Artikel für das Produkt mit der ID \"%1$s\" und den gewählten Attributen gefunden"
 
 #, php-format
+msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr "Zugriff auf Kundendaten mit der ID \"%1$s\" verweigert"
+
+#, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
 msgstr "Die Voraussetzungen für den Gutscheincode \"%1$s\" sind nicht erfüllt"
 
@@ -116,8 +140,24 @@ msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "Es wurde kein Eintrag für den Service mit der ID \"%2$s\" und dem Typ \"%1$s\" gefunden"
 
 #, php-format
+msgid "Temporary limit reached"
+msgstr "Zeitweiliges Limit erreicht"
+
+#, php-format
+msgid "Temporary order limit reached"
+msgstr "Zeitweiliges Limit für Bestellungen erreicht"
+
+#, php-format
+msgid "The order has already been created"
+msgstr "Die Bestellung ist schon gespeichert worden"
+
+#, php-format
 msgid "There are not enough products \"%1$s\" in stock"
 msgstr "Es sind leider nicht genügend Produkte \"%1$s\" vorhanden"
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "Methode \"%1$s\" kann nicht aufgerufen werden"
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""

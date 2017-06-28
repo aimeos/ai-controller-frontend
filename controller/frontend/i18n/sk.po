@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-03 12:08+0100\n"
-"PO-Revision-Date: 2016-12-02 09:52+0000\n"
+"POT-Creation-Date: 2017-06-28 18:43+0200\n"
+"PO-Revision-Date: 2017-06-28 16:44+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/aimeos/aimeos-core/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -63,6 +63,10 @@ msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
 msgstr "Neplatné \"%1$s\" referencuje produkt s ID \"%2$s\""
 
 #, php-format
+msgid "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr ""
+
+#, php-format
 msgid "Invalid address properties, please check your input"
 msgstr "Neplatné adresné vlastnosti, prosím skontrolujte to"
 
@@ -83,6 +87,10 @@ msgid "Invalid factory \"%1$s\""
 msgstr "Neplatná továreň \"%1$s\""
 
 #, php-format
+msgid "Invalid price value \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Neplatná hodnota pre typ adresy  \"%1$s\""
 
@@ -95,8 +103,20 @@ msgid "No article found for selected attributes and product ID \"%1$s\""
 msgstr "Nebol nájdený žiaden artikel pre zvolené kritéria a ID produktu \"%1$s\""
 
 #, php-format
+msgid "No customer lists domain"
+msgstr ""
+
+#, php-format
+msgid "No customer lists type code"
+msgstr ""
+
+#, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
 msgstr "Žiadná položka nebola nájdená pre \"%1$s\" (%2$s)"
+
+#, php-format
+msgid "No order item for ID \"%1$s\" found"
+msgstr ""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
@@ -107,6 +127,10 @@ msgid "No unique article found for selected attributes and product ID \"%1$s\""
 msgstr "Žiaden unikátny artikel sa nenašiel pre zvolené kritéria a ID produktu \"%1$s\""
 
 #, php-format
+msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
 msgstr "Požiadavky pre kód kupónu \"%1$s\" ste nesplnili"
 
@@ -115,8 +139,24 @@ msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "Položka služby pre typ \"%1$s\" a ID \"%2$s\" nebol nájdený"
 
 #, php-format
+msgid "Temporary limit reached"
+msgstr ""
+
+#, php-format
+msgid "Temporary order limit reached"
+msgstr ""
+
+#, php-format
+msgid "The order has already been created"
+msgstr ""
+
+#, php-format
 msgid "There are not enough products \"%1$s\" in stock"
 msgstr "Nie je dostatok tovaru \"%1$s\" na sklade"
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "Nepodarilo sa zavolať metódu \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""

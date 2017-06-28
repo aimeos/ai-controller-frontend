@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-03 12:08+0100\n"
-"PO-Revision-Date: 2016-12-02 09:52+0000\n"
+"POT-Creation-Date: 2017-06-28 18:43+0200\n"
+"PO-Revision-Date: 2017-06-28 16:44+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: Persian (http://www.transifex.com/aimeos/aimeos-core/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -35,11 +35,11 @@ msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr ""
+msgstr "کلاس \"%1$s\" از رابط کاربری \"%2$s\" پیاده سازی نشده است"
 
 #, php-format
 msgid "Class \"%1$s\" not available"
-msgstr ""
+msgstr "کلاس \"%1$s\" معتبر نمی‌باشد"
 
 #, php-format
 msgid "Controller path is empty"
@@ -62,12 +62,16 @@ msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
 msgstr ""
 
 #, php-format
+msgid "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr ""
+
+#, php-format
 msgid "Invalid address properties, please check your input"
 msgstr ""
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr ""
+msgstr "کاراکترهای نا معتبر در کلاس \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -75,10 +79,14 @@ msgstr ""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr ""
+msgstr "دامنه‌ی \"%1$s\" معتبر نمی‌باشد"
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
+msgstr "کارخانه‌ی \"%1$s\" معتبر نمی‌باشد"
+
+#, php-format
+msgid "Invalid price value \"%1$s\""
 msgstr ""
 
 #, php-format
@@ -94,7 +102,19 @@ msgid "No article found for selected attributes and product ID \"%1$s\""
 msgstr ""
 
 #, php-format
+msgid "No customer lists domain"
+msgstr ""
+
+#, php-format
+msgid "No customer lists type code"
+msgstr ""
+
+#, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
+msgstr ""
+
+#, php-format
+msgid "No order item for ID \"%1$s\" found"
 msgstr ""
 
 #, php-format
@@ -106,6 +126,10 @@ msgid "No unique article found for selected attributes and product ID \"%1$s\""
 msgstr ""
 
 #, php-format
+msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
 msgstr ""
 
@@ -114,8 +138,24 @@ msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr ""
 
 #, php-format
+msgid "Temporary limit reached"
+msgstr ""
+
+#, php-format
+msgid "Temporary order limit reached"
+msgstr ""
+
+#, php-format
+msgid "The order has already been created"
+msgstr ""
+
+#, php-format
 msgid "There are not enough products \"%1$s\" in stock"
 msgstr ""
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "صدا زدن متد \"%1$s\" غیرممکن می‌باشد"
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""

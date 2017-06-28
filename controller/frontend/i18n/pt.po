@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-03 12:08+0100\n"
-"PO-Revision-Date: 2016-12-02 09:52+0000\n"
+"POT-Creation-Date: 2017-06-28 18:43+0200\n"
+"PO-Revision-Date: 2017-06-28 16:44+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: Portuguese (http://www.transifex.com/aimeos/aimeos-core/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -63,6 +63,10 @@ msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
 msgstr "Referência \"%1$s\" inválida para o produto com ID \"%2$s\""
 
 #, php-format
+msgid "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr ""
+
+#, php-format
 msgid "Invalid address properties, please check your input"
 msgstr "Propriedades de endereço inválidas, por favor verifique"
 
@@ -83,6 +87,10 @@ msgid "Invalid factory \"%1$s\""
 msgstr "Fábrica inválida \"%1$s\""
 
 #, php-format
+msgid "Invalid price value \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Tipo de endereço \"%1$s\" inválido"
 
@@ -95,8 +103,20 @@ msgid "No article found for selected attributes and product ID \"%1$s\""
 msgstr "Nenhum item encontrado para os atributos selecionados e ID do produto \"%1$s\""
 
 #, php-format
+msgid "No customer lists domain"
+msgstr ""
+
+#, php-format
+msgid "No customer lists type code"
+msgstr ""
+
+#, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
 msgstr "Nenhum item encontrado para \"%1$s\" (%2$s)"
+
+#, php-format
+msgid "No order item for ID \"%1$s\" found"
+msgstr ""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
@@ -107,6 +127,10 @@ msgid "No unique article found for selected attributes and product ID \"%1$s\""
 msgstr "Nenhum item único encontrado para os atributos selecionados e ID do produto \"%1$s\""
 
 #, php-format
+msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
 msgstr "Os requisitos para o código do cupom \"%1$s\" não foram cumpridos"
 
@@ -115,8 +139,24 @@ msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "Item de serviço do tipo \"%1$s\" e ID \"%2$s\" não encontrado"
 
 #, php-format
+msgid "Temporary limit reached"
+msgstr ""
+
+#, php-format
+msgid "Temporary order limit reached"
+msgstr ""
+
+#, php-format
+msgid "The order has already been created"
+msgstr ""
+
+#, php-format
 msgid "There are not enough products \"%1$s\" in stock"
 msgstr "Não há produtos \"%1$s\" em estoque"
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "Incapaz de chamar o método \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-03 12:08+0100\n"
-"PO-Revision-Date: 2016-12-02 09:52+0000\n"
+"POT-Creation-Date: 2017-06-28 18:43+0200\n"
+"PO-Revision-Date: 2017-06-28 16:44+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: Russian (http://www.transifex.com/aimeos/aimeos-core/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -64,6 +64,10 @@ msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
 msgstr "Недопустимые ссылки \"%1$s\" для продукта с номером \"%2$s\""
 
 #, php-format
+msgid "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr ""
+
+#, php-format
 msgid "Invalid address properties, please check your input"
 msgstr "Недопустимые свойства адреса, проверьте введённые данные"
 
@@ -84,6 +88,10 @@ msgid "Invalid factory \"%1$s\""
 msgstr "Неверная фабрика \"%1$s\" "
 
 #, php-format
+msgid "Invalid price value \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Недопустимые значения для типа адреса \"%1$s\""
 
@@ -96,8 +104,20 @@ msgid "No article found for selected attributes and product ID \"%1$s\""
 msgstr "Элементов для выбранных атрибутов и номера товара \"%1$s\" не найдено"
 
 #, php-format
+msgid "No customer lists domain"
+msgstr ""
+
+#, php-format
+msgid "No customer lists type code"
+msgstr ""
+
+#, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
 msgstr "Не найдено элементов для \"%1$s\" (%2$s)"
+
+#, php-format
+msgid "No order item for ID \"%1$s\" found"
+msgstr ""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
@@ -108,6 +128,10 @@ msgid "No unique article found for selected attributes and product ID \"%1$s\""
 msgstr "По выбранным атрибутам и номеру товара \"%1$s\" уникальных статей не найдено"
 
 #, php-format
+msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
 msgstr "Не соблюдены требования для кода купона \"%1$s\""
 
@@ -116,8 +140,24 @@ msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "Не найден элемент службы для типа \"%1$s\" с номером \"%2$s\" "
 
 #, php-format
+msgid "Temporary limit reached"
+msgstr ""
+
+#, php-format
+msgid "Temporary order limit reached"
+msgstr ""
+
+#, php-format
+msgid "The order has already been created"
+msgstr ""
+
+#, php-format
 msgid "There are not enough products \"%1$s\" in stock"
 msgstr "Недостаточно запасов товара \"%1$s\""
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "Невозможно вызвать метод \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""

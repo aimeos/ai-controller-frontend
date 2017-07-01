@@ -33,6 +33,9 @@ class Standard
 		$context = $this->getContext();
 		$config = $context->getConfig();
 
+		// Show only generated passwords in account creation e-mails
+		$pass = ( isset( $values['customer.password'] ) ? false : true );
+
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
 		$values = $this->addItemDefaults( $values );
 
@@ -66,7 +69,7 @@ class Standard
 			$item = $manager->saveItem( $item );
 
 			$msg = $item->toArray();
-			$msg['customer.password'] = $values['customer.password'];
+			$msg['customer.password'] = ( $pass ? $values['customer.password'] : null );
 			$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
 		}
 

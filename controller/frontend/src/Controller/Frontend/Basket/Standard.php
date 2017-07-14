@@ -338,7 +338,7 @@ class Standard
 		}
 
 
-		$provider = $manager->getProvider( $item, $code );
+		$provider = $manager->getProvider( $item, $codeItem->getCode() );
 
 		if( $provider->isAvailable( $this->get() ) !== true ) {
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Requirements for coupon code "%1$s" aren\'t met', $code ) );

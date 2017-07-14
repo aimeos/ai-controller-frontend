@@ -30,25 +30,30 @@ class Standard
 	 */
 	public function addItem( array $values )
 	{
+		$list = [];
 		$context = $this->getContext();
 		$config = $context->getConfig();
 
 		// Show only generated passwords in account creation e-mails
 		$pass = ( isset( $values['customer.password'] ) ? false : true );
 
+		foreach( $values as $key => $val ) {
+			$list[str_replace( 'order.base.address', 'customer', $key )] = $val;
+		}
+
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
-		$values = $this->addItemDefaults( $values );
+		$list = $this->addItemDefaults( $list );
 
 		try
 		{
-			$item = $manager->findItem( $values['customer.code'] );
+			$item = $manager->findItem( $list['customer.code'] );
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
-			$this->checkLimit( $values );
+			$this->checkLimit( $list );
 
 			$item = $manager->createItem();
-			$item->fromArray( $values );
+			$item->fromArray( $list );
 			$item->setId( null );
 
 			/** controller/frontend/customer/groupids
@@ -69,7 +74,7 @@ class Standard
 			$item = $manager->saveItem( $item );
 
 			$msg = $item->toArray();
-			$msg['customer.password'] = ( $pass ? $values['customer.password'] : null );
+			$msg['customer.password'] = ( $pass ? $list['customer.password'] : null );
 			$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
 		}
 
@@ -460,7 +465,7 @@ class Standard
 			$values['customer.label'] = $label;
 		}
 
-		if( !isset( $values['customer.code'] ) ) {
+		if( !isset( $values['customer.code'] ) && isset( $values['customer.email'] ) ) {
 			$values['customer.code'] = $values['customer.email'];
 		}
 

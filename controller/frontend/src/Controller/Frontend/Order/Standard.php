@@ -118,6 +118,19 @@ class Standard
 
 
 	/**
+	 * Saves the modified order item
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Iface $item Order object
+	 * @return \Aimeos\MShop\Order\Item\Iface Saved order item
+	 */
+	public function saveItem( \Aimeos\MShop\Order\Item\Iface $item )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' );
+		return $manager->saveItem( $item );
+	}
+
+
+	/**
 	 * Returns the order items based on the given filter that belong to the current user
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface Filter object

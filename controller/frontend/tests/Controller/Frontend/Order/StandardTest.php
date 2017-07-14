@@ -99,6 +99,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSaveItem()
+	{
+		$manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['saveItem'] )
+			->getMock();
+
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'order', $manager );
+
+		$manager->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->returnValue( $manager->createItem() ) );
+
+		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->saveItem( $manager->createItem() ) );
+	}
+
+
 	public function testSearchItems()
 	{
 		$this->assertGreaterThan( 1, $this->object->searchItems( $this->object->createFilter() ) );

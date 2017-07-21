@@ -304,6 +304,32 @@ class Standard
 	 */
 	public function addCoupon( $code )
 	{
+		$context = $this->getContext();
+
+		/** controller/frontend/basket/standard/coupon/allowed
+		 * Number of coupon codes a customer is allowed to enter
+		 *
+		 * This configuration option enables shop owners to limit the number of coupon
+		 * codes that can be added by a customer to his current basket. By default, only
+		 * one coupon code is allowed per order.
+		 *
+		 * Coupon codes are valid until a payed order is placed by the customer. The
+		 * "count" of the codes is decreased afterwards. If codes are not personalized
+		 * the codes can be reused in the next order until their "count" reaches zero.
+		 *
+		 * @param integer Positive number of coupon codes including zero
+		 * @since 2017.08
+		 * @category User
+		 * @category Developer
+		 */
+		$allowed = $context->getConfig()->get( 'client/html/basket/standard/coupon/allowed', 1 ); // @deprecated
+		$allowed = $context->getConfig()->get( 'controller/frontend/basket/standard/coupon/allowed', $allowed );
+
+		if( $allowed <= count( $this->get()->getCoupons() ) ) {
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Number of coupon codes exceeds the limit' ) );
+		}
+
+
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon' );
 		$codeManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon/code' );
 

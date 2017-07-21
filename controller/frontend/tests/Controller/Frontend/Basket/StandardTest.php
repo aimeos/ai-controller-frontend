@@ -384,6 +384,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddCouponExceedCount()
+	{
+		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addCoupon( 'GHIJ' );
+
+		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->object->addCoupon( 'GHIJ' );
+	}
+
+
 	public function testAddCouponInvalidCode()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );

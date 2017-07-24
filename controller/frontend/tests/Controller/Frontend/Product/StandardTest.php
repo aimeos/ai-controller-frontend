@@ -255,6 +255,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItems()
 	{
 		$context = \TestHelperFrontend::getContext();
+		$context->getConfig()->set( 'controller/frontend/product/ignore-dates', true );
+
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
 
 		$search = $manager->createSearch();

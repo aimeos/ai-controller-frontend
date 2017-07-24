@@ -176,18 +176,6 @@ class Standard
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'index' );
 
 
-		/** controller/frontend/order/ignore-dates
-		 * Ignore start and end dates of products
-		 *
-		 * Usually, products are only shown in the product list if their start/end
-		 * dates are not set or if the current date is withing the start/end date
-		 * range of the product. This settings will list all products that wouldn't
-		 * be shown due to their start/end dates but they still can't be bought.
-		 *
-		 * @param boolean True to show products whose start/end date range doesn't match the current date, false to hide them
-		 * @since 2017.08
-		 * @category Developer
-		 */
 		if( $context->getConfig()->get( 'controller/frontend/product/ignore-dates', false ) )
 		{
 			$search = $manager->createSearch();
@@ -248,7 +236,13 @@ class Standard
 	 */
 	public function getItem( $productId, array $domains = array( 'attribute', 'media', 'price', 'product', 'product/property', 'text' ) )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' )->getItem( $productId, $domains, true );
+		$items = $this->getItems( [$productId], $domains );
+
+		if( ( $item = reset( $items ) ) !== false ) {
+			return $item;
+		}
+
+		throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Product item with ID "%1$s" not found', $productId ) );
 	}
 
 
@@ -262,9 +256,31 @@ class Standard
 	 */
 	public function getItems( array $productIds, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
 
-		$search = $manager->createSearch( true );
+		/** controller/frontend/order/ignore-dates
+		 * Ignore start and end dates of products
+		 *
+		 * Usually, products are only shown in the product list if their start/end
+		 * dates are not set or if the current date is withing the start/end date
+		 * range of the product. This settings will list all products that wouldn't
+		 * be shown due to their start/end dates but they still can't be bought.
+		 *
+		 * @param boolean True to show products whose start/end date range doesn't match the current date, false to hide them
+		 * @since 2017.08
+		 * @category Developer
+		 */
+		if( $context->getConfig()->get( 'controller/frontend/product/ignore-dates', false ) )
+		{
+			$search = $manager->createSearch();
+			$search->setConditions( $search->compare( '>', 'product.status', 0 ) );
+		}
+		else
+		{
+			$search = $manager->createSearch( true );
+		}
+
 		$expr = array(
 			$search->compare( '==', 'product.id', $productIds ),
 			$search->getConditions(),

@@ -16,7 +16,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp()
 	{
-		$this->object = new \Aimeos\Controller\Frontend\Product\Standard( \TestHelperFrontend::getContext() );
+		$this->context = \TestHelperFrontend::getContext();
+		$this->object = new \Aimeos\Controller\Frontend\Product\Standard( $this->context );
 	}
 
 
@@ -43,6 +44,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( [], $filter->getSortations() );
 		$this->assertEquals( 0, $filter->getSliceStart() );
 		$this->assertEquals( 100, $filter->getSliceSize() );
+	}
+
+
+	public function testCreateFilterIgnoreDates()
+	{
+		$this->context->getConfig()->set( 'controller/frontend/product/ignore-dates', true );
+
+		$filter = $this->object->createFilter();
+
+		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
 	}
 
 

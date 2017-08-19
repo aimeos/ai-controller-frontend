@@ -195,6 +195,10 @@ class Standard
 				$sortations[] = $search->sort( $direction, 'product.code' );
 				break;
 
+			case 'ctime':
+				$sortations[] = $search->sort( $direction, 'product.ctime' );
+				break;
+
 			case 'name':
 				$langid = $context->getLocale()->getLanguageId();
 

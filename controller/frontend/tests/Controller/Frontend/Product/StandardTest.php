@@ -196,6 +196,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testCreateFilterSortCtime()
+	{
+		$filter = $this->object->createFilter( 'ctime' );
+
+		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
+
+		$sort = $filter->getSortations();
+		if( ( $item = reset( $sort ) ) === false ) {
+			throw new \RuntimeException( 'Sortation not set' );
+		}
+
+		$this->assertEquals( 'product.ctime', $item->getName() );
+	}
+
+
 	public function testCreateFilterSortName()
 	{
 		$filter = $this->object->createFilter( 'name' );

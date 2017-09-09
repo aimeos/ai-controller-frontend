@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="ai-controller-frontend extension - frontend controller" default="all">
-	
+
 	<target name="test" description="Executes unit tests">
 		<echo msg="Executing unit tests" />
 		<delete file="tests/unittest.log" quiet="true" failonerror="false" />
 		<exec command="${bindir}phpunit -d memory_limit=-1 --include-path ${coredir} --configuration=phpunit.xml"
-			  dir="tests" checkreturn="true" logoutput="true"/>
+			  dir="tests" checkreturn="true" logoutput="true" passthru="true" />
 	</target>
-	
+
 	<target name="coverage" description="Generates the code coverage report">
 		<echo msg="Generating code coverage report" />
 		<delete file="tests/unittest.log" quiet="true" failonerror="false" />
 		<delete file="tests/coverage.xml" quiet="true" failonerror="false" />
 		<exec command="${bindir}phpunit -d memory_limit=-1 --include-path ${coredir} --configuration=phpunit-coverage.xml"
-			  dir="tests" checkreturn="true" logoutput="true"/>
+			  dir="tests" checkreturn="true" logoutput="true" passthru="true" />
 	</target>
-	
+
 	<target name="check" description="Executes code sniffer">
 		<echo msg="Executing code sniffer" />
 		<exec command="${bindir}phpcs -n --standard=${codestddir}/Metaways src tests/Controller"
-			  checkreturn="true" logoutput="true"/>
+			  checkreturn="true" logoutput="true" passthru="true" />
 	</target>
 
 	<target name="clean" description="Executes all deployment tasks">
@@ -44,11 +44,11 @@
 	        </fileset>
 	    </foreach>
 	</target>
-	
+
 	<target name="i18n-update" description="Updates translation message files">
 		<fail unless="po-filename" message="Missing file name" />
 		<echo msg="File: ${po-filename}" />
-		<exec command="msgmerge --no-wrap -s -U --backup=none ${po-filename} i18n/core-controller-frontend.pot" checkreturn="true" logoutput="true" /> 
+		<exec command="msgmerge --no-wrap -s -U --backup=none ${po-filename} i18n/core-controller-frontend.pot" checkreturn="true" logoutput="true" />
   </target>
 
 	<target name="build" description="Builds package for deployment">
@@ -62,7 +62,7 @@
 	<target name="build-mo" description="Generates binary translation files">
 		<fail unless="po-filename" message="Missing file name" />
 		<echo msg="File: ${po-filename}" />
-		<exec command="msgfmt --statistics -c -o `echo ${po-filename} | sed s/\.po//` ${po-filename}" checkreturn="true" logoutput="true" /> 
+		<exec command="msgfmt --statistics -c -o `echo ${po-filename} | sed s/\.po//` ${po-filename}" checkreturn="true" logoutput="true" />
     </target>
 
 	<target name="all" depends="coverage" description="Builds all parts of the package">

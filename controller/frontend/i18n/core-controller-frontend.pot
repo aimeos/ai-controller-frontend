@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-28 18:59+0200\n"
+"POT-Creation-Date: 2017-10-02 17:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,6 +127,14 @@ msgstr "No unique article found for selected attributes and product ID \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr ""
+
+#, php-format
+msgid "Number of coupon codes exceeds the limit"
+msgstr ""
+
+#, php-format
+msgid "Product item with ID \"%1$s\" not found"
 msgstr ""
 
 #, php-format

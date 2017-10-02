@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-28 18:43+0200\n"
-"PO-Revision-Date: 2017-06-28 19:40+0000\n"
-"Last-Translator: Ev Ra <evert.ramos@ymail.com>\n"
+"POT-Creation-Date: 2017-10-02 17:37+0200\n"
+"PO-Revision-Date: 2017-10-02 15:52+0000\n"
+"Last-Translator: Aimeos\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/aimeos/aimeos-core/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,6 +131,14 @@ msgstr "Nenhum item único encontrado para os atributos selecionados e ID do pro
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
 msgstr "Sem permissão para acessar os dados do cliente para o ID \"%1$s\""
+
+#, php-format
+msgid "Number of coupon codes exceeds the limit"
+msgstr "Número de códigos de cupom excede o limite"
+
+#, php-format
+msgid "Product item with ID \"%1$s\" not found"
+msgstr ""
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"

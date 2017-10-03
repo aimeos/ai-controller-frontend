@@ -176,6 +176,18 @@ class Standard
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'index' );
 
 
+		/** controller/frontend/product/ignore-dates
+		 * Fetch product items even if they can't be bought at the current point in time
+		 *
+		 * Sometimes it's useful to show products in list and details views even
+		 * if they can't be bought at the moment. Setting this configuration
+		 * option to true will return product regardless of their start/end date
+		 * but the product status is still checked.
+		 *
+		 * @param boolean True to get items regardless of their start/end date, false to check start/end dates
+		 * @since 2017.10
+		 * @category Developer
+		 */
 		if( $context->getConfig()->get( 'controller/frontend/product/ignore-dates', false ) )
 		{
 			$search = $manager->createSearch();

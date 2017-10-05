@@ -157,8 +157,10 @@ class Standard
 
 		$this->domainManager->searchItems( $search, [], $total );
 
-		if( $total > $count ) {
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Temporary order limit reached' ) );
+		if( $total > $count )
+		{
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Temporary order limit reached' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
 
@@ -246,8 +248,8 @@ class Standard
 
 		if( $product->getFlags() === \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = sprintf( 'Basket item at position "%1$d" cannot be deleted manually', $position );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be deleted manually' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
 		$this->get()->deleteProduct( $position );
@@ -271,8 +273,8 @@ class Standard
 
 		if( $product->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = sprintf( 'Basket item at position "%1$d" cannot be changed', $position );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
 		$product->setQuantity( $quantity );
@@ -325,8 +327,10 @@ class Standard
 		$allowed = $context->getConfig()->get( 'client/html/basket/standard/coupon/allowed', 1 ); // @deprecated
 		$allowed = $context->getConfig()->get( 'controller/frontend/basket/standard/coupon/allowed', $allowed );
 
-		if( $allowed <= count( $this->get()->getCoupons() ) ) {
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Number of coupon codes exceeds the limit' ) );
+		if( $allowed <= count( $this->get()->getCoupons() ) )
+		{
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Number of coupon codes exceeds the limit' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
 
@@ -344,8 +348,10 @@ class Standard
 
 		$result = $codeManager->searchItems( $search );
 
-		if( ( $codeItem = reset( $result ) ) === false ) {
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Coupon code "%1$s" is invalid or not available any more', $code ) );
+		if( ( $codeItem = reset( $result ) ) === false )
+		{
+			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Coupon code "%1$s" is invalid or not available any more' ), $code );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
 
@@ -359,15 +365,19 @@ class Standard
 
 		$result = $manager->searchItems( $search );
 
-		if( ( $item = reset( $result ) ) === false ) {
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Coupon for code "%1$s" is not available any more', $code ) );
+		if( ( $item = reset( $result ) ) === false )
+		{
+			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Coupon for code "%1$s" is not available any more' ), $code );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
 
 		$provider = $manager->getProvider( $item, $codeItem->getCode() );
 
-		if( $provider->isAvailable( $this->get() ) !== true ) {
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Requirements for coupon code "%1$s" aren\'t met', $code ) );
+		if( $provider->isAvailable( $this->get() ) !== true )
+		{
+			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Requirements for coupon code "%1$s" aren\'t met' ), $code );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
 		$provider->addCoupon( $this->get() );
@@ -383,7 +393,8 @@ class Standard
 	 */
 	public function deleteCoupon( $code )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon' );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'coupon' );
 
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'coupon.code.code', $code ) );
@@ -391,8 +402,10 @@ class Standard
 
 		$result = $manager->searchItems( $search );
 
-		if( ( $item = reset( $result ) ) === false ) {
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Coupon code "%1$s" is invalid', $code ) );
+		if( ( $item = reset( $result ) ) === false )
+		{
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Coupon code "%1$s" is invalid' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $code ) );
 		}
 
 		$manager->getProvider( $item, $code )->deleteCoupon( $this->get() );
@@ -410,7 +423,8 @@ class Standard
 	 */
 	public function setAddress( $type, $value )
 	{
-		$address = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/address' )->createItem();
+		$context = $this->getContext();
+		$address = \Aimeos\MShop\Factory::createManager( $context, 'order/base/address' )->createItem();
 		$address->setType( $type );
 
 		if( $value instanceof \Aimeos\MShop\Common\Item\Address\Iface )
@@ -429,7 +443,8 @@ class Standard
 		}
 		else
 		{
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Invalid value for address type "%1$s"', $type ) );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid value for address type "%1$s"' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $type ) );
 		}
 
 		$this->save();
@@ -465,7 +480,8 @@ class Standard
 
 		if( count( $unknown ) > 0 )
 		{
-			$msg = sprintf( 'Unknown attributes "%1$s"', implode( '","', array_keys( $unknown ) ) );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Unknown attributes "%1$s"' );
+			$msg = sprintf( $msg, implode( '","', array_keys( $unknown ) ) );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
@@ -509,7 +525,7 @@ class Standard
 
 		if( count( $errors ) > 0 )
 		{
-			$msg = sprintf( 'Invalid address properties, please check your input' );
+			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Invalid address properties, please check your input' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 0, null, $errors );
 		}
 	}

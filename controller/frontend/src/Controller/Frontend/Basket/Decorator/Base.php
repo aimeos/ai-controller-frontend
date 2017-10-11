@@ -215,7 +215,7 @@ abstract class Base
 
 
 	/**
-	 * Sets the address of the customer in the basket.
+	 * Adds the delivery/payment service item based on the service ID.
 	 *
 	 * @param string $type Address type constant from \Aimeos\MShop\Order\Item\Base\Address\Base
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface|array|null $value Address object or array with key/value pairs of address or null to remove address from basket
@@ -239,9 +239,20 @@ abstract class Base
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
 	 * @return void
 	 */
-	public function setService( $type, $id, array $attributes = [] )
+	public function addService( $type, $id, array $attributes = [] )
 	{
-		$this->controller->setService( $type, $id, $attributes );
+		$this->controller->addService( $type, $id, $attributes );
+	}
+
+
+	/**
+	 * Removes the delivery or payment service items from the basket
+	 *
+	 * @param string $type Service type code like 'payment' or 'delivery'
+	 */
+	public function deleteService( $type )
+	{
+		$this->controller->deleteService( $type );
 	}
 
 

@@ -206,7 +206,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$serviceItem = $serviceManager->findItem( 'unitcode', [], 'service', 'delivery' );
 		$ordServItem = $ordServManager->createItem()->copyFrom( $serviceItem );
 
-		$ordBaseItem->setService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
+		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
 
 
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
@@ -220,8 +220,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( ['test'], $result );
 		$this->assertEquals( 1, count( $object->get()->getServices() ) );
 
-		$service = $object->get()->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Service\Iface', $service );
+		$services = $object->get()->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
+
+		foreach( $services as $service ) {
+			$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Service\Iface', $service );
+		}
 
 		$object->clear();
 	}
@@ -238,15 +241,15 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$serviceItem = $serviceManager->findItem( 'unitcode', [], 'service', 'delivery' );
 		$ordServItem = $ordServManager->createItem()->copyFrom( $serviceItem );
 
-		$ordBaseItem->setService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
+		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
 
 
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['setService'] )
+			->setMethods( ['addService'] )
 			->getMock();
 
-		$object->expects( $this->once() )->method( 'setService' )->will( $this->throwException( new \Exception() ) );
+		$object->expects( $this->once() )->method( 'addService' )->will( $this->throwException( new \Exception() ) );
 
 		$result = $this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
 

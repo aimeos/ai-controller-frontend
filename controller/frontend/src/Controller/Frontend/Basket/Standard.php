@@ -452,7 +452,7 @@ class Standard
 
 
 	/**
-	 * Sets the delivery/payment service item based on the service ID.
+	 * Adds the delivery/payment service item based on the service ID.
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
 	 * @param string $id|null Unique ID of the service item or null to remove it
@@ -460,15 +460,8 @@ class Standard
 	 * 	entered by the customer when choosing one of the delivery or payment options
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
 	 */
-	public function setService( $type, $id, array $attributes = [] )
+	public function addService( $type, $id, array $attributes = [] )
 	{
-		if( $id === null )
-		{
-			$this->get()->deleteService( $type );
-			$this->save();
-			return;
-		}
-
 		$context = $this->getContext();
 
 		$serviceManager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
@@ -502,7 +495,19 @@ class Standard
 
 		$provider->setConfigFE( $orderServiceItem, $attributes );
 
-		$this->get()->setService( $orderServiceItem, $type );
+		$this->get()->addService( $orderServiceItem, $type );
+		$this->save();
+	}
+
+
+	/**
+	 * Removes the delivery or payment service items from the basket
+	 *
+	 * @param string $type Service type code like 'payment' or 'delivery'
+	 */
+	public function deleteService( $type )
+	{
+		$this->get()->deleteService( $type );
 		$this->save();
 	}
 

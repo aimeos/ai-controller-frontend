@@ -330,20 +330,23 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function copyServices( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors )
 	{
-		foreach( $basket->getServices() as $type => $item )
+		foreach( $basket->getServices() as $type => $list )
 		{
-			try
+			foreach( $list as $item )
 			{
-				$attributes = [];
+				try
+				{
+					$attributes = [];
 
-				foreach( $item->getAttributes() as $attrItem ) {
-					$attributes[$attrItem->getCode()] = $attrItem->getValue();
+					foreach( $item->getAttributes() as $attrItem ) {
+						$attributes[$attrItem->getCode()] = $attrItem->getValue();
+					}
+
+					$this->addService( $type, $item->getServiceId(), $attributes );
+					$basket->deleteService( $type );
 				}
-
-				$this->setService( $type, $item->getServiceId(), $attributes );
-				$basket->deleteService( $type );
+				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically
 			}
-			catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically
 		}
 
 		return $errors;

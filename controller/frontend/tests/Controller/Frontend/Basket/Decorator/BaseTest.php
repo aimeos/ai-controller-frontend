@@ -165,11 +165,19 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testSetService()
+	public function testAddService()
 	{
-		$this->stub->expects( $this->once() )->method( 'setService' );
+		$this->stub->expects( $this->once() )->method( 'addService' );
 
-		$this->object->setService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT, -1 );
+		$this->object->addService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT, -1 );
+	}
+
+
+	public function testDeleteService()
+	{
+		$this->stub->expects( $this->once() )->method( 'deleteService' );
+
+		$this->object->deleteService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
 	}
 
 

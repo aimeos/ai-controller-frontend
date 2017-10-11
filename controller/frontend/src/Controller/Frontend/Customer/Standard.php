@@ -128,7 +128,7 @@ class Standard
 		$this->checkUser( $id );
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
-		$item = $manager->getItem( $id, [], true );
+		$item = $manager->getItem( $id, ['customer/group'], true );
 
 		unset( $values['customer.id'] );
 		$item->fromArray( $values );

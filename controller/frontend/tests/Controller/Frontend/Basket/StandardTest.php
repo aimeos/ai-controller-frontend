@@ -223,7 +223,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductAttributePrice()
 	{
-		$configAttrIds = [];
 		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
@@ -380,7 +379,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, $item->getQuantity() );
 
 
-		$this->object->editProduct( 0, 3, [], array( $attribute->getType() ) );
+		$this->object->editProduct( 0, 3, [], array( reset( $attributes )->getType() ) );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 3, $item->getQuantity() );

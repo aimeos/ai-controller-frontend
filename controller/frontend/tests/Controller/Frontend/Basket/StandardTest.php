@@ -221,6 +221,30 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddProductAttributePrice()
+	{
+		$configAttrIds = [];
+		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+
+		$search = $attributeManager->createSearch();
+		$expr = array(
+			$search->compare( '==', 'attribute.code', 'xs' ),
+			$search->compare( '==', 'attribute.type.code', 'size' ),
+		);
+		$search->setConditions( $search->combine( '&&', $expr ) );
+
+		$attributes = $attributeManager->searchItems( $search );
+
+		if( ( $attribute = reset( $attributes ) ) === false ) {
+			throw new \RuntimeException( 'Attribute not found' );
+		}
+
+		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [$attribute->getId() => 2] );
+
+		$this->assertEquals( '43.90', $this->object->get()->getPrice()->getValue() );
+	}
+
+
 	public function testAddProductAttributeNotAssigned()
 	{
 		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
@@ -318,6 +342,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testEditProductAttributes()
 	{
+		$configAttrIds = [];
 		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
@@ -337,14 +362,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search->setConditions( $search->combine( '&&', $conditions ) );
 		$attributes = $attributeManager->searchItems( $search );
 
-		if( ( $attribute = reset( $attributes ) ) === false ) {
+		if( empty( $attributes ) ) {
 			throw new \RuntimeException( 'No attributes available' );
 		}
 
+		foreach( $attributes as $id => $attribute ) {
+			$configAttrIds[$id] = 1;
+		}
 
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
 
-		$this->object->addProduct( $item->getId(), 1, [], [], array_keys( $attributes ) );
+		$this->object->addProduct( $item->getId(), 1, [], [], $configAttrIds );
 		$this->object->editProduct( 0, 4 );
 
 		$item = $this->object->get()->getProduct( 0 );

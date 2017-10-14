@@ -73,7 +73,7 @@ class Select
 		$this->checkListRef( array( $prodid, $productItem->getId() ), 'attribute', $attributeMap );
 
 		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues ) );
-		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'config', $configAttributeIds ) );
+		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds ) );
 		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'hidden', $hiddenAttributeIds ) );
 
 		$orderBaseProductItem->setAttributes( $attr );

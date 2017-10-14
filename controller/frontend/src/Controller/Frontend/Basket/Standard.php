@@ -211,7 +211,7 @@ class Standard
 	{
 		$attributeMap = [
 			'custom' => array_keys( $customAttributeValues ),
-			'config' => $configAttributeIds,
+			'config' => array_keys( $configAttributeIds ),
 			'hidden' => $hiddenAttributeIds,
 		];
 		$this->checkListRef( $prodid, 'attribute', $attributeMap );
@@ -226,7 +226,7 @@ class Standard
 		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
 		$attr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
-		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'config', $configAttributeIds ) );
+		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds ) );
 		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'hidden', $hiddenAttributeIds ) );
 
 		$orderBaseProductItem->setAttributes( $attr );

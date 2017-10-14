@@ -57,15 +57,19 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$price->setValue( $amount );
 		}
 
-		// add prices of (optional) attributes
-		foreach( $this->getAttributeItems( $product->getAttributes() ) as $attrItem )
-		{
-			$prices = $attrItem->getRefItems( 'price', 'default' );
+		$orderAttributes = $product->getAttributes();
+		$attrItems = $this->getAttributeItems( $orderAttributes );
 
-			if( count( $prices ) > 0 )
-			{
-				$attrPrice = $priceManager->getLowestPrice( $prices, $quantity );
-				$price->addItem( $attrPrice );
+		// add prices of (optional) attributes
+		foreach( $orderAttributes as $orderAttrItem )
+		{
+			$attrId = $orderAttrItem->getAttributeId();
+
+			if( isset( $attrItems[$attrId] )
+				&& ( $prices = $attrItems[$attrId]->getRefItems( 'price', 'default' ) ) !== []
+			) {
+				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity() );
+				$price->addItem( $attrPrice, $orderAttrItem->getQuantity() );
 			}
 		}
 
@@ -515,31 +519,29 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Returns the order product attribute items for the given IDs and values
 	 *
 	 * @param string $type Attribute type code
-	 * @param array $attributeIds List of attributes IDs of the given type
-	 * @param array $attributeValues Associative list of attribute IDs as keys and their codes as values
+	 * @param array $ids List of attributes IDs of the given type
+	 * @param array $values Associative list of attribute IDs as keys and their codes as values
+	 * @param array $quantities Associative list of attribute IDs as keys and their quantities as values
 	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
 	 */
-	protected function getOrderProductAttributes( $type, array $attributeIds, array $attributeValues = [] )
+	protected function getOrderProductAttributes( $type, array $ids, array $values = [], array $quantities = [] )
 	{
-		if( empty( $attributeIds ) ) {
+		if( empty( $ids ) ) {
 			return [];
-		}
-
-		foreach( $attributeValues as $key => $value ) {
-			$attributeValues[(string) $key] = $value; // Workaround for PHP bug #74739
 		}
 
 		$list = [];
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product/attribute' );
 
-		foreach( $this->getAttributes( $attributeIds ) as $id => $attrItem )
+		foreach( $this->getAttributes( $ids ) as $id => $attrItem )
 		{
 			$item = $manager->createItem();
 			$item->copyFrom( $attrItem );
 			$item->setType( $type );
+			$item->setQuantity( isset( $quantities[$id] ) ? $quantities[$id] : 1 );
 
-			if( isset( $attributeValues[$id] ) ) {
-				$item->setValue( $attributeValues[$id] );
+			if( isset( $values[$id] ) ) {
+				$item->setValue( $values[$id] );
 			}
 
 			$list[] = $item;

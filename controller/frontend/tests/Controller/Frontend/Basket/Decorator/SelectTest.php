@@ -184,11 +184,11 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 		$attributes = $attributeManager->searchItems( $search );
 
-		if( empty( $attributes ) ) {
+		if( ( $attribute = reset( $attributes ) ) === false ) {
 			throw new \RuntimeException( 'Attribute not found' );
 		}
 
-		$this->object->addProduct( $this->testItem->getId(), 1, [], [], array_keys( $attributes ) );
+		$this->object->addProduct( $this->testItem->getId(), 1, [], [], [$attribute->getId() => 1] );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );

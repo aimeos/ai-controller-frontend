@@ -267,9 +267,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$list = [1 => new \Aimeos\MShop\Attribute\Item\Standard( ['attribute.code' => 'special_instructions'] )];
 		$object->expects( $this->once() )->method( 'getAttributes' )->will( $this->returnValue( $list ) );
 
-		$values = new \stdClass(); // test for PHP bug
-		$values->{'1'} = 'test';
-		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], (array) $values] );
+		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], ['1' => 'test']] );
 
 		$this->assertEquals( 1, count( $result ) );
 		$this->assertEquals( 'test', $result[0]->getValue() );

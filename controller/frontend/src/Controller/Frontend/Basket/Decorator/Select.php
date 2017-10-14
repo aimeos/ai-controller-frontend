@@ -67,7 +67,7 @@ class Select
 
 		$attributeMap = [
 			'custom' => array_keys( $customAttributeValues ),
-			'config' => $configAttributeIds,
+			'config' => array_keys( $configAttributeIds ),
 			'hidden' => $hiddenAttributeIds,
 		];
 		$this->checkListRef( array( $prodid, $productItem->getId() ), 'attribute', $attributeMap );

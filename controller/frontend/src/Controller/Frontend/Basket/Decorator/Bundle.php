@@ -58,7 +58,7 @@ class Bundle
 
 		$attributeMap = [
 			'custom' => array_keys( $customAttributeValues ),
-			'config' => $configAttributeIds,
+			'config' => array_keys( $configAttributeIds ),
 			'hidden' => $hiddenAttributeIds,
 		];
 		$this->checkListRef( $prodid, 'attribute', $attributeMap );

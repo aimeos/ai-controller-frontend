@@ -37,7 +37,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( empty( $prices ) )
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+			$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
 			$prices = $manager->getItem( $product->getProductId(), array( 'price' ) )->getRefItems( 'price', 'default' );
 		}
 
@@ -50,8 +50,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			$amount = $attr->getValue();
 
-			if( preg_match( '/^[0-9]*(\.[0-9]+)?$/', $amount ) !== 1 || ((double) $amount) < 0.01 ) {
-				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( 'Invalid price value "%1$s"', $amount ) );
+			if( preg_match( '/^[0-9]*(\.[0-9]+)?$/', $amount ) !== 1 || ((double) $amount) < 0.01 )
+			{
+				$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid price value "%1$s"' );
+				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $amount ) );
 			}
 
 			$price->setValue( $amount );
@@ -94,7 +96,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return;
 		}
 
-		$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+		$context = $this->getContext();
+		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
 		$search = $productManager->createSearch( true );
 
 		$expr = array(
@@ -122,8 +125,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( count( $productManager->searchItems( $search, [] ) ) === 0 )
 		{
-			$msg = sprintf( 'Invalid "%1$s" references for product with ID %2$s', $domain, json_encode( $prodId ) );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $domain, json_encode( $prodId ) ) );
 		}
 	}
 
@@ -140,7 +143,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function checkReferences( $prodId, $domain, $listTypeId, array $refIds )
 	{
-		$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+		$context = $this->getContext();
+		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
 		$search = $productManager->createSearch( true );
 
 		$expr = array(
@@ -164,8 +168,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( count( $productManager->searchItems( $search, [] ) ) === 0 )
 		{
-			$msg = sprintf( 'Invalid "%1$s" references for product with ID %2$s', $domain, json_encode( $prodId ) );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $domain, json_encode( $prodId ) ) );
 		}
 	}
 
@@ -233,9 +237,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			catch( \Exception $e )
 			{
 				$logger = $this->getContext()->getLogger();
+				$errors['address'][$type] = $e->getMessage();
+
 				$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
 				$logger->log( sprintf( $str, $type, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
-				$errors['address'][$type] = $e->getMessage();
 			}
 		}
 
@@ -263,9 +268,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			catch( \Exception $e )
 			{
 				$logger = $this->getContext()->getLogger();
+				$errors['coupon'][$code] = $e->getMessage();
+
 				$str = 'Error migrating coupon with code "%1$s" in basket to locale "%2$s": %3$s';
 				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
-				$errors['coupon'][$code] = $e->getMessage();
 			}
 		}
 
@@ -375,11 +381,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return [];
 		}
 
-		$attrTypeId = $this->getProductListTypeItem( 'attribute', $type )->getId();
-		$this->checkReferences( $prodid, 'attribute', $attrTypeId, $attributeIds );
-
 		$list = [];
 		$context = $this->getContext();
+		$attrTypeId = $this->getProductListTypeItem( 'attribute', $type )->getId();
+		$this->checkReferences( $prodid, 'attribute', $attrTypeId, $attributeIds );
 
 		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
 		$orderProductAttributeManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product/attribute' );
@@ -435,11 +440,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( count( $attrItems ) !== count( $attributeIds ) )
 		{
+			$i18n = $this->getContext()->getI18n();
 			$expected = implode( ',', $attributeIds );
 			$actual = implode( ',', array_keys( $attrItems ) );
-			$msg = sprintf( 'Available attribute IDs "%1$s" do not match the given attribute IDs "%2$s"', $actual, $expected );
+			$msg = $i18n->dt( 'controller/frontend', 'Available attribute IDs "%1$s" do not match the given attribute IDs "%2$s"' );
 
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $actual, $expected ) );
 		}
 
 		return $attrItems;
@@ -493,7 +499,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function getDomainItem( $domain, $key, $value, array $ref )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $domain );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop\Factory::createManager( $context, $domain );
 
 		$search = $manager->createSearch( true );
 		$expr = array(
@@ -506,8 +513,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( ( $item = reset( $result ) ) === false )
 		{
-			$msg = sprintf( 'No item for "%1$s" (%2$s) found', $value, $key );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'No item for "%1$s" (%2$s) found' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $value, $key ) );
 		}
 
 		return $item;
@@ -559,9 +566,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function getProductListTypeItem( $domain, $code )
 	{
+		$context = $this->getContext();
+
 		if( empty( $this->listTypeItems ) )
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product/lists/type' );
+			$manager = \Aimeos\MShop\Factory::createManager( $context, 'product/lists/type' );
 
 			foreach( $manager->searchItems( $manager->createSearch( true ) ) as $item ) {
 				$this->listTypeItems[ $item->getDomain() ][ $item->getCode() ] = $item;
@@ -570,8 +579,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( !isset( $this->listTypeItems[$domain][$code] ) )
 		{
-			$msg = sprintf( 'List type for domain "%1$s" and code "%2$s" not found', $domain, $code );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'List type for domain "%1$s" and code "%2$s" not found' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $domain, $code ) );
 		}
 
 		return $this->listTypeItems[$domain][$code];

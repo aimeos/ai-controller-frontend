@@ -150,13 +150,12 @@ abstract class Base
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 * @return void
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
-		$stocktype = 'default' )
+	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
 		$this->controller->addProduct(
-			$prodid, $quantity, $options, $variantAttributeIds, $configAttributeIds,
-			$hiddenAttributeIds, $customAttributeValues, $stocktype
+			$prodid, $quantity, $stocktype, $variantAttributeIds,
+			$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
 		);
 	}
 
@@ -178,13 +177,12 @@ abstract class Base
 	 *
 	 * @param integer $position Position number (key) of the order product item
 	 * @param integer $quantity New quantiy of the product item
-	 * @param array $options Possible options are: 'stock'=>true|false
 	 * @param array $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 * @return void
 	 */
-	public function editProduct( $position, $quantity, array $options = [], array $configAttributeCodes = [] )
+	public function editProduct( $position, $quantity, array $configAttributeCodes = [] )
 	{
-		$this->controller->editProduct( $position, $quantity, $options, $configAttributeCodes );
+		$this->controller->editProduct( $position, $quantity, $configAttributeCodes );
 	}
 
 

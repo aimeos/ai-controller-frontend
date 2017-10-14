@@ -77,7 +77,6 @@ interface Iface
 	 *
 	 * @param string $prodid ID of the base product to add
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $options Option list (unused at the moment)
 	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
 	 * 	in a selection products
 	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
@@ -89,9 +88,8 @@ interface Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 * @return void
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
-		$stocktype = 'default' );
+	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] );
 
 
 	/**

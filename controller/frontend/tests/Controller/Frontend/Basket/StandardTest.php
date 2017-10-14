@@ -134,7 +134,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$basket = $this->object->get();
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
 
-		$this->object->addProduct( $item->getId(), 2, [], [], [], [], [], 'default' );
+		$this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [] );
 		$item2 = $this->object->get()->getProduct( 0 );
 		$this->object->deleteProduct( 0 );
 
@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$attrValues = array( $attrItem->getId() => '2000-01-01' );
 
-		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [], [], $attrValues );
+		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
@@ -189,7 +189,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$attrValues = array( $attrItem->getId() => '0.01' );
 
-		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [], [], $attrValues );
+		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
@@ -217,7 +217,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$attrValues = array( $attrItem->getId() => ',' );
 
 		$this->setExpectedException( '\Aimeos\Controller\Frontend\Basket\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [], [], $attrValues );
+		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
 	}
 
 
@@ -238,7 +238,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Attribute not found' );
 		}
 
-		$this->object->addProduct( self::$testItem->getId(), 1, [], [], [$attribute->getId() => 2] );
+		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [$attribute->getId() => 2] );
 
 		$this->assertEquals( '43.90', $this->object->get()->getPrice()->getValue() );
 	}
@@ -265,7 +265,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$configAttrIds = array_keys( $attribute );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, [], [], $configAttrIds, $hiddenAttrIds );
+		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], $configAttrIds, $hiddenAttrIds );
 	}
 
 
@@ -288,7 +288,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductConfigAttributeException()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, [], [], array( -1 ) );
+		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], array( -1 ) );
 	}
 
 
@@ -305,7 +305,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
 
-		$this->object->addProduct( $item->getId(), 2, [], [], [], [], [], 'unit_type3' );
+		$this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [], 'unit_type3' );
 
 		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
 		$this->assertEquals( 'IJKL', $this->object->get()->getProduct( 0 )->getProductCode() );
@@ -371,7 +371,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
 
-		$this->object->addProduct( $item->getId(), 1, [], [], $configAttrIds );
+		$this->object->addProduct( $item->getId(), 1, 'default', [], $configAttrIds );
 		$this->object->editProduct( 0, 4 );
 
 		$item = $this->object->get()->getProduct( 0 );
@@ -379,7 +379,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, $item->getQuantity() );
 
 
-		$this->object->editProduct( 0, 3, [], array( reset( $attributes )->getType() ) );
+		$this->object->editProduct( 0, 3, array( reset( $attributes )->getType() ) );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 3, $item->getQuantity() );

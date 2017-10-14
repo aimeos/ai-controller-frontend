@@ -26,11 +26,6 @@ class Select
 	 *
 	 * @param string $prodid ID of the base product to add
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $options Possible options are: 'stock'=>true|false and 'variant'=>true|false
-	 * 	The 'stock'=>false option allows adding products without being in stock.
-	 * 	The 'variant'=>false option allows adding the selection product to the basket
-	 * 	instead of the specific sub-product if the variant-building attribute IDs
-	 * 	doesn't match a specific sub-product or if the attribute IDs are missing.
 	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
 	 * 	in a selection products
 	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
@@ -41,9 +36,8 @@ class Select
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
-		$stocktype = 'default' )
+	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
 		$context = $this->getContext();
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
@@ -52,8 +46,8 @@ class Select
 		if( $productManager->getItem( $prodid, [], true )->getType() !== 'select' )
 		{
 			return $this->getController()->addProduct(
-				$prodid, $quantity, $options, $variantAttributeIds, $configAttributeIds,
-				$hiddenAttributeIds, $customAttributeValues, $stocktype
+				$prodid, $quantity, $stocktype, $variantAttributeIds,
+				$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
 			);
 		}
 
@@ -63,7 +57,7 @@ class Select
 		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
-		$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds, $options );
+		$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds );
 
 		$attributeMap = [
 			'custom' => array_keys( $customAttributeValues ),
@@ -91,15 +85,37 @@ class Select
 	 * @param \Aimeos\MShop\Product\Item\Iface &$productItem Product item which is replaced if necessary
 	 * @param array &$prices List of product prices that will be updated if necessary
 	 * @param array $variantAttributeIds List of product variant attribute IDs
-	 * @param array $options Associative list of options
 	 * @return \Aimeos\MShop\Order\Item\Base\Product\Attribute\Iface[] List of order product attributes
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If no product variant is found
 	 */
 	protected function getVariantDetails( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-		\Aimeos\MShop\Product\Item\Iface &$productItem, array &$prices, array $variantAttributeIds, array $options )
+		\Aimeos\MShop\Product\Item\Iface &$productItem, array &$prices, array $variantAttributeIds )
 	{
 		$attr = [];
+		$context = $this->getContext();
 		$productItems = $this->getProductVariants( $productItem, $variantAttributeIds );
+
+		/** controller/frontend/basket/require-variant
+		 * A variant of a selection product must be chosen
+		 *
+		 * Selection products normally consist of several article variants and
+		 * by default exactly one article variant of a selection product can be
+		 * put into the basket.
+		 *
+		 * By setting this option to false, the selection product including the
+		 * chosen attributes (if any attribute values were selected) can be put
+		 * into the basket as well. This makes it possible to get all articles
+		 * or a subset of articles (e.g. all of a color) at once.
+		 *
+		 * This option replace the "client/html/basket/require-variant" setting.
+		 *
+		 * @param boolean True if a variant must be chosen, false if also the selection product with attributes can be added
+		 * @since 2018.01
+		 * @category Developer
+		 * @category User
+		 */
+		$requireVariant = $context->getConfig()->get( 'controller/frontend/basket/require-variant', true );
+
 
 		if( count( $productItems ) > 1 )
 		{
@@ -135,7 +151,7 @@ class Select
 				$attr[] = $orderAttributeItem;
 			}
 		}
-		else if( !isset( $options['variant'] ) || $options['variant'] != false ) // count == 0
+		else if( $requireVariant != false ) // count == 0
 		{
 			$msg = sprintf( 'No article found for selected attributes and product ID "%1$s"', $productItem->getId() );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );

@@ -194,7 +194,6 @@ class Standard
 	 *
 	 * @param string $prodid ID of the base product to add
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $options Option list (unused at the moment)
 	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
 	 * 	in a selection products
 	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
@@ -205,9 +204,8 @@ class Standard
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
-		$stocktype = 'default' )
+	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
 		$attributeMap = [
 			'custom' => array_keys( $customAttributeValues ),
@@ -262,12 +260,9 @@ class Standard
 	 *
 	 * @param integer $position Position number (key) of the order product item
 	 * @param integer $quantity New quantiy of the product item
-	 * @param array $options Possible options are: 'stock'=>true|false
-	 * 	The 'stock'=>false option allows adding products without being in stock.
 	 * @param string[] $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 */
-	public function editProduct( $position, $quantity, array $options = [],
-		array $configAttributeCodes = [] )
+	public function editProduct( $position, $quantity, array $configAttributeCodes = [] )
 	{
 		$product = $this->get()->getProduct( $position );
 

@@ -74,7 +74,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
 
-		$this->object->addProduct( $item->getId(), 1, [], array_keys( $attributes ), [], [], [], 'default' );
+		$this->object->addProduct( $item->getId(), 1, 'default', array_keys( $attributes ), [], [], [] );
 
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
 		$this->assertEquals( 'CNC', $this->object->get()->getProduct( 0 )->getProductCode() );
@@ -102,7 +102,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
 
-		$this->object->addProduct( $item->getId(), 1, [], array_keys( $attributes ) );
+		$this->object->addProduct( $item->getId(), 1, 'default', array_keys( $attributes ) );
 
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
 		$this->assertEquals( 'U:TESTSUB02', $this->object->get()->getProduct( 0 )->getProductCode() );
@@ -132,12 +132,14 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( $item->getId(), 1, [], array_keys( $attributes ) );
+		$this->object->addProduct( $item->getId(), 1, 'default', array_keys( $attributes ) );
 	}
 
 
 	public function testAddProductVariantNotRequired()
 	{
+		$this->context->getConfig()->set( 'controller/frontend/basket/require-variant', false );
+
 		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
@@ -151,7 +153,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 		$options = array( 'variant' => false );
 
-		$this->object->addProduct( $this->testItem->getId(), 1, $options, array_keys( $attributes ) );
+		$this->object->addProduct( $this->testItem->getId(), 1, 'default', array_keys( $attributes ) );
 
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
 		$this->assertEquals( 'U:TESTP', $this->object->get()->getProduct( 0 )->getProductCode() );
@@ -188,7 +190,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Attribute not found' );
 		}
 
-		$this->object->addProduct( $this->testItem->getId(), 1, [], [], [$attribute->getId() => 1] );
+		$this->object->addProduct( $this->testItem->getId(), 1, 'default', [], [$attribute->getId() => 1] );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
@@ -214,7 +216,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Attribute not found' );
 		}
 
-		$this->object->addProduct( $this->testItem->getId(), 1, [], [], [], array_keys( $attributes ) );
+		$this->object->addProduct( $this->testItem->getId(), 1, 'default', [], [], array_keys( $attributes ) );
 
 		$basket = $this->object->get();
 		$this->assertEquals( 1, count( $basket->getProducts() ) );

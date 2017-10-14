@@ -26,11 +26,6 @@ class Bundle
 	 *
 	 * @param string $prodid ID of the base product to add
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $options Possible options are: 'stock'=>true|false and 'variant'=>true|false
-	 * 	The 'stock'=>false option allows adding products without being in stock.
-	 * 	The 'variant'=>false option allows adding the selection product to the basket
-	 * 	instead of the specific sub-product if the variant-building attribute IDs
-	 * 	doesn't match a specific sub-product or if the attribute IDs are missing.
 	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
 	 * 	in a selection products
 	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
@@ -41,9 +36,8 @@ class Bundle
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, array $options = [], array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [],
-		$stocktype = 'default' )
+	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
+		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
 		$context = $this->getContext();
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
@@ -51,8 +45,8 @@ class Bundle
 		if( $productManager->getItem( $prodid, [], true )->getType() !== 'bundle' )
 		{
 			return $this->getController()->addProduct(
-				$prodid, $quantity, $options, $variantAttributeIds, $configAttributeIds,
-				$hiddenAttributeIds, $customAttributeValues, $stocktype
+				$prodid, $quantity, $stocktype, $variantAttributeIds,
+				$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
 			);
 		}
 

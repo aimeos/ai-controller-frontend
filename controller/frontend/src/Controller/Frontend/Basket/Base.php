@@ -300,12 +300,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$this->addProduct(
 					$product->getProductId(),
 					$product->getQuantity(),
-					[],
+					$product->getStockType(),
 					$this->getValue( $attrIds, 'variant', [] ),
 					$this->getValue( $attrIds, 'config', [] ),
 					$this->getValue( $attrIds, 'hidden', [] ),
-					$this->getValue( $attrIds, 'custom', [] ),
-					$product->getStockType()
+					$this->getValue( $attrIds, 'custom', [] )
 				);
 
 				$basket->deleteProduct( $pos );

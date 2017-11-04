@@ -119,49 +119,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGetServices()
-	{
-		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'getServices' )
-			->will( $this->returnValue( [] ) );
-
-		$this->assertEquals( [], $this->object->getServices( 'payment', $basket ) );
-	}
-
-
-	public function testGetServiceAttributes()
-	{
-		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'getServiceAttributes' )
-			->will( $this->returnValue( [] ) );
-
-		$this->assertEquals( [], $this->object->getServiceAttributes( 'payment', -1, $basket ) );
-	}
-
-
-	public function testGetServicePrice()
-	{
-		$priceItem = \Aimeos\MShop\Factory::createManager( $this->context, 'price' )->createItem();
-		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'getServicePrice' )
-			->will( $this->returnValue( $priceItem ) );
-
-		$this->assertInstanceOf( '\Aimeos\MShop\Price\Item\Iface', $this->object->getServicePrice( 'payment', -1, $basket ) );
-	}
-
-
-	public function testCheckServiceAttributes()
-	{
-		$this->stub->expects( $this->once() )->method( 'checkServiceAttributes' )
-			->will( $this->returnValue( [] ) );
-
-		$this->assertEquals( [], $this->object->checkServiceAttributes( 'payment', -1, [] ) );
-	}
-
-
 	public function testGetController()
 	{
 		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );

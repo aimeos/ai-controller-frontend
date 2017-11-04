@@ -98,7 +98,7 @@ class Standard
 
 			foreach( $catIds as $catId )
 			{
-				$tree = $cntl->getCatalogTree( $catId, [], $level );
+				$tree = $cntl->getTree( $catId, [], $level );
 				$list = array_merge( $list, $this->getCatalogIdsFromTree( $tree ) );
 			}
 

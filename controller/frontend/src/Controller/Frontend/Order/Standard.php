@@ -218,35 +218,4 @@ class Standard
 	{
 		\Aimeos\Controller\Common\Order\Factory::createController( $this->getContext() )->update( $orderItem );
 	}
-
-
-	/**
-	 * Creates a new order from the given basket.
-	 *
-	 * Saves the given basket to the storage including the addresses, coupons,
-	 * products, services, etc. and creates/stores a new order item for that
-	 * order.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object to be stored
-	 * @return \Aimeos\MShop\Order\Item\Iface Order item that belongs to the stored basket
-	 * @deprecated 2017.04 Use store() from basket controller instead
-	 */
-	public function store( \Aimeos\MShop\Order\Item\Base\Iface $basket )
-	{
-		$context = $this->getContext();
-
-		$orderManager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
-		$orderBaseManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base' );
-
-
-		$orderBaseManager->begin();
-		$orderBaseManager->store( $basket );
-		$orderBaseManager->commit();
-
-		$orderItem = $orderManager->createItem();
-		$orderItem->setBaseId( $basket->getId() );
-		$orderItem->setType( \Aimeos\MShop\Order\Item\Base::TYPE_WEB );
-
-		return $orderManager->saveItem( $orderItem );
-	}
 }

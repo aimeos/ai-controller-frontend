@@ -181,23 +181,6 @@ abstract class Base
 
 
 	/**
-	 * Creates a new order from the given basket.
-	 *
-	 * Saves the given basket to the storage including the addresses, coupons,
-	 * products, services, etc. and creates/stores a new order item for that
-	 * order.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object to be stored
-	 * @return \Aimeos\MShop\Order\Item\Iface Order item that belongs to the stored basket
-	 * @deprecated 2017.04 Use store() from basket controller instead
-	 */
-	public function store( \Aimeos\MShop\Order\Item\Base\Iface $basket )
-	{
-		return $this->getController()->store( $basket );
-	}
-
-
-	/**
 	 * Returns the frontend controller
 	 *
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Frontend controller object

@@ -121,41 +121,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testStore()
-	{
-		$name = 'ControllerFrontendOrderStore';
-		$this->context->getConfig()->set( 'mshop/order/manager/name', $name );
-
-
-		$orderManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
-			->setMethods( array( 'saveItem', 'getSubManager' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		$orderBaseManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Base\\Standard' )
-			->setMethods( array( 'store' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Order\\Manager\\' . $name, $orderManagerStub );
-
-
-		$orderBaseItem = $orderBaseManagerStub->createItem();
-		$orderBaseItem->setId( 1 );
-
-
-		$orderBaseManagerStub->expects( $this->once() )->method( 'store' );
-
-		$orderManagerStub->expects( $this->once() )->method( 'getSubManager' )
-			->will( $this->returnValue( $orderBaseManagerStub ) );
-
-		$orderManagerStub->expects( $this->once() )->method( 'saveItem' );
-
-
-		$this->object->store( $orderBaseItem );
-	}
-
-
 	public function testBlock()
 	{
 		$name = 'ControllerFrontendOrderBlock';

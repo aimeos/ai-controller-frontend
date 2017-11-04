@@ -125,18 +125,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testStore()
-	{
-		$orderItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
-		$basket = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'store' )
-			->will( $this->returnValue( $orderItem ) );
-
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->store( $basket ) );
-	}
-
-
 	public function testGetController()
 	{
 		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );

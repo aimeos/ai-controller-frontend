@@ -68,8 +68,7 @@ class Standard
 			 * @category User
 			 * @category Developer
 			 */
-			$gids = $config->get( 'client/html/checkout/standard/order/account/standard/groupids', [] ); // @deprecated
-			$item->setGroups( (array) $config->get( 'controller/frontend/customer/groupids', $gids ) );
+			$item->setGroups( (array) $config->get( 'controller/frontend/customer/groupids', [] ) );
 
 			$item = $manager->saveItem( $item );
 

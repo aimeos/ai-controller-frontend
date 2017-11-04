@@ -319,8 +319,7 @@ class Standard
 		 * @category User
 		 * @category Developer
 		 */
-		$allowed = $context->getConfig()->get( 'client/html/basket/standard/coupon/allowed', 1 ); // @deprecated
-		$allowed = $context->getConfig()->get( 'controller/frontend/basket/standard/coupon/allowed', $allowed );
+		$allowed = $context->getConfig()->get( 'controller/frontend/basket/standard/coupon/allowed', 1 );
 
 		if( $allowed <= count( $this->get()->getCoupons() ) )
 		{

@@ -106,6 +106,18 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUpdatePush()
+	{
+		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();
+		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
+
+		$this->stub->expects( $this->once() )->method( 'updatePush' )
+			->will( $this->returnValue( $response ) );
+
+		$this->assertInstanceOf( '\Psr\Http\Message\ResponseInterface', $this->object->updatePush( $request, $response, 'test' ) );
+	}
+
+
 	public function testUpdateSync()
 	{
 		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();

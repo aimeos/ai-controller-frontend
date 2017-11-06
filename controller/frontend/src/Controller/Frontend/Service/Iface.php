@@ -63,6 +63,18 @@ interface Iface
 	 */
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params );
 
+
+	/**
+	 * Updates the order status sent by payment gateway notifications
+	 *
+	 * @param ServerRequestInterface $request Request object
+	 * @param ResponseInterface $response Response object that will contain HTTP status and response body
+	 * @param string $code Unique code of the service used for the current order
+	 * @return \Psr\Http\Message\ResponseInterface Response object
+	 */
+	public function updatePush( \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, $code );
+
+
 	/**
 	 * Updates the payment or delivery status for the given request
 	 *

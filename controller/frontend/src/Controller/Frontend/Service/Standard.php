@@ -114,6 +114,23 @@ class Standard
 
 
 	/**
+	 * Updates the order status sent by payment gateway notifications
+	 *
+	 * @param ServerRequestInterface $request Request object
+	 * @param ResponseInterface $response Response object that will contain HTTP status and response body
+	 * @param string $code Unique code of the service used for the current order
+	 * @return \Psr\Http\Message\ResponseInterface Response object
+	 */
+	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$provider = $manager->getProvider( $manager->findItem( $code ) );
+
+		return $provider->updatePush( $request, $response );
+	}
+
+
+	/**
 	 * Updates the payment or delivery status for the given request
 	 *
 	 * @param ServerRequestInterface $request Request object with parameters and request body

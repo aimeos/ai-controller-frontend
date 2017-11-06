@@ -1,13 +1,15 @@
 <?php
 
-namespace Aimeos\Controller\Frontend\Service;
-
-
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Metaways Infosystems GmbH, 2012
  * @copyright Aimeos (aimeos.org), 2015-2017
  */
+
+
+namespace Aimeos\Controller\Frontend\Service;
+
+
 class StandardTest extends \PHPUnit\Framework\TestCase
 {
 	private $object;
@@ -90,6 +92,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$result = $this->object->process( $item, $serviceId, [], [] );
 		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Helper\Form\Iface', $result );
+	}
+
+
+	public function testUpdatePush()
+	{
+		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
+		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();
+
+		$response->expects( $this->once() )->method( 'withStatus' )->will( $this->returnValue( $response ) );
+
+		$this->assertInstanceOf( '\Psr\Http\Message\ResponseInterface', $this->object->updatePush( $request, $response, 'unitcode' ) );
 	}
 
 

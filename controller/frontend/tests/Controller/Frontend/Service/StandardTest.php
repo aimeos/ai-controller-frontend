@@ -109,33 +109,34 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testUpdateSync()
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
-
-		$stream = $this->getMockBuilder( 'Psr\Http\Message\StreamInterface' )->getMock();
 		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
-		$response = $this->getMockBuilder( '\Aimeos\MW\View\Helper\Response\Iface' )
-			->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
 			->setMethods( ['updateSync', 'query', 'isImplemented'] )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Manager\\Standard' )
+		$orderManager = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
+			->setConstructorArgs( array( $this->context ) )
+			->setMethods( ['getItem'] )
+			->getMock();
+
+		$serviceManager = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( ['getProvider'] )
 			->getMock();
 
-		\Aimeos\MShop\Factory::injectManager( $this->context, 'service', $manager );
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'order', $orderManager );
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'service', $serviceManager );
 
 
-		$request->expects( $this->once() )->method( 'getQueryParams' )->will( $this->returnValue( ['code' => 'unitcode'] ) );
-		$response->expects( $this->once() )->method( 'createStreamFromString' )->will( $this->returnValue( $stream ) );
-		$manager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
+		$orderManager->expects( $this->once() )->method( 'getItem' )->will( $this->returnValue( $item ) );
+		$serviceManager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
 		$provider->expects( $this->once() )->method( 'updateSync' )->will( $this->returnValue( $item ) );
 		$provider->expects( $this->once() )->method( 'isImplemented' )->will( $this->returnValue( true ) );
 		$provider->expects( $this->once() )->method( 'query' );
 
-		$this->object->updateSync( $request, $response, [], 'paypalexpress', -1 );
+		$this->object->updateSync( $request, 'unitcode', -1 );
 	}
 
 

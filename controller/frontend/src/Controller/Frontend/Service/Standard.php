@@ -134,45 +134,28 @@ class Standard
 	 * Updates the payment or delivery status for the given request
 	 *
 	 * @param ServerRequestInterface $request Request object with parameters and request body
-	 * @param ResponseInterface $response Response object that will contain HTTP status and response body
-	 * @param array $urls Associative list of keys and the corresponding URLs
-	 * 	(keys are <type>.url-self, <type>.url-success, <type>.url-update where type can be "delivery" or "payment")
 	 * @param string $code Unique code of the service used for the current order
-	 * @param string $orderid Unique ID of the order whose payment status should be updated
+	 * @param string $orderid ID of the order whose payment status should be updated
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Order item that has been updated
 	 */
-	public function updateSync( ServerRequestInterface $request, ResponseInterface $response, array $urls, $code, $orderid )
+	public function updateSync( ServerRequestInterface $request, $code, $orderid )
 	{
-		$params = (array) $request->getAttributes() + (array) $request->getParsedBody() + (array) $request->getQueryParams();
-		$params['orderid'] = $orderid;
-
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
+		$orderManager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+		$serviceManager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
 
-		$provider = $manager->getProvider( $manager->findItem( $code ) );
-		$provider->injectGlobalConfigBE( $urls );
+		$orderItem = $orderManager->getItem( $orderid );
+		$provider = $serviceManager->getProvider( $serviceManager->findItem( $code ) );
 
-		$body = (string) $request->getBody();
-		$output = null;
-		$headers = [];
 
-		if( ( $orderItem = $provider->updateSync( $params, $body, $output, $headers ) ) !== null )
+		if( ( $orderItem = $provider->updateSync( $request, $orderItem ) ) !== null )
 		{
 			if( $orderItem->getPaymentStatus() === \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED
 				&& $provider->isImplemented( \Aimeos\MShop\Service\Provider\Payment\Base::FEAT_QUERY )
 			) {
 				$provider->query( $orderItem );
 			}
-
-			// update stock, coupons, etc.
-			\Aimeos\Controller\Frontend\Factory::createController( $context, 'order' )->update( $orderItem );
 		}
-
-		foreach( $headers as $name => $header ) {
-			$response->withHeader( $name, $header );
-		}
-
-		$response->withBody( $response->createStreamFromString( $output ) );
 
 		return $orderItem;
 	}

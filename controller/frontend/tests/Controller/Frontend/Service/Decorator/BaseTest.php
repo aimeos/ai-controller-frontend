@@ -77,7 +77,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testGetProvider()
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
-		$provider = $manager->getProvider( $manager->findItem( 'unitcode', [], 'service', 'delivery' ) );
+		$provider = $manager->getProvider( $manager->findItem( 'unitcode', [], 'service', 'delivery' ), 'delivery' );
 
 		$this->stub->expects( $this->once() )->method( 'getProvider' )
 			->will( $this->returnValue( $provider ) );

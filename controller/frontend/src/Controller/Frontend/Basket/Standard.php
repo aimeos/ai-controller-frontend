@@ -461,7 +461,7 @@ class Standard
 		$serviceManager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
 		$serviceItem = $serviceManager->getItem( $id, array( 'media', 'price', 'text' ) );
 
-		$provider = $serviceManager->getProvider( $serviceItem );
+		$provider = $serviceManager->getProvider( $serviceItem, $serviceItem->getType() );
 		$result = $provider->checkConfigFE( $attributes );
 		$unknown = array_diff_key( $attributes, $result );
 

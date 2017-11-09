@@ -38,7 +38,9 @@ class Standard
 	public function checkAttributes( $serviceId, array $attributes )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
-		$provider = $manager->getProvider( $manager->getItem( $serviceId, [], true ) );
+
+		$item = $manager->getItem( $serviceId, [], true );
+		$provider = $manager->getProvider( $item, $item->getType() );
 
 		return array_filter( $provider->checkConfigFE( $attributes ) );
 	}
@@ -54,7 +56,9 @@ class Standard
 	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
-		return $manager->getProvider( $manager->getItem( $serviceId, $ref, true ) );
+		$item = $manager->getItem( $serviceId, $ref, true );
+
+		return $manager->getProvider( $item, $item->getType() );
 	}
 
 
@@ -84,7 +88,7 @@ class Standard
 		}
 
 		foreach( $manager->searchItems( $search, $ref ) as $id => $item ) {
-			$list[$id] = $manager->getProvider( $item );
+			$list[$id] = $manager->getProvider( $item, $item->getType() );
 		}
 
 		return $list;
@@ -105,8 +109,9 @@ class Standard
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$item = $manager->getItem( $serviceId, [], true );
 
-		$provider = $manager->getProvider( $manager->getItem( $serviceId, [], true ) );
+		$provider = $manager->getProvider( $item, $item->getType() );
 		$provider->injectGlobalConfigBE( $urls );
 
 		return $provider->process( $orderItem, $params );
@@ -124,7 +129,9 @@ class Standard
 	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
-		$provider = $manager->getProvider( $manager->findItem( $code ) );
+		$item = $manager->findItem( $code );
+
+		$provider = $manager->getProvider( $item, $item->getType() );
 
 		return $provider->updatePush( $request, $response );
 	}
@@ -145,7 +152,9 @@ class Standard
 		$serviceManager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
 
 		$orderItem = $orderManager->getItem( $orderid );
-		$provider = $serviceManager->getProvider( $serviceManager->findItem( $code ) );
+		$serviceItem = $serviceManager->findItem( $code );
+
+		$provider = $serviceManager->getProvider( $serviceItem, $serviceItem->getType() );
 
 
 		if( ( $orderItem = $provider->updateSync( $request, $orderItem ) ) !== null )

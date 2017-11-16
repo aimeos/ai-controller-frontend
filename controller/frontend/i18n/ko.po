@@ -3,177 +3,176 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Metal <meteoramic@yahoo.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-10-02 17:37+0200\n"
-"PO-Revision-Date: 2017-10-04 12:59+0000\n"
-"Last-Translator: Metal <meteoramic@yahoo.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/aimeos/aimeos-core/language/tr/)\n"
+"PO-Revision-Date: 2015-07-09 20:35+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Korean (http://www.transifex.com/aimeos/aimeos-core/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr "\"%1$s\" ID'li ürünü eklemeye izin verilmiyor"
+msgstr ""
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr "Mevcut nitelik ID'ler \"%1$s\" verilen nitelik ID'ler \"%2$s\" ile eşleşmiyor"
+msgstr ""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr "\"%1$d\" konumundaki sepet öğesi değiştirilemez"
+msgstr ""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr "\"%1$d\" konumundaki sepet öğesi manuel olarak silinemez"
+msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr "Class \"%1$s\" arayüz \"%2$s\" uygulamıyor"
+msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
-msgstr "Sınıf \"%1$s\" mevcut değil"
+msgstr ""
 
 #, php-format
 msgid "Controller path is empty"
-msgstr "Denetleyici yolu boş"
+msgstr ""
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr "\"%1$s\" kupon kodu geçersiz"
+msgstr ""
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr "\"%1$s\" kupon kodu geçersiz veya artık kullanılamaz"
+msgstr ""
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr "\"%1$s\" kupon kodu artık kullanılamaz"
+msgstr ""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr "\"%2$s\" ID'li ürün için geçersiz \"%1$s\" referanslar"
+msgstr ""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr "%2$s ID'li ürün için geçersiz \"%1$s\" referanslar"
+msgstr ""
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr "Geçersiz adres özellikleri, girişinizi kontrol edin"
+msgstr ""
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr "\"%1$s\" sınıf adında geçersiz karakterler"
+msgstr ""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr " \"%2$s\" içindeki \"%1$s\" denetleyici adında geçersiz karakterler"
+msgstr ""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr "Geçersiz domain \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr "Geçersiz fabrika \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr "Geçersiz fiyat değeri \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr "\"%1$s\" adres türü için geçersiz değer"
+msgstr ""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr "Domain \"%1$s\" ve kod \"%2$s\" için liste türü bulunamadı"
+msgstr ""
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr "Seçilen nitelikler ve \"%1$s\" ürün ID'si için makale bulunamadı"
+msgstr ""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr "Müşteri listesi domaini yok"
+msgstr ""
 
 #, php-format
 msgid "No customer lists type code"
-msgstr "Müşteri listesi tür kodu yok"
+msgstr ""
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr "\"%1$s\" (%2$s) için hiçbir öğe bulumadı"
+msgstr ""
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr "\"%1$s\" ID'si için sipariş öğesi bulunamadı"
+msgstr ""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr "\"%1$s\" ürün ID'si ve \"%2$s\" türü için stok mevcut değil"
+msgstr ""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr "Seçilmiş nitelikler ve \"%1$s\" ürün ID'si için benzersiz makale bulunamadı"
+msgstr ""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr "\"%1$s\" ID'si için müşteri bilgisine erişime izin verilmiyor"
+msgstr ""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr "Kupon kodu sayısı limiti aşıyor"
+msgstr ""
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr "\"%1$s\" ID'li ürün öğesi bulunamadı"
+msgstr ""
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr "\"%1$s\" kupon kodu için gereksinimler karşılanmıyor"
+msgstr ""
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr "Tür \"%1$s\" ve ID \"%2$s\" ID için servis öğesi bulunamadı"
+msgstr ""
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr "Geçici sınıra ulaşıldı"
+msgstr ""
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr "Geçici sipariş sınırına ulaşıldı"
+msgstr ""
 
 #, php-format
 msgid "The order has already been created"
-msgstr "Sipariş zaten oluşturuldu"
+msgstr ""
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr "Stokta yeterli ürün \"%1$s\" yok"
+msgstr ""
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr "Metot \"%1$s\" çağrılamıyor"
+msgstr ""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr "Metot \"%1$s::%2$s\" çağrılamıyor"
+msgstr ""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr "\"%2$s\" ID'li servis için sağlayıcı \"%1$s\" oluşturulamıyor"
+msgstr ""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr "Bilinmeyen nitelikler \"%1$s\""
+msgstr ""

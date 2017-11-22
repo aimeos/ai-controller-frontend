@@ -7,7 +7,6 @@
 [![Build Status](https://travis-ci.org/aimeos/ai-controller-frontend.png?branch=master)](https://travis-ci.org/aimeos/ai-controller-frontend)
 [![Coverage Status](https://coveralls.io/repos/aimeos/ai-controller-frontend/badge.svg?branch=master)](https://coveralls.io/r/aimeos/ai-controller-frontend?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aimeos/ai-controller-frontend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aimeos/ai-controller-frontend/?branch=master)
-[![HHVM Status](http://hhvm.h4cc.de/badge/aimeos/ai-controller-frontend.svg)](http://hhvm.h4cc.de/package/aimeos/ai-controller-frontend)
 [![License](https://poser.pugx.org/aimeos/ai-controller-frontend/license.svg)](https://packagist.org/packages/aimeos/ai-controller-frontend)
 
 Aimeos frontend controller package for e-commerce projects

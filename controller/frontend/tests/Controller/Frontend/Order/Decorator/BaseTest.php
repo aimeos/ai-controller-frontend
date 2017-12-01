@@ -95,6 +95,16 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSaveItem()
+	{
+		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'saveItem' );
+
+		$this->object->saveItem( $item );
+	}
+
+
 	public function testSearchItems()
 	{
 		$search = $this->getMockBuilder( '\Aimeos\MW\Criteria\Iface' )->getMock();

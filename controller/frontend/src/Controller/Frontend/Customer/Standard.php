@@ -46,7 +46,7 @@ class Standard
 
 		try
 		{
-			$item = $manager->findItem( $list['customer.code'] );
+			$item = $manager->findItem( $list['customer.code'], [], true );
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
@@ -170,7 +170,7 @@ class Standard
 	 */
 	public function findItem( $code, array $domains = [] )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->findItem( $code, $domains );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->findItem( $code, $domains, true );
 	}
 
 
@@ -392,7 +392,7 @@ class Standard
 			}
 
 			$typeManager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists/type' );
-			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'] );
+			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'], true );
 			$values['customer.lists.typeid'] = $typeItem->getId();
 		}
 

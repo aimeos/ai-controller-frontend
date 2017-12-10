@@ -284,7 +284,7 @@ class Standard
 		$product->setAttributes( $attributes );
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
-		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ) );
+		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );
 		$product->setPrice( $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity ) );
 
 		$this->get()->editProduct( $product, $position );

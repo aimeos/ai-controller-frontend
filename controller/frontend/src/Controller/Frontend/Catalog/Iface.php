@@ -21,15 +21,6 @@ namespace Aimeos\Controller\Frontend\Catalog;
 interface Iface
 {
 	/**
-	 * Returns the manager for the given name
-	 *
-	 * @param string $name Name of the manager
-	 * @return \Aimeos\MShop\Common\Manager\Iface Manager object
-	 */
-	public function createManager( $name );
-
-
-	/**
 	 * Returns the default catalog filter
 	 *
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object for filtering

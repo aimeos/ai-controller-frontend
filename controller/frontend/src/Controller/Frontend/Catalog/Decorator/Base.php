@@ -60,18 +60,6 @@ abstract class Base
 
 
 	/**
-	 * Returns the manager for the given name
-	 *
-	 * @param string $name Name of the manager
-	 * @return \Aimeos\MShop\Common\Manager\Iface Manager object
-	 */
-	public function createManager( $name )
-	{
-		return $this->controller->createManager( $name );
-	}
-
-
-	/**
 	 * Returns the default catalog filter
 	 *
 	 * @param boolean True to add default criteria, e.g. status > 0

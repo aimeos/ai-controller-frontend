@@ -65,17 +65,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCreateManager()
-	{
-		$catalogManager = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' );
-
-		$this->stub->expects( $this->once() )->method( 'createManager' )
-			->will( $this->returnValue( $catalogManager ) );
-
-		$this->assertInstanceOf( '\Aimeos\MShop\Common\Manager\Iface', $this->object->createManager( 'catalog' ) );
-	}
-
-
 	public function testCreateFilter()
 	{
 		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' )->createSearch();

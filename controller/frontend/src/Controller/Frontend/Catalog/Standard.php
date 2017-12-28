@@ -23,19 +23,6 @@ class Standard
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	/**
-	 * Returns the manager for the given name
-	 *
-	 * @param string $name Name of the manager
-	 * @return \Aimeos\MShop\Common\Manager\Iface Manager object
-	 * @since 2015.08
-	 */
-	public function createManager( $name )
-	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), $name );
-	}
-
-
-	/**
 	 * Returns the default catalog filter
 	 *
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object for filtering

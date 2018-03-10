@@ -328,45 +328,22 @@ class Standard
 		}
 
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon' );
-		$codeManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon/code' );
+		$manager = \Aimeos\MShop\Factory::createManager( $context, 'coupon' );
 
-
-		$search = $codeManager->createSearch( true );
-		$expr = array(
-			$search->compare( '==', 'coupon.code.code', $code ),
-			$search->getConditions(),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSlice( 0, 1 );
-
-		$result = $codeManager->searchItems( $search );
-
-		if( ( $codeItem = reset( $result ) ) === false )
-		{
-			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Coupon code "%1$s" is invalid or not available any more' ), $code );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-
-
-		$search = $manager->createSearch( true );
-		$expr = array(
-			$search->compare( '==', 'coupon.id', $codeItem->getParentId() ),
-			$search->getConditions(),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search = $manager->createSearch();
+		$search->setConditions( $search->compare( '==', 'coupon.code.code', $code ) );
 		$search->setSlice( 0, 1 );
 
 		$result = $manager->searchItems( $search );
 
 		if( ( $item = reset( $result ) ) === false )
 		{
-			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Coupon for code "%1$s" is not available any more' ), $code );
+			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Coupon code "%1$s" is invalid or not available any more' ), $code );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
 
-		$provider = $manager->getProvider( $item, $codeItem->getCode() );
+		$provider = $manager->getProvider( $item, $code );
 
 		if( $provider->isAvailable( $this->get() ) !== true )
 		{

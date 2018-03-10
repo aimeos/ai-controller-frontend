@@ -35,7 +35,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->getMock();
 
 		$this->context->getSession()->set( 'aimeos/basket/locale', 'unittest|en|EUR' );
-		$this->access( 'checkLocale' )->invokeArgs( $object, ['unittest'] );
+		$this->access( 'checkLocale' )->invokeArgs( $object, [$this->context->getLocale(), 'unittest'] );
 	}
 
 

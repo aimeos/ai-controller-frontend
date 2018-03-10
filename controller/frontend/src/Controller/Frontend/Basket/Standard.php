@@ -65,7 +65,7 @@ class Standard
 		if( !isset( $this->baskets[$this->type] ) )
 		{
 			$this->baskets[$this->type] = $this->domainManager->getSession( $this->type );
-			$this->checkLocale( $this->type );
+			$this->checkLocale( $this->baskets[$this->type]->getLocale(), $this->type );
 		}
 
 		return $this->baskets[$this->type];

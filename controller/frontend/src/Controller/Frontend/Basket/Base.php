@@ -320,6 +320,31 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
+	 * Creates the subscription entries for the ordered products with interval attributes
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 */
+	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Base\Iface $basket )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'subscription' );
+
+		foreach( $basket->getProducts() as $orderProduct )
+		{
+			if( ( $interval = $orderProduct->getAttribute( 'interval', 'subscription' ) ) !== null )
+			{
+				$item = $manager->createItem();
+				$item->setOrderBaseId( $basket->getId() );
+				$item->setOrderProductId( $orderProduct->getId() );
+				$item->setInterval( $interval );
+				$item->setStatus( 1 );
+
+				$manager->saveItem( $item, false );
+			}
+		}
+	}
+
+
+	/**
 	 * Returns the attribute items for the given attribute IDs.
 	 *
 	 * @param array $attributeIds List of attribute IDs

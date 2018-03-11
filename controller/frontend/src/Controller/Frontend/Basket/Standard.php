@@ -171,6 +171,8 @@ class Standard
 		$this->domainManager->store( $basket );
 		$this->domainManager->commit();
 
+		$this->createSubscriptions( $basket );
+
 		return $basket;
 	}
 

@@ -16,11 +16,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperFrontend::getContext();
+		\Aimeos\MShop\Factory::setCache( true );
 	}
 
 
 	protected function tearDown()
 	{
+		\Aimeos\MShop\Factory::setCache( false );
 		$this->context->getSession()->set( 'aimeos', [] );
 
 		unset( $this->context );
@@ -254,6 +256,37 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$result = $this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
 
 		$this->assertEquals( 0, count( $result ) );
+	}
+
+
+	public function testCreateSubscriptions()
+	{
+		$baseManager = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' );
+
+		$search = $baseManager->createSearch();
+		$search->setConditions( $search->compare( '==', 'order.base.price', '53.50' ) );
+
+		$items = $baseManager->searchItems( $search, ['order/base/product'] );
+
+		if( ( $basket = reset( $items ) ) === false ) {
+			throw new \Exception( sprintf( 'No order base item found for price "%1$s"', '53,50' ) );
+		}
+
+		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['getAttributes'] )
+			->getMock();
+
+		$stub = $this->getMockBuilder( '\Aimeos\MShop\Subscription\Manager\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['saveItem'] )
+			->getMock();
+
+		\Aimeos\MShop\Factory::injectManager( $this->context, 'subscription', $stub );
+
+		$stub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
+
+		$this->access( 'createSubscriptions' )->invokeArgs( $object, [$basket] );
 	}
 
 

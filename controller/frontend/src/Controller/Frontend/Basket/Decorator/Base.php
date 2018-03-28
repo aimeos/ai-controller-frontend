@@ -35,8 +35,8 @@ abstract class Base
 		$iface = '\Aimeos\Controller\Frontend\Basket\Iface';
 		if( !( $controller instanceof $iface ) )
 		{
-			$msg = sprintf( 'Class "%1$s" does not implement interface "%2$s"', get_class( $controller ), $iface );
-			throw new \Aimeos\Controller\Frontend\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Class "%1$s" does not implement interface "%2$s"' );
+			throw new \Aimeos\Controller\Frontend\Exception( sprintf( $msg, get_class( $controller ), $iface ) );
 		}
 
 		$this->controller = $controller;

@@ -39,7 +39,8 @@ class Category
 	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
 		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
-		$catalogListManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog/lists' );
+		$context = $this->getContext();
+		$catalogListManager = \Aimeos\MShop\Factory::createManager( $context, 'catalog/lists' );
 
 		$search = $catalogListManager->createSearch( true );
 		$expr = array(
@@ -54,8 +55,8 @@ class Category
 
 		if( reset( $result ) === false )
 		{
-			$msg = sprintf( 'Adding product with ID "%1$s" is not allowed', $prodid );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $prodid ) );
 		}
 
 		$this->getController()->addProduct(

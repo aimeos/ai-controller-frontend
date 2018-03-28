@@ -119,8 +119,8 @@ class Select
 
 		if( count( $productItems ) > 1 )
 		{
-			$msg = sprintf( 'No unique article found for selected attributes and product ID "%1$s"', $productItem->getId() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'No unique article found for selected attributes and product ID "%1$s"' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $productItem->getId() ) );
 		}
 		else if( ( $result = reset( $productItems ) ) !== false ) // count == 1
 		{
@@ -153,8 +153,8 @@ class Select
 		}
 		else if( $requireVariant != false ) // count == 0
 		{
-			$msg = sprintf( 'No article found for selected attributes and product ID "%1$s"', $productItem->getId() );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'No article found for selected attributes and product ID "%1$s"' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $productItem->getId() ) );
 		}
 
 		return $attr;

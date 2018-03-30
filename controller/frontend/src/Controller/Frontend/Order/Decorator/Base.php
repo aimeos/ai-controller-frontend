@@ -92,7 +92,7 @@ abstract class Base
 	 */
 	public function getItem( $id, $default = true )
 	{
-		return $this->controller->getItem( $id );
+		return $this->controller->getItem( $id, $default );
 	}
 
 

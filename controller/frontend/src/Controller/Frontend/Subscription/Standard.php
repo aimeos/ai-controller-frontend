@@ -45,7 +45,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'subscription' )->createSearch( true );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'subscription' )->createSearch();
 	}
 
 

@@ -30,9 +30,7 @@ class Standard
 	public function cancel( $id )
 	{
 		$item = $this->getItem( $id );
-
-		$interval = new \DateInterval( $item->getInterval() );
-		$item->setDateEnd( date_create( $item->getDateNext() )->add( $interval )->format( 'Y-m-d' ) );
+		$item->setDateEnd( $item->getDateNext() );
 
 		return $this->saveItem( $item );
 	}

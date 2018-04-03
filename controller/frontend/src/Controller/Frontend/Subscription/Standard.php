@@ -31,7 +31,7 @@ class Standard
 	{
 		$item = $this->getItem( $id );
 
-		$interval = \DateInterval( $item->getInterval() );
+		$interval = new \DateInterval( $item->getInterval() );
 		$item->setDateEnd( date_create( $item->getDateNext() )->add( $interval )->format( 'Y-m-d' ) );
 
 		return $this->saveItem( $item );

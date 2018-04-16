@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Metal <meteoramic@yahoo.com>, 2015-2017
+# Metal <meteoramic@yahoo.com>, 2015-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-02 17:37+0200\n"
-"PO-Revision-Date: 2017-10-04 12:59+0000\n"
+"POT-Creation-Date: 2018-04-08 18:07+0200\n"
+"PO-Revision-Date: 2018-02-05 08:46+0000\n"
 "Last-Translator: Metal <meteoramic@yahoo.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/aimeos/aimeos-core/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Domain \"%1$s\" ve kod \"%2$s\" için liste türü bulunamadı"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr "Seçilen nitelikler ve \"%1$s\" ürün ID'si için makale bulunamadı"
+msgstr "Seçilen nitelikler ve \"%1$s\" ürün ID'si için ürün bulunamadı"
 
 #, php-format
 msgid "No customer lists domain"
@@ -124,7 +124,7 @@ msgstr "\"%1$s\" ürün ID'si ve \"%2$s\" türü için stok mevcut değil"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr "Seçilmiş nitelikler ve \"%1$s\" ürün ID'si için benzersiz makale bulunamadı"
+msgstr "Seçilmiş nitelikler ve \"%1$s\" ürün ID'si için benzersiz ürün bulunamadı"
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
@@ -144,7 +144,7 @@ msgstr "\"%1$s\" kupon kodu için gereksinimler karşılanmıyor"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr "Tür \"%1$s\" ve ID \"%2$s\" ID için servis öğesi bulunamadı"
+msgstr "Tür \"%1$s\" ve ID \"%2$s\" ID için hizmet öğesi bulunamadı"
 
 #, php-format
 msgid "Temporary limit reached"
@@ -172,7 +172,7 @@ msgstr "Metot \"%1$s::%2$s\" çağrılamıyor"
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr "\"%2$s\" ID'li servis için sağlayıcı \"%1$s\" oluşturulamıyor"
+msgstr "\"%2$s\" ID'li hizmet için sağlayıcı \"%1$s\" oluşturulamıyor"
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""

@@ -50,6 +50,17 @@ interface Iface
 
 
 	/**
+	 * Returns the given search filter with the conditions attached for filtering by suppliers.
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
+	 * @param array $supIds List of supplier IDs for faceted search
+	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
+	 * @since 2018.07
+	 */
+	public function addFilterSupplier( \Aimeos\MW\Criteria\Iface $filter, array $supIds );
+
+
+	/**
 	 * Returns the given search filter with the conditions attached for filtering by text.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search

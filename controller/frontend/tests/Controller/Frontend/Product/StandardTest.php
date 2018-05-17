@@ -128,6 +128,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddFilterSupplier()
+	{
+		$filter = $this->object->createFilter();
+		$filter = $this->object->addFilterSupplier( $filter, [0, 1] );
+
+		$list = $filter->getConditions()->getExpressions();
+
+		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Wrong expression' );
+		}
+
+		$this->assertEquals( 'index.supplier.id', $list[0]->getName() );
+		$this->assertEquals( 2, count( $list[0]->getValue() ) );
+	}
+
+
 	public function testAddFilterText()
 	{
 		$filter = $this->object->createFilter();

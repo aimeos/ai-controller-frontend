@@ -87,6 +87,17 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddFilterSupplier()
+	{
+		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+
+		$this->stub->expects( $this->once() )->method( 'addFilterSupplier' )
+			->will( $this->returnArgument( 0 ) );
+
+		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->addFilterSupplier( $search, [] ) );
+	}
+
+
 	public function testAddFilterText()
 	{
 		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();

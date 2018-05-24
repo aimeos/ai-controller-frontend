@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddFilterAttribute()
 	{
 		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterAttribute( $filter, array( 0, 1 ), [], [] );
+		$filter = $this->object->addFilterAttribute( $filter, array( 1, 2 ), [], [] );
 
 		$list = $filter->getConditions()->getExpressions();
 
@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'index.attributeaggregate([0,1])', $list[0]->getName() );
+		$this->assertEquals( 'index.attributeaggregate([1,2])', $list[0]->getName() );
 		$this->assertEquals( 2, $list[0]->getValue() );
 	}
 
@@ -131,7 +131,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddFilterSupplier()
 	{
 		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterSupplier( $filter, [0, 1] );
+		$filter = $this->object->addFilterSupplier( $filter, [1, 2] );
 
 		$list = $filter->getConditions()->getExpressions();
 

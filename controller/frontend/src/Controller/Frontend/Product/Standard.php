@@ -33,10 +33,8 @@ class Standard
 	 */
 	public function addFilterAttribute( \Aimeos\MW\Criteria\Iface $filter, array $attrIds, array $optIds, array $oneIds )
 	{
-		if( !empty( $attrIds ) )
+		if( ( $attrIds = $this->validateIds( $attrIds ) ) !== [] )
 		{
-			$attrIds = $this->validateIds( $attrIds );
-
 			$func = $filter->createFunction( 'index.attributeaggregate', array( $attrIds ) );
 			$expr = array(
 				$filter->compare( '==', $func, count( $attrIds ) ),
@@ -45,10 +43,8 @@ class Standard
 			$filter->setConditions( $filter->combine( '&&', $expr ) );
 		}
 
-		if( !empty( $optIds ) )
+		if( ( $optIds = $this->validateIds( $optIds ) ) !== [] )
 		{
-			$optIds = $this->validateIds( $optIds );
-
 			$func = $filter->createFunction( 'index.attributeaggregate', array( $optIds ) );
 			$expr = array(
 				$filter->compare( '>', $func, 0 ),
@@ -382,6 +378,6 @@ class Standard
 			}
 		}
 
-		return $ids;
+		return $list;
 	}
 }

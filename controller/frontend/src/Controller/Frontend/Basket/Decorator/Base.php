@@ -143,7 +143,7 @@ abstract class Base
 	 * 	in a selection products
 	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
 	 * 	selection of products but are stored together with the product (e.g. for configurable products)
-	 * @param array $hiddenAttributeIds List of attribute IDs that should be stored along with the product in the order
+	 * @param array $hiddenAttributeIds Deprecated
 	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
 	 * 	along with the product in the order
 	 * @param string $stocktype Unique code of the stock type to deliver the products from

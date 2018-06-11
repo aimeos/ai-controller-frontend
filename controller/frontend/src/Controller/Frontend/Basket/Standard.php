@@ -200,7 +200,7 @@ class Standard
 	 * 	in a selection products
 	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
 	 * 	selection of products but are stored together with the product (e.g. for configurable products)
-	 * @param array $hiddenAttributeIds List of attribute IDs that should be stored along with the product in the order
+	 * @param array $hiddenAttributeIds Deprecated
 	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
 	 * 	along with the product in the order
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
@@ -212,22 +212,23 @@ class Standard
 		$attributeMap = [
 			'custom' => array_keys( $customAttributeValues ),
 			'config' => array_keys( $configAttributeIds ),
-			'hidden' => $hiddenAttributeIds,
 		];
 		$this->checkListRef( $prodid, 'attribute', $attributeMap );
 
 
 		$context = $this->getContext();
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
-		$productItem = $productManager->getItem( $prodid, array( 'media', 'supplier', 'price', 'product', 'text' ), true );
+
+		$productItem = $productManager->getItem( $prodid, ['attribute', 'media', 'supplier', 'price', 'product', 'text'], true );
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
+		$hidden = $productItem->getRefItems( 'attribute', null, 'hidden' );
 
 		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
-		$attr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
-		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds ) );
-		$attr = array_merge( $attr, $this->getOrderProductAttributes( 'hidden', $hiddenAttributeIds ) );
+		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
+		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds );
+		$attr = array_merge( $custAttr, $confAttr, $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) ) );
 
 		$orderBaseProductItem->setAttributes( $attr );
 		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );

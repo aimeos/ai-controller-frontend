@@ -59,6 +59,7 @@ class Select
 		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
 		$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds );
+		$hidden += $productItem->getRefItems( 'attribute', null, 'hidden' );
 
 		$attributeMap = [
 			'custom' => array_keys( $customAttributeValues ),

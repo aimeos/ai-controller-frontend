@@ -351,7 +351,11 @@ class Standard
 	 */
 	protected function getCatalogIdsFromTree( \Aimeos\MShop\Catalog\Item\Iface $item )
 	{
-		$list = array( $item->getId() );
+		$list = [];
+
+		if( $item->getStatus() > 0 ) {
+			$list[] = $item->getId();
+		}
 
 		foreach( $item->getChildren() as $child ) {
 			$list = array_merge( $list, $this->getCatalogIdsFromTree( $child ) );

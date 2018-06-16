@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$filter = $this->object->createFilter();
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( [], $filter->getSortations() );
+		$this->assertEquals( 1, count( $filter->getSortations() ) );
 		$this->assertEquals( 0, $filter->getSliceStart() );
 		$this->assertEquals( 100, $filter->getSliceSize() );
 	}

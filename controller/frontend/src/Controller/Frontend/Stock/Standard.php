@@ -73,7 +73,10 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' )->createSearch( true );
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' );
+		$search = $manager->createSearch( true );
+
+		return $search->setSortations( [$search->sort( '+', 'stock.type.position' )] );
 	}
 
 

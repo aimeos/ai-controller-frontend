@@ -75,7 +75,7 @@ class Standard
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
 
 		$search = $manager->createSearch( true );
-		$search->setSortations( array( $search->sort( '+', 'service.position' ) ) );
+		$search->setSortations( [$search->sort( '+', 'service.type.position' ), $search->sort( '+', 'service.position' )] );
 
 		if( $type != null )
 		{

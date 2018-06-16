@@ -322,6 +322,7 @@ class Standard
 			$search->getConditions(),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setSortations( [$search->sort( '+', 'product.type.position' )] );
 		$search->setSlice( 0, count( $productIds ) );
 
 		return $manager->searchItems( $search, $domains );

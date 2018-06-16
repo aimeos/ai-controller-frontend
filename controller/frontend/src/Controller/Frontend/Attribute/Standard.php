@@ -61,7 +61,7 @@ class Standard
 		);
 
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
-		$filter->setSortations( array( $filter->sort( '+', 'attribute.position' ) ) );
+		$filter->setSortations( [$filter->sort( '+', 'attribute.type.position' ), $filter->sort( '+', 'attribute.position' )] );
 
 		return $filter;
 	}
@@ -100,7 +100,7 @@ class Standard
 			$filter->getConditions(),
 		];
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
-		$filter->setSortations( array( $filter->sort( '+', 'attribute.position' ) ) );
+		$filter->setSortations( [$filter->sort( '+', 'attribute.type.position' ), $filter->sort( '+', 'attribute.position' )] );
 
 		return $manager->searchItems( $filter, $domains );
 	}

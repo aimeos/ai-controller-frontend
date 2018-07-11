@@ -110,7 +110,7 @@ class Standard
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 
 			$sortfunc = $filter->createFunction( 'sort:index.catalog.position', array( $listtype, $catIds ) );
-			$filter->setSortations( array( $filter->sort( $direction, $sortfunc ) ) );
+			$filter->setSortations( [$filter->sort( $direction, $sortfunc ), $filter->sort( '+', 'product.id' )] );
 		}
 
 		$filter->setConditions( $filter->combine( '&&', $expr ) );

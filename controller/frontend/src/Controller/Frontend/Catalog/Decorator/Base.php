@@ -32,12 +32,7 @@ abstract class Base
 	 */
 	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
-		$iface = '\Aimeos\Controller\Frontend\Catalog\Iface';
-		if( !( $controller instanceof $iface ) )
-		{
-			$msg = sprintf( 'Class "%1$s" does not implement interface "%2$s"', get_class( $controller ), $iface );
-			throw new \Aimeos\Controller\Frontend\Exception( $msg );
-		}
+		\Aimeos\MW\Common\Base::checkClass( '\\Aimeos\\Controller\\Frontend\\Catalog\\Iface', $controller );
 
 		$this->controller = $controller;
 

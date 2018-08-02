@@ -40,7 +40,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Iface' )->getMock();
 
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Exception' );
+		$this->setExpectedException( '\Aimeos\MW\Common\Exception' );
 
 		$this->getMockBuilder( '\Aimeos\Controller\Frontend\Attribute\Decorator\Base' )
 			->setConstructorArgs( [$stub, $this->context] )

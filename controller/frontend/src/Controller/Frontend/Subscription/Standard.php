@@ -31,6 +31,7 @@ class Standard
 	{
 		$item = $this->getItem( $id );
 		$item->setDateEnd( $item->getDateNext() );
+		$item->setReason( \Aimeos\MShop\Subscription\Item\Iface::REASON_CANCEL );
 
 		return $this->saveItem( $item );
 	}

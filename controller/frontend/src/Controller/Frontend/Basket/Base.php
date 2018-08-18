@@ -256,7 +256,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			{
 				$variantIds = $configIds = $customIds = [];
 
-				foreach( $product->getAttributes() as $attrItem )
+				foreach( $product->getAttributeItems() as $attrItem )
 				{
 					switch( $attrItem->getType() )
 					{

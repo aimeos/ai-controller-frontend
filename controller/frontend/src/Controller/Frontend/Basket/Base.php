@@ -254,20 +254,21 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 			try
 			{
-				$attrIds = [];
+				$variantIds = $configIds = $customIds = [];
 
-				foreach( $product->getAttributes() as $attrItem ) {
-					$attrIds[$attrItem->getType()][] = $attrItem->getAttributeId();
+				foreach( $product->getAttributes() as $attrItem )
+				{
+					switch( $attrItem->getType() )
+					{
+						case 'variant': $variantIds[] = $attrItem->getAttributeId(); break;
+						case 'config': $configIds[$attrItem->getAttributeId()] = $attrItem->getQuantity(); break;
+						case 'custom': $customIds[$attrItem->getAttributeId()] = $attrItem->getValue(); break;
+					}
 				}
 
 				$this->addProduct(
-					$product->getProductId(),
-					$product->getQuantity(),
-					$product->getStockType(),
-					$this->getValue( $attrIds, 'variant', [] ),
-					$this->getValue( $attrIds, 'config', [] ),
-					$this->getValue( $attrIds, 'hidden', [] ),
-					$this->getValue( $attrIds, 'custom', [] )
+					$product->getProductId(), $product->getQuantity(), $product->getStockType(),
+					$variantIds, $configIds, [], $customIds
 				);
 
 				$basket->deleteProduct( $pos );

@@ -339,6 +339,13 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$item->setInterval( $interval );
 				$item->setStatus( 1 );
 
+				if( ( $end = $orderProduct->getAttribute( 'intervalend', 'custom' ) ) !== null
+					|| ( $end = $orderProduct->getAttribute( 'intervalend', 'config' ) ) !== null
+					|| ( $end = $orderProduct->getAttribute( 'intervalend', 'hidden' ) ) !== null
+				) {
+					$item->setDateEnd( $end );
+				}
+
 				$manager->saveItem( $item, false );
 			}
 		}

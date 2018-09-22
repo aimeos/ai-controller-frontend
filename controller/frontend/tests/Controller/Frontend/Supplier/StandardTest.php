@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$total = 0;
 		$results = $this->object->searchItems( $filter, [], $total );
 
-		$this->assertEquals( 2, $total );
-		$this->assertEquals( 2, count( $results ) );
+		$this->assertGreaterThanOrEqual( 2, $total );
+		$this->assertGreaterThanOrEqual( 2, count( $results ) );
 	}
 }

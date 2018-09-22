@@ -234,10 +234,10 @@ class Standard
 			case 'name':
 				$langid = $context->getLocale()->getLanguageId();
 
-				$cmpfunc = $search->createFunction( 'index.text.value', array( $listtype, $langid, 'name', 'product' ) );
-				$expr[] = $search->compare( '>=', $cmpfunc, '' );
+				$cmpfunc = $search->createFunction( 'index.text.name', [$langid, ''] );
+				$expr[] = $search->compare( '!=', $cmpfunc, null );
 
-				$sortfunc = $search->createFunction( 'sort:index.text.value', array( $listtype, $langid, 'name' ) );
+				$sortfunc = $search->createFunction( 'sort:index.text.name', [$langid, ''] );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 

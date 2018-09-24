@@ -233,21 +233,13 @@ class Standard
 
 			case 'name':
 				$langid = $context->getLocale()->getLanguageId();
-
-				$cmpfunc = $search->createFunction( 'index.text.name', [$langid, ''] );
-				$expr[] = $search->compare( '!=', $cmpfunc, null );
-
-				$sortfunc = $search->createFunction( 'sort:index.text.name', [$langid, ''] );
+				$sortfunc = $search->createFunction( 'sort:index.text.name', [$langid] );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 
 			case 'price':
 				$currencyid = $context->getLocale()->getCurrencyId();
-
-				$cmpfunc = $search->createFunction( 'index.price.value', array( $listtype, $currencyid, 'default' ) );
-				$expr[] = $search->compare( '>=', $cmpfunc, '0.00' );
-
-				$sortfunc = $search->createFunction( 'sort:index.price.value', array( $listtype, $currencyid, 'default' ) );
+				$sortfunc = $search->createFunction( 'sort:index.price.value', [$listtype, $currencyid, 'default'] );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 		}

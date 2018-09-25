@@ -238,7 +238,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertEquals( 'sort:index.text.name("de")', $item->getName() );
+		$this->assertEquals( 'sort:index.text.name("de","")', $item->getName() );
 	}
 
 

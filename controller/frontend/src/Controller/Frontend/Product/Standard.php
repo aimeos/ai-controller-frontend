@@ -35,7 +35,7 @@ class Standard
 	{
 		if( ( $attrIds = $this->validateIds( $attrIds ) ) !== [] )
 		{
-			$func = $filter->createFunction( 'index.attributeaggregate', array( $attrIds ) );
+			$func = $filter->createFunction( 'index.attribute.all', [$attrIds] );
 			$expr = array(
 				$filter->compare( '==', $func, count( $attrIds ) ),
 				$filter->getConditions(),
@@ -45,9 +45,8 @@ class Standard
 
 		if( ( $optIds = $this->validateIds( $optIds ) ) !== [] )
 		{
-			$func = $filter->createFunction( 'index.attributeaggregate', array( $optIds ) );
 			$expr = array(
-				$filter->compare( '>', $func, 0 ),
+				$filter->compare( '==', 'index.attribute.id', $optIds ),
 				$filter->getConditions(),
 			);
 			$filter->setConditions( $filter->combine( '&&', $expr ) );
@@ -57,9 +56,8 @@ class Standard
 		{
 			if( ( $list = $this->validateIds( (array) $list ) ) !== [] )
 			{
-				$func = $filter->createFunction( 'index.attributeaggregate', array( $list ) );
 				$expr = array(
-					$filter->compare( '>', $func, 0 ),
+					$filter->compare( '==', 'index.attribute.id', $list ),
 					$filter->getConditions(),
 				);
 				$filter->setConditions( $filter->combine( '&&', $expr ) );
@@ -245,7 +243,7 @@ class Standard
 				$currencyid = $context->getLocale()->getCurrencyId();
 
 				$cmpfunc = $search->createFunction( 'index.price.value', array( $listtype, $currencyid, 'default' ) );
-				$expr[] = $search->compare( '>=', $cmpfunc, '0.00' );
+				$expr[] = $search->compare( '!=', $cmpfunc, null );
 
 				$sortfunc = $search->createFunction( 'sort:index.price.value', array( $listtype, $currencyid, 'default' ) );
 				$sortations[] = $search->sort( $direction, $sortfunc );

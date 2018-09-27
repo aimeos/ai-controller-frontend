@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'index.attributeaggregate([1,2])', $list[0]->getName() );
+		$this->assertEquals( 'index.attribute.all([1,2])', $list[0]->getName() );
 		$this->assertEquals( 2, $list[0]->getValue() );
 	}
 
@@ -84,8 +84,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'index.attributeaggregate([1])', $list[0]->getName() );
-		$this->assertEquals( 0, $list[0]->getValue() );
+		$this->assertEquals( 'index.attribute.id', $list[0]->getName() );
+		$this->assertEquals( [1], $list[0]->getValue() );
 	}
 
 
@@ -100,8 +100,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'index.attributeaggregate([2])', $list[0]->getName() );
-		$this->assertEquals( 0, $list[0]->getValue() );
+		$this->assertEquals( 'index.attribute.id', $list[0]->getName() );
+		$this->assertEquals( [2], $list[0]->getValue() );
 	}
 
 

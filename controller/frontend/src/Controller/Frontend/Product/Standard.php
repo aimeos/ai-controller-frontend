@@ -232,10 +232,10 @@ class Standard
 			case 'name':
 				$langid = $context->getLocale()->getLanguageId();
 
-				$cmpfunc = $search->createFunction( 'index.text.name', [$langid, ''] );
+				$cmpfunc = $search->createFunction( 'index.text.name', [$langid] );
 				$expr[] = $search->compare( '!=', $cmpfunc, null );
 
-				$sortfunc = $search->createFunction( 'sort:index.text.name', [$langid, ''] );
+				$sortfunc = $search->createFunction( 'sort:index.text.name', [$langid] );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 

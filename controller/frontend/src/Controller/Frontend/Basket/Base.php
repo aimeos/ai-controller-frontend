@@ -107,18 +107,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		foreach( $refMap as $listType => $refIds )
 		{
-			if( empty( $refIds ) ) {
-				continue;
+			foreach( $refIds as $key => $refId )
+			{
+				$cmpfunc = $search->createFunction( 'product.list', [$domain, $listType, (string) $refId] );
+				$expr[] = $search->compare( '!=', $cmpfunc, null );
 			}
-
-			foreach( $refIds as $key => $refId ) {
-				$refIds[$key] = (string) $refId;
-			}
-
-			$param = array( $domain, $this->getProductListTypeItem( $domain, $listType )->getId(), $refIds );
-			$cmpfunc = $search->createFunction( 'product.contains', $param );
-
-			$expr[] = $search->compare( '==', $cmpfunc, count( $refIds ) );
 		}
 
 		$search->setConditions( $search->combine( '&&', $expr ) );
@@ -520,18 +513,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$search->getConditions(),
 		);
 
-		if( count( $variantAttributeIds ) > 0 )
+		foreach( $variantAttributeIds as $id )
 		{
-			foreach( $variantAttributeIds as $key => $id ) {
-				$variantAttributeIds[$key] = (string) $id;
-			}
-
-			$listTypeItem = $this->getProductListTypeItem( 'attribute', 'variant' );
-
-			$param = array( 'attribute', $listTypeItem->getId(), $variantAttributeIds );
-			$cmpfunc = $search->createFunction( 'product.contains', $param );
-
-			$expr[] = $search->compare( '==', $cmpfunc, count( $variantAttributeIds ) );
+			$cmpfunc = $search->createFunction( 'product.list', ['attribute', 'variant', (string) $id] );
+			$expr[] = $search->compare( '!=', $cmpfunc, null );
 		}
 
 		$search->setConditions( $search->combine( '&&', $expr ) );

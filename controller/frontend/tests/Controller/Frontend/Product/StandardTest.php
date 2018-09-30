@@ -68,8 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'index.attribute.all([1,2])', $list[0]->getName() );
-		$this->assertEquals( 2, $list[0]->getValue() );
+		$this->assertEquals( 'index.attribute:all([1,2])', $list[0]->getName() );
 	}
 
 
@@ -157,7 +156,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
 			throw new \RuntimeException( 'Wrong expression' );
 		}
-		$this->assertEquals( 'index.text.relevance("default","de","Espresso")', $list[0]->getName() );
+		$this->assertEquals( 'index.text:relevance("default","de","Espresso")', $list[0]->getName() );
 		$this->assertEquals( 0, $list[0]->getValue() );
 
 		$this->assertEquals( [], $filter->getSortations() );
@@ -180,7 +179,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertEquals( 'sort:index.catalog.position("test",["0"])', $item->getName() );
+		$this->assertEquals( 'sort:index.catalog:position("test",["0"])', $item->getName() );
 		$this->assertEquals( '-', $item->getOperator() );
 	}
 
@@ -238,7 +237,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertEquals( 'sort:index.text.name("de")', $item->getName() );
+		$this->assertEquals( 'sort:index.text:name("de")', $item->getName() );
 	}
 
 
@@ -253,7 +252,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertStringStartsWith( 'sort:index.price.value("default","EUR","default")', $item->getName() );
+		$this->assertStringStartsWith( 'sort:index.price:value("default","EUR","default")', $item->getName() );
 	}
 
 

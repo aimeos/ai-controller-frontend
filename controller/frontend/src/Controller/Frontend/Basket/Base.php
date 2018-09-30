@@ -109,7 +109,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			foreach( $refIds as $key => $refId )
 			{
-				$cmpfunc = $search->createFunction( 'product.list', [$domain, $listType, (string) $refId] );
+				$cmpfunc = $search->createFunction( 'product:has', [$domain, $listType, (string) $refId] );
 				$expr[] = $search->compare( '!=', $cmpfunc, null );
 			}
 		}
@@ -515,7 +515,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		foreach( $variantAttributeIds as $id )
 		{
-			$cmpfunc = $search->createFunction( 'product.list', ['attribute', 'variant', (string) $id] );
+			$cmpfunc = $search->createFunction( 'product:has', ['attribute', 'variant', (string) $id] );
 			$expr[] = $search->compare( '!=', $cmpfunc, null );
 		}
 

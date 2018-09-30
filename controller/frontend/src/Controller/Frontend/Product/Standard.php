@@ -35,9 +35,9 @@ class Standard
 	{
 		if( ( $attrIds = $this->validateIds( $attrIds ) ) !== [] )
 		{
-			$func = $filter->createFunction( 'index.attribute.all', [$attrIds] );
+			$func = $filter->createFunction( 'index.attribute:all', [$attrIds] );
 			$expr = array(
-				$filter->compare( '==', $func, count( $attrIds ) ),
+				$filter->compare( '!=', $func, null ),
 				$filter->getConditions(),
 			);
 			$filter->setConditions( $filter->combine( '&&', $expr ) );
@@ -104,10 +104,10 @@ class Standard
 
 		if( $sort === 'relevance' )
 		{
-			$cmpfunc = $filter->createFunction( 'index.catalog.position', array( $listtype, $catIds ) );
+			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, $catIds ) );
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 
-			$sortfunc = $filter->createFunction( 'sort:index.catalog.position', array( $listtype, $catIds ) );
+			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', array( $listtype, $catIds ) );
 			$filter->setSortations( [$filter->sort( $direction, $sortfunc ), $filter->sort( '+', 'product.id' )] );
 		}
 
@@ -155,7 +155,7 @@ class Standard
 	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' )
 	{
 		$langid = $this->getContext()->getLocale()->getLanguageId();
-		$cmpfunc = $filter->createFunction( 'index.text.relevance', array( $listtype, $langid, $input ) );
+		$cmpfunc = $filter->createFunction( 'index.text:relevance', array( $listtype, $langid, $input ) );
 		$expr = array( $filter->compare( '>', $cmpfunc, 0 ), $filter->getConditions() );
 
 		return $filter->setConditions( $filter->combine( '&&', $expr ) );
@@ -232,20 +232,20 @@ class Standard
 			case 'name':
 				$langid = $context->getLocale()->getLanguageId();
 
-				$cmpfunc = $search->createFunction( 'index.text.name', [$langid] );
+				$cmpfunc = $search->createFunction( 'index.text:name', [$langid] );
 				$expr[] = $search->compare( '!=', $cmpfunc, null );
 
-				$sortfunc = $search->createFunction( 'sort:index.text.name', [$langid] );
+				$sortfunc = $search->createFunction( 'sort:index.text:name', [$langid] );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 
 			case 'price':
 				$currencyid = $context->getLocale()->getCurrencyId();
 
-				$cmpfunc = $search->createFunction( 'index.price.value', array( $listtype, $currencyid, 'default' ) );
+				$cmpfunc = $search->createFunction( 'index.price:value', array( $listtype, $currencyid, 'default' ) );
 				$expr[] = $search->compare( '!=', $cmpfunc, null );
 
-				$sortfunc = $search->createFunction( 'sort:index.price.value', array( $listtype, $currencyid, 'default' ) );
+				$sortfunc = $search->createFunction( 'sort:index.price:value', array( $listtype, $currencyid, 'default' ) );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 		}

@@ -367,7 +367,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$search->getConditions(),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSlice( 0, 0x7fffffff );
+		$search->setSlice( 0, count( $attributeIds ) );
 
 		$attrItems = $attributeManager->searchItems( $search, $domains );
 

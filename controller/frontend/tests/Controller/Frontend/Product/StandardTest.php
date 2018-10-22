@@ -179,7 +179,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertEquals( 'sort:index.catalog:position("test",["0"])', $item->getName() );
+		$this->assertEquals( 'sort:index.catalog:position("test",["0"],0,100)', $item->getName() );
 		$this->assertEquals( '-', $item->getOperator() );
 	}
 

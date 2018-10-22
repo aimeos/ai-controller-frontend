@@ -104,10 +104,13 @@ class Standard
 
 		if( $sort === 'relevance' )
 		{
-			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, $catIds ) );
+			$start = $filter->getSliceStart();
+			$end = $start + $filter->getSliceSize();
+
+			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, $catIds, $start, $end ) );
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 
-			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', array( $listtype, $catIds ) );
+			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', array( $listtype, $catIds, $start, $end ) );
 			$filter->setSortations( [$filter->sort( $direction, $sortfunc ), $filter->sort( '+', 'product.id' )] );
 		}
 

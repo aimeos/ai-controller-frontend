@@ -171,6 +171,7 @@ class Standard
 		$this->domainManager->store( $basket );
 		$this->domainManager->commit();
 
+		$this->save(); // for reusing unpaid orders, might have side effects (!)
 		$this->createSubscriptions( $basket );
 
 		return $basket;

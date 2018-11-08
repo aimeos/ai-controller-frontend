@@ -231,7 +231,7 @@ class Standard
 		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds );
 		$attr = array_merge( $custAttr, $confAttr, $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) ) );
 
-		$orderBaseProductItem->setAttributes( $attr );
+		$orderBaseProductItem->setAttributeItems( $attr );
 		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->get()->addProduct( $orderBaseProductItem );
@@ -278,14 +278,14 @@ class Standard
 
 		$product->setQuantity( $quantity );
 
-		$attributes = $product->getAttributes();
+		$attributes = $product->getAttributeItems();
 		foreach( $attributes as $key => $attribute )
 		{
 			if( in_array( $attribute->getCode(), $configAttributeCodes ) ) {
 				unset( $attributes[$key] );
 			}
 		}
-		$product->setAttributes( $attributes );
+		$product->setAttributeItems( $attributes );
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
 		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );

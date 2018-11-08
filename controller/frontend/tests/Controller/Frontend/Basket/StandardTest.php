@@ -375,7 +375,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->editProduct( 0, 4 );
 
 		$item = $this->object->get()->getProduct( 0 );
-		$this->assertEquals( 3, count( $item->getAttributes() ) );
+		$this->assertEquals( 3, count( $item->getAttributeItems() ) );
 		$this->assertEquals( 4, $item->getQuantity() );
 
 
@@ -383,7 +383,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 3, $item->getQuantity() );
-		$this->assertEquals( 2, count( $item->getAttributes() ) );
+		$this->assertEquals( 2, count( $item->getAttributeItems() ) );
 		$this->assertEquals( 'U:TESTP', $item->getProductCode() );
 	}
 

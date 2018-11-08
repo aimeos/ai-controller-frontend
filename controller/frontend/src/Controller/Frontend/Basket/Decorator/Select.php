@@ -71,7 +71,7 @@ class Select
 		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds );
 		$attr = array_merge( $attr, $custAttr, $confAttr, $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) ) );
 
-		$orderBaseProductItem->setAttributes( $attr );
+		$orderBaseProductItem->setAttributeItems( $attr );
 		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );

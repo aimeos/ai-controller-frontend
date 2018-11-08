@@ -59,7 +59,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$price->setValue( $amount );
 		}
 
-		$orderAttributes = $product->getAttributes();
+		$orderAttributes = $product->getAttributeItems();
 		$attrItems = $this->getAttributeItems( $orderAttributes );
 
 		// add prices of (optional) attributes
@@ -298,7 +298,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				{
 					$attributes = [];
 
-					foreach( $item->getAttributes() as $attrItem ) {
+					foreach( $item->getAttributeItems() as $attrItem ) {
 						$attributes[$attrItem->getCode()] = $attrItem->getValue();
 					}
 

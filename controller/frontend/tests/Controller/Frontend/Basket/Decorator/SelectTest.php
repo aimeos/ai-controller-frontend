@@ -106,7 +106,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
 		$this->assertEquals( 'U:TESTSUB02', $this->object->get()->getProduct( 0 )->getProductCode() );
-		$this->assertEquals( 2, count( $this->object->get()->getProduct( 0 )->getAttributes() ) );
+		$this->assertEquals( 2, count( $this->object->get()->getProduct( 0 )->getAttributeItems() ) );
 	}
 
 
@@ -224,7 +224,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$product = $basket->getProduct( 0 );
 		$this->assertEquals( 'U:TESTPSUB01', $product->getProductCode() );
 
-		$attributes = $product->getAttributes();
+		$attributes = $product->getAttributeItems();
 		$this->assertEquals( 1, count( $attributes ) );
 
 		if( ( $attribute = reset( $attributes ) ) === false ) {

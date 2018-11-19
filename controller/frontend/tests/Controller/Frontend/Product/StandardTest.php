@@ -156,7 +156,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
 			throw new \RuntimeException( 'Wrong expression' );
 		}
-		$this->assertEquals( 'index.text:relevance("default","de","Espresso")', $list[0]->getName() );
+		$this->assertEquals( 'index.text:relevance("de","Espresso")', $list[0]->getName() );
 		$this->assertEquals( 0, $list[0]->getValue() );
 
 		$this->assertEquals( [], $filter->getSortations() );

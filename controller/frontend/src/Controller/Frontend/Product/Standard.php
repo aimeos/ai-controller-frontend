@@ -158,7 +158,7 @@ class Standard
 	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' )
 	{
 		$langid = $this->getContext()->getLocale()->getLanguageId();
-		$cmpfunc = $filter->createFunction( 'index.text:relevance', array( $listtype, $langid, $input ) );
+		$cmpfunc = $filter->createFunction( 'index.text:relevance', [$langid, $input] );
 		$expr = array( $filter->compare( '>', $cmpfunc, 0 ), $filter->getConditions() );
 
 		return $filter->setConditions( $filter->combine( '&&', $expr ) );

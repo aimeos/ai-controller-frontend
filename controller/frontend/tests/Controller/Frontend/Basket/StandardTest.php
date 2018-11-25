@@ -488,7 +488,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'order.base.address.email' => 'test@example.com',
 			'order.base.address.telefax' => '05554433222',
 			'order.base.address.website' => 'www.example.com',
-			'order.base.address.flag' => 0,
 		);
 
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $fixture );
@@ -546,7 +545,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'order.base.address.email' => 'test@example.com',
 			'order.base.address.telefax' => '05554433222',
 			'order.base.address.website' => 'www.example.com',
-			'order.base.address.flag' => 0,
 		);
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $fixture );
 

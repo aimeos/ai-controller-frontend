@@ -333,10 +333,15 @@ class Standard
 
 
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'coupon' );
+		$codeManager = \Aimeos\MShop\Factory::createManager( $context, 'coupon/code' );
 
-		$search = $manager->createSearch();
-		$search->setConditions( $search->compare( '==', 'coupon.code.code', $code ) );
-		$search->setSlice( 0, 1 );
+		$search = $manager->createSearch( true )->setSlice( 0, 1 );
+		$expr = [
+			$search->compare( '==', 'coupon.code.code', $code ),
+			$codeManager->createSearch( true )->getConditions(),
+			$search->getConditions(),
+		];
+		$search->setConditions( $search->combine( '&&', $expr ) );
 
 		$result = $manager->searchItems( $search );
 

@@ -39,14 +39,12 @@ interface Iface
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
 	 * @param string|array $catId Selected category by the user
 	 * @param integer $level Constant for current category only, categories of next level (LEVEL_LIST) or whole subtree (LEVEL_SUBTREE)
-	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
 	 * @param string $listtype List type of the product associated to the category, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
 	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
-		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' );
+		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $listtype = 'default' );
 
 
 	/**
@@ -65,13 +63,10 @@ interface Iface
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
 	 * @param string $input Search string entered by the user
-	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
-	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' );
+	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input );
 
 
 	/**
@@ -92,11 +87,10 @@ interface Iface
 	 * @param string $direction Sort direction of the product list ("+", "-")
 	 * @param integer $start Position in the list of found products where to begin retrieving the items
 	 * @param integer $size Number of products that should be returned
-	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' );
+	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100 );
 
 
 	/**

@@ -169,8 +169,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE;
 
-		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterCategory( $filter, 0, $level, 'relevance', '-', 'test' );
+		$filter = $this->object->createFilter( 'relevance', '-' );
+		$filter = $this->object->addFilterCategory( $filter, 0, $level, 'test' );
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
 
@@ -186,7 +186,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateFilterSortRelevanceText()
 	{
-		$filter = $this->object->createFilter( 'relevance', '-', 1, 2, 'test' );
+		$filter = $this->object->createFilter( 'relevance', '-', 1, 2 );
 		$filter = $this->object->addFilterText( $filter, 'Espresso' );
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
@@ -311,10 +311,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearchItemsCategory()
 	{
 		$catalogManager = \Aimeos\MShop\Catalog\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
-		$search = $catalogManager->createSearch();
 
+		$search = $catalogManager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'catalog.code', 'new' ) );
-		$search->setSlice( 0, 1 );
 		$items = $catalogManager->searchItems( $search );
 
 		if( ( $item = reset( $items ) ) === false ) {
@@ -334,8 +333,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchItemsText()
 	{
-		$filter = $this->object->createFilter( 'relevance', '+', 0, 1, 'unittype13' );
-		$filter = $this->object->addFilterText( $filter, 'Expresso', 'relevance', '+', 'unittype13' );
+		$filter = $this->object->createFilter( 'relevance', '+', 0, 1 );
+		$filter = $this->object->addFilterText( $filter, 'Expresso' );
 
 		$total = 0;
 		$results = $this->object->searchItems( $filter, [], $total );

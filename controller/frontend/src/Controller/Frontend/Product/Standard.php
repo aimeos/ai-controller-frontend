@@ -74,14 +74,12 @@ class Standard
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
 	 * @param string|array $catId Selected category by the user
 	 * @param integer $level Constant for current category only, categories of next level (LEVEL_LIST) or whole subtree (LEVEL_SUBTREE)
-	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
 	 * @param string $listtype List type of the product associated to the category, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
 	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
-		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' )
+		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $listtype = 'default' )
 	{
 		$catIds = ( !is_array( $catId ) ? explode( ',', $catId ) : $catId );
 
@@ -102,16 +100,17 @@ class Standard
 		$expr = array( $filter->compare( '==', 'index.catalog.id', array_unique( $catIds ) ) );
 		$expr[] = $filter->getConditions();
 
-		if( $sort === 'relevance' )
+		if( isset( $filter->sortname ) && $filter->sortname === 'relevance' )
 		{
 			$start = $filter->getSliceStart();
 			$end = $start + $filter->getSliceSize();
+			$dir = ( isset( $filter->sortdir ) ? $filter->sortdir : '+' );
 
 			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, $catIds, $start, $end ) );
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 
 			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', array( $listtype, $catIds, $start, $end ) );
-			$filter->setSortations( [$filter->sort( $direction, $sortfunc ), $filter->sort( '+', 'product.id' )] );
+			$filter->setSortations( [$filter->sort( $dir, $sortfunc ), $filter->sort( '+', 'product.id' )] );
 		}
 
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
@@ -149,13 +148,10 @@ class Standard
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
 	 * @param string $input Search string entered by the user
-	 * @param string|null $sort Sortation of the product list like "name", "code", "price" and "position", null for no sortation
-	 * @param string $direction Sort direction of the product list ("+", "-")
-	 * @param string $listtype List type of the text associated to the product, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input, $sort = null, $direction = '+', $listtype = 'default' )
+	public function addFilterText( \Aimeos\MW\Criteria\Iface $filter, $input )
 	{
 		$langid = $this->getContext()->getLocale()->getLanguageId();
 		$cmpfunc = $filter->createFunction( 'index.text:relevance', [$langid, $input] );
@@ -186,11 +182,10 @@ class Standard
 	 * @param string $direction Sort direction of the product list ("+", "-")
 	 * @param integer $start Position in the list of found products where to begin retrieving the items
 	 * @param integer $size Number of products that should be returned
-	 * @param string $listtype Type of the product list, e.g. default, promotion, etc.
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100, $listtype = 'default' )
+	public function createFilter( $sort = null, $direction = '+', $start = 0, $size = 100 )
 	{
 		$sortations = [];
 		$context = $this->getContext();
@@ -245,10 +240,10 @@ class Standard
 			case 'price':
 				$currencyid = $context->getLocale()->getCurrencyId();
 
-				$cmpfunc = $search->createFunction( 'index.price:value', array( $listtype, $currencyid, 'default' ) );
+				$cmpfunc = $search->createFunction( 'index.price:value', ['default', $currencyid, 'default'] );
 				$expr[] = $search->compare( '!=', $cmpfunc, null );
 
-				$sortfunc = $search->createFunction( 'sort:index.price:value', array( $listtype, $currencyid, 'default' ) );
+				$sortfunc = $search->createFunction( 'sort:index.price:value', ['default', $currencyid, 'default'] );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 		}
@@ -258,6 +253,8 @@ class Standard
 		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSortations( $sortations );
 		$search->setSlice( $start, $size );
+		$search->sortdir = $direction;
+		$search->sortname = $sort;
 
 		return $search;
 	}

@@ -35,11 +35,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->context->setUserId( $id );
 		$item = $this->object->addItem( ['customer.code' => 'unittest-ctnl', 'customer.status' => 1] );
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $item );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
 
 		$this->context->setUserId( $item->getId() );
 		$item = $this->object->editItem( $item->getId(), ['customer.code' => 'unittest-ctnl2'] );
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $item );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
 
 		$item->setStatus( 0 );
 		$item = $this->object->saveItem( $item );
@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->object->deleteItem( $item->getId() );
 
-		$this->setExpectedException( '\Aimeos\MShop\Exception' );
+		$this->setExpectedException( \Aimeos\MShop\Exception::class );
 		$manager->findItem( 'unittest-ctnl' );
 	}
 
@@ -55,14 +55,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddExistingItem()
 	{
 		$item = $this->object->addItem( ['customer.code' => 'UTC001'] );
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $item );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
 	}
 
 
 	public function testCreateItem()
 	{
 		$result = $this->object->createItem();
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $result );
 	}
 
 
@@ -73,7 +73,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$result = $this->object->getItem( $id, ['customer/address', 'text'] );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $result );
 		$this->assertEquals( 1, count( $result->getRefItems( 'text' ) ) );
 		$this->assertEquals( 1, count( $result->getAddressItems() ) );
 	}
@@ -82,7 +82,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testFindItem()
 	{
 		$result = $this->object->findItem( 'UTC001' );
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $result );
 	}
 
 
@@ -92,10 +92,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $customer->getId() );
 
 		$item = $this->object->addAddressItem( ['customer.address.lastname' => 'unittest-ctnl'] );
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $item );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $item );
 
 		$item = $this->object->editAddressItem( $item->getId(), ['customer.address.lastname' => 'unittest-ctnl2'] );
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $item );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $item );
 
 		$item->setLastName( 'test' );
 		$this->object->saveAddressItem( $item );
@@ -108,7 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testCreateAddressItem()
 	{
 		$result = $this->object->createAddressItem();
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $result );
 	}
 
 
@@ -125,7 +125,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->context->setUserId( $item->getParentId() );
 		$result = $this->object->getAddressItem( $item->getId() );
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $result );
 	}
 
 
@@ -141,7 +141,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		];
 
 		$item = $this->object->addListItem( $values );
-		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $item );
 
 		$values = [
 			'customer.lists.type' => 'favorite',
@@ -150,11 +150,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		];
 
 		$item = $this->object->editListItem( $item->getId(), $values );
-		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $item );
 
 		$this->object->deleteListItem( $item->getId() );
 
-		$this->setExpectedException( '\Aimeos\MShop\Exception' );
+		$this->setExpectedException( \Aimeos\MShop\Exception::class );
 		$this->object->getListItem( $item->getId() );
 	}
 
@@ -172,7 +172,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->context->setUserId( $item->getParentId() );
 		$result = $this->object->getListItem( $item->getId() );
-		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $result );
 	}
 
 
@@ -188,7 +188,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		foreach( $result as $item )
 		{
 			$this->assertEquals( $customer->getId(), $item->getParentId() );
-			$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Lists\Iface', $item );
+			$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $item );
 		}
 	}
 }

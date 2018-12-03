@@ -20,11 +20,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->context = \TestHelperFrontend::getContext();
 
-		$this->stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Standard' )
+		$this->stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Stock\Standard::class )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Decorator\Base' )
+		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Stock\Decorator\Base::class )
 			->setConstructorArgs( [$this->stub, $this->context] )
 			->getMockForAbstractClass();
 	}
@@ -38,11 +38,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testConstructException()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Iface' )->getMock();
+		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Iface::class )->getMock();
 
-		$this->setExpectedException( '\Aimeos\MW\Common\Exception' );
+		$this->setExpectedException( \Aimeos\MW\Common\Exception::class );
 
-		$this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Decorator\Base' )
+		$this->getMockBuilder( \Aimeos\Controller\Frontend\Stock\Decorator\Base::class )
 			->setConstructorArgs( [$stub, $this->context] )
 			->getMockForAbstractClass();
 	}
@@ -50,12 +50,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCall()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Standard' )
+		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Stock\Standard::class )
 			->disableOriginalConstructor()
 			->setMethods( ['invalid'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Stock\Decorator\Base' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Stock\Decorator\Base::class )
 			->setConstructorArgs( [$stub, $this->context] )
 			->getMockForAbstractClass();
 
@@ -72,7 +72,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'addFilterCodes' )
 			->will( $this->returnArgument( 0 ) );
 
-		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->addFilterCodes( $search, [] ) );
+		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterCodes( $search, [] ) );
 	}
 
 
@@ -83,7 +83,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'addFilterTypes' )
 			->will( $this->returnArgument( 0 ) );
 
-		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->addFilterTypes( $search, [] ) );
+		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterTypes( $search, [] ) );
 	}
 
 
@@ -94,7 +94,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'createFilter' )
 			->will( $this->returnValue( $search ) );
 
-		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->createFilter() );
+		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
 	}
 
 
@@ -105,7 +105,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Stock\Item\Iface', $this->object->getItem( -1 ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Stock\Item\Iface::class, $this->object->getItem( -1 ) );
 	}
 
 
@@ -130,7 +130,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function access( $name )
 	{
-		$class = new \ReflectionClass( '\Aimeos\Controller\Frontend\Stock\Decorator\Base' );
+		$class = new \ReflectionClass( \Aimeos\Controller\Frontend\Stock\Decorator\Base::class );
 		$method = $class->getMethod( $name );
 		$method->setAccessible( true );
 

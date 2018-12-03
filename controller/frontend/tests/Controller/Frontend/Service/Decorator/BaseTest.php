@@ -20,11 +20,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->context = \TestHelperFrontend::getContext();
 
-		$this->stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Service\Standard' )
+		$this->stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Service\Decorator\Base' )
+		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Decorator\Base::class )
 			->setConstructorArgs( [$this->stub, $this->context] )
 			->getMockForAbstractClass();
 	}
@@ -38,11 +38,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testConstructException()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Iface' )->getMock();
+		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Iface::class )->getMock();
 
-		$this->setExpectedException( '\Aimeos\MW\Common\Exception' );
+		$this->setExpectedException( \Aimeos\MW\Common\Exception::class );
 
-		$this->getMockBuilder( '\Aimeos\Controller\Frontend\Service\Decorator\Base' )
+		$this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Decorator\Base::class )
 			->setConstructorArgs( [$stub, $this->context] )
 			->getMockForAbstractClass();
 	}
@@ -50,12 +50,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCall()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Service\Standard' )
+		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Standard::class )
 			->disableOriginalConstructor()
 			->setMethods( ['invalid'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Service\Decorator\Base' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Decorator\Base::class )
 			->setConstructorArgs( [$stub, $this->context] )
 			->getMockForAbstractClass();
 
@@ -108,20 +108,20 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdatePush()
 	{
-		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();
-		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
+		$response = $this->getMockBuilder( \Psr\Http\Message\ResponseInterface::class )->getMock();
+		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$this->stub->expects( $this->once() )->method( 'updatePush' )
 			->will( $this->returnValue( $response ) );
 
-		$this->assertInstanceOf( '\Psr\Http\Message\ResponseInterface', $this->object->updatePush( $request, $response, 'test' ) );
+		$this->assertInstanceOf( \Psr\Http\Message\ResponseInterface::class, $this->object->updatePush( $request, $response, 'test' ) );
 	}
 
 
 	public function testUpdateSync()
 	{
-		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();
-		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
+		$response = $this->getMockBuilder( \Psr\Http\Message\ResponseInterface::class )->getMock();
+		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'updateSync' )
@@ -141,7 +141,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function access( $name )
 	{
-		$class = new \ReflectionClass( '\Aimeos\Controller\Frontend\Service\Decorator\Base' );
+		$class = new \ReflectionClass( \Aimeos\Controller\Frontend\Service\Decorator\Base::class );
 		$method = $class->getMethod( $name );
 		$method->setAccessible( true );
 

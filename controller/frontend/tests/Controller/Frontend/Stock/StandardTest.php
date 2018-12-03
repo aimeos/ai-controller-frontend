@@ -77,7 +77,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$result = $this->object->getItem( $id );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Stock\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Stock\Item\Iface::class, $result );
 	}
 
 

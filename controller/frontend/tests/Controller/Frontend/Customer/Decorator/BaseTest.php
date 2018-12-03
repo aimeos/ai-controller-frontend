@@ -20,11 +20,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->context = \TestHelperFrontend::getContext();
 
-		$this->stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Customer\Standard' )
+		$this->stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Standard::class )
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Customer\Decorator\Base' )
+		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Decorator\Base::class )
 			->setConstructorArgs( [$this->stub, $this->context] )
 			->getMockForAbstractClass();
 	}
@@ -38,11 +38,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testConstructException()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Iface' )->getMock();
+		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Iface::class )->getMock();
 
-		$this->setExpectedException( '\Aimeos\MW\Common\Exception' );
+		$this->setExpectedException( \Aimeos\MW\Common\Exception::class );
 
-		$this->getMockBuilder( '\Aimeos\Controller\Frontend\Customer\Decorator\Base' )
+		$this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Decorator\Base::class )
 			->setConstructorArgs( [$stub, $this->context] )
 			->getMockForAbstractClass();
 	}
@@ -50,12 +50,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCall()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Customer\Standard' )
+		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Standard::class )
 			->disableOriginalConstructor()
 			->setMethods( ['invalid'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Customer\Decorator\Base' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Decorator\Base::class )
 			->setConstructorArgs( [$stub, $this->context] )
 			->getMockForAbstractClass();
 
@@ -72,7 +72,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'addItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $this->object->addItem( [] ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->addItem( [] ) );
 	}
 
 
@@ -83,7 +83,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'createItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $this->object->createItem() );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->createItem() );
 	}
 
 
@@ -102,7 +102,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'editItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $this->object->editItem( -1, [] ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->editItem( -1, [] ) );
 	}
 
 
@@ -113,7 +113,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $this->object->getItem( -1 ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->getItem( -1 ) );
 	}
 
 
@@ -124,7 +124,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'findItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Iface', $this->object->findItem( 'test' ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->findItem( 'test' ) );
 	}
 
 
@@ -145,7 +145,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'createAddressItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $this->object->createAddressItem() );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $this->object->createAddressItem() );
 	}
 
 
@@ -164,7 +164,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'editAddressItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $this->object->editAddressItem( -1, [] ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $this->object->editAddressItem( -1, [] ) );
 	}
 
 
@@ -175,7 +175,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'getAddressItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Customer\Item\Address\Iface', $this->object->getAddressItem( -1 ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $this->object->getAddressItem( -1 ) );
 	}
 
 
@@ -199,7 +199,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function access( $name )
 	{
-		$class = new \ReflectionClass( '\Aimeos\Controller\Frontend\Customer\Decorator\Base' );
+		$class = new \ReflectionClass( \Aimeos\Controller\Frontend\Customer\Decorator\Base::class );
 		$method = $class->getMethod( $name );
 		$method->setAccessible( true );
 

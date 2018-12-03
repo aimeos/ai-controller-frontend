@@ -46,7 +46,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $manager->createItem() ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->addItem( -1, 'test' ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->addItem( -1, 'test' ) );
 	}
 
 
@@ -61,14 +61,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'No order item found' );
 		}
 
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Order\Exception' );
+		$this->setExpectedException( \Aimeos\Controller\Frontend\Order\Exception::class );
 		$this->object->addItem( $item->getId(), 'test' );
 	}
 
 
 	public function testCreateFilter()
 	{
-		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->createFilter() );
+		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
 	}
 
 
@@ -88,13 +88,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'No order item found' );
 		}
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->getItem( $item->getId() ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->getItem( $item->getId() ) );
 	}
 
 
 	public function testGetItemException()
 	{
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Order\Exception' );
+		$this->setExpectedException( \Aimeos\Controller\Frontend\Order\Exception::class );
 		$this->object->getItem( -1 );
 	}
 
@@ -111,7 +111,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $manager->createItem() ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Iface', $this->object->saveItem( $manager->createItem() ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->saveItem( $manager->createItem() ) );
 	}
 
 

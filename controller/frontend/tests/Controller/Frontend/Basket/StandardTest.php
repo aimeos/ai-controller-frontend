@@ -55,13 +55,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Iface', $this->object->get() );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $this->object->get() );
 	}
 
 
 	public function testSave()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\MShop\Order\Manager\Base\Standard' )
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['setSession'] )
 			->getMock();
@@ -78,13 +78,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSetType()
 	{
-		$this->assertInstanceOf( '\Aimeos\Controller\Frontend\Basket\Iface', $this->object->setType( 'test' ) );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $this->object->setType( 'test' ) );
 	}
 
 
 	public function testStore()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\MShop\Order\Manager\Base\Standard' )
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['store'] )
 			->getMock();
@@ -107,14 +107,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Basket\Exception' );
+		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
 		$object->store();
 	}
 
 
 	public function testLoad()
 	{
-		$stub = $this->getMockBuilder( '\Aimeos\MShop\Order\Manager\Base\Standard' )
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['load'] )
 			->getMock();
@@ -216,7 +216,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$attrValues = array( $attrItem->getId() => ',' );
 
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Basket\Exception' );
+		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
 		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
 	}
 
@@ -451,7 +451,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, null );
 
-		$this->setExpectedException( '\Aimeos\MShop\Order\Exception' );
+		$this->setExpectedException( \Aimeos\MShop\Order\Exception::class );
 		$this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
 	}
 

@@ -61,7 +61,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$result = $this->object->getItem( $id, ['text'] );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Attribute\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $result );
 		$this->assertEquals( 3, count( $result->getRefItems( 'text' ) ) );
 	}
 
@@ -79,7 +79,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		foreach( $result as $attrItem )
 		{
-			$this->assertInstanceOf( '\Aimeos\MShop\Attribute\Item\Iface', $attrItem );
+			$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $attrItem );
 			$this->assertEquals( 3, count( $attrItem->getRefItems( 'text' ) ) );
 		}
 	}

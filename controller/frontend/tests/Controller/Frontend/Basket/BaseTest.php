@@ -31,7 +31,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCheckLocale()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( null )
 			->getMock();
@@ -50,7 +50,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->setAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( null )
 			->getMock();
@@ -62,7 +62,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $object->get()->getAddresses() ) );
 
 		$addr = $object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Address\Iface', $addr );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Address\Iface::class, $addr );
 
 		$object->clear();
 	}
@@ -77,7 +77,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->setAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['setAddress'] )
 			->getMock();
@@ -107,7 +107,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->addCoupon( 'OPQR', [] );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( null )
 			->getMock();
@@ -131,7 +131,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->addCoupon( '90AB', [] );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['addCoupon'] )
 			->getMock();
@@ -156,7 +156,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->addProduct( $ordProdItem );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( null )
 			->getMock();
@@ -166,7 +166,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( ['test'], $result );
 		$this->assertEquals( 1, count( $object->get()->getProducts() ) );
-		$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Product\Iface', $object->get()->getProduct( 0 ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Product\Iface::class, $object->get()->getProduct( 0 ) );
 
 		$object->clear();
 	}
@@ -183,7 +183,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->addProduct( $ordProdItem );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['addProduct'] )
 			->getMock();
@@ -211,7 +211,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( null )
 			->getMock();
@@ -225,7 +225,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$services = $object->get()->getService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
 
 		foreach( $services as $service ) {
-			$this->assertInstanceOf( '\Aimeos\MShop\Order\Item\Base\Service\Iface', $service );
+			$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Service\Iface::class, $service );
 		}
 
 		$object->clear();
@@ -246,7 +246,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
 
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['addService'] )
 			->getMock();
@@ -272,12 +272,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			throw new \Exception( sprintf( 'No order base item found for price "%1$s"', '53,50' ) );
 		}
 
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['getAttributes'] )
 			->getMock();
 
-		$stub = $this->getMockBuilder( '\Aimeos\MShop\Subscription\Manager\Standard' )
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Subscription\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['saveItem'] )
 			->getMock();
@@ -292,7 +292,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetOrderProductAttributes()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['getAttributes'] )
 			->getMock();
@@ -331,7 +331,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function access( $name )
 	{
-		$class = new \ReflectionClass( '\Aimeos\Controller\Frontend\Basket\Base' );
+		$class = new \ReflectionClass( \Aimeos\Controller\Frontend\Basket\Base::class );
 		$method = $class->getMethod( $name );
 		$method->setAccessible( true );
 

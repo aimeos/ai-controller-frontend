@@ -91,25 +91,25 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$result = $this->object->process( $item, $serviceId, [], [] );
-		$this->assertInstanceOf( '\Aimeos\MShop\Common\Item\Helper\Form\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Helper\Form\Iface::class, $result );
 	}
 
 
 	public function testUpdatePush()
 	{
-		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
-		$response = $this->getMockBuilder( '\Psr\Http\Message\ResponseInterface' )->getMock();
+		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
+		$response = $this->getMockBuilder( \Psr\Http\Message\ResponseInterface::class )->getMock();
 
 		$response->expects( $this->once() )->method( 'withStatus' )->will( $this->returnValue( $response ) );
 
-		$this->assertInstanceOf( '\Psr\Http\Message\ResponseInterface', $this->object->updatePush( $request, $response, 'unitcode' ) );
+		$this->assertInstanceOf( \Psr\Http\Message\ResponseInterface::class, $this->object->updatePush( $request, $response, 'unitcode' ) );
 	}
 
 
 	public function testUpdateSync()
 	{
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
-		$request = $this->getMockBuilder( '\Psr\Http\Message\ServerRequestInterface' )->getMock();
+		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
 			->setMethods( ['updateSync', 'query', 'isImplemented'] )

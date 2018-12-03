@@ -38,7 +38,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->setUserId( $this->getCustomerId() );
 		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'subscription' )->createItem();
 
-		$cntl = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Subscription\Standard' )
+		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Subscription\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['saveItem'] )
 			->getMock();
@@ -46,13 +46,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$cntl->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Subscription\Item\Iface', $cntl->cancel( $this->getSubscriptionId() ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $cntl->cancel( $this->getSubscriptionId() ) );
 	}
 
 
 	public function testCreateFilter()
 	{
-		$this->assertInstanceOf( '\Aimeos\MW\Criteria\Iface', $this->object->createFilter() );
+		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
 	}
 
 
@@ -67,13 +67,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$id = $this->getSubscriptionId();
 		$this->context->setUserId( $this->getCustomerId() );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Subscription\Item\Iface', $this->object->getItem( $id ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $this->object->getItem( $id ) );
 	}
 
 
 	public function testGetItemException()
 	{
-		$this->setExpectedException( '\Aimeos\Controller\Frontend\Subscription\Exception' );
+		$this->setExpectedException( \Aimeos\Controller\Frontend\Subscription\Exception::class );
 		$this->object->getItem( -1 );
 	}
 
@@ -90,7 +90,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $manager->createItem() ) );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Subscription\Item\Iface', $this->object->saveItem( $manager->createItem() ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $this->object->saveItem( $manager->createItem() ) );
 	}
 
 

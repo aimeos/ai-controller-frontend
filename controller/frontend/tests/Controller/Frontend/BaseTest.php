@@ -18,7 +18,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$context = \TestHelperFrontend::getContext();
 
-		$this->object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Base' )
+		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Base::class )
 			->setConstructorArgs( [$context] )
 			->getMockForAbstractClass();
 	}
@@ -34,13 +34,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$result = $this->access( 'getContext' )->invokeArgs( $this->object, [] );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Context\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Context\Item\Iface::class, $result );
 	}
 
 
 	protected function access( $name )
 	{
-		$class = new \ReflectionClass( '\Aimeos\Controller\Frontend\Base' );
+		$class = new \ReflectionClass( \Aimeos\Controller\Frontend\Base::class );
 		$method = $class->getMethod( $name );
 		$method->setAccessible( true );
 

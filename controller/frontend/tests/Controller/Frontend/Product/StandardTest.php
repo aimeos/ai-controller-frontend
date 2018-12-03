@@ -272,7 +272,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$result = $this->object->getItem( $id );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Product\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $result );
 		$this->assertGreaterThan( 0, $result->getPropertyItems() );
 		$this->assertGreaterThan( 0, $result->getRefItems( 'attribute' ) );
 		$this->assertGreaterThan( 0, $result->getRefItems( 'media' ) );
@@ -303,7 +303,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, count( $result ) );
 
 		foreach( $result as $productItem ) {
-			$this->assertInstanceOf( '\Aimeos\MShop\Product\Item\Iface', $productItem );
+			$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $productItem );
 		}
 	}
 

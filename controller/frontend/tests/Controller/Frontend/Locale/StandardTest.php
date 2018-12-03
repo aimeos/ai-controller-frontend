@@ -52,7 +52,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$result = $this->object->getItem( $localeItem->getId() );
 
-		$this->assertInstanceOf( '\Aimeos\MShop\Locale\Item\Iface', $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Locale\Item\Iface::class, $result );
 	}
 
 

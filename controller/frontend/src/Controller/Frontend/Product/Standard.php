@@ -72,16 +72,18 @@ class Standard
 	 * Returns the given search filter with the conditions attached for filtering by category.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
-	 * @param string|array $catId Selected category by the user
-	 * @param integer $level Constant for current category only, categories of next level (LEVEL_LIST) or whole subtree (LEVEL_SUBTREE)
+	 * @param array $catIds Selected category by the user
 	 * @param string $listtype List type of the product associated to the category, usually "default"
+	 * @param integer $level Constant for current category only, categories of next level (LEVEL_LIST) or whole subtree (LEVEL_SUBTREE)
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2017.03
 	 */
-	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
-		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $listtype = 'default' )
+	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, array $catIds, $listtype = 'default',
+		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 	{
-		$catIds = ( !is_array( $catId ) ? explode( ',', $catId ) : $catId );
+		if( ( $catIds = $this->validateIds( $catIds ) ) === [] ) {
+			return $filter;
+		}
 
 		if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 		{
@@ -97,19 +99,17 @@ class Standard
 			$catIds = $list;
 		}
 
-		$expr = array( $filter->compare( '==', 'index.catalog.id', array_unique( $catIds ) ) );
-		$expr[] = $filter->getConditions();
+		$expr = [$filter->getConditions()];
+		$expr[] = $filter->compare( '==', 'index.catalog.id', array_unique( $catIds ) );
 
 		if( isset( $filter->sortname ) && $filter->sortname === 'relevance' )
 		{
-			$start = $filter->getSliceStart();
-			$end = $start + $filter->getSliceSize();
 			$dir = ( isset( $filter->sortdir ) ? $filter->sortdir : '+' );
 
-			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, $catIds, $start, $end ) );
+			$cmpfunc = $filter->createFunction( 'index.catalog:position', [$listtype, $catIds] );
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 
-			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', array( $listtype, $catIds, $start, $end ) );
+			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', [$listtype, $catIds] );
 			$filter->setSortations( [$filter->sort( $dir, $sortfunc ), $filter->sort( '+', 'product.id' )] );
 		}
 
@@ -124,22 +124,31 @@ class Standard
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
 	 * @param array $supIds List of supplier IDs for faceted search
+	 * @param string $listtype List type of the product associated to the supplier, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2018.07
 	 */
-	public function addFilterSupplier( \Aimeos\MW\Criteria\Iface $filter, array $supIds )
+	public function addFilterSupplier( \Aimeos\MW\Criteria\Iface $filter, array $supIds, $listtype = 'default' )
 	{
-		if( !empty( $supIds ) )
-		{
-			$supIds = $this->validateIds( $supIds );
-			$expr = array(
-				$filter->compare( '==', 'index.supplier.id', $supIds ),
-				$filter->getConditions(),
-			);
-			$filter->setConditions( $filter->combine( '&&', $expr ) );
+		if( ( $supIds = $this->validateIds( $supIds ) ) === [] ) {
+			return $filter;
 		}
 
-		return $filter;
+		$expr = [$filter->getConditions()];
+		$expr[] = $filter->compare( '==', 'index.supplier.id', array_unique( $supIds ) );
+
+		if( isset( $filter->sortname ) && $filter->sortname === 'relevance' )
+		{
+			$dir = ( isset( $filter->sortdir ) ? $filter->sortdir : '+' );
+
+			$cmpfunc = $filter->createFunction( 'index.supplier:position', [$listtype, $supIds] );
+			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
+
+			$sortfunc = $filter->createFunction( 'sort:index.supplier:position', [$listtype, $supIds] );
+			$filter->setSortations( [$filter->sort( $dir, $sortfunc ), $filter->sort( '+', 'product.id' )] );
+		}
+
+		return $filter->setConditions( $filter->combine( '&&', $expr ) );
 	}
 
 
@@ -375,8 +384,8 @@ class Standard
 
 		foreach( $ids as $id )
 		{
-			if( $id != '' ) {
-				$list[] = (int) $id;
+			if( $id != '' && preg_match( '/^[A-Za-z0-9\-\_]+$/', $id ) === 1 ) {
+				$list[] = (string) $id;
 			}
 		}
 

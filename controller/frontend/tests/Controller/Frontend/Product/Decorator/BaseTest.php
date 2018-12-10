@@ -83,7 +83,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'addFilterCategory' )
 			->will( $this->returnArgument( 0 ) );
 
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterCategory( $search, -1 ) );
+		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterCategory( $search, [-1] ) );
 	}
 
 

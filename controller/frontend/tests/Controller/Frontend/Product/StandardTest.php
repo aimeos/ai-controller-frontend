@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'index.attribute:all([1,2])', $list[0]->getName() );
+		$this->assertEquals( 'index.attribute:all(["1","2"])', $list[0]->getName() );
 	}
 
 
@@ -113,16 +113,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
 
 		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterCategory( $filter, $catId, $level );
+		$filter = $this->object->addFilterCategory( $filter, [$catId], 'default', $level );
 
 		$list = $filter->getConditions()->getExpressions();
 
-		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \RuntimeException( 'Wrong expression' );
+		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Combine\Iface ) ) {
+			throw new \RuntimeException( 'Not a "combine" expression' );
 		}
 
-		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
-		$this->assertEquals( 3, count( $list[0]->getValue() ) );
+		if( !isset( $list[1] ) || !( $list[1] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Not a "compare" expression' );
+		}
+
+		$this->assertEquals( 'index.catalog.id', $list[1]->getName() );
+		$this->assertEquals( 3, count( $list[1]->getValue() ) );
 		$this->assertEquals( [], $filter->getSortations() );
 	}
 
@@ -134,12 +138,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$list = $filter->getConditions()->getExpressions();
 
-		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \RuntimeException( 'Wrong expression' );
+		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Combine\Iface ) ) {
+			throw new \RuntimeException( 'Not a "combine" expression' );
 		}
 
-		$this->assertEquals( 'index.supplier.id', $list[0]->getName() );
-		$this->assertEquals( 2, count( $list[0]->getValue() ) );
+		if( !isset( $list[1] ) || !( $list[1] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Not a "compare" expression' );
+		}
+
+		$this->assertEquals( 'index.supplier.id', $list[1]->getName() );
+		$this->assertEquals( 2, count( $list[1]->getValue() ) );
+		$this->assertEquals( [], $filter->getSortations() );
 	}
 
 
@@ -170,7 +179,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE;
 
 		$filter = $this->object->createFilter( 'relevance', '-' );
-		$filter = $this->object->addFilterCategory( $filter, 0, $level, 'test' );
+		$filter = $this->object->addFilterCategory( $filter, [-1], 'test', $level );
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
 
@@ -179,7 +188,24 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertEquals( 'sort:index.catalog:position("test",["0"],0,100)', $item->getName() );
+		$this->assertEquals( 'sort:index.catalog:position("test",["-1"])', $item->getName() );
+		$this->assertEquals( '-', $item->getOperator() );
+	}
+
+
+	public function testCreateFilterSortRelevanceSupplier()
+	{
+		$filter = $this->object->createFilter( 'relevance', '-' );
+		$filter = $this->object->addFilterSupplier( $filter, [-1], 'test' );
+
+		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
+
+		$sort = $filter->getSortations();
+		if( ( $item = reset( $sort ) ) === false ) {
+			throw new \RuntimeException( 'Sortation not set' );
+		}
+
+		$this->assertEquals( 'sort:index.supplier:position("test",["-1"])', $item->getName() );
 		$this->assertEquals( '-', $item->getOperator() );
 	}
 
@@ -321,7 +347,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		}
 
 		$filter = $this->object->createFilter( 'position', '+', 1, 1 );
-		$filter = $this->object->addFilterCategory( $filter, $item->getId() );
+		$filter = $this->object->addFilterCategory( $filter, [$item->getId()] );
 
 		$total = 0;
 		$results = $this->object->searchItems( $filter, [], $total );

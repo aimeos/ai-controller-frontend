@@ -74,7 +74,7 @@ abstract class Base
 	 * Returns the given search filter with the conditions attached for filtering by category.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
-	 * @param array $catIds Selected category by the user
+	 * @param array|string $catIds Selected category by the user
 	 * @param string $listtype List type of the product associated to the category, usually "default"
 	 * @param integer $level Constant for current category only, categories of next level (LEVEL_LIST) or whole subtree (LEVEL_SUBTREE)
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
@@ -91,12 +91,12 @@ abstract class Base
 	 * Returns the given search filter with the conditions attached for filtering by suppliers.
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for product search
-	 * @param array $supIds List of supplier IDs for faceted search
+	 * @param array|string $supIds List of supplier IDs for faceted search
 	 * @param string $listtype List type of the product associated to the category, usually "default"
 	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
 	 * @since 2018.07
 	 */
-	public function addFilterSupplier( \Aimeos\MW\Criteria\Iface $filter, array $supIds, $listtype = 'default' )
+	public function addFilterSupplier( \Aimeos\MW\Criteria\Iface $filter, $supIds, $listtype = 'default' )
 	{
 		return $this->controller->addFilterSupplier( $filter, $supIds, $listtype );
 	}

@@ -249,10 +249,10 @@ class Standard
 			case 'price':
 				$currencyid = $context->getLocale()->getCurrencyId();
 
-				$cmpfunc = $search->createFunction( 'index.price:value', ['default', $currencyid, 'default'] );
+				$cmpfunc = $search->createFunction( 'index.price:value', [$currencyid] );
 				$expr[] = $search->compare( '!=', $cmpfunc, null );
 
-				$sortfunc = $search->createFunction( 'sort:index.price:value', ['default', $currencyid, 'default'] );
+				$sortfunc = $search->createFunction( 'sort:index.price:value', [$currencyid] );
 				$sortations[] = $search->sort( $direction, $sortfunc );
 				break;
 		}

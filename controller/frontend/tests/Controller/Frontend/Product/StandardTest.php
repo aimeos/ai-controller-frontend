@@ -278,7 +278,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Sortation not set' );
 		}
 
-		$this->assertStringStartsWith( 'sort:index.price:value("default","EUR","default")', $item->getName() );
+		$this->assertStringStartsWith( 'sort:index.price:value("EUR")', $item->getName() );
 	}
 
 

@@ -75,14 +75,13 @@ class Standard
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
 
 		$search = $manager->createSearch( true );
-		$search->setSortations( [$search->sort( '+', 'service.type.position' ), $search->sort( '+', 'service.position' )] );
+		$search->setSortations( [$search->sort( '+', 'service.position' )] );
 
 		if( $type != null )
 		{
 			$expr = array(
 				$search->getConditions(),
-				$search->compare( '==', 'service.type.code', $type ),
-				$search->compare( '==', 'service.type.domain', 'service' ),
+				$search->compare( '==', 'service.type', $type ),
 			);
 			$search->setConditions( $search->combine( '&&', $expr ) );
 		}

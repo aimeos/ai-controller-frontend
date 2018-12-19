@@ -31,7 +31,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$filter = $this->object->createFilter();
 
 		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( 1, count( $filter->getSortations() ) );
 		$this->assertEquals( 0, $filter->getSliceStart() );
 		$this->assertEquals( 100, $filter->getSliceSize() );
 	}
@@ -64,7 +63,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'stock.type.code', $list[0]->getName() );
+		$this->assertEquals( 'stock.type', $list[0]->getName() );
 		$this->assertEquals( 1, count( $list[0]->getValue() ) );
 	}
 

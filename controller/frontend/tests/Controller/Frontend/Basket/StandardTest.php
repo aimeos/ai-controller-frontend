@@ -150,7 +150,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $attributeManager->createSearch();
 		$expr = array(
 			$search->compare( '==', 'attribute.code', 'custom' ),
-			$search->compare( '==', 'attribute.type.code', 'date' ),
+			$search->compare( '==', 'attribute.type', 'date' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -177,7 +177,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $attributeManager->createSearch();
 		$expr = array(
 			$search->compare( '==', 'attribute.code', 'custom' ),
-			$search->compare( '==', 'attribute.type.code', 'price' ),
+			$search->compare( '==', 'attribute.type', 'price' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -204,7 +204,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $attributeManager->createSearch();
 		$expr = array(
 			$search->compare( '==', 'attribute.code', 'custom' ),
-			$search->compare( '==', 'attribute.type.code', 'price' ),
+			$search->compare( '==', 'attribute.type', 'price' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -228,7 +228,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $attributeManager->createSearch();
 		$expr = array(
 			$search->compare( '==', 'attribute.code', 'xs' ),
-			$search->compare( '==', 'attribute.type.code', 'size' ),
+			$search->compare( '==', 'attribute.type', 'size' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -251,7 +251,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $attributeManager->createSearch();
 		$expr = array(
 			$search->compare( '==', 'attribute.code', '30' ),
-			$search->compare( '==', 'attribute.type.code', 'width' ),
+			$search->compare( '==', 'attribute.type', 'width' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -350,11 +350,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			$search->combine( '||', array(
 				$search->combine( '&&', array(
 					$search->compare( '==', 'attribute.code', 'xs' ),
-					$search->compare( '==', 'attribute.type.code', 'size' ),
+					$search->compare( '==', 'attribute.type', 'size' ),
 				) ),
 				$search->combine( '&&', array(
 					$search->compare( '==', 'attribute.code', 'white' ),
-					$search->compare( '==', 'attribute.type.code', 'color' ),
+					$search->compare( '==', 'attribute.type', 'color' ),
 				) ),
 			) )
 		);

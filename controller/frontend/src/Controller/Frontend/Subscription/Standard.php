@@ -93,7 +93,7 @@ class Standard
 		$expr = array(
 			$search->getConditions(),
 			$search->compare( '==', 'attribute.domain', 'product' ),
-			$search->compare( '==', 'attribute.type.code', 'interval' ),
+			$search->compare( '==', 'attribute.type', 'interval' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSlice( 0, 0x7fffffff );

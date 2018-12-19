@@ -406,9 +406,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$tmp = array(
 				$search->compare( '==', 'attribute.domain', 'product' ),
 				$search->compare( '==', 'attribute.code', $item->getValue() ),
-				$search->compare( '==', 'attribute.type.domain', 'product' ),
-				$search->compare( '==', 'attribute.type.code', $item->getCode() ),
-				$search->compare( '>', 'attribute.type.status', 0 ),
+				$search->compare( '==', 'attribute.type', $item->getCode() ),
+				$search->compare( '>', 'attribute.status', 0 ),
 				$search->getConditions(),
 			);
 			$expr[] = $search->combine( '&&', $tmp );

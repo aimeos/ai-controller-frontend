@@ -54,7 +54,7 @@ class Standard
 		if( !empty( $codes ) )
 		{
 			$expr = [
-				$filter->compare( '==', 'stock.type.code', $codes ),
+				$filter->compare( '==', 'stock.type', $codes ),
 				$filter->getConditions(),
 			];
 			$filter->setConditions( $filter->combine( '&&', $expr ) );
@@ -73,10 +73,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' );
-		$search = $manager->createSearch( true );
-
-		return $search->setSortations( [$search->sort( '+', 'stock.type.position' )] );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' )->createSearch( true );
 	}
 
 

@@ -89,7 +89,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$expr = array(
 			$search->compare( '==', 'attribute.domain', 'product' ),
 			$search->compare( '==', 'attribute.code', '30' ),
-			$search->compare( '==', 'attribute.type.code', 'length' ),
+			$search->compare( '==', 'attribute.type', 'length' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -118,7 +118,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$expr = array(
 			$search->compare( '==', 'attribute.domain', 'product' ),
 			$search->compare( '==', 'attribute.code', '30' ),
-			$search->compare( '==', 'attribute.type.code', 'width' ),
+			$search->compare( '==', 'attribute.type', 'width' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
@@ -206,7 +206,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$search = $attributeManager->createSearch();
 		$expr = array(
 			$search->compare( '==', 'attribute.code', '29' ),
-			$search->compare( '==', 'attribute.type.code', 'width' ),
+			$search->compare( '==', 'attribute.type', 'width' ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 

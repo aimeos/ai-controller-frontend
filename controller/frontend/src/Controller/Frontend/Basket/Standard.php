@@ -346,7 +346,7 @@ class Standard
 		}
 
 
-		$provider = $manager->getProvider( $item, $code );
+		$provider = $manager->getProvider( $item, strtolower( $code ) );
 
 		if( $provider->isAvailable( $this->get() ) !== true )
 		{

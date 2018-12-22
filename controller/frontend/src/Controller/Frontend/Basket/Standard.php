@@ -506,12 +506,12 @@ class Standard
 			$map[$key] = strip_tags( $value ); // prevent XSS
 		}
 
-		$errors = $address->fromArray( $map );
+		$address = $address->fromArray( $map );
 
-		if( count( $errors ) > 0 )
+		if( count( $map ) > 0 )
 		{
 			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Invalid address properties, please check your input' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 0, null, $errors );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 0, null, $map );
 		}
 	}
 }

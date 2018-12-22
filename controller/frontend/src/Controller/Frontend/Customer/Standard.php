@@ -34,15 +34,13 @@ class Standard
 		$context = $this->getContext();
 		$config = $context->getConfig();
 
-		// Show only generated passwords in account creation e-mails
-		$pass = ( isset( $values['customer.password'] ) ? false : true );
-
 		foreach( $values as $key => $val ) {
 			$list[str_replace( 'order.base.address', 'customer', $key )] = $val;
 		}
 
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
 		$list = $this->addItemDefaults( $list );
+		$passwd = $list['customer.password'];
 
 		try
 		{
@@ -52,9 +50,7 @@ class Standard
 		{
 			$this->checkLimit( $list );
 
-			$item = $manager->createItem();
-			$item->fromArray( $list );
-			$item->setId( null );
+			$item = $manager->createItem()->fromArray( $list )->setId( null );
 
 			/** controller/frontend/customer/groupids
 			 * List of groups new customers should be assigned to
@@ -73,7 +69,8 @@ class Standard
 			$item = $manager->saveItem( $item );
 
 			$msg = $item->toArray();
-			$msg['customer.password'] = ( $pass ? $list['customer.password'] : null );
+			// Show only generated passwords in account creation e-mails
+			$msg['customer.password'] = ( isset( $values['customer.password'] ) ? null : $passwd );
 			$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
 		}
 
@@ -89,13 +86,7 @@ class Standard
 	public function createItem( array $values = [] )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
-
-		$item = $manager->createItem();
-		$item->fromArray( $values );
-		$item->setId( null );
-		$item->setStatus( 1 );
-
-		return $item;
+		return $manager->createItem()->fromArray( $values )->setId( null );
 	}
 
 
@@ -125,12 +116,10 @@ class Standard
 	public function editItem( $id, array $values )
 	{
 		$this->checkUser( $id );
+		unset( $values['customer.id'] );
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
-		$item = $manager->getItem( $id, ['customer/group'], true );
-
-		unset( $values['customer.id'] );
-		$item->fromArray( $values );
+		$item = $manager->getItem( $id, ['customer/group'], true )->fromArray( $values );
 
 		return $manager->saveItem( $item );
 	}
@@ -198,11 +187,7 @@ class Standard
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/address' );
 
-		$item = $manager->createItem();
-		$item->fromArray( $values );
-		$item->setId( null );
-		$item->setParentId( $context->getUserId() );
-
+		$item = $manager->createItem()->fromArray( $values )->setId( null )->setParentId( $context->getUserId() );
 		return $manager->saveItem( $item );
 	}
 
@@ -217,13 +202,7 @@ class Standard
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/address' );
 
-		$item = $manager->createItem();
-		$item->fromArray( $values );
-		$item->setId( null );
-
-		$item->setParentId( $context->getUserId() );
-
-		return $item;
+		return $manager->createItem()->fromArray( $values )->setId( null )->setParentId( $context->getUserId() );
 	}
 
 
@@ -253,15 +232,13 @@ class Standard
 	 */
 	public function editAddressItem( $id, array $values )
 	{
+		unset( $values['customer.address.id'] );
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' );
 
 		$item = $manager->getItem( $id, [], true );
 		$this->checkUser( $item->getParentId() );
 
-		unset( $values['customer.address.id'] );
-		$item->fromArray( $values );
-
-		return $manager->saveItem( $item );
+		return $manager->saveItem( $item->fromArray( $values ) );
 	}
 
 
@@ -322,11 +299,7 @@ class Standard
 			$values['customer.lists.typeid'] = $typeItem->getId();
 		}
 
-		$item = $manager->createItem();
-		$item->fromArray( $values );
-		$item->setId( null );
-		$item->setParentId( $context->getUserId() );
-
+		$item = $manager->createItem()->fromArray( $values )->setId( null )->setParentId( $context->getUserId() );
 		return $manager->saveItem( $item );
 	}
 
@@ -380,6 +353,7 @@ class Standard
 
 		$item = $manager->getItem( $id, [], true );
 		$this->checkUser( $item->getParentId() );
+		unset( $values['customer.lists.id'] );
 
 		if( !isset( $values['customer.lists.typeid'] ) )
 		{
@@ -396,10 +370,7 @@ class Standard
 			$values['customer.lists.typeid'] = $typeItem->getId();
 		}
 
-		unset( $values['customer.lists.id'] );
-		$item->fromArray( $values );
-
-		return $manager->saveItem( $item );
+		return $manager->saveItem( $item->fromArray( $values ) );
 	}
 
 
@@ -466,10 +437,6 @@ class Standard
 
 		if( !isset( $values['customer.code'] ) && isset( $values['customer.email'] ) ) {
 			$values['customer.code'] = $values['customer.email'];
-		}
-
-		if( !isset( $values['customer.status'] ) ) {
-			$values['customer.status'] = 1;
 		}
 
 		if( !isset( $values['customer.password'] ) ) {

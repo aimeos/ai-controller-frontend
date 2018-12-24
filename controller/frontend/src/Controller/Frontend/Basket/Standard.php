@@ -409,13 +409,11 @@ class Standard
 
 		if( $value instanceof \Aimeos\MShop\Common\Item\Address\Iface )
 		{
-			$address->copyFrom( $value );
-			$this->get()->setAddress( $address, $type );
+			$this->get()->setAddress( $address->copyFrom( $value ), $type );
 		}
 		else if( is_array( $value ) )
 		{
-			$this->setAddressFromArray( $address, $value );
-			$this->get()->setAddress( $address, $type );
+			$this->get()->setAddress( $this->setAddressFromArray( $address, $value ), $type );
 		}
 		else if( $value === null )
 		{
@@ -498,6 +496,7 @@ class Standard
 	 * @param \Aimeos\MShop\Order\Item\Base\Address\Iface $address Address item to store the values into
 	 * @param array $map Associative array of key/value pairs. The keys must be the same as when calling toArray() from
 	 * 	an address item.
+	 * @return \Aimeos\MShop\Order\Item\Base\Address\Iface Updated address item
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception
 	 */
 	protected function setAddressFromArray( \Aimeos\MShop\Order\Item\Base\Address\Iface $address, array $map )
@@ -513,5 +512,7 @@ class Standard
 			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Invalid address properties, please check your input' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 0, null, $map );
 		}
+
+		return $address;
 	}
 }

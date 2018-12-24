@@ -17,7 +17,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp()
 	{
-		\Aimeos\MShop\Factory::setCache( true );
+		\Aimeos\MShop::cache( true );
 
 		$this->context = \TestHelperFrontend::getContext();
 		$this->object = new \Aimeos\Controller\Frontend\Subscription\Standard( $this->context );
@@ -28,8 +28,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		unset( $this->object, $this->context );
 
-		\Aimeos\MShop\Factory::setCache( false );
-		\Aimeos\MShop\Factory::clear();
+		\Aimeos\MShop::cache( false );
+		\Aimeos\MShop::clear();
 	}
 
 
@@ -85,7 +85,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['saveItem'] )
 			->getMock();
 
-		\Aimeos\MShop\Factory::injectManager( $this->context, 'subscription', $manager );
+		\Aimeos\MShop::inject( $this->context, 'subscription', $manager );
 
 		$manager->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $manager->createItem() ) );

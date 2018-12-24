@@ -19,7 +19,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp()
 	{
-		\Aimeos\MShop\Factory::setCache( true );
+		\Aimeos\MShop::cache( true );
 
 		$this->context = \TestHelperFrontend::getContext();
 		$this->object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
@@ -38,8 +38,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		unset( $this->object, $this->context );
 
-		\Aimeos\MShop\Factory::setCache( false );
-		\Aimeos\MShop\Factory::clear();
+		\Aimeos\MShop::cache( false );
+		\Aimeos\MShop::clear();
 	}
 
 
@@ -84,7 +84,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['getProvider'] )
 			->getMock();
 
-		\Aimeos\MShop\Factory::injectManager( $this->context, 'service', $manager );
+		\Aimeos\MShop::inject( $this->context, 'service', $manager );
 
 		$provider->expects( $this->once() )->method( 'process' )->will( $this->returnValue( $form ) );
 		$manager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
@@ -126,8 +126,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['getProvider'] )
 			->getMock();
 
-		\Aimeos\MShop\Factory::injectManager( $this->context, 'order', $orderManager );
-		\Aimeos\MShop\Factory::injectManager( $this->context, 'service', $serviceManager );
+		\Aimeos\MShop::inject( $this->context, 'order', $orderManager );
+		\Aimeos\MShop::inject( $this->context, 'service', $serviceManager );
 
 
 		$orderManager->expects( $this->once() )->method( 'getItem' )->will( $this->returnValue( $item ) );

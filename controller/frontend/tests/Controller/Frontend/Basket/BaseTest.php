@@ -16,13 +16,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperFrontend::getContext();
-		\Aimeos\MShop\Factory::setCache( true );
+		\Aimeos\MShop::cache( true );
 	}
 
 
 	protected function tearDown()
 	{
-		\Aimeos\MShop\Factory::setCache( false );
+		\Aimeos\MShop::cache( false );
 		$this->context->getSession()->set( 'aimeos', [] );
 
 		unset( $this->context );
@@ -282,7 +282,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['saveItem'] )
 			->getMock();
 
-		\Aimeos\MShop\Factory::injectManager( $this->context, 'subscription', $stub );
+		\Aimeos\MShop::inject( $this->context, 'subscription', $stub );
 
 		$stub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
 

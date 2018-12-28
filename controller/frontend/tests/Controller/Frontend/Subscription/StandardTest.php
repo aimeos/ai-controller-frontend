@@ -36,7 +36,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testCancel()
 	{
 		$this->context->setUserId( $this->getCustomerId() );
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'subscription' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
 
 		$cntl = $this->getMockBuilder( \Aimeos\Controller\Frontend\Subscription\Standard::class )
 			->setConstructorArgs( [$this->context] )
@@ -101,14 +101,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getCustomerId()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
 		return $manager->findItem( 'UTC001' )->getId();
 	}
 
 
 	protected function getSubscriptionId()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'subscription' );
+		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'order.base.customerid', $this->getCustomerId() ) );
 		$result = $manager->searchItems( $search );

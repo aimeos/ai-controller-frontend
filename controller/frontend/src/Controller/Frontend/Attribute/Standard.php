@@ -53,7 +53,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		$filter = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' )->createSearch( true );
+		$filter = \Aimeos\MShop::create( $this->getContext(), 'attribute' )->createSearch( true );
 
 		$expr = array(
 			$filter->compare( '==', 'attribute.domain', 'product' ),
@@ -77,7 +77,7 @@ class Standard
 	 */
 	public function getItem( $id, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' )->getItem( $id, $domains, true );
+		return \Aimeos\MShop::create( $this->getContext(), 'attribute' )->getItem( $id, $domains, true );
 	}
 
 
@@ -91,7 +91,7 @@ class Standard
 	 */
 	public function getItems( array $ids, array $domains = array( 'media', 'price', 'text' ) )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
 
 		$filter = $manager->createSearch( true );
 		$expr = [
@@ -117,6 +117,6 @@ class Standard
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' )->searchItems( $filter, $domains, $total );
+		return \Aimeos\MShop::create( $this->getContext(), 'attribute' )->searchItems( $filter, $domains, $total );
 	}
 }

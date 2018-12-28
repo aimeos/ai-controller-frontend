@@ -54,7 +54,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->context->getConfig()->set( 'controller/frontend/order/limit-seconds', 86400 * 365 );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' );
+		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );
 		$result = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1 ) );
 
 		if( ( $item = reset( $result ) ) === false ) {
@@ -74,12 +74,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customerItem = $manager->findItem( 'UTC001' );
 
 		$this->context->setEditor( 'core:unittest' );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'order' );
+		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'order.base.customerid', $customerItem->getId() ) );
 		$result = $manager->searchItems( $search );
@@ -137,7 +137,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$orderCntlStub->expects( $this->once() )->method( 'block' );
 
 
-		$this->object->block( \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem() );
+		$this->object->block( \Aimeos\MShop::create( $this->context, 'order' )->createItem() );
 	}
 
 
@@ -157,7 +157,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$orderCntlStub->expects( $this->once() )->method( 'unblock' );
 
 
-		$this->object->unblock( \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem() );
+		$this->object->unblock( \Aimeos\MShop::create( $this->context, 'order' )->createItem() );
 	}
 
 
@@ -177,6 +177,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$orderCntlStub->expects( $this->once() )->method( 'update' );
 
 
-		$this->object->update( \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem() );
+		$this->object->update( \Aimeos\MShop::create( $this->context, 'order' )->createItem() );
 	}
 }

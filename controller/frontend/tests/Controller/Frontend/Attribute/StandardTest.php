@@ -56,7 +56,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItem()
 	{
 		$context = \TestHelperFrontend::getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'attribute' );
+		$manager = \Aimeos\MShop::create( $context, 'attribute' );
 		$id = $manager->findItem( 'xs', [], 'product', 'size' )->getId();
 
 		$result = $this->object->getItem( $id, ['text'] );
@@ -69,7 +69,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItems()
 	{
 		$context = \TestHelperFrontend::getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'attribute' );
+		$manager = \Aimeos\MShop::create( $context, 'attribute' );
 		$id = $manager->findItem( 'xs', [], 'product', 'size' )->getId();
 
 		$result = $this->object->getItems( [$id], ['text'] );

@@ -38,7 +38,7 @@ class Standard
 			$list[str_replace( 'order.base.address', 'customer', $key )] = $val;
 		}
 
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
+		$manager = \Aimeos\MShop::create( $context, 'customer' );
 		$list = $this->addItemDefaults( $list );
 		$passwd = $list['customer.password'];
 
@@ -85,7 +85,7 @@ class Standard
 	 */
 	public function createItem( array $values = [] )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 		return $manager->createItem()->fromArray( $values )->setId( null );
 	}
 
@@ -100,7 +100,7 @@ class Standard
 	{
 		$this->checkUser( $id );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 		$manager->deleteItem( $id );
 	}
 
@@ -118,7 +118,7 @@ class Standard
 		$this->checkUser( $id );
 		unset( $values['customer.id'] );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 		$item = $manager->getItem( $id, ['customer/group'], true )->fromArray( $values );
 
 		return $manager->saveItem( $item );
@@ -135,7 +135,7 @@ class Standard
 	 */
 	public function getItem( $id = null, array $domains = [] )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer' );
 
 		if( $id == null ) {
 			return $manager->getItem( $this->getContext()->getUserId(), $domains, true );
@@ -159,7 +159,7 @@ class Standard
 	 */
 	public function findItem( $code, array $domains = [] )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->findItem( $code, $domains, true );
+		return \Aimeos\MShop::create( $this->getContext(), 'customer' )->findItem( $code, $domains, true );
 	}
 
 
@@ -171,7 +171,7 @@ class Standard
 	 */
 	public function saveItem( \Aimeos\MShop\Customer\Item\Iface $item )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->saveItem( $item );
+		return \Aimeos\MShop::create( $this->getContext(), 'customer' )->saveItem( $item );
 	}
 
 
@@ -185,7 +185,7 @@ class Standard
 	public function addAddressItem( array $values )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/address' );
+		$manager = \Aimeos\MShop::create( $context, 'customer/address' );
 
 		$item = $manager->createItem()->fromArray( $values )->setId( null )->setParentId( $context->getUserId() );
 		return $manager->saveItem( $item );
@@ -200,7 +200,7 @@ class Standard
 	public function createAddressItem( array $values = [] )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/address' );
+		$manager = \Aimeos\MShop::create( $context, 'customer/address' );
 
 		return $manager->createItem()->fromArray( $values )->setId( null )->setParentId( $context->getUserId() );
 	}
@@ -214,7 +214,7 @@ class Standard
 	 */
 	public function deleteAddressItem( $id )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/address' );
 
 		$this->checkUser( $manager->getItem( $id, [], true )->getParentId() );
 
@@ -233,7 +233,7 @@ class Standard
 	public function editAddressItem( $id, array $values )
 	{
 		unset( $values['customer.address.id'] );
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/address' );
 
 		$item = $manager->getItem( $id, [], true );
 		$this->checkUser( $item->getParentId() );
@@ -251,7 +251,7 @@ class Standard
 	 */
 	public function getAddressItem( $id )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/address' );
 
 		$item = $manager->getItem( $id );
 		$this->checkUser( $item->getParentId() );
@@ -268,7 +268,7 @@ class Standard
 	 */
 	public function saveAddressItem( \Aimeos\MShop\Customer\Item\Address\Iface $item )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/address' )->saveItem( $item );
+		return \Aimeos\MShop::create( $this->getContext(), 'customer/address' )->saveItem( $item );
 	}
 
 
@@ -282,7 +282,7 @@ class Standard
 	public function addListItem( array $values )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
+		$manager = \Aimeos\MShop::create( $context, 'customer/lists' );
 
 		if( !isset( $values['customer.lists.typeid'] ) )
 		{
@@ -294,7 +294,7 @@ class Standard
 				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists domain' ) );
 			}
 
-			$typeManager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists/type' );
+			$typeManager = \Aimeos\MShop::create( $context, 'customer/lists/type' );
 			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'] );
 			$values['customer.lists.typeid'] = $typeItem->getId();
 		}
@@ -313,7 +313,7 @@ class Standard
 	public function createListsFilter()
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
+		$manager = \Aimeos\MShop::create( $context, 'customer/lists' );
 
 		$filter = $manager->createSearch();
 		$filter->setConditions( $filter->compare( '==', 'customer.lists.parentid', $context->getUserId() ) );
@@ -330,7 +330,7 @@ class Standard
 	 */
 	public function deleteListItem( $id )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/lists' );
 
 		$this->checkUser( $manager->getItem( $id )->getParentId() );
 
@@ -349,7 +349,7 @@ class Standard
 	public function editListItem( $id, array $values )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists' );
+		$manager = \Aimeos\MShop::create( $context, 'customer/lists' );
 
 		$item = $manager->getItem( $id, [], true );
 		$this->checkUser( $item->getParentId() );
@@ -365,7 +365,7 @@ class Standard
 				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists domain' ) );
 			}
 
-			$typeManager = \Aimeos\MShop\Factory::createManager( $context, 'customer/lists/type' );
+			$typeManager = \Aimeos\MShop::create( $context, 'customer/lists/type' );
 			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'], true );
 			$values['customer.lists.typeid'] = $typeItem->getId();
 		}
@@ -383,7 +383,7 @@ class Standard
 	 */
 	public function getListItem( $id )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/lists' );
 		$item = $manager->getItem( $id );
 
 		$this->checkUser( $item->getParentId() );
@@ -402,7 +402,7 @@ class Standard
 	 */
 	public function searchListItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/lists' );
 
 		return $manager->searchItems( $filter, [], $total );
 	}
@@ -494,7 +494,7 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/customer/limit-seconds', 300 );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
+		$manager = \Aimeos\MShop::create( $context, 'customer' );
 
 		$search = $manager->createSearch();
 		$expr = [

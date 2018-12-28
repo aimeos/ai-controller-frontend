@@ -40,7 +40,7 @@ class Bundle
 		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
 		$context = $this->getContext();
-		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+		$productManager = \Aimeos\MShop::create( $context, 'product' );
 
 		if( $productManager->getItem( $prodid, [], true )->getType() !== 'bundle' )
 		{
@@ -61,7 +61,7 @@ class Bundle
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 		$hidden = $productItem->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
+		$orderBaseProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
 		$this->addBundleProducts( $orderBaseProductItem, $productItem, $variantAttributeIds, $stocktype );
@@ -91,7 +91,7 @@ class Bundle
 	{
 		$quantity = $orderBaseProductItem->getQuantity();
 		$products = $subProductIds = $orderProducts = [];
-		$orderProductManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product' );
+		$orderProductManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' );
 
 		foreach( $productItem->getRefItems( 'product', null, 'default' ) as $item ) {
 			$subProductIds[] = $item->getId();
@@ -99,7 +99,7 @@ class Bundle
 
 		if( count( $subProductIds ) > 0 )
 		{
-			$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+			$productManager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 
 			$search = $productManager->createSearch( true );
 			$expr = array(

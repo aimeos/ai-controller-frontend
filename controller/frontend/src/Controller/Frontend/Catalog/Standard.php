@@ -30,7 +30,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog' )->createSearch( true );
+		return \Aimeos\MShop::create( $this->getContext(), 'catalog' )->createSearch( true );
 	}
 
 
@@ -44,7 +44,7 @@ class Standard
 	 */
 	public function getPath( $id, array $domains = array( 'text', 'media' ) )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog' )->getPath( $id, $domains );
+		return \Aimeos\MShop::create( $this->getContext(), 'catalog' )->getPath( $id, $domains );
 	}
 
 
@@ -62,6 +62,6 @@ class Standard
 	public function getTree( $id = null, array $domains = array( 'text', 'media' ),
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE, \Aimeos\MW\Criteria\Iface $search = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog' )->getTree( $id, $domains, $level, $search );
+		return \Aimeos\MShop::create( $this->getContext(), 'catalog' )->getTree( $id, $domains, $level, $search );
 	}
 }

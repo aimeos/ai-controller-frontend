@@ -39,7 +39,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$localeManager = \Aimeos\MShop\Factory::createManager( \TestHelperFrontend::getContext(), 'locale' );
+		$localeManager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'locale' );
 		$search = $localeManager->createSearch( true );
 		$search->setSortations( [$search->sort( '+', 'locale.position' )] );
 		$search->setSlice( 0, 1 );

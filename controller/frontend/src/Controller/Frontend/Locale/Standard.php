@@ -31,7 +31,7 @@ class Standard
 	public function createFilter()
 	{
 		$context = $this->getContext();
-		$filter = \Aimeos\MShop\Factory::createManager( $context, 'locale' )->createSearch( true );
+		$filter = \Aimeos\MShop::create( $context, 'locale' )->createSearch( true );
 
 		$expr = array(
 			$filter->compare( '==', 'locale.siteid', $context->getLocale()->getSitePath() ),
@@ -55,7 +55,7 @@ class Standard
 	 */
 	public function getItem( $id, array $domains = [] )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->getItem( $id, $domains, true );
+		return \Aimeos\MShop::create( $this->getContext(), 'locale' )->getItem( $id, $domains, true );
 	}
 
 
@@ -70,6 +70,6 @@ class Standard
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = [], &$total = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale' )->searchItems( $filter, $domains, $total );
+		return \Aimeos\MShop::create( $this->getContext(), 'locale' )->searchItems( $filter, $domains, $total );
 	}
 }

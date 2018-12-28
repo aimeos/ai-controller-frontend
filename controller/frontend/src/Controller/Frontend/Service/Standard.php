@@ -37,7 +37,7 @@ class Standard
 	 */
 	public function checkAttributes( $serviceId, array $attributes )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
 
 		$item = $manager->getItem( $serviceId, [], true );
 		$provider = $manager->getProvider( $item, $item->getType() );
@@ -55,7 +55,7 @@ class Standard
 	 */
 	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
 		$item = $manager->getItem( $serviceId, $ref, true );
 
 		return $manager->getProvider( $item, $item->getType() );
@@ -72,7 +72,7 @@ class Standard
 	public function getProviders( $type = null, $ref = ['media', 'price', 'text'] )
 	{
 		$list = [];
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
 
 		$search = $manager->createSearch( true );
 		$search->setSortations( [$search->sort( '+', 'service.position' )] );
@@ -107,7 +107,7 @@ class Standard
 	 */
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
 		$item = $manager->getItem( $serviceId, [], true );
 
 		$provider = $manager->getProvider( $item, $item->getType() );
@@ -127,7 +127,7 @@ class Standard
 	 */
 	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
 		$item = $manager->findItem( $code );
 
 		$provider = $manager->getProvider( $item, $item->getType() );
@@ -147,8 +147,8 @@ class Standard
 	public function updateSync( ServerRequestInterface $request, $code, $orderid )
 	{
 		$context = $this->getContext();
-		$orderManager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
-		$serviceManager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
+		$orderManager = \Aimeos\MShop::create( $context, 'order' );
+		$serviceManager = \Aimeos\MShop::create( $context, 'service' );
 
 		$orderItem = $orderManager->getItem( $orderid );
 		$serviceItem = $serviceManager->findItem( $code );

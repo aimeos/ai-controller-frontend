@@ -40,7 +40,7 @@ class Category
 		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
 		$context = $this->getContext();
-		$catalogListManager = \Aimeos\MShop\Factory::createManager( $context, 'catalog/lists' );
+		$catalogListManager = \Aimeos\MShop::create( $context, 'catalog/lists' );
 
 		$search = $catalogListManager->createSearch( true );
 		$expr = array(

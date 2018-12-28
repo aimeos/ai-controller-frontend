@@ -34,7 +34,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductBundle()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:BUNDLE' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:BUNDLE' );
 
 		$this->object->addProduct( $item->getId(), 1 );
 
@@ -46,7 +46,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductNoBundle()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 
 		$this->object->addProduct( $item->getId(), 1 );
 

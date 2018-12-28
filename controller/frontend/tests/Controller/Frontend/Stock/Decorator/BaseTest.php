@@ -67,7 +67,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddFilterCodes()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'stock' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'stock' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'addFilterCodes' )
 			->will( $this->returnArgument( 0 ) );
@@ -78,7 +78,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddFilterTypes()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'stock' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'stock' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'addFilterTypes' )
 			->will( $this->returnArgument( 0 ) );
@@ -89,7 +89,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateFilter()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'stock' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'stock' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'createFilter' )
 			->will( $this->returnValue( $search ) );
@@ -100,7 +100,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'stock' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'stock' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
@@ -111,7 +111,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchItems()
 	{
-		$filter = \Aimeos\MShop\Factory::createManager( $this->context, 'stock' )->createSearch();
+		$filter = \Aimeos\MShop::create( $this->context, 'stock' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'searchItems' )
 			->will( $this->returnValue( [] ) );

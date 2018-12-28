@@ -37,12 +37,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( empty( $prices ) )
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+			$manager = \Aimeos\MShop::create( $context, 'product' );
 			$prices = $manager->getItem( $product->getProductId(), array( 'price' ) )->getRefItems( 'price', 'default' );
 		}
 
 
-		$priceManager = \Aimeos\MShop\Factory::createManager( $context, 'price' );
+		$priceManager = \Aimeos\MShop::create( $context, 'price' );
 		$price = $priceManager->getLowestPrice( $prices, $quantity );
 
 		// customers can pay what they would like to pay
@@ -97,7 +97,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		}
 
 		$context = $this->getContext();
-		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+		$productManager = \Aimeos\MShop::create( $context, 'product' );
 		$search = $productManager->createSearch( true );
 
 		$expr = array(
@@ -146,13 +146,13 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$locLanguage = ( isset( $locParts[1] ) ? $locParts[1] : '' );
 			$locCurrency = ( isset( $locParts[2] ) ? $locParts[2] : '' );
 
-			$localeManager = \Aimeos\MShop\Factory::createManager( $context, 'locale' );
+			$localeManager = \Aimeos\MShop::create( $context, 'locale' );
 			$locale = $localeManager->bootstrap( $locSite, $locLanguage, $locCurrency, false );
 
 			$context = clone $context;
 			$context->setLocale( $locale );
 
-			$manager = \Aimeos\MShop\Factory::createManager( $context, 'order/base' );
+			$manager = \Aimeos\MShop::create( $context, 'order/base' );
 			$basket = $manager->getSession( $type );
 
 			$this->copyAddresses( $basket, $errors, $localeKey );
@@ -320,7 +320,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'subscription' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'subscription' );
 
 		foreach( $basket->getProducts() as $orderProduct )
 		{
@@ -359,7 +359,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return [];
 		}
 
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
 
 		$search = $attributeManager->createSearch( true );
 		$expr = array(
@@ -397,7 +397,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return [];
 		}
 
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
 		$search = $attributeManager->createSearch( true );
 		$expr = [];
 
@@ -434,7 +434,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		}
 
 		$list = [];
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product/attribute' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
 
 		foreach( $this->getAttributes( $ids ) as $id => $attrItem )
 		{
@@ -467,7 +467,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( empty( $this->listTypeItems ) )
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $context, 'product/lists/type' );
+			$manager = \Aimeos\MShop::create( $context, 'product/lists/type' );
 
 			foreach( $manager->searchItems( $manager->createSearch( true ) ) as $item ) {
 				$this->listTypeItems[ $item->getDomain() ][ $item->getCode() ] = $item;
@@ -504,7 +504,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return [];
 		}
 
-		$productManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+		$productManager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 		$search = $productManager->createSearch( true );
 
 		$expr = array(

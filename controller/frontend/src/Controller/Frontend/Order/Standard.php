@@ -33,7 +33,7 @@ class Standard
 	{
 		$total = 0;
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+		$manager = \Aimeos\MShop::create( $context, 'order' );
 
 		/** controller/frontend/order/limit-seconds
 		 * Order limitation time frame in seconds
@@ -79,7 +79,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' )->createSearch( true );
+		return \Aimeos\MShop::create( $this->getContext(), 'order' )->createSearch( true );
 	}
 
 
@@ -93,7 +93,7 @@ class Standard
 	public function getItem( $id, $default = true )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+		$manager = \Aimeos\MShop::create( $context, 'order' );
 
 		$search = $manager->createSearch( true );
 		$expr = [
@@ -125,7 +125,7 @@ class Standard
 	 */
 	public function saveItem( \Aimeos\MShop\Order\Item\Iface $item )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'order' );
 		return $manager->saveItem( $item );
 	}
 
@@ -140,7 +140,7 @@ class Standard
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
+		$manager = \Aimeos\MShop::create( $context, 'order' );
 
 		$expr = [
 			$filter->getConditions(),

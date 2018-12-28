@@ -19,7 +19,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public static function setUpBeforeClass()
 	{
 		$context = \TestHelperFrontend::getContext();
-		self::$testItem = \Aimeos\MShop\Factory::createManager( $context, 'product' )->findItem( 'U:TESTP' );
+		self::$testItem = \Aimeos\MShop::create( $context, 'product' )->findItem( 'U:TESTP' );
 	}
 
 
@@ -132,7 +132,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddDeleteProduct()
 	{
 		$basket = $this->object->get();
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 
 		$this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [] );
 		$item2 = $this->object->get()->getProduct( 0 );
@@ -145,7 +145,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductCustomAttribute()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -172,7 +172,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductCustomPrice()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -199,7 +199,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductCustomPriceException()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -223,7 +223,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductAttributePrice()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -246,7 +246,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductAttributeNotAssigned()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -278,7 +278,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductNoPriceException()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'MNOP' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'MNOP' );
 
 		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
@@ -294,7 +294,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductLowQuantityPriceException()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
 
 		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
@@ -303,7 +303,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductHigherQuantities()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'IJKL' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
 
 		$this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [], 'unit_type3' );
 
@@ -342,7 +342,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testEditProductAttributes()
 	{
 		$configAttrIds = [];
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$conditions = array(
@@ -369,7 +369,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			$configAttrIds[$id] = 1;
 		}
 
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:TESTP' );
 
 		$this->object->addProduct( $item->getId(), 1, 'default', [], $configAttrIds );
 		$this->object->editProduct( 0, 4 );
@@ -571,7 +571,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSetServicePayment()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$service = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
 
 		$this->object->addService( 'payment', $service->getId(), [] );
@@ -585,7 +585,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSetDeliveryOption()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
 		$this->object->addService( 'delivery', $service->getId(), [] );
@@ -599,7 +599,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCheckLocale()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$payment = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
 		$delivery = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
@@ -652,7 +652,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getAddress( $company )
 	{
-		$customer = \Aimeos\MShop\Customer\Manager\Factory::createManager( \TestHelperFrontend::getContext(), 'Standard' );
+		$customer = \Aimeos\MShop\Customer\Manager\Factory::create( \TestHelperFrontend::getContext(), 'Standard' );
 		$addressManager = $customer->getSubManager( 'address', 'Standard' );
 
 		$search = $addressManager->createSearch();

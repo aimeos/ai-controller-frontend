@@ -107,7 +107,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddFilterCategory()
 	{
 		$context = \TestHelperFrontend::getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'catalog' );
+		$manager = \Aimeos\MShop::create( $context, 'catalog' );
 
 		$catId = $manager->findItem( 'root' )->getId();
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
@@ -294,7 +294,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItem()
 	{
 		$context = \TestHelperFrontend::getContext();
-		$id = \Aimeos\MShop\Factory::createManager( $context, 'product' )->findItem( 'CNC' )->getId();
+		$id = \Aimeos\MShop::create( $context, 'product' )->findItem( 'CNC' )->getId();
 
 		$result = $this->object->getItem( $id );
 
@@ -313,7 +313,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperFrontend::getContext();
 		$context->getConfig()->set( 'controller/frontend/product/ignore-dates', true );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+		$manager = \Aimeos\MShop::create( $context, 'product' );
 
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'product.code', array( 'CNC', 'CNE' ) ) );
@@ -336,7 +336,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchItemsCategory()
 	{
-		$catalogManager = \Aimeos\MShop\Catalog\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$catalogManager = \Aimeos\MShop\Catalog\Manager\Factory::create( \TestHelperFrontend::getContext() );
 
 		$search = $catalogManager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'catalog.code', 'new' ) );

@@ -28,7 +28,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public static function setUpBeforeClass()
 	{
-		$orderManager = \Aimeos\MShop\Order\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$orderManager = \Aimeos\MShop\Order\Manager\Factory::create( \TestHelperFrontend::getContext() );
 		$orderBaseMgr = $orderManager->getSubManager( 'base' );
 		self::$basket = $orderBaseMgr->createItem();
 	}
@@ -71,8 +71,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testProcess()
 	{
 		$form = new \Aimeos\MShop\Common\Item\Helper\Form\Standard();
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
-		$serviceId = \Aimeos\MShop\Factory::createManager( $this->context, 'service' )->findItem( 'unitcode' )->getId();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$serviceId = \Aimeos\MShop::create( $this->context, 'service' )->findItem( 'unitcode' )->getId();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
 			->disableOriginalConstructor()
@@ -108,7 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdateSync()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
@@ -145,7 +145,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getServiceItem()
 	{
-		$manager = \Aimeos\MShop\Service\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$manager = \Aimeos\MShop\Service\Manager\Factory::create( \TestHelperFrontend::getContext() );
 		return $manager->findItem( 'unitcode' );
 	}
 }

@@ -73,7 +73,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' )->createSearch( true );
+		return \Aimeos\MShop::create( $this->getContext(), 'stock' )->createSearch( true );
 	}
 
 
@@ -86,7 +86,7 @@ class Standard
 	 */
 	public function getItem( $id )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' )->getItem( $id, [], true );
+		return \Aimeos\MShop::create( $this->getContext(), 'stock' )->getItem( $id, [], true );
 	}
 
 
@@ -100,6 +100,6 @@ class Standard
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'stock' )->searchItems( $filter, [], $total );
+		return \Aimeos\MShop::create( $this->getContext(), 'stock' )->searchItems( $filter, [], $total );
 	}
 }

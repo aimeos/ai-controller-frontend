@@ -39,7 +39,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetPath()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' );
+		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
 		$items = $this->object->getPath( $manager->findItem( 'cafe' )->getId() );
 
 		$this->assertEquals( 3, count( $items ) );

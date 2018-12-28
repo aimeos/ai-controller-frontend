@@ -37,7 +37,7 @@ class Standard
 	{
 		parent::__construct( $context );
 
-		$this->domainManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base' );
+		$this->domainManager = \Aimeos\MShop::create( $context, 'order/base' );
 	}
 
 
@@ -218,13 +218,13 @@ class Standard
 
 
 		$context = $this->getContext();
-		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+		$productManager = \Aimeos\MShop::create( $context, 'product' );
 
 		$productItem = $productManager->getItem( $prodid, ['attribute', 'media', 'supplier', 'price', 'product', 'text'], true );
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 		$hidden = $productItem->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
+		$orderBaseProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
 		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
@@ -287,7 +287,7 @@ class Standard
 		}
 		$product->setAttributeItems( $attributes );
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'product' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );
 		$product->setPrice( $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity ) );
 
@@ -332,8 +332,8 @@ class Standard
 		}
 
 
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'coupon' );
-		$codeManager = \Aimeos\MShop\Factory::createManager( $context, 'coupon/code' );
+		$manager = \Aimeos\MShop::create( $context, 'coupon' );
+		$codeManager = \Aimeos\MShop::create( $context, 'coupon/code' );
 
 		$search = $manager->createSearch( true )->setSlice( 0, 1 );
 		$expr = [
@@ -374,7 +374,7 @@ class Standard
 	public function deleteCoupon( $code )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'coupon' );
+		$manager = \Aimeos\MShop::create( $context, 'coupon' );
 
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'coupon.code.code', $code ) );
@@ -404,7 +404,7 @@ class Standard
 	public function setAddress( $type, $value )
 	{
 		$context = $this->getContext();
-		$address = \Aimeos\MShop\Factory::createManager( $context, 'order/base/address' )->createItem();
+		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->createItem();
 		$address->setType( $type );
 
 		if( $value instanceof \Aimeos\MShop\Common\Item\Address\Iface )
@@ -442,7 +442,7 @@ class Standard
 	{
 		$context = $this->getContext();
 
-		$serviceManager = \Aimeos\MShop\Factory::createManager( $context, 'service' );
+		$serviceManager = \Aimeos\MShop::create( $context, 'service' );
 		$serviceItem = $serviceManager->getItem( $id, array( 'media', 'price', 'text' ) );
 
 		$provider = $serviceManager->getProvider( $serviceItem, $serviceItem->getType() );
@@ -463,7 +463,7 @@ class Standard
 			}
 		}
 
-		$orderBaseServiceManager = \Aimeos\MShop\Factory::createManager( $context, 'order/base/service' );
+		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/base/service' );
 		$orderServiceItem = $orderBaseServiceManager->createItem();
 		$orderServiceItem->copyFrom( $serviceItem );
 

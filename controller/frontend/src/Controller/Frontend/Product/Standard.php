@@ -180,7 +180,7 @@ class Standard
 	 */
 	public function aggregate( \Aimeos\MW\Criteria\Iface $filter, $key )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index' )->aggregate( $filter, $key );
+		return \Aimeos\MShop::create( $this->getContext(), 'index' )->aggregate( $filter, $key );
 	}
 
 
@@ -198,7 +198,7 @@ class Standard
 	{
 		$sortations = [];
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'index' );
+		$manager = \Aimeos\MShop::create( $context, 'index' );
 
 
 		/** controller/frontend/product/ignore-dates
@@ -300,7 +300,7 @@ class Standard
 	public function getItems( array $productIds, array $domains = array( 'media', 'price', 'text' ) )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+		$manager = \Aimeos\MShop::create( $context, 'product' );
 
 		/** controller/frontend/order/ignore-dates
 		 * Ignore start and end dates of products
@@ -346,7 +346,7 @@ class Standard
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'price', 'text' ), &$total = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'index' )->searchItems( $filter, $domains, $total );
+		return \Aimeos\MShop::create( $this->getContext(), 'index' )->searchItems( $filter, $domains, $total );
 	}
 
 

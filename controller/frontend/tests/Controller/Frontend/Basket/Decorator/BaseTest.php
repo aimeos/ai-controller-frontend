@@ -76,7 +76,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$context = \TestHelperFrontend::getContext();
-		$order = \Aimeos\MShop\Factory::createManager( $context, 'order/base' )->createItem();
+		$order = \Aimeos\MShop::create( $context, 'order/base' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $order ) );

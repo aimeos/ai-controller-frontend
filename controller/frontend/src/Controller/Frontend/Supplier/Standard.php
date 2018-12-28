@@ -30,7 +30,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'supplier' )->createSearch( true );
+		return \Aimeos\MShop::create( $this->getContext(), 'supplier' )->createSearch( true );
 	}
 
 
@@ -44,7 +44,7 @@ class Standard
 	 */
 	public function getItem( $id, array $domains = array( 'media', 'text' ) )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'supplier' )->getItem( $id, $domains, true );
+		return \Aimeos\MShop::create( $this->getContext(), 'supplier' )->getItem( $id, $domains, true );
 	}
 
 
@@ -58,7 +58,7 @@ class Standard
 	 */
 	public function getItems( array $ids, array $domains = array( 'media', 'text' ) )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'supplier' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'supplier' );
 
 		$filter = $manager->createSearch( true );
 		$expr = [
@@ -82,6 +82,6 @@ class Standard
 	 */
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'text' ), &$total = null )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'supplier' )->searchItems( $filter, $domains, $total );
+		return \Aimeos\MShop::create( $this->getContext(), 'supplier' )->searchItems( $filter, $domains, $total );
 	}
 }

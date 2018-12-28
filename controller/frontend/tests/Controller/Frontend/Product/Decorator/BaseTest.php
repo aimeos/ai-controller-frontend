@@ -67,7 +67,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddFilterAttribute()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'addFilterAttribute' )
 			->will( $this->returnArgument( 0 ) );
@@ -78,7 +78,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddFilterCategory()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'addFilterCategory' )
 			->will( $this->returnArgument( 0 ) );
@@ -89,7 +89,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddFilterSupplier()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'addFilterSupplier' )
 			->will( $this->returnArgument( 0 ) );
@@ -100,7 +100,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddFilterText()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'addFilterText' )
 			->will( $this->returnArgument( 0 ) );
@@ -111,7 +111,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAggregate()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'aggregate' )
 			->will( $this->returnValue( [] ) );
@@ -122,7 +122,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateFilter()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'createFilter' )
 			->will( $this->returnValue( $search ) );
@@ -133,7 +133,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$prodItem = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createItem();
+		$prodItem = \Aimeos\MShop::create( $this->context, 'index' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'getItem' )
 			->will( $this->returnValue( $prodItem ) );
@@ -153,7 +153,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchItems()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'index' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'searchItems' )
 			->will( $this->returnValue( [] ) );

@@ -30,7 +30,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddEditSaveDeleteItem()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$id = $manager->findItem( 'UTC001' )->getId();
 
 		$this->context->setUserId( $id );
@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$id = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
 		$this->context->setUserId( $id );
 
 		$result = $this->object->getItem( $id, ['customer/address', 'text'] );
@@ -88,7 +88,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddEditSaveDeleteAddressItem()
 	{
-		$customer = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
 		$this->context->setUserId( $customer->getId() );
 
 		$item = $this->object->addAddressItem( ['customer.address.lastname' => 'unittest-ctnl'] );
@@ -114,7 +114,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetAddressItem()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/address' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
 		$search = $manager->createSearch();
 		$search->setSlice( 0, 1 );
 		$result = $manager->searchItems( $search );
@@ -131,7 +131,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddEditDeleteListItem()
 	{
-		$customer = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' )->findItem( 'UTC001' );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
 		$this->context->setUserId( $customer->getId() );
 
 		$values = [
@@ -161,7 +161,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetListItem()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer/lists' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer/lists' );
 		$search = $manager->createSearch();
 		$search->setSlice( 0, 1 );
 		$result = $manager->searchItems( $search );
@@ -178,7 +178,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchListItem()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'customer' );
+		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
 		$customer = $manager->findItem( 'UTC001' );
 		$this->context->setUserId( $customer->getId() );
 

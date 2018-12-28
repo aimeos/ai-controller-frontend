@@ -44,7 +44,7 @@ class Standard
 	 */
 	public function createFilter()
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'subscription' )->createSearch();
+		return \Aimeos\MShop::create( $this->getContext(), 'subscription' )->createSearch();
 	}
 
 
@@ -57,7 +57,7 @@ class Standard
 	public function getItem( $id )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'subscription' );
+		$manager = \Aimeos\MShop::create( $context, 'subscription' );
 
 		$filter = $manager->createSearch();
 		$expr = [
@@ -87,7 +87,7 @@ class Standard
 	public function getIntervals()
 	{
 		$intervals = [];
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
 
 		$search = $manager->createSearch( true );
 		$expr = array(
@@ -113,7 +113,7 @@ class Standard
 	 */
 	public function saveItem( \Aimeos\MShop\Subscription\Item\Iface $item )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'subscription' )->saveItem( $item );
+		return \Aimeos\MShop::create( $this->getContext(), 'subscription' )->saveItem( $item );
 	}
 
 
@@ -127,7 +127,7 @@ class Standard
 	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
 	{
 		$context = $this->getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'subscription' );
+		$manager = \Aimeos\MShop::create( $context, 'subscription' );
 
 		$expr = [
 			$filter->compare( '==', 'order.base.customerid', $context->getUserId() ),

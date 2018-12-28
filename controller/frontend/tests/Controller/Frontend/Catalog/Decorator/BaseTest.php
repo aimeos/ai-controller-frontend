@@ -67,7 +67,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateFilter()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'catalog' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'createFilter' )
 			->will( $this->returnValue( $search ) );
@@ -87,7 +87,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetTree()
 	{
-		$catItem = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' )->createItem();
+		$catItem = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'getTree' )
 			->will( $this->returnValue( $catItem ) );

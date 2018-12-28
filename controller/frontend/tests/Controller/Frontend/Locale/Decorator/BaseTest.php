@@ -67,7 +67,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateFilter()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'locale' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'locale' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'createFilter' )
 			->will( $this->returnValue( $search ) );
@@ -78,7 +78,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'locale' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'locale' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
@@ -89,7 +89,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchItems()
 	{
-		$filter = \Aimeos\MShop\Factory::createManager( $this->context, 'locale' )->createSearch();
+		$filter = \Aimeos\MShop::create( $this->context, 'locale' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'searchItems' )
 			->will( $this->returnValue( [] ) );

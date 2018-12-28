@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetItem()
 	{
 		$context = \TestHelperFrontend::getContext();
-		$manager = \Aimeos\MShop\Factory::createManager( $context, 'stock' );
+		$manager = \Aimeos\MShop::create( $context, 'stock' );
 		$id = $manager->findItem( 'CNC', [], 'product', 'default' )->getId();
 
 		$result = $this->object->getItem( $id );

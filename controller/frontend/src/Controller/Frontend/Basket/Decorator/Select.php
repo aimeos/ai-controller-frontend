@@ -40,7 +40,7 @@ class Select
 		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
 	{
 		$context = $this->getContext();
-		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
+		$productManager = \Aimeos\MShop::create( $context, 'product' );
 		$productItem = $productManager->getItem( $prodid, [], true );
 
 		if( $productManager->getItem( $prodid, [], true )->getType() !== 'select' )
@@ -55,7 +55,7 @@ class Select
 		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
 		$hidden = $productItem->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop\Factory::createManager( $context, 'order/base/product' )->createItem();
+		$orderBaseProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->createItem();
 		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
 
 		$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds );
@@ -140,7 +140,7 @@ class Select
 				$orderBaseProductItem->setMediaUrl( $mediaItem->getPreview() );
 			}
 
-			$orderProductAttrManager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base/product/attribute' );
+			$orderProductAttrManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
 			$variantAttributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
 			foreach( $this->getAttributes( array_keys( $variantAttributes ), array( 'text' ) ) as $attrItem )

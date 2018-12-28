@@ -67,7 +67,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'addItem' )->will( $this->returnValue( $item ) );
 
@@ -77,7 +77,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateFilter()
 	{
-		$search = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createSearch();
+		$search = \Aimeos\MShop::create( $this->context, 'order' )->createSearch();
 
 		$this->stub->expects( $this->once() )->method( 'createFilter' )->will( $this->returnValue( $search ) );
 
@@ -87,7 +87,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'getItem' )->will( $this->returnValue( $item ) );
 
@@ -97,7 +97,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSaveItem()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'saveItem' );
 
@@ -117,7 +117,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testUnblock()
 	{
-		$orderItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$orderItem = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'unblock' );
 
@@ -127,7 +127,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdate()
 	{
-		$orderItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$orderItem = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'update' );
 

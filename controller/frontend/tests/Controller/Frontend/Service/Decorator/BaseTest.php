@@ -76,7 +76,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetProvider()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'service' );
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$provider = $manager->getProvider( $manager->findItem( 'unitcode', [], 'service', 'delivery' ), 'delivery' );
 
 		$this->stub->expects( $this->once() )->method( 'getProvider' )
@@ -97,7 +97,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testProcess()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'process' )
 			->will( $this->returnValue( new \Aimeos\MShop\Common\Item\Helper\Form\Standard() ) );
@@ -122,7 +122,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$response = $this->getMockBuilder( \Psr\Http\Message\ResponseInterface::class )->getMock();
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'updateSync' )
 			->will( $this->returnValue( $item ) );

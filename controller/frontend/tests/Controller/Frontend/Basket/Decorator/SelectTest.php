@@ -19,7 +19,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperFrontend::getContext();
-		$this->testItem = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TESTP' );
+		$this->testItem = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:TESTP' );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 		$this->object = new \Aimeos\Controller\Frontend\Basket\Decorator\Select( $object, $this->context );
@@ -48,7 +48,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductNoSelection()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 
 		$this->object->addProduct( $item->getId(), 1 );
 
@@ -60,7 +60,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductVariant()
 	{
-		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::createManager( \TestHelperFrontend::getContext() );
+		$attributeManager = \Aimeos\MShop\Attribute\Manager\Factory::create( \TestHelperFrontend::getContext() );
 
 		$search = $attributeManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'attribute.code', array( 'xs', 'white' ) ) );
@@ -72,7 +72,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		}
 
 
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'CNC' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 
 		$this->object->addProduct( $item->getId(), 1, 'default', array_keys( $attributes ), [], [], [] );
 
@@ -83,7 +83,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductVariantIncomplete()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -100,7 +100,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		}
 
 
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:TEST' );
 
 		$this->object->addProduct( $item->getId(), 1, 'default', array_keys( $attributes ) );
 
@@ -112,7 +112,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductVariantNonUnique()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(
@@ -129,7 +129,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		}
 
 
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:TEST' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:TEST' );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item->getId(), 1, 'default', array_keys( $attributes ) );
@@ -140,7 +140,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->context->getConfig()->set( 'controller/frontend/basket/require-variant', false );
 
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'attribute.code', 'xs' ) );
@@ -162,7 +162,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductEmptySelectionException()
 	{
-		$item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->findItem( 'U:noSel' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:noSel' );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item->getId(), 1 );
@@ -179,7 +179,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductConfigAttribute()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'attribute.code', 'xs' ) );
@@ -201,7 +201,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductHiddenAttribute()
 	{
-		$attributeManager = \Aimeos\MShop\Factory::createManager( $this->context, 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$search = $attributeManager->createSearch();
 		$expr = array(

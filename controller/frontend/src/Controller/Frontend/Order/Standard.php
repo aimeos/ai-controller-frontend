@@ -172,7 +172,7 @@ class Standard
 	 */
 	public function block( \Aimeos\MShop\Order\Item\Iface $orderItem )
 	{
-		\Aimeos\Controller\Common\Order\Factory::createController( $this->getContext() )->block( $orderItem );
+		\Aimeos\Controller\Common\Order\Factory::create( $this->getContext() )->block( $orderItem );
 	}
 
 
@@ -196,7 +196,7 @@ class Standard
 	 */
 	public function unblock( \Aimeos\MShop\Order\Item\Iface $orderItem )
 	{
-		\Aimeos\Controller\Common\Order\Factory::createController( $this->getContext() )->unblock( $orderItem );
+		\Aimeos\Controller\Common\Order\Factory::create( $this->getContext() )->unblock( $orderItem );
 	}
 
 
@@ -216,6 +216,6 @@ class Standard
 	 */
 	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem )
 	{
-		\Aimeos\Controller\Common\Order\Factory::createController( $this->getContext() )->update( $orderItem );
+		\Aimeos\Controller\Common\Order\Factory::create( $this->getContext() )->update( $orderItem );
 	}
 }

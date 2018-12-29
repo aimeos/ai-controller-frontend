@@ -28,7 +28,7 @@ class Factory
 	 * @param string|null $name Name of the controller implementaton (default: "Standard")
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Controller object
 	 */
-	public static function createController( \Aimeos\MShop\Context\Item\Iface $context, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $name = null )
 	{
 		/** controller/frontend/subscription/name
 		 * Class name of the used subscription frontend controller implementation
@@ -75,7 +75,7 @@ class Factory
 		$iface = '\\Aimeos\\Controller\\Frontend\\Subscription\\Iface';
 		$classname = '\\Aimeos\\Controller\\Frontend\\Subscription\\' . $name;
 
-		$manager = self::createControllerBase( $context, $classname, $iface );
+		$manager = self::createController( $context, $classname, $iface );
 
 		/** controller/frontend/subscription/decorators/excludes
 		 * Excludes decorators added by the "common" option from the subscription frontend controllers

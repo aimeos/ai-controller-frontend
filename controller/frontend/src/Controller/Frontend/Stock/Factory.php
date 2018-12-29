@@ -28,7 +28,7 @@ class Factory
 	 * @param string|null $name Name of the controller implementaton (default: "Standard")
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Controller object
 	 */
-	public static function createController( \Aimeos\MShop\Context\Item\Iface $context, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $name = null )
 	{
 		/** controller/frontend/stock/name
 		 * Class name of the used stock frontend controller implementation
@@ -76,7 +76,7 @@ class Factory
 		$iface = '\\Aimeos\\Controller\\Frontend\\Stock\\Iface';
 		$classname = '\\Aimeos\\Controller\\Frontend\\Stock\\' . $name;
 
-		$manager = self::createControllerBase( $context, $classname, $iface );
+		$manager = self::createController( $context, $classname, $iface );
 
 		/** controller/frontend/stock/decorators/excludes
 		 * Excludes decorators added by the "common" option from the stock frontend controllers

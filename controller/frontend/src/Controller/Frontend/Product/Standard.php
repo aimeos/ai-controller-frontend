@@ -88,7 +88,7 @@ class Standard
 		if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 		{
 			$list = [];
-			$cntl = \Aimeos\Controller\Frontend\Factory::createController( $this->getContext(), 'catalog' );
+			$cntl = \Aimeos\Controller\Frontend\Factory::create( $this->getContext(), 'catalog' );
 
 			foreach( $catIds as $catId )
 			{

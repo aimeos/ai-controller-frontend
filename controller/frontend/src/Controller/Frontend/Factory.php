@@ -26,9 +26,9 @@ class Factory extends \Aimeos\Controller\Frontend
 	 * @return \Aimeos\Controller\Frontend\Iface New frontend controller
 	 * @throws \Aimeos\Controller\Frontend\Exception If the given path is invalid or the manager wasn't found
 	 */
-	static public function createController( \Aimeos\MShop\Context\Item\Iface $context, $path )
+	static public function create( \Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
-		return self::create( $context, $path );
+		return parent::create( $context, $path );
 	}
 
 

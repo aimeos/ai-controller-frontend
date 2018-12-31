@@ -284,21 +284,6 @@ class Standard
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, 'customer/lists' );
 
-		if( !isset( $values['customer.lists.typeid'] ) )
-		{
-			if( !isset( $values['customer.lists.type'] ) ) {
-				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists type code' ) );
-			}
-
-			if( !isset( $values['customer.lists.domain'] ) ) {
-				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists domain' ) );
-			}
-
-			$typeManager = \Aimeos\MShop::create( $context, 'customer/lists/type' );
-			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'] );
-			$values['customer.lists.typeid'] = $typeItem->getId();
-		}
-
 		$item = $manager->createItem()->fromArray( $values )->setId( null )->setParentId( $context->getUserId() );
 		return $manager->saveItem( $item );
 	}
@@ -354,21 +339,6 @@ class Standard
 		$item = $manager->getItem( $id, [], true );
 		$this->checkUser( $item->getParentId() );
 		unset( $values['customer.lists.id'] );
-
-		if( !isset( $values['customer.lists.typeid'] ) )
-		{
-			if( !isset( $values['customer.lists.type'] ) ) {
-				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists type code' ) );
-			}
-
-			if( !isset( $values['customer.lists.domain'] ) ) {
-				throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'No customer lists domain' ) );
-			}
-
-			$typeManager = \Aimeos\MShop::create( $context, 'customer/lists/type' );
-			$typeItem = $typeManager->findItem( $values['customer.lists.type'], [], $values['customer.lists.domain'], true );
-			$values['customer.lists.typeid'] = $typeItem->getId();
-		}
 
 		return $manager->saveItem( $item->fromArray( $values ) );
 	}

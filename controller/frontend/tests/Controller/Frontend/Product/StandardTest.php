@@ -144,7 +144,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortCodeDesc()
 	{
 		$result = $this->object->sort( '-code' )->search( [] );
-		$this->assertEquals( 'U:noSel', reset( $result )->getCode() );
+		$this->assertStringStartsWith( 'U:', reset( $result )->getCode() );
 	}
 
 

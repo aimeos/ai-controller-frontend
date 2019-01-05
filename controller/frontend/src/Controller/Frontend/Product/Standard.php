@@ -63,7 +63,6 @@ class Standard
 	/**
 	 * Returns the aggregated count of products for the given key.
 	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
 	 * @param string $key Search key to aggregate for, e.g. "index.attribute.id"
 	 * @return array Associative list of key values as key and the product count for this key as value
 	 * @since 2019.04
@@ -259,7 +258,7 @@ class Standard
 	/**
 	 * Sets the sorting of the product list
 	 *
-	 * @param string|null $sort Sortation of the product list like "name", "-name", "price", "-price", "code", "-code", "ctime, "-ctime" and "relevance", null for no sortation
+	 * @param string|null $key Sortation of the product list like "name", "-name", "price", "-price", "code", "-code", "ctime, "-ctime" and "relevance", null for no sortation
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */

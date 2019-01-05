@@ -215,7 +215,7 @@ abstract class Base
 	/**
 	 * Sets the sorting of the product list
 	 *
-	 * @param string|null $sort Sortation of the product list like "name", "-name", "price", "-price", "code", "-code", "ctime, "-ctime" and "relevance", null for no sortation
+	 * @param string|null $key Sortation of the product list like "name", "-name", "price", "-price", "code", "-code", "ctime, "-ctime" and "relevance", null for no sortation
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */

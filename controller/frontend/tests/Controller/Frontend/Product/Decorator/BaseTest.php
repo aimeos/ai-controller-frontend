@@ -65,100 +65,159 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAddFilterAttribute()
-	{
-		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
-
-		$this->stub->expects( $this->once() )->method( 'addFilterAttribute' )
-			->will( $this->returnArgument( 0 ) );
-
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterAttribute( $search, [], [], [] ) );
-	}
-
-
-	public function testAddFilterCategory()
-	{
-		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
-
-		$this->stub->expects( $this->once() )->method( 'addFilterCategory' )
-			->will( $this->returnArgument( 0 ) );
-
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterCategory( $search, [-1] ) );
-	}
-
-
-	public function testAddFilterSupplier()
-	{
-		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
-
-		$this->stub->expects( $this->once() )->method( 'addFilterSupplier' )
-			->will( $this->returnArgument( 0 ) );
-
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterSupplier( $search, [] ) );
-	}
-
-
-	public function testAddFilterText()
-	{
-		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
-
-		$this->stub->expects( $this->once() )->method( 'addFilterText' )
-			->will( $this->returnArgument( 0 ) );
-
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterText( $search, 'test' ) );
-	}
-
-
 	public function testAggregate()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
-
 		$this->stub->expects( $this->once() )->method( 'aggregate' )
 			->will( $this->returnValue( [] ) );
 
-		$this->assertEquals( [], $this->object->aggregate( $search, 'test' ) );
+		$this->assertEquals( [], $this->object->aggregate( 'test' ) );
 	}
 
 
-	public function testCreateFilter()
+	public function testAllOf()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'createFilter' )
-			->will( $this->returnValue( $search ) );
+		$this->stub->expects( $this->once() )->method( 'allOf' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
+		$this->assertInstanceOf( $expected, $this->object->allOf( [1, 2] ) );
 	}
 
 
-	public function testGetItem()
+	public function testCategory()
 	{
-		$prodItem = \Aimeos\MShop::create( $this->context, 'index' )->createItem();
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'getItem' )
-			->will( $this->returnValue( $prodItem ) );
+		$this->stub->expects( $this->once() )->method( 'category' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $this->object->getItem( -1 ) );
+		$this->assertInstanceOf( $expected, $this->object->category( 1, 'default', \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE ) );
 	}
 
 
-	public function testGetItems()
+	public function testCompare()
 	{
-		$this->stub->expects( $this->once() )->method( 'getItems' )
-			->will( $this->returnValue( [] ) );
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
 
-		$this->assertEquals( [], $this->object->getItems( [-1] ) );
+		$this->stub->expects( $this->once() )->method( 'compare' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'product.code', 'test' ) );
 	}
 
 
-	public function testSearchItems()
+	public function testGet()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'index' )->createSearch();
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+		$expected = \Aimeos\MShop\Product\Item\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'searchItems' )
-			->will( $this->returnValue( [] ) );
+		$this->stub->expects( $this->once() )->method( 'get' )
+			->will( $this->returnValue( $item ) );
 
-		$this->assertEquals( [], $this->object->searchItems( $search ) );
+		$this->assertInstanceOf( $expected, $this->object->get( 1, ['text'] ) );
+	}
+
+
+	public function testFind()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+		$expected = \Aimeos\MShop\Product\Item\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'find' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( $expected, $this->object->find( 'test', ['text'] ) );
+	}
+
+
+	public function testOneOf()
+	{
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'oneOf' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->oneOf( [1, 2] ) );
+	}
+
+
+	public function testParse()
+	{
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'parse' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+	}
+
+
+	public function testProduct()
+	{
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'product' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->product( [1, 3] ) );
+	}
+
+
+	public function testSearch()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+		$expected = \Aimeos\MShop\Product\Item\Iface::class;
+		$total = 0;
+
+		$this->stub->expects( $this->once() )->method( 'search' )
+			->will( $this->returnValue( [$item] ) );
+
+		$this->assertEquals( [$item], $this->object->search( ['text'], $total ) );
+	}
+
+
+	public function testSlice()
+	{
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'slice' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+	}
+
+
+	public function testSort()
+	{
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'sort' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->sort( 'code' ) );
+	}
+
+
+	public function testSupplier()
+	{
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'supplier' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->supplier( [1], 'default' ) );
+	}
+
+
+	public function testText()
+	{
+		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'text' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->text( 'test' ) );
 	}
 
 

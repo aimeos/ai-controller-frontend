@@ -98,6 +98,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testOneOfList()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
+
+		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
+		$width = $manager->findItem( '29', [], 'product', 'width' )->getId();
+
+		$this->assertEquals( 4, count( $this->object->oneOf( [[$length, $width]] )->search() ) );
+	}
+
+
 	public function testParse()
 	{
 		$cond = ['&&' => [['>' => ['product.status' => 0]], ['==' => ['product.type' => 'default']]]];

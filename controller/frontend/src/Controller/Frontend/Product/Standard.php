@@ -180,12 +180,22 @@ class Standard
 	/**
 	 * Adds attribute IDs for filtering where products must reference at least one ID
 	 *
-	 * @param array|string $attrIds Attribute ID or list of IDs
+	 * If an array of ID lists is given, each ID list is added separately as condition.
+	 *
+	 * @param array|string $attrIds Attribute ID, list of IDs or array of lists with IDs
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function oneOf( $attrIds )
 	{
+		foreach( (array) $attrIds as $key => $entry )
+		{
+			if( is_array( $entry ) && ( $ids = array_unique( $this->validateIds( $entry ) ) ) !== [] ) {
+				$this->conditions[] = $this->filter->compare( '==', 'index.attribute.id', $ids );
+				unset( $attrIds[$key] );
+			}
+		}
+
 		if( ( $ids = array_unique( $this->validateIds( (array) $attrIds ) ) ) !== [] ) {
 			$this->conditions[] = $this->filter->compare( '==', 'index.attribute.id', $ids );
 		}

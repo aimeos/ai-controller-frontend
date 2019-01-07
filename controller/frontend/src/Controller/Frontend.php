@@ -112,6 +112,6 @@ class Frontend
 			self::$controllers[$id][$path] = $manager;
 		}
 
-		return self::$controllers[$id][$path];
+		return clone self::$controllers[$id][$path];
 	}
 }

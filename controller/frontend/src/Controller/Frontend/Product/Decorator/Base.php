@@ -32,11 +32,19 @@ abstract class Base
 	 */
 	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
-		\Aimeos\MW\Common\Base::checkClass( '\\Aimeos\\Controller\\Frontend\\Product\\Iface', $controller );
-
-		$this->controller = $controller;
+		$iface = \Aimeos\Controller\Frontend\Product\Iface::class;
+		$this->controller = \Aimeos\MW\Common\Base::checkClass( $iface, $controller );
 
 		parent::__construct( $context );
+	}
+
+
+	/**
+	 * Clones objects in decorator
+	 */
+	public function __clone()
+	{
+		$this->controller = clone $this->controller;
 	}
 
 

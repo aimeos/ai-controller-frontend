@@ -40,7 +40,7 @@ class Standard
 		$this->filter = $this->manager->createSearch( true );
 		$this->conditions[] = $this->filter->compare( '!=', 'index.catalog.id', null );
 
-		/** controller/frontend/order/ignore-dates
+		/** controller/frontend/product/ignore-dates
 		 * Ignore start and end dates of products
 		 *
 		 * Usually, products are only shown in the product list if their start/end
@@ -57,6 +57,15 @@ class Standard
 		} else {
 			$this->conditions[] = $this->filter->getConditions();
 		}
+	}
+
+
+	/**
+	 * Clones objects in controller and resets values
+	 */
+	public function __clone()
+	{
+		$this->filter = clone $this->filter;
 	}
 
 

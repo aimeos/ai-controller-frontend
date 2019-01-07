@@ -35,7 +35,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function tearDown()
 	{
 		\Aimeos\MShop::cache( false );
-		\Aimeos\MShop::clear();
 
 		$this->object->clear();
 		$this->context->getSession()->set( 'aimeos', [] );
@@ -66,7 +65,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['setSession'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( $this->context, 'order/base', $stub );
+		\Aimeos\MShop::inject( 'order/base', $stub );
 
 		$stub->expects( $this->exactly( 2 ) )->method( 'setSession' );
 
@@ -89,7 +88,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['store'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( $this->context, 'order/base', $stub );
+		\Aimeos\MShop::inject( 'order/base', $stub );
 
 		$stub->expects( $this->once() )->method( 'store' );
 
@@ -119,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['load'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( $this->context, 'order/base', $stub );
+		\Aimeos\MShop::inject( 'order/base', $stub );
 
 		$stub->expects( $this->once() )->method( 'load' )
 			->will( $this->returnValue( $stub->createItem() ) );

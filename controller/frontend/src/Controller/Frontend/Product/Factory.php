@@ -76,7 +76,7 @@ class Factory
 		$iface = '\\Aimeos\\Controller\\Frontend\\Product\\Iface';
 		$classname = '\\Aimeos\\Controller\\Frontend\\Product\\' . $name;
 
-		$manager = self::createController( $context, $classname, $iface );
+		$controller = self::createController( $context, $classname, $iface );
 
 		/** controller/frontend/product/decorators/excludes
 		 * Excludes decorators added by the "common" option from the product frontend controllers
@@ -152,6 +152,6 @@ class Factory
 		 * @see controller/frontend/product/decorators/excludes
 		 * @see controller/frontend/product/decorators/global
 		 */
-		return self::addControllerDecorators( $context, $manager, 'product' );
+		return self::addControllerDecorators( $context, $controller, 'product' );
 	}
 }

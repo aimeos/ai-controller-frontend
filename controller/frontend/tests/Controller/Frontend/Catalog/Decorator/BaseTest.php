@@ -65,14 +65,49 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCreateFilter()
+	public function testCompare()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'catalog' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'createFilter' )
-			->will( $this->returnValue( $search ) );
+		$this->stub->expects( $this->once() )->method( 'compare' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
+		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'catalog.code', 'test' ) );
+	}
+
+
+	public function testGet()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
+		$expected = \Aimeos\MShop\Catalog\Item\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'get' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( $expected, $this->object->get( 1, ['text'] ) );
+	}
+
+
+	public function testFind()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
+		$expected = \Aimeos\MShop\Catalog\Item\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'find' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( $expected, $this->object->find( 'test', ['text'] ) );
+	}
+
+
+	public function testParse()
+	{
+		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'parse' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
 	}
 
 
@@ -93,6 +128,28 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->will( $this->returnValue( $catItem ) );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $this->object->getTree() );
+	}
+
+
+	public function testRoot()
+	{
+		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'root' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->root( -1 ) );
+	}
+
+
+	public function testVisible()
+	{
+		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'visible' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->visible( [1, 2] ) );
 	}
 
 

@@ -2,7 +2,6 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Metaways Infosystems GmbH, 2012
  * @copyright Aimeos (aimeos.org), 2015-2018
  * @package Controller
  * @subpackage Frontend
@@ -22,46 +21,225 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
+	private $conditions = [];
+	private $filter;
+	private $manager;
+	private $root;
+
+
 	/**
-	 * Returns the default catalog filter
+	 * Common initialization for controller classes
 	 *
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object for filtering
-	 * @since 2017.03
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Common MShop context object
 	 */
-	public function createFilter()
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'catalog' )->createSearch( true );
+		parent::__construct( $context );
+
+		$this->manager = \Aimeos\MShop::create( $context, 'catalog' );
+		$this->filter = $this->manager->createSearch( true );
+		$this->conditions[] = $this->filter->getConditions();
 	}
 
 
 	/**
-	 * Returns the list of categries that are in the path to the root node including the one specified by its ID.
-	 *
-	 * @param integer $id Category ID to start from, null for root node
-	 * @param string[] $domains Domain names of items that are associated with the categories and that should be fetched too
-	 * @return array Associative list of items implementing \Aimeos\MShop\Catalog\Item\Iface with their IDs as keys
-	 * @since 2017.03
+	 * Clones objects in controller and resets values
 	 */
-	public function getPath( $id, array $domains = array( 'text', 'media' ) )
+	public function __clone()
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'catalog' )->getPath( $id, $domains );
+		$this->filter = clone $this->filter;
 	}
 
 
 	/**
-	 * Returns the hierarchical catalog tree starting from the given ID.
+	 * Adds generic condition for filtering attributes
 	 *
-	 * @param integer|null $id Category ID to start from, null for root node
-	 * @param string[] $domains Domain names of items that are associated with the categories and that should be fetched too
-	 * @param integer $level Constant from \Aimeos\MW\Tree\Manager\Base for the depth of the returned tree, LEVEL_ONE for
-	 * 	specific node only, LEVEL_LIST for node and all direct child nodes, LEVEL_TREE for the whole tree
-	 * @param \Aimeos\MW\Criteria\Iface|null $search Optional criteria object with conditions
-	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog node, maybe with children depending on the level constant
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the catalog manager, e.g. "catalog.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function compare( $operator, $key, $value )
+	{
+		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		return $this;
+	}
+
+
+	/**
+	 * Returns the category for the given catalog ID
+	 *
+	 * @param string $id Unique catalog ID
+	 * @param string[] $domains Domain names of items that are associated with the category and should be fetched too
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function get( $id, array $domains = ['media', 'text'] )
+	{
+		return $this->manager->getItem( $id, $domains, true );
+	}
+
+
+	/**
+	 * Returns the list of categories up to the root node including the node given by its ID
+	 *
+	 * @param integer $id Current category ID
+	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
+	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Associative list of categories
 	 * @since 2017.03
 	 */
-	public function getTree( $id = null, array $domains = array( 'text', 'media' ),
-		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE, \Aimeos\MW\Criteria\Iface $search = null )
+	public function getPath( $id, array $domains = ['text', 'media'] )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'catalog' )->getTree( $id, $domains, $level, $search );
+		$list = $this->manager->getPath( $id, $domains );
+
+		if( $this->root )
+		{
+			foreach( $list as $key => $item )
+			{
+				if( $key == $this->root ) {
+					break;
+				}
+				unset( $list[$key] );
+			}
+		}
+
+		return $list;
+	}
+
+
+	/**
+	 * Returns the categories filtered by the previously assigned conditions
+	 *
+	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
+	 * @param integer $level Constant from \Aimeos\MW\Tree\Manager\Base, e.g. LEVEL_ONE, LEVEL_LIST or LEVEL_TREE
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Category tree
+	 * @since 2019.04
+	 */
+	public function getTree( array $domains = ['media', 'text'], $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE )
+	{
+		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		return $this->manager->getTree( $this->root, $domains, $level, $this->filter );
+	}
+
+
+	/**
+	 * Returns the category for the given catalog code
+	 *
+	 * @param string $code Unique catalog code
+	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function find( $code, array $domains = ['media', 'text'] )
+	{
+		return $this->manager->findItem( $code, $domains, null, null, true );
+	}
+
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['>' => ['catalog.status' => 0]]
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions )
+	{
+		$this->conditions[] = $this->filter->toConditions( $conditions );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the catalog ID of node that is used as root node
+	 *
+	 * @param string|null $id Catalog ID
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function root( $id )
+	{
+		$this->root = ( $id ? $id : null );
+		return $this;
+	}
+
+
+	/**
+	 * Limits categories returned to only visible ones depending on the given category IDs
+	 *
+	 * @param array $catIds List of category IDs
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 */
+	public function visible( array $catIds )
+	{
+		if( empty( $catIds ) ) {
+			return $this;
+		}
+
+		$config = $this->getContext()->getConfig();
+
+		$expr = [
+			$this->filter->compare( '==', 'catalog.parentid', $catIds ),
+			$this->filter->compare( '==', 'catalog.id', $catIds )
+		];
+
+		/** controller/frontend/catalog/levels-always
+		 * The number of levels in the category tree that should be always displayed
+		 *
+		 * Usually, only the root node and the first level of the category
+		 * tree is shown in the frontend. Only if the user clicks on a
+		 * node in the first level, the page reloads and the sub-nodes of
+		 * the chosen category are rendered as well.
+		 *
+		 * Using this configuration option you can enforce the given number
+		 * of levels to be always displayed. The root node uses level 0, the
+		 * categories below level 1 and so on.
+		 *
+		 * In most cases you can set this value via the administration interface
+		 * of the shop application. In that case you often can configure the
+		 * levels individually for each catalog filter.
+		 *
+		 * Note: This setting was available between 2014.03 and 2019.04 as
+		 * client/html/catalog/filter/tree/levels-always
+		 *
+		 * @param integer Number of tree levels
+		 * @since 2019.04
+		 * @category User
+		 * @category Developer
+		 * @see controller/frontend/catalog/levels-only
+		*/
+		if( ( $levels = $config->get( 'controller/frontend/catalog/levels-always' ) ) != null ) {
+			$expr[] = $this->filter->compare( '<=', 'catalog.level', $levels );
+		}
+
+		/** controller/frontend/catalog/levels-only
+		 * No more than this number of levels in the category tree should be displayed
+		 *
+		 * If the user clicks on a category node, the page reloads and the
+		 * sub-nodes of the chosen category are rendered as well.
+		 * Using this configuration option you can enforce that no more than
+		 * the given number of levels will be displayed at all. The root
+		 * node uses level 0, the categories below level 1 and so on.
+		 *
+		 * In most cases you can set this value via the administration interface
+		 * of the shop application. In that case you often can configure the
+		 * levels individually for each catalog filter.
+		 *
+		 * Note: This setting was available between 2014.03 and 2019.04 as
+		 * client/html/catalog/filter/tree/levels-only
+		 *
+		 * @param integer Number of tree levels
+		 * @since 2014.03
+		 * @category User
+		 * @category Developer
+		 * @see controller/frontend/catalog/levels-always
+		 */
+		if( ( $levels = $config->get( 'controller/frontend/catalog/levels-only' ) ) != null ) {
+			$this->conditions[] = $this->filter->compare( '<=', 'catalog.level', $levels );
+		}
+
+		$this->conditions[] = $this->filter->combine( '||', $expr );
+		return $this;
 	}
 }

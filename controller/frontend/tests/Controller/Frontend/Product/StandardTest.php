@@ -129,7 +129,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearch()
 	{
-		$this->assertEquals( 8, count( $this->object->search() ) );
+		$total = 0;
+		$this->assertEquals( 8, count( $this->object->search( [], $total ) ) );
+		$this->assertEquals( 8, $total );
 	}
 
 
@@ -142,6 +144,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSort()
 	{
 		$this->assertEquals( 8, count( $this->object->sort( 'relevance' )->search() ) );
+	}
+
+
+	public function testSortGeneric()
+	{
+		$this->assertEquals( 8, count( $this->object->sort( 'product.status' )->search() ) );
 	}
 
 

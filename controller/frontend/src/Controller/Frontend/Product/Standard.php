@@ -28,7 +28,7 @@ class Standard
 
 
 	/**
-	 * Common initialization for controller classes.
+	 * Common initialization for controller classes
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Common MShop context object
 	 */
@@ -92,7 +92,7 @@ class Standard
 	 */
 	public function allOf( $attrIds )
 	{
-		if( ( $ids = array_unique( $this->validateIds( (array) $attrIds ) ) ) !== [] )
+		if( !empty( $attrIds ) && ( $ids = array_unique( $this->validateIds( (array) $attrIds ) ) ) !== [] )
 		{
 			$func = $this->filter->createFunction( 'index.attribute:all', [$ids] );
 			$this->conditions[] = $this->filter->compare( '!=', $func, null );
@@ -113,20 +113,18 @@ class Standard
 	 */
 	public function category( $catIds, $listtype = 'default', $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 	{
-		if( ( $ids = $this->validateIds( (array) $catIds ) ) !== [] )
+		if( !empty( $catIds ) && ( $ids = $this->validateIds( (array) $catIds ) ) !== [] )
 		{
 			if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 			{
 				$list = [];
 				$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' );
 
-				foreach( $ids as $catId )
-				{
-					$tree = $cntl->getTree( $catId, [], $level );
-					$list = array_merge( $list, $this->getCatalogIdsFromTree( $tree ) );
+				foreach( $ids as $catId ) {
+					$list += $cntl->root( $catId )->getTree( [], $level )->toList();
 				}
 
-				$ids = array_unique( $list );
+				$ids = array_keys( $list );
 			}
 
 			$func = $this->filter->createFunction( 'index.catalog:position', [$listtype, $ids] );
@@ -168,7 +166,7 @@ class Standard
 	 */
 	public function get( $id, $domains = ['media', 'price', 'text'] )
 	{
-		return $this->manager->getItem( $id, $domains );
+		return $this->manager->getItem( $id, $domains, true );
 	}
 
 
@@ -182,7 +180,7 @@ class Standard
 	 */
 	public function find( $code, $domains = ['media', 'price', 'text'] )
 	{
-		return $this->manager->findItem( $code, $domains );
+		return $this->manager->findItem( $code, $domains, 'product', null, true );
 	}
 
 
@@ -197,7 +195,9 @@ class Standard
 	 */
 	public function oneOf( $attrIds )
 	{
-		foreach( (array) $attrIds as $key => $entry )
+		$attrIds = (array) $attrIds;
+
+		foreach( $attrIds as $key => $entry )
 		{
 			if( is_array( $entry ) && ( $ids = array_unique( $this->validateIds( $entry ) ) ) !== [] ) {
 				$this->conditions[] = $this->filter->compare( '==', 'index.attribute.id', $ids );
@@ -205,7 +205,7 @@ class Standard
 			}
 		}
 
-		if( ( $ids = array_unique( $this->validateIds( (array) $attrIds ) ) ) !== [] ) {
+		if( ( $ids = array_unique( $this->validateIds( $attrIds ) ) ) !== [] ) {
 			$this->conditions[] = $this->filter->compare( '==', 'index.attribute.id', $ids );
 		}
 
@@ -236,7 +236,7 @@ class Standard
 	 */
 	public function product( $prodIds )
 	{
-		if( ( $ids = array_unique( $this->validateIds( (array) $prodIds ) ) ) !== [] ) {
+		if( !empty( $prodIds ) && ( $ids = array_unique( $this->validateIds( (array) $prodIds ) ) ) !== [] ) {
 			$this->conditions[] = $this->filter->compare( '==', 'product.id', $ids );
 		}
 
@@ -249,7 +249,7 @@ class Standard
 	 *
 	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found products will be stored in
-	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
+	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
 	public function search( $domains = ['media', 'price', 'text'], &$total = null )
@@ -293,6 +293,13 @@ class Standard
 
 		switch( $key )
 		{
+			case null:
+				$this->sort = null;
+				break;
+
+			case 'relevance':
+				break;
+
 			case 'code':
 				$this->sort = $this->filter->sort( $direction, 'product.code' );
 				break;
@@ -321,9 +328,8 @@ class Standard
 				$this->sort = $this->filter->sort( $direction, $sortfunc );
 				break;
 
-			case null:
-				$this->sort = null;
-				break;
+			default:
+				$this->sort = $this->filter->sort( $direction, $key );
 		}
 
 		if( $this->sort ) {
@@ -344,7 +350,7 @@ class Standard
 	 */
 	public function supplier( $supIds, $listtype = 'default' )
 	{
-		if( ( $ids = array_unique( $this->validateIds( (array) $supIds ) ) ) !== [] )
+		if( !empty( $supIds ) && ( $ids = array_unique( $this->validateIds( (array) $supIds ) ) ) !== [] )
 		{
 			$func = $this->filter->createFunction( 'index.supplier:position', [$listtype, $ids] );
 
@@ -368,7 +374,7 @@ class Standard
 	 */
 	public function text( $text )
 	{
-		if( $text )
+		if( !empty( $text ) )
 		{
 			$langid = $this->getContext()->getLocale()->getLanguageId();
 			$func = $this->filter->createFunction( 'index.text:relevance', [$langid, $text] );

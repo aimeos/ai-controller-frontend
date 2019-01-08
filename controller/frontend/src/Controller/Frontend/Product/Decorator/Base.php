@@ -196,7 +196,7 @@ abstract class Base
 	 *
 	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found products will be stored in
-	 * @return array Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
+	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
 	public function search( $domains = ['media', 'price', 'text'], &$total = null )

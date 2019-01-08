@@ -65,56 +65,106 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAddFilterTypes()
+	public function testAttribute()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'attribute' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'addFilterTypes' )
-			->will( $this->returnArgument( 0 ) );
+		$this->stub->expects( $this->once() )->method( 'attribute' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->addFilterTypes( $search, [] ) );
+		$this->assertInstanceOf( $expected, $this->object->attribute( [1, 3] ) );
 	}
 
 
-	public function testCreateFilter()
+	public function testDomain()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'attribute' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'createFilter' )
-			->will( $this->returnValue( $search ) );
+		$this->stub->expects( $this->once() )->method( 'domain' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
+		$this->assertInstanceOf( $expected, $this->object->domain( 'catalog' ) );
 	}
 
 
-	public function testGetItem()
+	public function testCompare()
+	{
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'compare' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'attribute.code', 'test' ) );
+	}
+
+
+	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->createItem();
+		$expected = \Aimeos\MShop\Attribute\Item\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'getItem' )
+		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $this->object->getItem( -1 ) );
+		$this->assertInstanceOf( $expected, $this->object->get( 1, ['text'] ) );
 	}
 
 
-	public function testGetItems()
+	public function testFind()
 	{
-		$this->stub->expects( $this->once() )->method( 'getItems' )
-			->will( $this->returnValue( [] ) );
+		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->createItem();
+		$expected = \Aimeos\MShop\Attribute\Item\Iface::class;
 
-		$this->assertEquals( [], $this->object->getItems( [-1], ['media'] ) );
+		$this->stub->expects( $this->once() )->method( 'find' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( $expected, $this->object->find( 'test', ['text'], 'color' ) );
 	}
 
 
-	public function testSearchItems()
+	public function testParse()
 	{
-		$filter = \Aimeos\MShop::create( $this->context, 'attribute' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'searchItems' )
-			->will( $this->returnValue( [] ) );
+		$this->stub->expects( $this->once() )->method( 'parse' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertEquals( [], $this->object->searchItems( $filter, ['media'] ) );
+		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+	}
+
+
+	public function testSearch()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->createItem();
+		$expected = \Aimeos\MShop\Attribute\Item\Iface::class;
+		$total = 0;
+
+		$this->stub->expects( $this->once() )->method( 'search' )
+			->will( $this->returnValue( [$item] ) );
+
+		$this->assertEquals( [$item], $this->object->search( ['text'], $total ) );
+	}
+
+
+	public function testSlice()
+	{
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'slice' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+	}
+
+
+	public function testSort()
+	{
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'sort' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->sort( 'position' ) );
 	}
 
 

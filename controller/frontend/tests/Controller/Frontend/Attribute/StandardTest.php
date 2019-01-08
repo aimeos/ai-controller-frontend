@@ -11,89 +11,111 @@ namespace Aimeos\Controller\Frontend\Attribute;
 
 class StandardTest extends \PHPUnit\Framework\TestCase
 {
+	private $context;
 	private $object;
 
 
 	protected function setUp()
 	{
-		$this->object = new \Aimeos\Controller\Frontend\Attribute\Standard( \TestHelperFrontend::getContext() );
+		$this->context = \TestHelperFrontend::getContext();
+		$this->object = new \Aimeos\Controller\Frontend\Attribute\Standard( $this->context );
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object );
+		unset( $this->object, $this->context );
 	}
 
 
-	public function testCreateFilter()
+	public function testAttribute()
 	{
-		$filter = $this->object->createFilter();
+		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
-		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( 1, count( $filter->getSortations() ) );
-		$this->assertEquals( 0, $filter->getSliceStart() );
-		$this->assertEquals( 100, $filter->getSliceSize() );
+		$blueId = $manager->findItem( 'blue', [], 'product', 'color' )->getId();
+		$whiteId = $manager->findItem( 'white', [], 'product', 'color' )->getId();
+
+		$this->assertEquals( 2, count( $this->object->attribute( [$blueId, $whiteId] )->search() ) );
 	}
 
 
-	public function testAddFilterTypes()
+	public function testDomain()
 	{
-		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterTypes( $filter, ['size'] );
-
-		$list = $filter->getConditions()->getExpressions();
-
-		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \RuntimeException( 'Wrong expression' );
-		}
-
-		$this->assertEquals( 'attribute.type', $list[0]->getName() );
-		$this->assertEquals( 1, count( $list[0]->getValue() ) );
+		$this->assertEquals( 5, count( $this->object->domain( 'media' )->search() ) );
 	}
 
 
-	public function testGetItem()
+	public function testCompare()
 	{
-		$context = \TestHelperFrontend::getContext();
-		$manager = \Aimeos\MShop::create( $context, 'attribute' );
-		$id = $manager->findItem( 'xs', [], 'product', 'size' )->getId();
-
-		$result = $this->object->getItem( $id, ['text'] );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $result );
-		$this->assertEquals( 3, count( $result->getRefItems( 'text' ) ) );
+		$this->assertEquals( 5, count( $this->object->compare( '==', 'attribute.type', 'color' )->search() ) );
 	}
 
 
-	public function testGetItems()
+	public function testGet()
 	{
-		$context = \TestHelperFrontend::getContext();
-		$manager = \Aimeos\MShop::create( $context, 'attribute' );
-		$id = $manager->findItem( 'xs', [], 'product', 'size' )->getId();
+		$iface = \Aimeos\MShop\Attribute\Item\Iface::class;
+		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'white', [], 'product', 'color' );
 
-		$result = $this->object->getItems( [$id], ['text'] );
-
-		$this->assertInternalType( 'array', $result );
-		$this->assertEquals( 1, count( $result ) );
-
-		foreach( $result as $attrItem )
-		{
-			$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $attrItem );
-			$this->assertEquals( 3, count( $attrItem->getRefItems( 'text' ) ) );
-		}
+		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
 	}
 
 
-	public function testSearchItems()
+	public function testFind()
 	{
-		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterTypes( $filter, ['size'] );
+		$iface = \Aimeos\MShop\Attribute\Item\Iface::class;
+		$this->assertInstanceOf( $iface, $this->object->find( 'white', [], 'color' ) );
+	}
 
+
+	public function testParse()
+	{
+		$cond = ['&&' => [['>' => ['attribute.status' => 0]], ['==' => ['attribute.type' => 'color']]]];
+		$this->assertEquals( 5, count( $this->object->parse( $cond )->search() ) );
+	}
+
+
+	public function testSearch()
+	{
 		$total = 0;
-		$results = $this->object->searchItems( $filter, ['text'], $total );
+		$this->assertGreaterThanOrEqual( 26, count( $this->object->search( [], $total ) ) );
+		$this->assertGreaterThanOrEqual( 26, $total );
+	}
 
-		$this->assertEquals( 6, $total );
-		$this->assertEquals( 6, count( $results ) );
+
+	public function testSlice()
+	{
+		$this->assertEquals( 2, count( $this->object->slice( 0, 2 )->search() ) );
+	}
+
+
+	public function testSort()
+	{
+		$this->assertGreaterThanOrEqual( 26, count( $this->object->sort()->search() ) );
+	}
+
+
+	public function testSortGeneric()
+	{
+		$this->assertGreaterThanOrEqual( 26, count( $this->object->sort( 'attribute.status' )->search() ) );
+	}
+
+
+	public function testSortPosition()
+	{
+		$result = $this->object->sort( 'position' )->search( [] );
+		$this->assertEquals( 'white', reset( $result )->getCode() );
+	}
+
+
+	public function testSortCodeDesc()
+	{
+		$result = $this->object->sort( '-position' )->search( [] );
+		$this->assertStringStartsWith( 'white', end( $result )->getCode() );
+	}
+
+
+	public function testType()
+	{
+		$this->assertEquals( 6, count( $this->object->type( 'size' )->search() ) );
 	}
 }

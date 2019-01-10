@@ -69,57 +69,96 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'cancel' )->will( $this->returnValue( $item ) );
+		$this->stub->expects( $this->once() )->method( 'cancel' )
+			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $this->object->cancel( -1, '' ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $this->object->cancel( -1 ) );
 	}
 
 
-	public function testCreateFilter()
+	public function testCompare()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'subscription' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'createFilter' )->will( $this->returnValue( $search ) );
+		$this->stub->expects( $this->once() )->method( 'compare' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
+		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'supplier.status', 1 ) );
 	}
 
 
-	public function testGetItem()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'getItem' )->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $this->object->getItem( -1 ) );
-	}
-
-
-	public function testSaveItem()
+	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'saveItem' );
+		$this->stub->expects( $this->once() )->method( 'get' )
+			->will( $this->returnValue( $item ) );
 
-		$this->object->saveItem( $item );
-	}
-
-
-	public function testSearchItems()
-	{
-		$search = $this->getMockBuilder( \Aimeos\MW\Criteria\Iface::class )->getMock();
-
-		$this->stub->expects( $this->once() )->method( 'searchItems' )->will( $this->returnValue( [] ) );
-
-		$this->assertEquals( [], $this->object->searchItems( $search ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $this->object->get( -1 ) );
 	}
 
 
 	public function testGetIntervals()
 	{
-		$this->stub->expects( $this->once() )->method( 'getIntervals' )->will( $this->returnValue( [] ) );
+		$this->stub->expects( $this->once() )->method( 'getIntervals' )
+			->will( $this->returnValue( [] ) );
 
 		$this->assertEquals( [], $this->object->getIntervals() );
+	}
+
+
+	public function testParse()
+	{
+		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'parse' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+	}
+
+
+	public function testSave()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'save' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Subscription\Item\Iface::class, $this->object->save( $item ) );
+	}
+
+
+	public function testSearch()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'search' )
+			->will( $this->returnValue( [$item] ) );
+
+		$this->assertEquals( [$item], $this->object->search() );
+	}
+
+
+	public function testSlice()
+	{
+		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'slice' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+	}
+
+
+	public function testSort()
+	{
+		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'sort' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->sort( 'interval' ) );
 	}
 
 

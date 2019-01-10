@@ -99,9 +99,9 @@ interface Iface
 	public function slice( $start, $limit );
 
 	/**
-	 * Sets the sorting of the attribute list
+	 * Sets the sorting of the result list
 	 *
-	 * @param string|null $key Sorting of the attribute list like "attribute.type", null for no sortation
+	 * @param string|null $key Sorting of the result list like "position", null for no sorting
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
@@ -110,7 +110,7 @@ interface Iface
 	/**
 	 * Adds attribute types for filtering
 	 *
-	 * @param array|string $codes Attribute ID or list of IDs
+	 * @param array|string $codes Attribute type or list of types
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */

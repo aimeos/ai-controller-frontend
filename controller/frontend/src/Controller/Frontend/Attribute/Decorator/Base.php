@@ -179,9 +179,9 @@ abstract class Base
 
 
 	/**
-	 * Sets the sorting of the attribute list
+	 * Sets the sorting of the result list
 	 *
-	 * @param string|null $key Sorting of the attribute list like "position" or "-position", null for no sortation
+	 * @param string|null $key Sorting of the result list like "position", null for no sorting
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */

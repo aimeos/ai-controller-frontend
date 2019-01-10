@@ -12,83 +12,99 @@ namespace Aimeos\Controller\Frontend\Stock;
 class StandardTest extends \PHPUnit\Framework\TestCase
 {
 	private $object;
+	private $context;
 
 
 	protected function setUp()
 	{
-		$this->object = new \Aimeos\Controller\Frontend\Stock\Standard( \TestHelperFrontend::getContext() );
+		$this->context = \TestHelperFrontend::getContext();
+		$this->object = new \Aimeos\Controller\Frontend\Stock\Standard( $this->context );
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object );
+		unset( $this->object, $this->context );
 	}
 
 
-	public function testCreateFilter()
+	public function testCode()
 	{
-		$filter = $this->object->createFilter();
-
-		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( 0, $filter->getSliceStart() );
-		$this->assertEquals( 100, $filter->getSliceSize() );
+		$this->assertEquals( 2, count( $this->object->code( ['CNC', 'CNE'] )->search() ) );
 	}
 
 
-	public function testAddFilterCodes()
+	public function testCompare()
 	{
-		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterCodes( $filter, ['CNC', 'CNE'] );
-
-		$list = $filter->getConditions()->getExpressions();
-
-		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \RuntimeException( 'Wrong expression' );
-		}
-
-		$this->assertEquals( 'stock.productcode', $list[0]->getName() );
-		$this->assertEquals( 2, count( $list[0]->getValue() ) );
+		$this->assertEquals( 1, count( $this->object->compare( '==', 'stock.stocklevel', null )->search() ) );
 	}
 
 
-	public function testAddFilterTypes()
+	public function testGet()
 	{
-		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterTypes( $filter, ['default'] );
+		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
+		$item = \Aimeos\MShop::create( $this->context, 'stock' )->findItem( 'CNC', [], 'product', 'default' );
 
-		$list = $filter->getConditions()->getExpressions();
-
-		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \RuntimeException( 'Wrong expression' );
-		}
-
-		$this->assertEquals( 'stock.type', $list[0]->getName() );
-		$this->assertEquals( 1, count( $list[0]->getValue() ) );
+		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
 	}
 
 
-	public function testGetItem()
+	public function testFind()
 	{
-		$context = \TestHelperFrontend::getContext();
-		$manager = \Aimeos\MShop::create( $context, 'stock' );
-		$id = $manager->findItem( 'CNC', [], 'product', 'default' )->getId();
-
-		$result = $this->object->getItem( $id );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Stock\Item\Iface::class, $result );
+		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
+		$this->assertInstanceOf( $iface, $this->object->find( 'CNC', 'default' ) );
 	}
 
 
-	public function testSearchItems()
+	public function testParse()
 	{
-		$filter = $this->object->createFilter();
-		$filter = $this->object->addFilterCodes( $filter, ['CNC', 'CNE'] );
+		$cond = ['||' => [['==' => ['stock.dateback' => null]], ['>=' => ['stock.dateback' => '2010-01-01 00:00:00']]]];
+		$this->assertEquals( 13, count( $this->object->parse( $cond )->search() ) );
+	}
 
+
+	public function testSearch()
+	{
 		$total = 0;
-		$results = $this->object->searchItems( $filter, $total );
+		$this->assertGreaterThanOrEqual( 15, count( $this->object->search( $total ) ) );
+		$this->assertGreaterThanOrEqual( 15, $total );
+	}
 
-		$this->assertEquals( 2, $total );
-		$this->assertEquals( 2, count( $results ) );
+
+	public function testSlice()
+	{
+		$this->assertEquals( 2, count( $this->object->slice( 0, 2 )->search() ) );
+	}
+
+
+	public function testSort()
+	{
+		$this->assertGreaterThanOrEqual( 15, count( $this->object->sort()->search() ) );
+	}
+
+
+	public function testSortGeneric()
+	{
+		$this->assertGreaterThanOrEqual( 15, count( $this->object->sort( 'stock.dateback' )->search() ) );
+	}
+
+
+	public function testSortStock()
+	{
+		$result = $this->object->sort( 'stock' )->search();
+		$this->assertStringStartsWith( 'U:TEST', reset( $result )->getProductCode() );
+	}
+
+
+	public function testSortStockDesc()
+	{
+		$result = $this->object->sort( '-stock' )->search();
+		$this->assertStringStartsWith( 'U:TEST', end( $result )->getProductCode() );
+	}
+
+
+	public function testType()
+	{
+		$this->assertEquals( 8, count( $this->object->type( 'default' )->search() ) );
 	}
 }

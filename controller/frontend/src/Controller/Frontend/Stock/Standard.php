@@ -21,59 +21,65 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	/**
-	 * Returns the given search filter with the conditions attached for filtering by product code
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for stock search
-	 * @param array $codes List of product codes
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2017.03
-	 */
-	public function addFilterCodes( \Aimeos\MW\Criteria\Iface $filter, array $codes )
-	{
-		$expr = [
-			$filter->compare( '==', 'stock.productcode', $codes ),
-			$filter->getConditions(),
-		];
-		$filter->setConditions( $filter->combine( '&&', $expr ) );
+	private $conditions = [];
+	private $filter;
+	private $manager;
 
-		return $filter;
+
+	/**
+	 * Common initialization for controller classes
+	 *
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Common MShop context object
+	 */
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context )
+	{
+		parent::__construct( $context );
+
+		$this->manager = \Aimeos\MShop::create( $context, 'stock' );
+		$this->filter = $this->manager->createSearch( true );
+		$this->conditions[] = $this->filter->getConditions();
 	}
 
 
 	/**
-	 * Returns the given search filter with the conditions attached for filtering by type code
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Criteria object used for stock search
-	 * @param array $codes List of stock type codes
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2017.03
+	 * Clones objects in controller and resets values
 	 */
-	public function addFilterTypes( \Aimeos\MW\Criteria\Iface $filter, array $codes )
+	public function __clone()
 	{
-		if( !empty( $codes ) )
-		{
-			$expr = [
-				$filter->compare( '==', 'stock.type', $codes ),
-				$filter->getConditions(),
-			];
-			$filter->setConditions( $filter->combine( '&&', $expr ) );
+		$this->filter = clone $this->filter;
+	}
+
+
+	/**
+	 * Adds the SKUs of the products for filtering
+	 *
+	 * @param array|string $codes Codes of the products
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function code( $codes )
+	{
+		if( !empty( $codes ) ) {
+			$this->conditions[] = $this->filter->compare( '==', 'stock.productcode', $codes );
 		}
 
-		return $filter;
+		return $this;
 	}
 
 
 	/**
-	 * Returns the default stock filter
+	 * Adds generic condition for filtering
 	 *
-	 * @param boolean True to add default criteria
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2017.03
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the stock manager, e.g. "stock.dateback"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function createFilter()
+	public function compare( $operator, $key, $value )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'stock' )->createSearch( true );
+		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		return $this;
 	}
 
 
@@ -81,25 +87,121 @@ class Standard
 	 * Returns the stock item for the given stock ID
 	 *
 	 * @param string $id Unique stock ID
-	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item including the referenced domains items
-	 * @since 2017.03
+	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
+	 * @since 2019.04
 	 */
-	public function getItem( $id )
+	public function get( $id )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'stock' )->getItem( $id, [], true );
+		return $this->manager->getItem( $id, [], true );
 	}
 
 
 	/**
-	 * Returns the stocks filtered by the given criteria object
+	 * Returns the stock item for the given SKU and type
 	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @param integer &$total Parameter where the total number of found stocks will be stored in
-	 * @return array Ordered list of stock items implementing \Aimeos\MShop\Stock\Item\Iface
-	 * @since 2017.03
+	 * @param string $code Unique stock code
+	 * @param string $type Type assigned to the stock item
+	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
+	 * @since 2019.04
 	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
+	public function find( $code, $type )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'stock' )->searchItems( $filter, [], $total );
+		return $this->manager->findItem( $code, [], 'product', $type, true );
+	}
+
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['>' => ['stock.dateback' => '2000-01-01 00:00:00']]
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions )
+	{
+		$this->conditions[] = $this->filter->toConditions( $conditions );
+		return $this;
+	}
+
+
+	/**
+	 * Returns the stock items filtered by the previously assigned conditions
+	 *
+	 * @param integer &$total Parameter where the total number of found stock items will be stored in
+	 * @return \Aimeos\MShop\Stock\Item\Iface[] Ordered list of stock items
+	 * @since 2019.04
+	 */
+	public function search( &$total = null )
+	{
+		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		return $this->manager->searchItems( $this->filter, [], $total );
+	}
+
+
+	/**
+	 * Sets the start value and the number of returned stock items for slicing the list of found stock items
+	 *
+	 * @param integer $start Start value of the first stock item in the list
+	 * @param integer $limit Number of returned stock items
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit )
+	{
+		$this->filter->setSlice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting of the result list like "stock.type", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null )
+	{
+		$direction = '+';
+
+		if( $key != null && $key[0] === '-' )
+		{
+			$key = substr( $key, 1 );
+			$direction = '-';
+		}
+
+		switch( $key )
+		{
+			case null:
+				$this->filter->setSortations( [] );
+				break;
+			case 'stock':
+				$this->filter->setSortations( [
+					$this->filter->sort( $direction, 'stock.type' ),
+					$this->filter->sort( $direction, 'stock.stocklevel' )
+				] );
+				break;
+			default:
+				$this->filter->setSortations( [$this->filter->sort( $direction, $key )] );
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Adds stock types for filtering
+	 *
+	 * @param array|string $types Stock type codes
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function type( $types )
+	{
+		if( !empty( $types ) ) {
+			$this->conditions[] = $this->filter->compare( '==', 'stock.type', $types );
+		}
+
+		return $this;
 	}
 }

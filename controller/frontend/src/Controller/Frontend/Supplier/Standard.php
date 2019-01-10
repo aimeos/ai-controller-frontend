@@ -21,67 +21,149 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
+	private $conditions = [];
+	private $filter;
+	private $manager;
+
+
 	/**
-	 * Returns the default supplier filter
+	 * Common initialization for controller classes
 	 *
-	 * @param boolean True to add default criteria
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2018.07
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Common MShop context object
 	 */
-	public function createFilter()
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'supplier' )->createSearch( true );
+		parent::__construct( $context );
+
+		$this->manager = \Aimeos\MShop::create( $context, 'supplier' );
+		$this->filter = $this->manager->createSearch( true );
+		$this->conditions[] = $this->filter->getConditions();
 	}
 
 
 	/**
-	 * Returns the supplier item for the given supplier ID
+	 * Clones objects in controller and resets values
+	 */
+	public function __clone()
+	{
+		$this->filter = clone $this->filter;
+	}
+
+
+	/**
+	 * Adds generic condition for filtering
+	 *
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the supplier manager, e.g. "supplier.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function compare( $operator, $key, $value )
+	{
+		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		return $this;
+	}
+
+
+	/**
+	 * Returns the supplier for the given supplier ID
 	 *
 	 * @param string $id Unique supplier ID
 	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
-	 * @since 2018.07
+	 * @since 2019.04
 	 */
-	public function getItem( $id, array $domains = array( 'media', 'text' ) )
+	public function get( $id, $domains = ['media', 'text'] )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'supplier' )->getItem( $id, $domains, true );
+		return $this->manager->getItem( $id, $domains, true );
 	}
 
 
 	/**
-	 * Returns the supplier items for the given supplier IDs
+	 * Returns the supplier for the given supplier code
 	 *
-	 * @param string $ids Unique supplier IDs
+	 * @param string $code Unique supplier code
 	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
-	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Associative list of supplier item including the referenced domains items
-	 * @since 2018.07
+	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
+	 * @since 2019.04
 	 */
-	public function getItems( array $ids, array $domains = array( 'media', 'text' ) )
+	public function find( $code, $domains = ['media', 'text'] )
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'supplier' );
-
-		$filter = $manager->createSearch( true );
-		$expr = [
-			$filter->compare( '==', 'supplier.id', $ids ),
-			$filter->getConditions(),
-		];
-		$filter->setConditions( $filter->combine( '&&', $expr ) );
-
-		return $manager->searchItems( $filter, $domains );
+		return $this->manager->findItem( $code, $domains, null, null, true );
 	}
 
 
 	/**
-	 * Returns the suppliers filtered by the given criteria object
+	 * Parses the given array and adds the conditions to the list of conditions
 	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
+	 * @param array $conditions List of conditions, e.g. ['=~' => ['supplier.label' => 'test']]
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions )
+	{
+		$this->conditions[] = $this->filter->toConditions( $conditions );
+		return $this;
+	}
+
+
+	/**
+	 * Returns the suppliers filtered by the previously assigned conditions
+	 *
 	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found suppliers will be stored in
-	 * @return array Ordered list of supplier items implementing \Aimeos\MShop\Supplier\Item\Iface
-	 * @since 2018.07
+	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
+	 * @since 2019.04
 	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = array( 'media', 'text' ), &$total = null )
+	public function search( $domains = ['media', 'text'], &$total = null )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'supplier' )->searchItems( $filter, $domains, $total );
+		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		return $this->manager->searchItems( $this->filter, $domains, $total );
+	}
+
+
+	/**
+	 * Sets the start value and the number of returned supplier items for slicing the list of found supplier items
+	 *
+	 * @param integer $start Start value of the first supplier item in the list
+	 * @param integer $limit Number of returned supplier items
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit )
+	{
+		$this->filter->setSlice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting key of the result list like "supplier.label", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null )
+	{
+		$direction = '+';
+
+		if( $key != null && $key[0] === '-' )
+		{
+			$key = substr( $key, 1 );
+			$direction = '-';
+		}
+
+		switch( $key )
+		{
+			case null:
+				$this->filter->setSortations( [] );
+				break;
+			default:
+				$this->filter->setSortations( [$this->filter->sort( $direction, $key )] );
+		}
+
+		return $this;
 	}
 }

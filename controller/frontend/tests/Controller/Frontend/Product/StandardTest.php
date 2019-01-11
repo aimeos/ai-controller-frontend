@@ -195,15 +195,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSortPrice()
 	{
-		$result = $this->object->sort( 'price' )->search( [] );
-		$this->assertEquals( 'IJKL', reset( $result )->getCode() );
+		$result = $this->object->sort( 'price' )->search( ['price'] );
+		$prices = reset( $result )->getRefItems( 'price', 'default', 'default' );
+
+		$this->assertEquals( '12.00', reset( $prices )->getValue() );
 	}
 
 
 	public function testSortPriceDesc()
 	{
-		$result = $this->object->sort( '-price' )->search( [] );
-		$this->assertTrue( in_array( reset( $result )->getCode(), ['CNC', 'U:BUNDLE'] ) );
+		$result = $this->object->sort( '-price' )->search( ['price'] );
+		$prices = reset( $result )->getRefItems( 'price', 'default', 'default' );
+
+		$this->assertEquals( '600.00', reset( $prices )->getValue() );
 	}
 
 

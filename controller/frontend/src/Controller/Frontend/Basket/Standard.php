@@ -291,7 +291,7 @@ class Standard
 		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );
 		$product->setPrice( $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity ) );
 
-		$this->get()->editProduct( $product, $position );
+		$this->get()->addProduct( $product, $position );
 
 		$this->save();
 	}

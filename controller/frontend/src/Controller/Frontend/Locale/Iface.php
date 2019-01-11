@@ -20,33 +20,59 @@ namespace Aimeos\Controller\Frontend\Locale;
 interface Iface
 {
 	/**
-	 * Returns the default locale filter
+	 * Adds generic condition for filtering
 	 *
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2017.03
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the locale manager, e.g. "locale.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function createFilter();
-
+	public function compare( $operator, $key, $value );
 
 	/**
-	 * Returns the locale item for the given locale ID
+	 * Returns the locale for the given locale ID
 	 *
 	 * @param string $id Unique locale ID
-	 * @param string[] $domains Domain names of items that are associated with the locales and that should be fetched too
 	 * @return \Aimeos\MShop\Locale\Item\Iface Locale item including the referenced domains items
-	 * @since 2017.03
+	 * @since 2019.04
 	 */
-	public function getItem( $id, array $domains = [] );
-
+	public function get( $id );
 
 	/**
-	 * Returns the locales filtered by the given criteria object
+	 * Parses the given array and adds the conditions to the list of conditions
 	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @param string[] $domains Domain names of items that are associated with the locales and that should be fetched too
-	 * @param integer &$total Parameter where the total number of found locales will be stored in
-	 * @return array Ordered list of locale items implementing \Aimeos\MShop\Locale\Item\Iface
-	 * @since 2017.03
+	 * @param array $conditions List of conditions, e.g. ['>' => ['locale.interval' => 'P0Y1M0W0D']]
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = [], &$total = null );
+	public function parse( array $conditions );
+
+	/**
+	 * Returns the locales filtered by the previously assigned conditions
+	 *
+	 * @param integer &$total Parameter where the total number of found locales will be stored in
+	 * @return \Aimeos\MShop\Locale\Item\Iface[] Ordered list of locale items
+	 * @since 2019.04
+	 */
+	public function search( &$total = null );
+
+	/**
+	 * Sets the start value and the number of returned locale items for slicing the list of found locale items
+	 *
+	 * @param integer $start Start value of the first locale item in the list
+	 * @param integer $limit Number of returned locale items
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit );
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting key of the result list like "interval", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null );
 }

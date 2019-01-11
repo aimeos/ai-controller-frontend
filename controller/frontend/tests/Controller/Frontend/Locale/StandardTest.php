@@ -12,57 +12,74 @@ namespace Aimeos\Controller\Frontend\Locale;
 class StandardTest extends \PHPUnit\Framework\TestCase
 {
 	private $object;
+	private $context;
 
 
 	protected function setUp()
 	{
-		$this->object = new \Aimeos\Controller\Frontend\Locale\Standard( \TestHelperFrontend::getContext() );
+		$this->context = \TestHelperFrontend::getContext();
+		$this->object = new \Aimeos\Controller\Frontend\Locale\Standard( $this->context );
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object );
+		unset( $this->object, $this->context );
 	}
 
 
-	public function testCreateFilter()
+	public function testCompare()
 	{
-		$filter = $this->object->createFilter();
-
-		$this->assertInstanceOf( '\\Aimeos\\MW\\Criteria\\Iface', $filter );
-		$this->assertEquals( 1, count( $filter->getSortations() ) );
-		$this->assertEquals( 0, $filter->getSliceStart() );
-		$this->assertEquals( 100, $filter->getSliceSize() );
+		$this->assertEquals( 1, count( $this->object->compare( '>', 'locale.status', 0 )->search() ) );
 	}
 
 
-	public function testGetItem()
+	public function testGet()
 	{
-		$localeManager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'locale' );
-		$search = $localeManager->createSearch( true );
-		$search->setSortations( [$search->sort( '+', 'locale.position' )] );
-		$search->setSlice( 0, 1 );
-		$localeItems = $localeManager->searchItems( $search );
+		$expected = \Aimeos\MShop\Locale\Item\Iface::class;
 
-		if( ( $localeItem = reset( $localeItems ) ) === false ) {
-			throw new \Exception( 'No locale item found' );
-		}
+		$manager = \Aimeos\MShop::create( $this->context, 'locale' );
+		$items = $manager->searchItems( $manager->createSearch( true ) );
 
-
-		$result = $this->object->getItem( $localeItem->getId() );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Locale\Item\Iface::class, $result );
+		$this->assertInstanceOf( $expected, $this->object->get( reset( $items )->getId() ) );
 	}
 
 
-	public function testSearchItems()
+	public function testParse()
+	{
+		$cond = ['>' => ['locale.status' => 0]];
+		$this->assertEquals( 1, count( $this->object->parse( $cond )->search() ) );
+	}
+
+
+	public function testSearch()
 	{
 		$total = 0;
-		$filter = $this->object->createFilter();
-		$results = $this->object->searchItems( $filter, [], $total );
+		$this->assertGreaterThanOrEqual( 1, count( $this->object->search( $total ) ) );
+		$this->assertGreaterThanOrEqual( 1, $total );
+	}
 
-		$this->assertEquals( 1, $total );
-		$this->assertEquals( 1, count( $results ) );
+
+	public function testSlice()
+	{
+		$this->assertEquals( 1, count( $this->object->slice( 0, 1 )->search() ) );
+	}
+
+
+	public function testSort()
+	{
+		$this->assertEquals( 1, count( $this->object->sort()->search() ) );
+	}
+
+
+	public function testSortPosition()
+	{
+		$this->assertEquals( 1, count( $this->object->sort( 'position' )->search() ) );
+	}
+
+
+	public function testSortGeneric()
+	{
+		$this->assertEquals( 1, count( $this->object->sort( 'locale.status' )->search() ) );
 	}
 }

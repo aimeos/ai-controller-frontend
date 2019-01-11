@@ -32,9 +32,8 @@ abstract class Base
 	 */
 	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
-		\Aimeos\MW\Common\Base::checkClass( '\\Aimeos\\Controller\\Frontend\\Locale\\Iface', $controller );
-
-		$this->controller = $controller;
+		$iface = \Aimeos\Controller\Frontend\Locale\Iface::class;
+		$this->controller = \Aimeos\MW\Common\Base::checkClass( $iface, $controller );
 
 		parent::__construct( $context );
 	}
@@ -55,44 +54,96 @@ abstract class Base
 
 
 	/**
-	 * Returns the default locale filter
-	 *
-	 * @param boolean True to add default criteria
-	 * @return \Aimeos\MW\Criteria\Iface Criteria object containing the conditions for searching
-	 * @since 2017.03
+	 * Clones objects in controller and resets values
 	 */
-	public function createFilter()
+	public function __clone()
 	{
-		return $this->controller->createFilter();
+		$this->controller = clone $this->controller;
 	}
 
 
 	/**
-	 * Returns the locale item for the given locale ID
+	 * Adds generic condition for filtering
 	 *
-	 * @param string $id Unique locale ID
-	 * @param string[] $domains Domain names of items that are associated with the locales and that should be fetched too
-	 * @return \Aimeos\MShop\Locale\Item\Iface Locale item including the referenced domains items
-	 * @since 2017.03
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the subscription manager, e.g. "subscription.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function getItem( $id, array $domains = [] )
+	public function compare( $operator, $key, $value )
 	{
-		return $this->controller->getItem( $id, $domains );
+		$this->controller->compare( $operator, $key, $value );
+		return $this;
 	}
 
 
 	/**
-	 * Returns the locales filtered by the given criteria object
+	 * Returns the subscription for the given subscription ID
 	 *
-	 * @param \Aimeos\MW\Criteria\Iface $filter Critera object which contains the filter conditions
-	 * @param string[] $domains Domain names of items that are associated with the locales and that should be fetched too
-	 * @param integer &$total Parameter where the total number of found locales will be stored in
-	 * @return array Ordered list of locale items implementing \Aimeos\MShop\Locale\Item\Iface
-	 * @since 2017.03
+	 * @param string $id Unique subscription ID
+	 * @return \Aimeos\MShop\Subscription\Item\Iface Subscription item including the referenced domains items
+	 * @since 2019.04
 	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, array $domains = [], &$total = null )
+	public function get( $id )
 	{
-		return $this->controller->searchItems( $filter, $domains, $total );
+		return $this->controller->get( $id );
+	}
+
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['>' => ['subscription.interval' => 'P0Y1M0W0D']]
+	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions )
+	{
+		$this->controller->parse( $conditions );
+		return $this;
+	}
+
+
+	/**
+	 * Returns the subscriptions filtered by the previously assigned conditions
+	 *
+	 * @param integer &$total Parameter where the total number of found subscriptions will be stored in
+	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
+	 * @since 2019.04
+	 */
+	public function search( &$total = null )
+	{
+		return $this->controller->search( $total );
+	}
+
+
+	/**
+	 * Sets the start value and the number of returned subscription items for slicing the list of found subscription items
+	 *
+	 * @param integer $start Start value of the first subscription item in the list
+	 * @param integer $limit Number of returned subscription items
+	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit )
+	{
+		$this->controller->slice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting key of the result list like "interval", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null )
+	{
+		$this->controller->sort( $key );
+		return $this;
 	}
 
 

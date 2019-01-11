@@ -65,36 +65,69 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCreateFilter()
+	public function testCompare()
 	{
-		$search = \Aimeos\MShop::create( $this->context, 'locale' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Locale\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'createFilter' )
-			->will( $this->returnValue( $search ) );
+		$this->stub->expects( $this->once() )->method( 'compare' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
+		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'locale.status', 1 ) );
 	}
 
 
-	public function testGetItem()
+	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'locale' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'getItem' )
+		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Locale\Item\Iface::class, $this->object->getItem( -1 ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Locale\Item\Iface::class, $this->object->get( -1 ) );
 	}
 
 
-	public function testSearchItems()
+	public function testParse()
 	{
-		$filter = \Aimeos\MShop::create( $this->context, 'locale' )->createSearch();
+		$expected = \Aimeos\Controller\Frontend\Locale\Iface::class;
 
-		$this->stub->expects( $this->once() )->method( 'searchItems' )
-			->will( $this->returnValue( [] ) );
+		$this->stub->expects( $this->once() )->method( 'parse' )
+			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertEquals( [], $this->object->searchItems( $filter, ['media'] ) );
+		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+	}
+
+
+	public function testSearch()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'locale' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'search' )
+			->will( $this->returnValue( [$item] ) );
+
+		$this->assertEquals( [$item], $this->object->search() );
+	}
+
+
+	public function testSlice()
+	{
+		$expected = \Aimeos\Controller\Frontend\Locale\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'slice' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+	}
+
+
+	public function testSort()
+	{
+		$expected = \Aimeos\Controller\Frontend\Locale\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'sort' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->sort( 'position' ) );
 	}
 
 

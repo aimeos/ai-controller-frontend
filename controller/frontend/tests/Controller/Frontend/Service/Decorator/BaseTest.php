@@ -100,9 +100,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'process' )
-			->will( $this->returnValue( new \Aimeos\MShop\Common\Item\Helper\Form\Standard() ) );
+			->will( $this->returnValue( new \Aimeos\MShop\Common\Helper\Form\Standard() ) );
 
-		$this->assertInstanceOf( 'Aimeos\MShop\Common\Item\Helper\Form\Iface', $this->object->process( $item, -1, [], [] ) );
+		$this->assertInstanceOf( 'Aimeos\MShop\Common\Helper\Form\Iface', $this->object->process( $item, -1, [], [] ) );
 	}
 
 

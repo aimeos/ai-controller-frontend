@@ -58,7 +58,7 @@ interface Iface
 	 * @param array $urls Associative list of keys and the corresponding URLs
 	 * 	(keys are <type>.url-self, <type>.url-success, <type>.url-update where type can be "delivery" or "payment")
 	 * @param array $params Request parameters and order service attributes
-	 * @return \Aimeos\MShop\Common\Item\Helper\Form\Iface|null Form object with URL, parameters, etc.
+	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
 	 * 	or null if no form data is required
 	 */
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params );

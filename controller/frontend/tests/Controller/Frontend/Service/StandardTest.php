@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testProcess()
 	{
-		$form = new \Aimeos\MShop\Common\Item\Helper\Form\Standard();
+		$form = new \Aimeos\MShop\Common\Helper\Form\Standard();
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 		$serviceId = \Aimeos\MShop::create( $this->context, 'service' )->findItem( 'unitcode' )->getId();
 
@@ -89,7 +89,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$result = $this->object->process( $item, $serviceId, [], [] );
-		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Helper\Form\Iface::class, $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Helper\Form\Iface::class, $result );
 	}
 
 

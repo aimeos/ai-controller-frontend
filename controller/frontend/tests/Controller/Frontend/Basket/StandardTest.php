@@ -422,15 +422,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddCouponInvalidCode()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->setExpectedException( \Aimeos\MShop\Plugin\Provider\Exception::class );
 		$this->object->addCoupon( 'invalid' );
-	}
-
-
-	public function testAddCouponMissingRequirements()
-	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addCoupon( 'OPQR' );
 	}
 
 

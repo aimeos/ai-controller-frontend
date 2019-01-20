@@ -331,36 +331,7 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
-
-		$manager = \Aimeos\MShop::create( $context, 'coupon' );
-		$codeManager = \Aimeos\MShop::create( $context, 'coupon/code' );
-
-		$search = $manager->createSearch( true )->setSlice( 0, 1 );
-		$expr = [
-			$search->compare( '==', 'coupon.code.code', $code ),
-			$codeManager->createSearch( true )->getConditions(),
-			$search->getConditions(),
-		];
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$result = $manager->searchItems( $search );
-
-		if( ( $item = reset( $result ) ) === false )
-		{
-			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Coupon code "%1$s" is invalid or not available any more' ), $code );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-
-
-		$provider = $manager->getProvider( $item, $code );
-
-		if( $provider->isAvailable( $this->get() ) !== true )
-		{
-			$msg = sprintf( $context->getI18n()->dt( 'controller/frontend', 'Requirements for coupon code "%1$s" aren\'t met' ), $code );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
-		}
-
-		$provider->addCoupon( $this->get() );
+		$this->get()->addCoupon( $code );
 		$this->save();
 	}
 
@@ -373,22 +344,7 @@ class Standard
 	 */
 	public function deleteCoupon( $code )
 	{
-		$context = $this->getContext();
-		$manager = \Aimeos\MShop::create( $context, 'coupon' );
-
-		$search = $manager->createSearch();
-		$search->setConditions( $search->compare( '==', 'coupon.code.code', $code ) );
-		$search->setSlice( 0, 1 );
-
-		$result = $manager->searchItems( $search );
-
-		if( ( $item = reset( $result ) ) === false )
-		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Coupon code "%1$s" is invalid' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $code ) );
-		}
-
-		$manager->getProvider( $item, $code )->deleteCoupon( $this->get() );
+		$this->get()->deleteCoupon( $code );
 		$this->save();
 	}
 

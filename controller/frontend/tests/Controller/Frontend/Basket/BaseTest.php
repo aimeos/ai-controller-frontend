@@ -47,7 +47,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem = $manager->createItem();
 
 		$address = $this->getAddress( 'Example company' );
-		$ordBaseItem->setAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
+		$ordBaseItem->addAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
 
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
@@ -61,7 +61,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( ['test'], $result );
 		$this->assertEquals( 1, count( $object->get()->getAddresses() ) );
 
-		$addr = $object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
+		$addr = $object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Address\Iface::class, $addr );
 
 		$object->clear();
@@ -74,15 +74,15 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordBaseItem = $manager->createItem();
 
 		$address = $this->getAddress( 'Example company' );
-		$ordBaseItem->setAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
+		$ordBaseItem->addAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
 
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['setAddress'] )
+			->setMethods( ['get'] )
 			->getMock();
 
-		$object->expects( $this->once() )->method( 'setAddress' )->will( $this->throwException( new \Exception() ) );
+		$object->expects( $this->once() )->method( 'get' )->will( $this->throwException( new \Exception() ) );
 
 		$result = $this->access( 'copyAddresses' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
 

@@ -360,16 +360,15 @@ class Standard
 	public function setAddress( $type, $value )
 	{
 		$context = $this->getContext();
-		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->createItem();
-		$address->setType( $type );
+		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->createItem()->setType( $type );
 
 		if( $value instanceof \Aimeos\MShop\Common\Item\Address\Iface )
 		{
-			$this->get()->setAddress( $address->copyFrom( $value ), $type );
+			$this->get()->addAddress( $address->copyFrom( $value ), $type, 0 );
 		}
 		else if( is_array( $value ) )
 		{
-			$this->get()->setAddress( $this->setAddressFromArray( $address, $value ), $type );
+			$this->get()->addAddress( $this->setAddressFromArray( $address, $value ), $type, 0 );
 		}
 		else if( $value === null )
 		{

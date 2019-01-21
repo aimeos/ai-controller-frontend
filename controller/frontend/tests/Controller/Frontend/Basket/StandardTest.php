@@ -444,7 +444,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, null );
 
 		$this->setExpectedException( \Aimeos\MShop\Order\Exception::class );
-		$this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
+		$this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
 	}
 
 
@@ -454,7 +454,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $item );
 
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
+		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
 		$this->assertEquals( 'Example company', $address->getCompany() );
 	}
 
@@ -484,7 +484,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $fixture );
 
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
+		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
 		$this->assertEquals( 'Example company', $address->getCompany() );
 		$this->assertEquals( 'Dr.', $address->getTitle() );
 		$this->assertEquals( 'firstunit', $address->getFirstname() );
@@ -511,7 +511,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $item );
 
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY );
+		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 0 );
 		$this->assertEquals( 'Example company', $address->getCompany() );
 	}
 
@@ -540,7 +540,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		);
 		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $fixture );
 
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY );
+		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 0 );
 		$this->assertEquals( 'Example company', $address->getCompany() );
 		$this->assertEquals( 'Dr.', $address->getTitle() );
 		$this->assertEquals( 'firstunit', $address->getFirstname() );

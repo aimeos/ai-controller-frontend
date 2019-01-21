@@ -177,21 +177,25 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function copyAddresses( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
 	{
-		foreach( $basket->getAddresses() as $type => $item )
+		foreach( $basket->getAddresses() as $type => $items )
 		{
-			try
+			foreach( $items as $pos => $item )
 			{
-				$this->setAddress( $type, $item->toArray() );
-				$basket->deleteAddress( $type );
-			}
-			catch( \Exception $e )
-			{
-				$logger = $this->getContext()->getLogger();
-				$errors['address'][$type] = $e->getMessage();
+				try
+				{
+					$this->get()->addAddress( $item, $type, $pos );
+				}
+				catch( \Exception $e )
+				{
+					$logger = $this->getContext()->getLogger();
+					$errors['address'][$type] = $e->getMessage();
 
-				$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
-				$logger->log( sprintf( $str, $type, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+					$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
+					$logger->log( sprintf( $str, $type, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+				}
 			}
+
+			$basket->deleteAddress( $type );
 		}
 
 		return $errors;

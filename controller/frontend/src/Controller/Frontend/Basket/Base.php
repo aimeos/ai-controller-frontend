@@ -153,7 +153,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$context->setLocale( $locale );
 
 			$manager = \Aimeos\MShop::create( $context, 'order/base' );
-			$basket = $manager->getSession( $type );
+			$basket = $manager->getSession( $type )->off();
 
 			$this->copyAddresses( $basket, $errors, $localeKey );
 			$this->copyServices( $basket, $errors );

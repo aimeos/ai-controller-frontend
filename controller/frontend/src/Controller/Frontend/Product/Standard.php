@@ -56,8 +56,9 @@ class Standard
 		{
 			if( ( $list = $this->validateIds( (array) $list ) ) !== [] )
 			{
+				$func = $filter->createFunction( 'index.attribute:oneof', [$list] );
 				$expr = array(
-					$filter->compare( '==', 'index.attribute.id', $list ),
+					$filter->compare( '!=', $func, null ),
 					$filter->getConditions(),
 				);
 				$filter->setConditions( $filter->combine( '&&', $expr ) );

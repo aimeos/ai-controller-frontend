@@ -99,8 +99,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'Wrong expression' );
 		}
 
-		$this->assertEquals( 'index.attribute.id', $list[0]->getName() );
-		$this->assertEquals( [2], $list[0]->getValue() );
+		$this->assertEquals( 'index.attribute:oneof([2])', $list[0]->getName() );
+		$this->assertEquals( null, $list[0]->getValue() );
 	}
 
 

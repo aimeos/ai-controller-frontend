@@ -199,14 +199,18 @@ class Standard
 
 		foreach( $attrIds as $key => $entry )
 		{
-			if( is_array( $entry ) && ( $ids = array_unique( $this->validateIds( $entry ) ) ) !== [] ) {
-				$this->conditions[] = $this->filter->compare( '==', 'index.attribute.id', $ids );
+			if( is_array( $entry ) && ( $ids = array_unique( $this->validateIds( $entry ) ) ) !== [] )
+			{
+				$func = $this->filter->createFunction( 'index.attribute:oneof', [$ids] );
+				$this->conditions[] = $this->filter->compare( '!=', $func, null );
 				unset( $attrIds[$key] );
 			}
 		}
 
-		if( ( $ids = array_unique( $this->validateIds( $attrIds ) ) ) !== [] ) {
-			$this->conditions[] = $this->filter->compare( '==', 'index.attribute.id', $ids );
+		if( ( $ids = array_unique( $this->validateIds( $attrIds ) ) ) !== [] )
+		{
+			$func = $this->filter->createFunction( 'index.attribute:oneof', [$ids] );
+			$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		}
 
 		return $this;

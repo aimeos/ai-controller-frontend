@@ -92,9 +92,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
-		$width = $manager->findItem( '29', [], 'product', 'width' )->getId();
+		$width = $manager->findItem( '30', [], 'product', 'width' )->getId();
 
-		$this->assertEquals( 4, count( $this->object->oneOf( [$length, $width] )->search() ) );
+		$this->assertEquals( 3, count( $this->object->oneOf( [$length, $width] )->search() ) );
 	}
 
 
@@ -103,9 +103,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
 		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
-		$width = $manager->findItem( '29', [], 'product', 'width' )->getId();
+		$width = $manager->findItem( '30', [], 'product', 'width' )->getId();
 
-		$this->assertEquals( 4, count( $this->object->oneOf( [[$length, $width]] )->search() ) );
+		$this->assertEquals( 1, count( $this->object->oneOf( [[$length], [$width]] )->search() ) );
 	}
 
 

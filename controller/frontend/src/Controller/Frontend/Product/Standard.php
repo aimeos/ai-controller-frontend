@@ -94,7 +94,7 @@ class Standard
 	{
 		if( !empty( $attrIds ) && ( $ids = array_unique( $this->validateIds( (array) $attrIds ) ) ) !== [] )
 		{
-			$func = $this->filter->createFunction( 'index.attribute:all', [$ids] );
+			$func = $this->filter->createFunction( 'index.attribute:allof', [$ids] );
 			$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		}
 

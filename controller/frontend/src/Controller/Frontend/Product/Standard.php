@@ -39,24 +39,7 @@ class Standard
 		$this->manager = \Aimeos\MShop::create( $context, 'index' );
 		$this->filter = $this->manager->createSearch( true );
 		$this->conditions[] = $this->filter->compare( '!=', 'index.catalog.id', null );
-
-		/** controller/frontend/product/ignore-dates
-		 * Ignore start and end dates of products
-		 *
-		 * Usually, products are only shown in the product list if their start/end
-		 * dates are not set or if the current date is withing the start/end date
-		 * range of the product. This settings will list all products that wouldn't
-		 * be shown due to their start/end dates but they still can't be bought.
-		 *
-		 * @param boolean True to show products whose start/end date range doesn't match the current date, false to hide them
-		 * @since 2017.08
-		 * @category Developer
-		 */
-		if( $context->getConfig()->get( 'controller/frontend/product/ignore-dates', false ) ) {
-			$this->conditions[] = $this->filter->compare( '>', 'product.status', 0 );
-		} else {
-			$this->conditions[] = $this->filter->getConditions();
-		}
+		$this->conditions[] = $this->filter->getConditions();
 	}
 
 

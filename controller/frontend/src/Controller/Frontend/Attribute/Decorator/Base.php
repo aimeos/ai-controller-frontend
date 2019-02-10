@@ -129,7 +129,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'price', 'text'], $type )
+	public function find( $code, $domains = ['media', 'price', 'text'], $type = 'product' )
 	{
 		return $this->controller->find( $code, $domains, $type );
 	}

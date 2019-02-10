@@ -23,7 +23,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$config->set( 'controller/frontend/common/decorators/default', [] );
 		$config->set( 'controller/frontend/catalog/decorators/global', [] );
 		$config->set( 'controller/frontend/catalog/decorators/local', [] );
-
 	}
 
 

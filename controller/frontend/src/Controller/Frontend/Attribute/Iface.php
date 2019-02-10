@@ -67,7 +67,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'price', 'text'], $type );
+	public function find( $code, $domains = ['media', 'price', 'text'], $type = 'product' );
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions

@@ -17,8 +17,8 @@ namespace Aimeos\Controller;
  */
 class Frontend
 {
-	static private $cache = true;
-	static private $objects = [];
+	private static $cache = true;
+	private static $objects = [];
 
 
 	/**
@@ -27,7 +27,7 @@ class Frontend
 	 * @param boolean $value True to enable caching, false to disable it.
 	 * @return boolean Previous cache setting
 	 */
-	static public function cache( $value )
+	public static function cache( $value )
 	{
 		self::$cache = (boolean) $value;
 		self::$objects = [];
@@ -49,7 +49,7 @@ class Frontend
 	 * @return \Aimeos\Controller\Frontend\Iface New frontend controller
 	 * @throws \Aimeos\Controller\Frontend\Exception If the given path is invalid or the manager wasn't found
 	 */
-	static public function create( \Aimeos\MShop\Context\Item\Iface $context, $path )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path )
 	{
 		if( empty( $path ) ) {
 			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Controller path is empty' ) );

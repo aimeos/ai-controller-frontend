@@ -36,6 +36,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFind()
+	{
+		$iface = \Aimeos\MShop\Catalog\Item\Iface::class;
+		$this->assertInstanceOf( $iface, $this->object->find( 'cafe', [] ) );
+	}
+
+
 	public function testGet()
 	{
 		$iface = \Aimeos\MShop\Catalog\Item\Iface::class;
@@ -67,13 +74,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		}
 
 		$this->assertEquals( 2, count( $tree->getChildren() ) );
-	}
-
-
-	public function testFind()
-	{
-		$iface = \Aimeos\MShop\Catalog\Item\Iface::class;
-		$this->assertInstanceOf( $iface, $this->object->find( 'cafe', [] ) );
 	}
 
 

@@ -79,20 +79,6 @@ abstract class Base
 
 
 	/**
-	 * Returns the supplier for the given supplier ID
-	 *
-	 * @param string $id Unique supplier ID
-	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
-	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
-	 * @since 2019.04
-	 */
-	public function get( $id, $domains = ['media', 'text'] )
-	{
-		return $this->controller->get( $id, $domains );
-	}
-
-
-	/**
 	 * Returns the supplier for the given supplier code
 	 *
 	 * @param string $code Unique supplier code
@@ -103,6 +89,20 @@ abstract class Base
 	public function find( $code, $domains = ['media', 'text'] )
 	{
 		return $this->controller->find( $code, $domains );
+	}
+
+
+	/**
+	 * Returns the supplier for the given supplier ID
+	 *
+	 * @param string $id Unique supplier ID
+	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
+	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function get( $id, $domains = ['media', 'text'] )
+	{
+		return $this->controller->get( $id, $domains );
 	}
 
 

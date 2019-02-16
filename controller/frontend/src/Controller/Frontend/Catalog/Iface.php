@@ -31,6 +31,16 @@ interface Iface
 	public function compare( $operator, $key, $value );
 
 	/**
+	 * Returns the category for the given catalog code
+	 *
+	 * @param string $code Unique catalog code
+	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function find( $code, array $domains = ['media', 'text'] );
+
+	/**
 	 * Returns the category for the given catalog ID
 	 *
 	 * @param string $id Unique catalog ID
@@ -59,16 +69,6 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function getTree( array $domains = ['media', 'text'], $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE );
-
-	/**
-	 * Returns the category for the given catalog code
-	 *
-	 * @param string $code Unique catalog code
-	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
-	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
-	 * @since 2019.04
-	 */
-	public function find( $code, array $domains = ['media', 'text'] );
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions

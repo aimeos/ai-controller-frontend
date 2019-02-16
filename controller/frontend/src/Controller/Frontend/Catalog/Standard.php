@@ -68,6 +68,20 @@ class Standard
 
 
 	/**
+	 * Returns the category for the given catalog code
+	 *
+	 * @param string $code Unique catalog code
+	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function find( $code, array $domains = ['media', 'text'] )
+	{
+		return $this->manager->findItem( $code, $domains, null, null, true );
+	}
+
+
+	/**
 	 * Returns the category for the given catalog ID
 	 *
 	 * @param string $id Unique catalog ID
@@ -120,20 +134,6 @@ class Standard
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->getTree( $this->root, $domains, $level, $this->filter );
-	}
-
-
-	/**
-	 * Returns the category for the given catalog code
-	 *
-	 * @param string $code Unique catalog code
-	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
-	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
-	 * @since 2019.04
-	 */
-	public function find( $code, array $domains = ['media', 'text'] )
-	{
-		return $this->manager->findItem( $code, $domains, null, null, true );
 	}
 
 

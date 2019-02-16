@@ -60,16 +60,6 @@ interface Iface
 	public function compare( $operator, $key, $value );
 
 	/**
-	 * Returns the product for the given product ID
-	 *
-	 * @param string $id Unique product ID
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
-	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
-	 * @since 2019.04
-	 */
-	public function get( $id, $domains = ['media', 'price', 'text'] );
-
-	/**
 	 * Returns the product for the given product code
 	 *
 	 * @param string $code Unique product code
@@ -78,6 +68,16 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function find( $code, $domains = ['media', 'price', 'text'] );
+
+	/**
+	 * Returns the product for the given product ID
+	 *
+	 * @param string $id Unique product ID
+	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function get( $id, $domains = ['media', 'price', 'text'] );
 
 	/**
 	 * Adds attribute IDs for filtering where products must reference at least one ID

@@ -87,18 +87,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testGet()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'stock' )->createItem();
-		$expected = \Aimeos\MShop\Stock\Item\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( $expected, $this->object->get( 1 ) );
-	}
-
-
 	public function testFind()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'stock' )->createItem();
@@ -108,6 +96,18 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->will( $this->returnValue( $item ) );
 
 		$this->assertInstanceOf( $expected, $this->object->find( 'test', 'default' ) );
+	}
+
+
+	public function testGet()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'stock' )->createItem();
+		$expected = \Aimeos\MShop\Stock\Item\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'get' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( $expected, $this->object->get( 1 ) );
 	}
 
 

@@ -40,19 +40,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFind()
+	{
+		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
+		$this->assertInstanceOf( $iface, $this->object->find( 'CNC', 'default' ) );
+	}
+
+
 	public function testGet()
 	{
 		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
 		$item = \Aimeos\MShop::create( $this->context, 'stock' )->findItem( 'CNC', [], 'product', 'default' );
 
 		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
-	}
-
-
-	public function testFind()
-	{
-		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
-		$this->assertInstanceOf( $iface, $this->object->find( 'CNC', 'default' ) );
 	}
 
 

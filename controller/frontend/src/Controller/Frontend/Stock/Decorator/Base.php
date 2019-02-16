@@ -84,19 +84,6 @@ abstract class Base
 
 
 	/**
-	 * Returns the stock item for the given stock ID
-	 *
-	 * @param string $id Unique stock ID
-	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
-	 * @since 2019.04
-	 */
-	public function get( $id )
-	{
-		return $this->controller->get( $id );
-	}
-
-
-	/**
 	 * Returns the stock item for the given SKU and type
 	 *
 	 * @param string $code Unique stock code
@@ -107,6 +94,19 @@ abstract class Base
 	public function find( $code, $type )
 	{
 		return $this->controller->find( $code, $type );
+	}
+
+
+	/**
+	 * Returns the stock item for the given stock ID
+	 *
+	 * @param string $id Unique stock ID
+	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
+	 * @since 2019.04
+	 */
+	public function get( $id )
+	{
+		return $this->controller->get( $id );
 	}
 
 

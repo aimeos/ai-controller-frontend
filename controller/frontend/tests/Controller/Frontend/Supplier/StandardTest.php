@@ -34,19 +34,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFind()
+	{
+		$iface = \Aimeos\MShop\Supplier\Item\Iface::class;
+		$this->assertInstanceOf( $iface, $this->object->find( 'unitCode001' ) );
+	}
+
+
 	public function testGet()
 	{
 		$iface = \Aimeos\MShop\Supplier\Item\Iface::class;
 		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->findItem( 'unitCode001' );
 
 		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
-	}
-
-
-	public function testFind()
-	{
-		$iface = \Aimeos\MShop\Supplier\Item\Iface::class;
-		$this->assertInstanceOf( $iface, $this->object->find( 'unitCode001' ) );
 	}
 
 

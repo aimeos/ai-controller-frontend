@@ -40,15 +40,6 @@ interface Iface
 	public function compare( $operator, $key, $value );
 
 	/**
-	 * Returns the stock item for the given stock ID
-	 *
-	 * @param string $id Unique stock ID
-	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
-	 * @since 2019.04
-	 */
-	public function get( $id );
-
-	/**
 	 * Returns the stock item for the given SKU and type
 	 *
 	 * @param string $code Unique stock code
@@ -57,6 +48,15 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function find( $code, $type );
+
+	/**
+	 * Returns the stock item for the given stock ID
+	 *
+	 * @param string $id Unique stock ID
+	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
+	 * @since 2019.04
+	 */
+	public function get( $id );
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions

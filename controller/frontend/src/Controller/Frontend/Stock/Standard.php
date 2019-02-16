@@ -84,19 +84,6 @@ class Standard
 
 
 	/**
-	 * Returns the stock item for the given stock ID
-	 *
-	 * @param string $id Unique stock ID
-	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
-	 * @since 2019.04
-	 */
-	public function get( $id )
-	{
-		return $this->manager->getItem( $id, [], true );
-	}
-
-
-	/**
 	 * Returns the stock item for the given SKU and type
 	 *
 	 * @param string $code Unique stock code
@@ -107,6 +94,19 @@ class Standard
 	public function find( $code, $type )
 	{
 		return $this->manager->findItem( $code, [], 'product', $type, true );
+	}
+
+
+	/**
+	 * Returns the stock item for the given stock ID
+	 *
+	 * @param string $id Unique stock ID
+	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
+	 * @since 2019.04
+	 */
+	public function get( $id )
+	{
+		return $this->manager->getItem( $id, [], true );
 	}
 
 

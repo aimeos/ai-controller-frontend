@@ -73,17 +73,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFind()
+	{
+		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $this->object->find( 'CNC' ) );
+	}
+
+
 	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $this->object->get( $item->getId() ) );
-	}
-
-
-	public function testFind()
-	{
-		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $this->object->find( 'CNC' ) );
 	}
 
 

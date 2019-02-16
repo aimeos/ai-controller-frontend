@@ -140,20 +140,6 @@ class Standard
 
 
 	/**
-	 * Returns the product for the given product ID
-	 *
-	 * @param string $id Unique product ID
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
-	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
-	 * @since 2019.04
-	 */
-	public function get( $id, $domains = ['media', 'price', 'text'] )
-	{
-		return $this->manager->getItem( $id, $domains, true );
-	}
-
-
-	/**
 	 * Returns the product for the given product code
 	 *
 	 * @param string $code Unique product code
@@ -164,6 +150,20 @@ class Standard
 	public function find( $code, $domains = ['media', 'price', 'text'] )
 	{
 		return $this->manager->findItem( $code, $domains, 'product', null, true );
+	}
+
+
+	/**
+	 * Returns the product for the given product ID
+	 *
+	 * @param string $id Unique product ID
+	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function get( $id, $domains = ['media', 'price', 'text'] )
+	{
+		return $this->manager->getItem( $id, $domains, true );
 	}
 
 

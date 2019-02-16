@@ -107,20 +107,6 @@ abstract class Base
 
 
 	/**
-	 * Returns the attribute for the given attribute ID
-	 *
-	 * @param string $id Unique attribute ID
-	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
-	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
-	 * @since 2019.04
-	 */
-	public function get( $id, $domains = ['media', 'price', 'text'] )
-	{
-		return $this->controller->get( $id, $domains );
-	}
-
-
-	/**
 	 * Returns the attribute for the given attribute code
 	 *
 	 * @param string $code Unique attribute code
@@ -132,6 +118,20 @@ abstract class Base
 	public function find( $code, $domains = ['media', 'price', 'text'], $type = 'product' )
 	{
 		return $this->controller->find( $code, $domains, $type );
+	}
+
+
+	/**
+	 * Returns the attribute for the given attribute ID
+	 *
+	 * @param string $id Unique attribute ID
+	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
+	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function get( $id, $domains = ['media', 'price', 'text'] )
+	{
+		return $this->controller->get( $id, $domains );
 	}
 
 

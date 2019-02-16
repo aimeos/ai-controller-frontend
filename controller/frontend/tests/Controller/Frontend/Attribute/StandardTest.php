@@ -67,10 +67,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testHas()
+	{
+		$this->assertEquals( 2, count( $this->object->has( 'price', 'default' )->search() ) );
+	}
+
+
 	public function testParse()
 	{
 		$cond = ['&&' => [['>' => ['attribute.status' => 0]], ['==' => ['attribute.type' => 'color']]]];
 		$this->assertEquals( 5, count( $this->object->parse( $cond )->search() ) );
+	}
+
+
+	public function testProperty()
+	{
+		$this->assertEquals( 1, count( $this->object->property( 'size', '1024' )->search() ) );
 	}
 
 

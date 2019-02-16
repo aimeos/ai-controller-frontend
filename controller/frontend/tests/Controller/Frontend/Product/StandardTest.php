@@ -87,6 +87,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testHas()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
+		$attrId = $manager->findItem( '30', [], 'product', 'length' )->getId();
+
+		$this->assertEquals( 1, count( $this->object->has( 'attribute', 'variant', $attrId )->search() ) );
+	}
+
+
 	public function testOneOf()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
@@ -124,6 +133,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$cneId = $manager->findItem( 'CNE' )->getId();
 
 		$this->assertEquals( 2, count( $this->object->product( [$cncId, $cneId] )->search() ) );
+	}
+
+
+	public function testProperty()
+	{
+		$this->assertEquals( 1, count( $this->object->property( 'package-weight', '1.25' )->search() ) );
 	}
 
 

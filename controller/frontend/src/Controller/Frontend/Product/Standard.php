@@ -168,6 +168,27 @@ class Standard
 
 
 	/**
+	 * Adds a filter to return only items containing a reference to the given ID
+	 *
+	 * @param string $domain Domain name of the referenced item, e.g. "attribute"
+	 * @param string|null $type Type code of the reference, e.g. "variant" or null for all types
+	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function has( $domain, $type = null, $refId = null )
+	{
+		$params = [$domain];
+		!$type ?: $params[] = $type;
+		!$refId ?: $params[] = $refId;
+
+		$func = $this->filter->createFunction( 'product:has', $params );
+		$this->conditions[] = $this->filter->compare( '!=', $func, null );
+		return $this;
+	}
+
+
+	/**
 	 * Adds attribute IDs for filtering where products must reference at least one ID
 	 *
 	 * If an array of ID lists is given, each ID list is added separately as condition.
@@ -227,6 +248,23 @@ class Standard
 			$this->conditions[] = $this->filter->compare( '==', 'product.id', $ids );
 		}
 
+		return $this;
+	}
+
+
+	/**
+	 * Adds a filter to return only items containing the property
+	 *
+	 * @param string $type Type code of the property, e.g. "isbn"
+	 * @param string|null $value Exact value of the property
+	 * @param string|null $langId ISO country code (en or en_US) or null if not language specific
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function property( $type, $value = null, $langId = null )
+	{
+		$func = $this->filter->createFunction( 'product:prop', [$type, $langId, $value] );
+		$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		return $this;
 	}
 

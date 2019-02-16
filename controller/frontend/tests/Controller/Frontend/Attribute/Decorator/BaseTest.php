@@ -122,6 +122,17 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testHas()
+	{
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'has' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->has( 'price', 'default', -1 ) );
+	}
+
+
 	public function testParse()
 	{
 		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
@@ -130,6 +141,17 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->will( $this->returnValue( $this->stub ) );
 
 		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+	}
+
+
+	public function testProperty()
+	{
+		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'property' )
+			->will( $this->returnValue( $this->stub ) );
+
+		$this->assertInstanceOf( $expected, $this->object->property( 'test', 'value' ) );
 	}
 
 

@@ -70,6 +70,17 @@ interface Iface
 	public function get( $id, $domains = ['media', 'price', 'text'] );
 
 	/**
+	 * Adds a filter to return only items containing a reference to the given ID
+	 *
+	 * @param string $domain Domain name of the referenced item, e.g. "price"
+	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
+	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function has( $domain, $type = null, $refId = null );
+
+	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
 	 * @param array $conditions List of conditions, e.g. ['&&' => [['>' => ['attribute.status' => 0]], ['==' => ['attribute.type' => 'color']]]]
@@ -77,6 +88,17 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function parse( array $conditions );
+
+	/**
+	 * Adds a filter to return only items containing the property
+	 *
+	 * @param string $type Type code of the property, e.g. "isbn"
+	 * @param string|null $value Exact value of the property
+	 * @param string|null $langId ISO country code (en or en_US) or null if not language specific
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Product controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function property( $type, $value = null, $langId = null );
 
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions

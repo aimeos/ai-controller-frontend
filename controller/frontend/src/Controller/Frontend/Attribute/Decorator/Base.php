@@ -136,6 +136,21 @@ abstract class Base
 
 
 	/**
+	 * Adds a filter to return only items containing a reference to the given ID
+	 *
+	 * @param string $domain Domain name of the referenced item, e.g. "price"
+	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
+	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function has( $domain, $type = null, $refId = null )
+	{
+		return $this->controller->has( $domain, $type, $refId );
+	}
+
+
+	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
 	 * @param array $conditions List of conditions, e.g. ['&&' => [['>' => ['attribute.status' => 0]], ['==' => ['attribute.type' => 'color']]]]
@@ -145,6 +160,22 @@ abstract class Base
 	public function parse( array $conditions )
 	{
 		$this->controller->parse( $conditions );
+		return $this;
+	}
+
+
+	/**
+	 * Adds a filter to return only items containing the property
+	 *
+	 * @param string $type Type code of the property, e.g. "htmlcolor"
+	 * @param string|null $value Exact value of the property
+	 * @param string|null $langId ISO country code (en or en_US) or null if not language specific
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function property( $type, $value = null, $langId = null )
+	{
+		$this->controller->property( $type, $value, $langId );
 		return $this;
 	}
 

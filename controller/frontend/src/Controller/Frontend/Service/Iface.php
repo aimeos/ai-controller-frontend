@@ -24,13 +24,24 @@ use \Psr\Http\Message\ResponseInterface;
 interface Iface
 {
 	/**
-	 * Returns a list of attributes that are invalid
+	 * Returns the service for the given code
 	 *
-	 * @param string $serviceId Unique service ID
-	 * @param string[] $attributes List of attribute codes as keys and strings entered by the customer as value
-	 * @return string[] List of attributes codes as keys and error messages as values for invalid or missing values
+	 * @param string $code Unique service code
+	 * @param string[] $domains Domain names of items that are associated with the service and that should be fetched too
+	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
+	 * @since 2019.04
 	 */
-	public function checkAttributes( $serviceId, array $attributes );
+	public function find( $code, $ref = ['media', 'price', 'text'] );
+
+	/**
+	 * Returns the service for the given ID
+	 *
+	 * @param string $id Unique service ID
+	 * @param string[] $domains Domain names of items that are associated with the services and that should be fetched too
+	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function get( $id, $ref = ['media', 'price', 'text'] );
 
 	/**
 	 * Returns the service item for the given ID
@@ -39,7 +50,7 @@ interface Iface
 	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
-	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] );
+	public function getProvider( $id, $ref = ['media', 'price', 'text'] );
 
 	/**
 	 * Returns the service providers for the given type
@@ -54,15 +65,14 @@ interface Iface
 	 * Processes the service for the given order, e.g. payment and delivery services
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order which should be processed
-	 * @param string $serviceId Unique service item ID
+	 * @param string $id Unique service item ID
 	 * @param array $urls Associative list of keys and the corresponding URLs
 	 * 	(keys are <type>.url-self, <type>.url-success, <type>.url-update where type can be "delivery" or "payment")
 	 * @param array $params Request parameters and order service attributes
 	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
 	 * 	or null if no form data is required
 	 */
-	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params );
-
+	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $id, array $urls, array $params );
 
 	/**
 	 * Updates the order status sent by payment gateway notifications
@@ -73,7 +83,6 @@ interface Iface
 	 * @return \Psr\Http\Message\ResponseInterface Response object
 	 */
 	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code );
-
 
 	/**
 	 * Updates the payment or delivery status for the given request

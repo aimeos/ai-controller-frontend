@@ -65,12 +65,25 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCheckAttributes()
+	public function testFind()
 	{
-		$this->stub->expects( $this->once() )->method( 'checkAttributes' )
-			->will( $this->returnValue( [] ) );
+		$item = \Aimeos\MShop::create( $this->context, 'service' )->createItem();
 
-		$this->assertEquals( [], $this->object->checkAttributes( -1, [] ) );
+		$this->stub->expects( $this->once() )->method( 'find' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertSame( $item, $this->object->find( 'test' ) );
+	}
+
+
+	public function testGet()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'service' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'get' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertSame( $item, $this->object->get( -1 ) );
 	}
 
 

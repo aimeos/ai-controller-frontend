@@ -41,10 +41,24 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCheckAttributes()
+	public function testFind()
 	{
-		$attributes = $this->object->checkAttributes( $this->getServiceItem()->getId(), [] );
-		$this->assertEquals( [], $attributes );
+		$item = $this->object->find( $this->getServiceItem()->getCode() );
+		$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Item\\Iface', $item );
+	}
+
+
+	public function testGet()
+	{
+		$item = $this->object->get( $this->getServiceItem()->getId() );
+		$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Item\\Iface', $item );
+	}
+
+
+	public function testGetProvider()
+	{
+		$provider = $this->object->getProvider( $this->getServiceItem()->getId() );
+		$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Provider\\Iface', $provider );
 	}
 
 
@@ -56,13 +70,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		foreach( $providers as $provider ) {
 			$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Provider\\Iface', $provider );
 		}
-	}
-
-
-	public function testGetProvider()
-	{
-		$provider = $this->object->getProvider( $this->getServiceItem()->getId() );
-		$this->assertInstanceOf( '\\Aimeos\\MShop\\Service\\Provider\\Iface', $provider );
 	}
 
 

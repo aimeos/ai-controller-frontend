@@ -58,15 +58,30 @@ abstract class Base
 
 
 	/**
-	 * Returns a list of attributes that are invalid
+	 * Returns the service for the given code
 	 *
-	 * @param string $serviceId Unique service ID
-	 * @param string[] $attributes List of attribute codes as keys and strings entered by the customer as value
-	 * @return string[] List of attributes codes as keys and error messages as values for invalid or missing values
+	 * @param string $code Unique service code
+	 * @param string[] $domains Domain names of items that are associated with the service and that should be fetched too
+	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
+	 * @since 2019.04
 	 */
-	public function checkAttributes( $serviceId, array $attributes )
+	public function find( $code, $ref = ['media', 'price', 'text'] )
 	{
-		return $this->controller->checkAttributes( $serviceId, $attributes );
+		return $this->controller->find( $code, $ref );
+	}
+
+
+	/**
+	 * Returns the service for the given ID
+	 *
+	 * @param string $id Unique service ID
+	 * @param string[] $domains Domain names of items that are associated with the services and that should be fetched too
+	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function get( $id, $ref = ['media', 'price', 'text'] )
+	{
+		return $this->controller->get( $id, $ref );
 	}
 
 

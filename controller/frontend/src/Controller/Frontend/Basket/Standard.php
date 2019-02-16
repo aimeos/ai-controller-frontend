@@ -401,21 +401,19 @@ class Standard
 		$serviceItem = $serviceManager->getItem( $id, array( 'media', 'price', 'text' ) );
 
 		$provider = $serviceManager->getProvider( $serviceItem, $serviceItem->getType() );
-		$result = $provider->checkConfigFE( $attributes );
-		$unknown = array_diff_key( $attributes, $result );
+		$errors = array_filter( $provider->checkConfigFE( $attributes ) );
+		$unknown = array_diff_key( $attributes, $errors );
 
 		if( count( $unknown ) > 0 )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Unknown attributes "%1$s"' );
-			$msg = sprintf( $msg, implode( '","', array_keys( $unknown ) ) );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Unknown service attributes' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, $unknown );
 		}
 
-		foreach( $result as $key => $value )
+		if( count( $errors ) > 0 )
 		{
-			if( $value !== null ) {
-				throw new \Aimeos\Controller\Frontend\Basket\Exception( $value );
-			}
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid service attributes' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, $errors );
 		}
 
 		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/base/service' );

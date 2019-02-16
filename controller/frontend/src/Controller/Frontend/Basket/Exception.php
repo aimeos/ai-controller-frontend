@@ -20,4 +20,32 @@ namespace Aimeos\Controller\Frontend\Basket;
  */
 class Exception extends \Aimeos\Controller\Frontend\Exception
 {
+	private $errors;
+
+
+	/**
+	 * Initializes the instance of the exception
+	 *
+	 * @param string $message Custom error message to describe the error
+	 * @param integer $code Custom error code to identify or classify the error
+	 * @param \Exception|null $previous Previously thrown exception
+	 * @param array $errors List of error codes for error handling
+	 */
+	public function __construct( $message = '', $code = 0, \Exception $previous = null, $errors = [] )
+	{
+		parent::__construct( $message, $code, $previous );
+
+		$this->errors = $errors;
+	}
+
+
+	/**
+	 * Gets the error codes of the exception
+	 *
+	 * @return array list of error codes
+	 */
+	public function getErrors()
+	{
+		return $this->errors;
+	}
 }

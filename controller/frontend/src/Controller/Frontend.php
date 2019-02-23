@@ -76,4 +76,19 @@ class Frontend
 
 		return clone self::$objects[$path];
 	}
+
+
+	/**
+	 * Injects a manager object for the given path of manager names
+	 *
+	 * This method is for testing only and you must call \Aimeos\MShop::cache( false )
+	 * afterwards!
+	 *
+	 * @param string $path Name of the domain (and sub-controllers) separated by slashes, e.g "product"
+	 * @param \Aimeos\Controller\Frontend\Iface|null $object Frontend controller object for the given name or null to clear
+	 */
+	public static function inject( $path, \Aimeos\Controller\Frontend\Iface $object = null )
+	{
+		self::$objects[$path] = $object;
+	}
 }

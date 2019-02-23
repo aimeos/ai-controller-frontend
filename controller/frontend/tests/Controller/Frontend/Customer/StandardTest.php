@@ -24,171 +24,112 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function tearDown()
 	{
-		unset( $this->context, $this->object );
+		unset( $this->object, $this->context );
 	}
 
 
-	public function testAddEditSaveDeleteItem()
+	public function testAdd()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$id = $manager->findItem( 'UTC001' )->getId();
-
-		$this->context->setUserId( $id );
-		$item = $this->object->addItem( ['customer.code' => 'unittest-ctnl', 'customer.status' => 1] );
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
-
-		$this->context->setUserId( $item->getId() );
-		$item = $this->object->editItem( $item->getId(), ['customer.code' => 'unittest-ctnl2'] );
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
-
-		$item->setStatus( 0 );
-		$item = $this->object->saveItem( $item );
-		$this->assertEquals( 0, $item->getStatus() );
-
-		$this->object->deleteItem( $item->getId() );
-
-		$this->setExpectedException( \Aimeos\MShop\Exception::class );
-		$manager->findItem( 'unittest-ctnl' );
+		$this->assertSame( $this->object, $this->object->add( ['customer.code' => 'test'] ) );
+		$this->assertEquals( 'test', $this->object->get()->getCode() );
 	}
 
 
-	public function testAddExistingItem()
+	public function testAddAddressItem()
 	{
-		$item = $this->object->addItem( ['customer.code' => 'UTC001'] );
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$this->assertSame( $this->object, $this->object->addAddressItem( $item ) );
 	}
 
 
-	public function testCreateItem()
+	public function testAddListItem()
 	{
-		$result = $this->object->createItem();
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $result );
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$this->assertSame( $this->object, $this->object->addListItem( 'customer', $listItem ) );
 	}
 
 
-	public function testGetItem()
+	public function testAddPropertyItem()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
-		$this->context->setUserId( $id );
-
-		$result = $this->object->getItem( $id, ['customer/address', 'text'] );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $result );
-		$this->assertEquals( 1, count( $result->getRefItems( 'text' ) ) );
-		$this->assertEquals( 1, count( $result->getAddressItems() ) );
-	}
-
-
-	public function testFindItem()
-	{
-		$result = $this->object->findItem( 'UTC001' );
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $result );
-	}
-
-
-	public function testAddEditSaveDeleteAddressItem()
-	{
-		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( $customer->getId() );
-
-		$item = $this->object->addAddressItem( ['customer.address.lastname' => 'unittest-ctnl'] );
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $item );
-
-		$item = $this->object->editAddressItem( $item->getId(), ['customer.address.lastname' => 'unittest-ctnl2'] );
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $item );
-
-		$item->setLastName( 'test' );
-		$this->object->saveAddressItem( $item );
-		$this->assertEquals( 'test', $item->getLastName() );
-
-		$this->object->deleteAddressItem( $item->getId() );
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+		$this->assertSame( $this->object, $this->object->addPropertyItem( $item ) );
 	}
 
 
 	public function testCreateAddressItem()
 	{
-		$result = $this->object->createAddressItem();
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Address\Iface::class, $this->object->createAddressItem() );
 	}
 
 
-	public function testGetAddressItem()
+	public function testCreateListItem()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'customer/address' );
-		$search = $manager->createSearch();
-		$search->setSlice( 0, 1 );
-		$result = $manager->searchItems( $search );
-
-		if( ( $item = reset( $result ) ) === false ) {
-			throw new \RuntimeException( 'No customer address available' );
-		}
-
-		$this->context->setUserId( $item->getParentId() );
-		$result = $this->object->getAddressItem( $item->getId() );
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $result );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $this->object->createListItem() );
 	}
 
 
-	public function testAddEditDeleteListItem()
+	public function testCreatePropertyItem()
 	{
-		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' );
-		$this->context->setUserId( $customer->getId() );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Property\Iface::class, $this->object->createPropertyItem() );
+	}
 
-		$values = [
-			'customer.lists.type' => 'favorite',
-			'customer.lists.domain' => 'product',
-			'customer.lists.refid' => '-1'
-		];
 
-		$item = $this->object->addListItem( $values );
-		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $item );
-
-		$values = [
-			'customer.lists.type' => 'favorite',
-			'customer.lists.domain' => 'product',
-			'customer.lists.refid' => '-2'
-		];
-
-		$item = $this->object->editListItem( $item->getId(), $values );
-		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $item );
-
-		$this->object->deleteListItem( $item->getId() );
+	public function testDeleteAddressItem()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
 
 		$this->setExpectedException( \Aimeos\MShop\Exception::class );
-		$this->object->getListItem( $item->getId() );
+		$this->assertSame( $this->object, $this->object->deleteAddressItem( $item ) );
 	}
 
 
-	public function testGetListItem()
+	public function testDeleteListItem()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'customer/lists' );
-		$search = $manager->createSearch();
-		$search->setSlice( 0, 1 );
-		$result = $manager->searchItems( $search );
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
 
-		if( ( $item = reset( $result ) ) === false ) {
-			throw new \RuntimeException( 'No customer lists item available' );
-		}
-
-		$this->context->setUserId( $item->getParentId() );
-		$result = $this->object->getListItem( $item->getId() );
-		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $result );
+		$this->setExpectedException( \Aimeos\MShop\Exception::class );
+		$this->assertSame( $this->object, $this->object->deleteListItem( 'customer', $listItem ) );
 	}
 
 
-	public function testSearchListItem()
+	public function testDeletePropertyItem()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customer = $manager->findItem( 'UTC001' );
-		$this->context->setUserId( $customer->getId() );
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
 
-		$filter = $this->object->createListsFilter();
-		$result = $this->object->searchListItems( $filter );
+		$this->setExpectedException( \Aimeos\MShop\Exception::class );
+		$this->assertSame( $this->object, $this->object->deletePropertyItem( $item ) );
+	}
 
-		foreach( $result as $item )
-		{
-			$this->assertEquals( $customer->getId(), $item->getParentId() );
-			$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $item );
-		}
+
+	public function testFind()
+	{
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->find( 'UTC001' ) );
+	}
+
+
+	public function testGet()
+	{
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->get() );
+	}
+
+
+	public function testStoreDelete()
+	{
+		$this->object->add( ['customer.code' => 'cntl-test'] );
+
+		$this->assertSame( $this->object, $this->object->store() );
+
+		$this->assertEquals( 'cntl-test', $this->object->get()->getCode() );
+
+		$this->assertSame( $this->object, $this->object->delete() );
+	}
+
+
+	public function testUse()
+	{
+		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId() );
+
+		$this->assertSame( $this->object, $this->object->use( ['text'] ) );
+		$this->assertEquals( 1, count( $this->object->get()->getListItems( 'text' ) ) );
 	}
 }

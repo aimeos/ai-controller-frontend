@@ -65,76 +65,37 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAddItem()
+	public function testAdd()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'addItem' )
-			->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->addItem( [] ) );
+		$this->stub->expects( $this->once() )->method( 'add' );
+		$this->assertSame( $this->object, $this->object->add( [] ) );
 	}
 
 
-	public function testCreateItem()
+	public function testAddAddressItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'createItem' )
-			->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->createItem() );
+		$this->stub->expects( $this->once() )->method( 'addAddressItem' );
+		$this->assertSame( $this->object, $this->object->addAddressItem( $item ) );
 	}
 
 
-	public function testDeleteItem()
+	public function testAddListItem()
 	{
-		$this->stub->expects( $this->once() )->method( 'deleteItem' );
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
 
-		$this->object->deleteItem( -1 );
+		$this->stub->expects( $this->once() )->method( 'addListItem' );
+		$this->assertSame( $this->object, $this->object->addListItem( 'customer', $listItem ) );
 	}
 
 
-	public function testEditItem()
+	public function testAddPropertyItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'editItem' )
-			->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->editItem( -1, [] ) );
-	}
-
-
-	public function testGetItem()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'getItem' )
-			->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->getItem( -1 ) );
-	}
-
-
-	public function testFindItem()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'findItem' )
-			->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->findItem( 'test' ) );
-	}
-
-
-	public function testSaveItem()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'saveItem' );
-
-		$this->object->saveItem( $item );
+		$this->stub->expects( $this->once() )->method( 'addPropertyItem' );
+		$this->assertSame( $this->object, $this->object->addPropertyItem( $item ) );
 	}
 
 
@@ -142,58 +103,101 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'createAddressItem' )
-			->will( $this->returnValue( $item ) );
+		$this->stub->expects( $this->once() )->method( 'createAddressItem' )->will( $this->returnValue( $item ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Address\Iface::class, $this->object->createAddressItem() );
+	}
 
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $this->object->createAddressItem() );
+
+	public function testCreateListItem()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'createListItem' )->will( $this->returnValue( $item ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $this->object->createListItem() );
+	}
+
+
+	public function testCreatePropertyItem()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'createPropertyItem' )->will( $this->returnValue( $item ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Property\Iface::class, $this->object->createPropertyItem() );
+	}
+
+
+	public function testDeleteItem()
+	{
+		$this->stub->expects( $this->once() )->method( 'delete' );
+		$this->assertSame( $this->object, $this->object->delete() );
 	}
 
 
 	public function testDeleteAddressItem()
 	{
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+
 		$this->stub->expects( $this->once() )->method( 'deleteAddressItem' );
-
-		$this->object->deleteAddressItem( -1 );
+		$this->assertSame( $this->object, $this->object->deleteAddressItem( $item ) );
 	}
 
 
-	public function testEditAddressItem()
+	public function testDeleteListItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'editAddressItem' )
+		$this->stub->expects( $this->once() )->method( 'deleteListItem' );
+		$this->assertSame( $this->object, $this->object->deleteListItem( 'customer', $listItem ) );
+	}
+
+
+	public function testDeletePropertyItem()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'deletePropertyItem' );
+		$this->assertSame( $this->object, $this->object->deletePropertyItem( $item ) );
+	}
+
+
+	public function testFind()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'find' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $this->object->editAddressItem( -1, [] ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->find( 'test' ) );
 	}
 
 
-	public function testGetAddressItem()
+	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'getAddressItem' )
+		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Address\Iface::class, $this->object->getAddressItem( -1 ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->get() );
 	}
 
 
-	public function testSaveAddressItem()
+	public function testStore()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$this->stub->expects( $this->once() )->method( 'store' );
+		$this->assertSame( $this->object, $this->object->store() );
+	}
 
-		$this->stub->expects( $this->once() )->method( 'saveAddressItem' );
 
-		$this->object->saveAddressItem( $item );
+	public function testUse()
+	{
+		$this->assertSame( $this->object, $this->object->use( [] ) );
 	}
 
 
 	public function testGetController()
 	{
-		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );
-
-		$this->assertSame( $this->stub, $result );
+		$this->assertSame( $this->stub, $this->access( 'getController' )->invokeArgs( $this->object, [] ) );
 	}
 
 

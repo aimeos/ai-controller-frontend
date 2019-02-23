@@ -57,114 +57,67 @@ abstract class Base
 	/**
 	 * Adds and returns a new customer item object
 	 *
-	 * @param array $values Values added to the newly created customer item like "customer.birthday"
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item
-	 * @since 2017.04
+	 * @param array $values Values added to the customer item (new or existing) like "customer.code"
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function addItem( array $values )
+	public function add( array $values )
 	{
-		return $this->controller->addItem( $values );
+		$this->controller->add( $values );
+		return $this;
 	}
 
 
 	/**
-	 * Creates a new customer item object pre-filled with the given values but not yet stored
+	 * Adds the given address item to the customer object (not yet stored)
 	 *
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item
-	 * @since 2017.04
+	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to add
+	 * @param integer|null $pos Position (key) in the list of address items or null to add the item at the end
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function createItem( array $values = [] )
+	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, $position = null )
 	{
-		return $this->controller->createItem( $values );
+		$this->controller->addAddressItem( $item, $position );
+		return $this;
 	}
 
 
 	/**
-	 * Deletes a customer item that belongs to the current authenticated user
+	 * Adds the given list item to the customer object (not yet stored)
 	 *
-	 * @param string $id Unique customer ID
-	 * @since 2017.04
+	 * @param string $domain Domain name the referenced item belongs to
+	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to add
+	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to add or null if list item contains refid value
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function deleteItem( $id )
+	public function addListItem( $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item, \Aimeos\MShop\Common\Item\Iface $refItem = null )
 	{
-		return $this->controller->deleteItem( $id );
+		$this->controller->addListItem( $domain, $item, $refItem );
+		return $this;
 	}
 
 
 	/**
-	 * Updates the customer item identified by its ID
+	 * Adds the given property item to the customer object (not yet stored)
 	 *
-	 * @param string $id Unique customer ID
-	 * @param array $values Values added to the customer item like "customer.birthday" or "customer.city"
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item
-	 * @since 2017.04
+	 * @param \Aimeos\MShop\Common\Item\Property\Iface $item Property item to add
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function editItem( $id, array $values )
+	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item )
 	{
-		return $this->controller->editItem( $id, $values );
+		$this->controller->addPropertyItem( $item );
+		return $this;
 	}
 
 
 	/**
-	 * Returns the customer item for the given customer ID
+	 * Creates a new address item object pre-filled with the given values
 	 *
-	 * @param string|null $id Unique customer ID or null for current customer item
-	 * @param string[] $domains Domain names of items that are associated with the customers and that should be fetched too
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item including the referenced domains items
-	 * @since 2017.04
-	 */
-	public function getItem( $id = null, array $domains = [] )
-	{
-		return $this->controller->getItem( $id, $domains );
-	}
-
-
-	/**
-	 * Returns the customer item for the given customer code (usually e-mail address)
-	 *
-	 * This method doesn't check if the customer item belongs to the logged in user!
-	 *
-	 * @param string $code Unique customer code
-	 * @param string[] $domains Domain names of items that are associated with the customers and that should be fetched too
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item including the referenced domains items
-	 * @since 2017.04
-	 */
-	public function findItem( $code, array $domains = [] )
-	{
-		return $this->controller->findItem( $code, $domains );
-	}
-
-
-	/**
-	 * Stores a modified customer item
-	 *
-	 * @param \Aimeos\MShop\Customer\Item\Iface Customer item
-	 * @since 2017.04
-	 */
-	public function saveItem( \Aimeos\MShop\Customer\Item\Iface $item )
-	{
-		return $this->controller->saveItem( $item );
-	}
-
-
-	/**
-	 * Creates and returns a new address item object
-	 *
-	 * @param array $values Values added to the newly created customer item like "customer.birthday"
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer address item
-	 * @since 2017.04
-	 */
-	public function addAddressItem( array $values )
-	{
-		return $this->controller->addAddressItem( $values );
-	}
-
-
-	/**
-	 * Creates a new customer address item object pre-filled with the given values but not yet stored
-	 *
-	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
-	 * @since 2017.04
+	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Address item
+	 * @since 2019.04
 	 */
 	public function createAddressItem( array $values = [] )
 	{
@@ -173,53 +126,135 @@ abstract class Base
 
 
 	/**
-	 * Deletes a address item that belongs to the current authenticated user
+	 * Creates a new list item object pre-filled with the given values
 	 *
-	 * @param string $id Unique customer address ID
-	 * @since 2017.04
+	 * @return \Aimeos\MShop\Common\Item\Lists\Iface List item
+	 * @since 2019.04
 	 */
-	public function deleteAddressItem( $id )
+	public function createListItem( array $values = [] )
 	{
-		$this->controller->deleteAddressItem( $id );
+		return $this->controller->createListItem( $values );
 	}
 
 
 	/**
-	 * Saves a modified address item object
+	 * Creates a new property item object pre-filled with the given values
 	 *
-	 * @param string $id Unique customer address ID
-	 * @param array $values Values added to the address item like "customer.address.city"
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer address item
+	 * @return \Aimeos\MShop\Common\Item\Property\Iface Property item
+	 * @since 2019.04
+	 */
+	public function createPropertyItem( array $values = [] )
+	{
+		return $this->controller->createPropertyItem( $values );
+	}
+
+
+
+	/**
+	 * Deletes a customer item that belongs to the current authenticated user
+	 *
+	 * @param string $id Unique customer ID
 	 * @since 2017.04
 	 */
-	public function editAddressItem( $id, array $values )
+	public function delete()
 	{
-		return $this->controller->editAddressItem( $id, $values );
+		$this->controller->delete();
+		return $this;
 	}
 
 
 	/**
-	 * Returns the address item for the given ID
+	 * Removes the given address item from the customer object (not yet stored)
 	 *
-	 * @param string $id Unique customer address ID
-	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
-	 * @since 2017.04
+	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to remove
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
-	public function getAddressItem( $id )
+	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item )
 	{
-		return $this->controller->getAddressItem( $id );
+		$this->controller->deleteAddressItem( $item );
+		return $this;
 	}
 
 
 	/**
-	 * Stores a modified customer address item
+	 * Removes the given list item from the customer object (not yet stored)
 	 *
-	 * @param \Aimeos\MShop\Customer\Item\Address\Iface Customer address item
-	 * @since 2017.04
+	 * @param string $domain Domain name the referenced item belongs to
+	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to remove
+	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to remove or null if only list item should be removed
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
-	public function saveAddressItem( \Aimeos\MShop\Customer\Item\Address\Iface $item )
+	public function deleteListItem( $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem, \Aimeos\MShop\Common\Item\Iface $refItem = null )
 	{
-		$this->controller->saveAddressItem( $item );
+		$this->controller->deleteListItem( $domain, $listItem, $refItem );
+		return $this;
+	}
+
+
+	/**
+	 * Removes the given property item from the customer object (not yet stored)
+	 *
+	 * @param \Aimeos\MShop\Common\Item\Property\Iface $item Property item to remove
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 */
+	public function deletePropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item )
+	{
+		$this->controller->deletePropertyItem( $item );
+		return $this;
+	}
+
+
+	/**
+	 * Returns the customer item for the given code
+	 *
+	 * This method doesn't check if the customer item belongs to the logged in user!
+	 *
+	 * @param string|null $code Unique customer code
+	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item
+	 * @since 2019.04
+	 */
+	public function find( $code )
+	{
+		return $this->controller->find( $code );
+	}
+
+
+	/**
+	 * Returns the customer item for the current authenticated user
+	 *
+	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item
+	 * @since 2019.04
+	 */
+	public function get()
+	{
+		return $this->controller->get();
+	}
+
+
+	/**
+	 * Adds or updates the modified customer item in the storage
+	 *
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function store()
+	{
+		$this->controller->store();
+		return $this;
+	}
+
+
+	/**
+	 * Sets the domains that will be used when working with the customer item
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function use( array $domains )
+	{
+		$this->controller->use( $domains );
+		return $this;
 	}
 
 

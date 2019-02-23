@@ -88,7 +88,6 @@ interface Iface
 	 */
 	public function block( \Aimeos\MShop\Order\Item\Iface $orderItem );
 
-
 	/**
 	 * Frees the resources listed in the order.
 	 *
@@ -109,7 +108,6 @@ interface Iface
 	 * @return void
 	 */
 	public function unblock( \Aimeos\MShop\Order\Item\Iface $orderItem );
-
 
 	/**
 	 * Blocks or frees the resources listed in the order if necessary.

@@ -90,7 +90,7 @@ class Standard
 			$item = $item->setLabel( $label );
 		}
 
-		if( ( $code = $item->getCode() ) === '' ) {
+		if( $item->getCode() === '' ) {
 			$item = $item->setCode( $addrItem->getEmail() );
 		}
 

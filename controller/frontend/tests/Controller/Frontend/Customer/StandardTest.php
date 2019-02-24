@@ -103,13 +103,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->find( 'UTC001' ) );
+		$item = $this->object->uses( ['product'] )->find( 'UTC001' );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
+		$this->assertEquals( 1, count( $item->getRefItems( 'product' ) ) );
 	}
 
 
 	public function testGet()
 	{
-		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->get() );
+		$this->context->setUserId( $this->object->find( 'UTC001' )->getId() );
+		$item = $this->object->uses( ['product'] )->get();
+
+		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );
+		$this->assertEquals( 1, count( $item->getRefItems( 'product' ) ) );
 	}
 
 
@@ -118,18 +125,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->add( ['customer.code' => 'cntl-test'] );
 
 		$this->assertSame( $this->object, $this->object->store() );
-
 		$this->assertEquals( 'cntl-test', $this->object->get()->getCode() );
-
 		$this->assertSame( $this->object, $this->object->delete() );
 	}
 
 
-	public function testUse()
+	public function testUses()
 	{
-		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId() );
-
-		$this->assertSame( $this->object, $this->object->use( ['text'] ) );
-		$this->assertEquals( 1, count( $this->object->get()->getListItems( 'text' ) ) );
+		$this->assertSame( $this->object, $this->object->uses( ['product'] ) );
 	}
 }

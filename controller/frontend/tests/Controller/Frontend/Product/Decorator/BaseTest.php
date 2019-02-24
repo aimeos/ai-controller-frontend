@@ -76,34 +76,20 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAllOf()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'allOf' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->allOf( [1, 2] ) );
+		$this->assertSame( $this->object, $this->object->allOf( [1, 2] ) );
 	}
 
 
 	public function testCategory()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'category' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->category( 1, 'default', \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE ) );
+		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE;
+		$this->assertSame( $this->object, $this->object->category( 1, 'default', $level ) );
 	}
 
 
 	public function testCompare()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'compare' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'product.code', 'test' ) );
+		$this->assertSame( $this->object, $this->object->compare( '==', 'product.code', 'test' ) );
 	}
 
 
@@ -133,113 +119,73 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testHas()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'has' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->has( 'attribute', 'default', -1 ) );
+		$this->assertSame( $this->object, $this->object->has( 'attribute', 'default', -1 ) );
 	}
 
 
 	public function testOneOf()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'oneOf' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->oneOf( [1, 2] ) );
+		$this->assertSame( $this->object, $this->object->oneOf( [1, 2] ) );
 	}
 
 
 	public function testParse()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'parse' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+		$this->assertSame( $this->object, $this->object->parse( [] ) );
 	}
 
 
 	public function testProduct()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'product' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->product( [1, 3] ) );
+		$this->assertSame( $this->object, $this->object->product( [1, 3] ) );
 	}
 
 
 	public function testProperty()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'property' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->property( 'test', 'value' ) );
+		$this->assertSame( $this->object, $this->object->property( 'test', 'value' ) );
 	}
 
 
 	public function testSearch()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
-		$expected = \Aimeos\MShop\Product\Item\Iface::class;
 		$total = 0;
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( [$item] ) );
 
-		$this->assertEquals( [$item], $this->object->search( ['text'], $total ) );
+		$this->assertEquals( [$item], $this->object->search( $total ) );
 	}
 
 
 	public function testSlice()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'slice' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+		$this->assertSame( $this->object, $this->object->slice( 0, 100 ) );
 	}
 
 
 	public function testSort()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'sort' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->sort( 'code' ) );
+		$this->assertSame( $this->object, $this->object->sort( 'code' ) );
 	}
 
 
 	public function testSupplier()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'supplier' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->supplier( [1], 'default' ) );
+		$this->assertSame( $this->object, $this->object->supplier( [1], 'default' ) );
 	}
 
 
 	public function testText()
 	{
-		$expected = \Aimeos\Controller\Frontend\Product\Iface::class;
+		$this->assertSame( $this->object, $this->object->text( 'test' ) );
+	}
 
-		$this->stub->expects( $this->once() )->method( 'text' )
-			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( $expected, $this->object->text( 'test' ) );
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
 
 

@@ -75,15 +75,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $this->object->find( 'CNC' ) );
+		$item = $this->object->uses( ['product'] )->find( 'U:BUNDLE' );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $item );
+		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
 	}
 
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:BUNDLE' );
+		$item = $this->object->uses( ['product'] )->get( $item->getId() );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $this->object->get( $item->getId() ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $item );
+		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
 	}
 
 
@@ -145,8 +150,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$this->assertEquals( 8, count( $this->object->search( [], $total ) ) );
+		$items = $this->object->uses( ['price'] )->sort( 'code' )->search( $total );
+
+		$this->assertEquals( 8, count( $items ) );
 		$this->assertEquals( 8, $total );
+		$this->assertEquals( 2, count( current( $items )->getRefItems( 'price' ) ) );
 	}
 
 
@@ -170,47 +178,47 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSortCode()
 	{
-		$result = $this->object->sort( 'code' )->search( [] );
+		$result = $this->object->sort( 'code' )->search();
 		$this->assertEquals( 'CNC', reset( $result )->getCode() );
 	}
 
 
 	public function testSortCodeDesc()
 	{
-		$result = $this->object->sort( '-code' )->search( [] );
+		$result = $this->object->sort( '-code' )->search();
 		$this->assertStringStartsWith( 'U:', reset( $result )->getCode() );
 	}
 
 
 	public function testSortCtime()
 	{
-		$this->assertEquals( 8, count( $this->object->sort( 'ctime' )->search( [] ) ) );
+		$this->assertEquals( 8, count( $this->object->sort( 'ctime' )->search() ) );
 	}
 
 
 	public function testSortCtimeDesc()
 	{
-		$this->assertEquals( 8, count( $this->object->sort( '-ctime' )->search( [] ) ) );
+		$this->assertEquals( 8, count( $this->object->sort( '-ctime' )->search() ) );
 	}
 
 
 	public function testSortName()
 	{
-		$result = $this->object->sort( 'name' )->search( ['text'] );
+		$result = $this->object->uses( ['text'] )->sort( 'name' )->search();
 		$this->assertEquals( 'Cafe Noire Cappuccino', reset( $result )->getName() );
 	}
 
 
 	public function testSortNameDesc()
 	{
-		$result = $this->object->sort( '-name' )->search( ['text'] );
+		$result = $this->object->uses( ['text'] )->sort( '-name' )->search();
 		$this->assertEquals( 'Unterproduct 3', reset( $result )->getName() );
 	}
 
 
 	public function testSortPrice()
 	{
-		$result = $this->object->sort( 'price' )->search( ['price'] );
+		$result = $this->object->uses( ['price'] )->sort( 'price' )->search();
 		$prices = reset( $result )->getRefItems( 'price', 'default', 'default' );
 
 		$this->assertEquals( '12.00', reset( $prices )->getValue() );
@@ -219,7 +227,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSortPriceDesc()
 	{
-		$result = $this->object->sort( '-price' )->search( ['price'] );
+		$result = $this->object->uses( ['price'] )->sort( '-price' )->search();
 		$prices = reset( $result )->getRefItems( 'price', 'default', 'default' );
 
 		$this->assertEquals( '600.00', reset( $prices )->getValue() );
@@ -231,7 +239,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
 		$catId = $manager->findItem( 'new' )->getId();
 
-		$result = $this->object->category( $catId )->sort( 'relevance' )->search( [] );
+		$result = $this->object->category( $catId )->sort( 'relevance' )->search();
 
 		$this->assertEquals( 3, count( $result ) );
 		$this->assertEquals( 'CNE', reset( $result )->getCode() );
@@ -244,7 +252,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
 		$supId = $manager->findItem( 'unitCode001' )->getId();
 
-		$result = $this->object->supplier( $supId )->sort( 'relevance' )->search( [] );
+		$result = $this->object->supplier( $supId )->sort( 'relevance' )->search();
 
 		$this->assertEquals( 2, count( $result ) );
 		$this->assertEquals( 'CNC', reset( $result )->getCode() );
@@ -257,12 +265,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
 		$supId = $manager->findItem( 'unitCode001' )->getId();
 
-		$this->assertEquals( 2, count( $this->object->supplier( $supId )->search( [] ) ) );
+		$this->assertEquals( 2, count( $this->object->supplier( $supId )->search() ) );
 	}
 
 
 	public function testText()
 	{
-		$this->assertEquals( 3, count( $this->object->text( 'Cafe' )->search( [] ) ) );
+		$this->assertEquals( 3, count( $this->object->text( 'Cafe' )->search() ) );
+	}
+
+
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
 }

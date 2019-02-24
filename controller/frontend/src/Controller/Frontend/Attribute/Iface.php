@@ -52,22 +52,20 @@ interface Iface
 	 * Returns the attribute for the given attribute code
 	 *
 	 * @param string $code Unique attribute code
-	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
 	 * @param string $type Type assigned to the attribute
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'price', 'text'], $type = 'product' );
+	public function find( $code, $type );
 
 	/**
 	 * Returns the attribute for the given attribute ID
 	 *
 	 * @param string $id Unique attribute ID
-	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $domains = ['media', 'price', 'text'] );
+	public function get( $id );
 
 	/**
 	 * Adds a filter to return only items containing a reference to the given ID
@@ -103,12 +101,11 @@ interface Iface
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Ordered list of attribute items
 	 * @since 2019.04
 	 */
-	public function search( $domains = ['media', 'price', 'text'], &$total = null );
+	public function search( &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned attributes for slicing the list of found attributes
@@ -137,4 +134,13 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function type( $codes );
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains );
 }

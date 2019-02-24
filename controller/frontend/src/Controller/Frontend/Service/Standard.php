@@ -25,17 +25,55 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
+	private $conditions = [];
+	private $domains = [];
+	private $filter;
+	private $manager;
+	private $sort;
+
+
+	/**
+	 * Common initialization for controller classes
+	 *
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Common MShop context object
+	 */
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context )
+	{
+		parent::__construct( $context );
+
+		$this->manager = \Aimeos\MShop::create( $context, 'service' );
+		$this->filter = $this->manager->createSearch( true );
+		$this->conditions[] = $this->filter->getConditions();
+		$this->sort = $this->filter->sort( '+', 'service.position' );
+	}
+
+
+	/**
+	 * Adds generic condition for filtering services
+	 *
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the service manager, e.g. "service.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function compare( $operator, $key, $value )
+	{
+		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		return $this;
+	}
+
+
 	/**
 	 * Returns the service for the given code
 	 *
 	 * @param string $code Unique service code
-	 * @param string[] $domains Domain names of items that are associated with the service and that should be fetched too
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $ref = ['media', 'price', 'text'] )
+	public function find( $code )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'service' )->findItem( $code, $ref, null, null, true );
+		return $this->manager->findItem( $code, $this->domains, null, null, true );
 	}
 
 
@@ -43,13 +81,12 @@ class Standard
 	 * Returns the service for the given ID
 	 *
 	 * @param string $id Unique service ID
-	 * @param string[] $domains Domain names of items that are associated with the services and that should be fetched too
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $ref = ['media', 'price', 'text'] )
+	public function get( $id )
 	{
-		return \Aimeos\MShop::create( $this->getContext(), 'service' )->getItem( $id, $ref, true );
+		return $this->manager->getItem( $id, $this->domains, true );
 	}
 
 
@@ -57,47 +94,44 @@ class Standard
 	 * Returns the service item for the given ID
 	 *
 	 * @param string $serviceId Unique service ID
-	 * @param string[] $ref List of domain names whose items should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
-	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] )
+	public function getProvider( $serviceId )
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
-		$item = $manager->getItem( $serviceId, $ref, true );
-
-		return $manager->getProvider( $item, $item->getType() );
+		$item = $this->manager->getItem( $serviceId, $this->domains, true );
+		return $this->manager->getProvider( $item, $item->getType() );
 	}
 
 
 	/**
 	 * Returns the service providers of the given type
 	 *
-	 * @param string|null $type Service type, e.g. "delivery" (shipping related), "payment" (payment related) or null for all
-	 * @param string[] $ref List of domain names whose items should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
 	 */
-	public function getProviders( $type = null, $ref = ['media', 'price', 'text'] )
+	public function getProviders()
 	{
 		$list = [];
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
+		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 
-		$search = $manager->createSearch( true );
-		$search->setSortations( [$search->sort( '+', 'service.position' )] );
-
-		if( $type != null )
-		{
-			$expr = array(
-				$search->getConditions(),
-				$search->compare( '==', 'service.type', $type ),
-			);
-			$search->setConditions( $search->combine( '&&', $expr ) );
-		}
-
-		foreach( $manager->searchItems( $search, $ref ) as $id => $item ) {
-			$list[$id] = $manager->getProvider( $item, $item->getType() );
+		foreach( $this->manager->searchItems( $this->filter, $this->domains ) as $id => $item ) {
+			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['&&' => [['>' => ['service.status' => 0]], ['==' => ['service.type' => 'default']]]]
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions )
+	{
+		$this->conditions[] = $this->filter->toConditions( $conditions );
+		return $this;
 	}
 
 
@@ -114,13 +148,94 @@ class Standard
 	 */
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params )
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
-		$item = $manager->getItem( $serviceId, [], true );
+		$item = $this->manager->getItem( $serviceId, [], true );
 
-		$provider = $manager->getProvider( $item, $item->getType() );
+		$provider = $this->manager->getProvider( $item, $item->getType() );
 		$provider->injectGlobalConfigBE( $urls );
 
 		return $provider->process( $orderItem, $params );
+	}
+
+
+	/**
+	 * Returns the services filtered by the previously assigned conditions
+	 *
+	 * @param integer &$total Parameter where the total number of found services will be stored in
+	 * @return \Aimeos\MShop\Service\Item\Iface[] Ordered list of service items
+	 * @since 2019.04
+	 */
+	public function search( &$total = null )
+	{
+		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		return $this->manager->searchItems( $this->filter, $this->domains, $total );
+	}
+
+
+	/**
+	 * Sets the start value and the number of returned services for slicing the list of found services
+	 *
+	 * @param integer $start Start value of the first attribute in the list
+	 * @param integer $limit Number of returned services
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit )
+	{
+		$this->filter->setSlice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting of the result list like "position", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null )
+	{
+		$direction = '+';
+
+		if( $key != null && $key[0] === '-' )
+		{
+			$key = substr( $key, 1 );
+			$direction = '-';
+		}
+
+		switch( $key )
+		{
+			case null:
+				$this->sort = null;
+				break;
+
+			case 'type':
+				$this->sort = $this->filter->sort( $direction, 'service.type' );
+				break;
+
+			default:
+				$this->sort = $this->filter->sort( $direction, $key );
+		}
+
+		$sort = $this->sort ? [$this->sort] : [];
+		$sort[] = $this->filter->sort( '+', 'service.position' );
+
+		$this->filter->setSortations( $sort );
+		return $this;
+	}
+
+
+	/**
+	 * Adds attribute types for filtering
+	 *
+	 * @param array|string $code Service type or list of types
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function type( $code )
+	{
+		$this->conditions[] = $this->filter->compare( '==', 'service.type', $code );
+		return $this;
 	}
 
 
@@ -134,10 +249,8 @@ class Standard
 	 */
 	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code )
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
-		$item = $manager->findItem( $code );
-
-		$provider = $manager->getProvider( $item, $item->getType() );
+		$item = $this->manager->findItem( $code );
+		$provider = $this->manager->getProvider( $item, $item->getType() );
 
 		return $provider->updatePush( $request, $response );
 	}
@@ -153,14 +266,10 @@ class Standard
 	 */
 	public function updateSync( ServerRequestInterface $request, $code, $orderid )
 	{
-		$context = $this->getContext();
-		$orderManager = \Aimeos\MShop::create( $context, 'order' );
-		$serviceManager = \Aimeos\MShop::create( $context, 'service' );
+		$orderItem = \Aimeos\MShop::create( $this->getContext(), 'order' )->getItem( $orderid );
+		$serviceItem = $this->manager->findItem( $code );
 
-		$orderItem = $orderManager->getItem( $orderid );
-		$serviceItem = $serviceManager->findItem( $code );
-
-		$provider = $serviceManager->getProvider( $serviceItem, $serviceItem->getType() );
+		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );
 
 
 		if( ( $orderItem = $provider->updateSync( $request, $orderItem ) ) !== null )
@@ -173,5 +282,19 @@ class Standard
 		}
 
 		return $orderItem;
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains )
+	{
+		$this->domains = $domains;
+		return $this;
 	}
 }

@@ -36,17 +36,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$iface = \Aimeos\MShop\Supplier\Item\Iface::class;
-		$this->assertInstanceOf( $iface, $this->object->find( 'unitCode001' ) );
+		$item = $this->object->uses( ['product'] )->find( 'unitCode001' );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );
+		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
 	}
 
 
 	public function testGet()
 	{
-		$iface = \Aimeos\MShop\Supplier\Item\Iface::class;
 		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->findItem( 'unitCode001' );
+		$item = $this->object->uses( ['product'] )->get( $item->getId() );
 
-		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );
+		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
 	}
 
 
@@ -60,8 +63,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$this->assertGreaterThanOrEqual( 2, count( $this->object->search( [], $total ) ) );
+		$items = $this->object->uses( ['product'] )->compare( '=~', 'supplier.code', 'unit' )
+			->sort( 'supplier.code' )->search( $total );
+
+		$this->assertGreaterThanOrEqual( 2, count( $items ) );
 		$this->assertGreaterThanOrEqual( 2, $total );
+		$this->assertEquals( 2, count( current( $items )->getRefItems( 'product' ) ) );
 	}
 
 
@@ -80,5 +87,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortGeneric()
 	{
 		$this->assertGreaterThanOrEqual( 2, count( $this->object->sort( 'supplier.label' )->search() ) );
+	}
+
+
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
 }

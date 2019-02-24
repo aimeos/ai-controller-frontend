@@ -35,11 +35,10 @@ abstract class Base
 	 */
 	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
-		\Aimeos\MW\Common\Base::checkClass( '\\Aimeos\\Controller\\Frontend\\Service\\Iface', $controller );
-
-		$this->controller = $controller;
-
 		parent::__construct( $context );
+
+		$iface = \Aimeos\Controller\Frontend\Service\Iface::class;
+		$this->controller = \Aimeos\MW\Common\Base::checkClass( $iface, $controller );
 	}
 
 
@@ -58,16 +57,31 @@ abstract class Base
 
 
 	/**
+	 * Adds generic condition for filtering services
+	 *
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the service manager, e.g. "service.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function compare( $operator, $key, $value )
+	{
+		$this->controller->compare( $operator, $key, $value );
+		return $this;
+	}
+
+
+	/**
 	 * Returns the service for the given code
 	 *
 	 * @param string $code Unique service code
-	 * @param string[] $domains Domain names of items that are associated with the service and that should be fetched too
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $ref = ['media', 'price', 'text'] )
+	public function find( $code )
 	{
-		return $this->controller->find( $code, $ref );
+		return $this->controller->find( $code );
 	}
 
 
@@ -75,13 +89,12 @@ abstract class Base
 	 * Returns the service for the given ID
 	 *
 	 * @param string $id Unique service ID
-	 * @param string[] $domains Domain names of items that are associated with the services and that should be fetched too
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $ref = ['media', 'price', 'text'] )
+	public function get( $id )
 	{
-		return $this->controller->get( $id, $ref );
+		return $this->controller->get( $id );
 	}
 
 
@@ -89,25 +102,36 @@ abstract class Base
 	 * Returns the service item for the given ID
 	 *
 	 * @param string $serviceId Unique service ID
-	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
-	public function getProvider( $serviceId, $ref = ['media', 'price', 'text'] )
+	public function getProvider( $serviceId )
 	{
-		return $this->controller->getProvider( $serviceId, $ref );
+		return $this->controller->getProvider( $serviceId );
 	}
 
 
 	/**
 	 * Returns the service providers for the given type
 	 *
-	 * @param string|null $type Service type, e.g. "delivery" (shipping related), "payment" (payment related) or null for all
-	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
 	 */
-	public function getProviders( $type = null, $ref = ['media', 'price', 'text'] )
+	public function getProviders()
 	{
-		return $this->controller->getProviders( $type, $ref );
+		return $this->controller->getProviders();
+	}
+
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['&&' => [['>' => ['service.status' => 0]], ['==' => ['service.type' => 'default']]]]
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions )
+	{
+		$this->controller->parse( $conditions );
+		return $this;
 	}
 
 
@@ -125,6 +149,61 @@ abstract class Base
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params )
 	{
 		return $this->controller->process( $orderItem, $serviceId, $urls, $params );
+	}
+
+	/**
+	 * Returns the services filtered by the previously assigned conditions
+	 *
+	 * @param integer &$total Parameter where the total number of found services will be stored in
+	 * @return \Aimeos\MShop\Service\Item\Iface[] Ordered list of service items
+	 * @since 2019.04
+	 */
+	public function search( &$total = null )
+	{
+		return $this->controller->search( $total );
+	}
+
+
+	/**
+	 * Sets the start value and the number of returned services for slicing the list of found services
+	 *
+	 * @param integer $start Start value of the first attribute in the list
+	 * @param integer $limit Number of returned services
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit )
+	{
+		$this->controller->slice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting of the result list like "position", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null )
+	{
+		$this->controller->sort( $key );
+		return $this;
+	}
+
+
+	/**
+	 * Adds attribute types for filtering
+	 *
+	 * @param array|string $code Service type or list of types
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function type( $code )
+	{
+		$this->controller->type( $code );
+		return $this;
 	}
 
 
@@ -153,6 +232,20 @@ abstract class Base
 	public function updateSync( ServerRequestInterface $request, $code, $orderid )
 	{
 		return $this->controller->updateSync( $request, $code, $orderid );
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains )
+	{
+		$this->controller->uses( $domains );
+		return $this;
 	}
 
 

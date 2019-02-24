@@ -32,10 +32,10 @@ abstract class Base
 	 */
 	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
+		parent::__construct( $context );
+
 		$iface = \Aimeos\Controller\Frontend\Catalog\Iface::class;
 		$this->controller = \Aimeos\MW\Common\Base::checkClass( $iface, $controller );
-
-		parent::__construct( $context );
 	}
 
 
@@ -82,13 +82,12 @@ abstract class Base
 	 * Returns the category for the given catalog code
 	 *
 	 * @param string $code Unique catalog code
-	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, array $domains = ['media', 'text'] )
+	public function find( $code )
 	{
-		return $this->controller->find( $code, $domains );
+		return $this->controller->find( $code );
 	}
 
 
@@ -96,13 +95,12 @@ abstract class Base
 	 * Returns the category for the given catalog ID
 	 *
 	 * @param string $id Unique catalog ID
-	 * @param string[] $domains Domain names of items that are associated with the category and should be fetched too
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, array $domains = ['media', 'text'] )
+	public function get( $id )
 	{
-		return $this->controller->get( $id, $domains );
+		return $this->controller->get( $id );
 	}
 
 
@@ -110,27 +108,25 @@ abstract class Base
 	 * Returns the list of categories up to the root node including the node given by its ID
 	 *
 	 * @param integer $id Current category ID
-	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
 	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Associative list of categories
 	 * @since 2017.03
 	 */
-	public function getPath( $id, array $domains = ['text', 'media'] )
+	public function getPath( $id )
 	{
-		return $this->controller->getPath( $id, $domains );
+		return $this->controller->getPath( $id );
 	}
 
 
 	/**
 	 * Returns the categories filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
 	 * @param integer $level Constant from \Aimeos\MW\Tree\Manager\Base, e.g. LEVEL_ONE, LEVEL_LIST or LEVEL_TREE
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Category tree
 	 * @since 2019.04
 	 */
-	public function getTree( array $domains = ['media', 'text'], $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE )
+	public function getTree( $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE )
 	{
-		return $this->controller->getTree( $domains, $level );
+		return $this->controller->getTree( $level );
 	}
 
 
@@ -158,6 +154,20 @@ abstract class Base
 	public function root( $id )
 	{
 		$this->controller->root( $id );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains )
+	{
+		$this->controller->uses( $domains );
 		return $this;
 	}
 

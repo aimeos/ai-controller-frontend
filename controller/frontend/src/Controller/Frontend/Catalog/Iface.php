@@ -34,31 +34,28 @@ interface Iface
 	 * Returns the category for the given catalog code
 	 *
 	 * @param string $code Unique catalog code
-	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, array $domains = ['media', 'text'] );
+	public function find( $code );
 
 	/**
 	 * Returns the category for the given catalog ID
 	 *
 	 * @param string $id Unique catalog ID
-	 * @param string[] $domains Domain names of items that are associated with the category and should be fetched too
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, array $domains = ['media', 'text'] );
+	public function get( $id );
 
 	/**
 	 * Returns the list of categories up to the root node including the node given by its ID
 	 *
 	 * @param integer $id Current category ID
-	 * @param string[] $domains Domain names of items that are associated to the categories and should be fetched too
 	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Associative list of categories
 	 * @since 2017.03
 	 */
-	public function getPath( $id, array $domains = ['text', 'media'] );
+	public function getPath( $id );
 
 	/**
 	 * Returns the categories filtered by the previously assigned conditions
@@ -68,7 +65,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Category tree
 	 * @since 2019.04
 	 */
-	public function getTree( array $domains = ['media', 'text'], $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE );
+	public function getTree( $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE );
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -87,6 +84,15 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function root( $id );
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains );
 
 	/**
 	 * Limits categories returned to only visible ones depending on the given category IDs

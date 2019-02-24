@@ -22,6 +22,7 @@ class Standard
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	private $conditions = [];
+	private $domains = [];
 	private $filter;
 	private $manager;
 	private $sort;
@@ -104,7 +105,7 @@ class Standard
 				$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' );
 
 				foreach( $ids as $catId ) {
-					$list += $cntl->root( $catId )->getTree( [], $level )->toList();
+					$list += $cntl->root( $catId )->getTree( $level )->toList();
 				}
 
 				$ids = array_keys( $list );
@@ -143,13 +144,12 @@ class Standard
 	 * Returns the product for the given product code
 	 *
 	 * @param string $code Unique product code
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'price', 'text'] )
+	public function find( $code )
 	{
-		return $this->manager->findItem( $code, $domains, 'product', null, true );
+		return $this->manager->findItem( $code, $this->domains, 'product', null, true );
 	}
 
 
@@ -157,13 +157,12 @@ class Standard
 	 * Returns the product for the given product ID
 	 *
 	 * @param string $id Unique product ID
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $domains = ['media', 'price', 'text'] )
+	public function get( $id )
 	{
-		return $this->manager->getItem( $id, $domains, true );
+		return $this->manager->getItem( $id, $this->domains, true );
 	}
 
 
@@ -272,15 +271,14 @@ class Standard
 	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
-	public function search( $domains = ['media', 'price', 'text'], &$total = null )
+	public function search( &$total = null )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
-		return $this->manager->searchItems( $this->filter, $domains, $total );
+		return $this->manager->searchItems( $this->filter, $this->domains, $total );
 	}
 
 
@@ -407,6 +405,20 @@ class Standard
 			$this->conditions[] = $this->filter->compare( '>', $func, 0 );
 		}
 
+		return $this;
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains )
+	{
+		$this->domains = $domains;
 		return $this;
 	}
 

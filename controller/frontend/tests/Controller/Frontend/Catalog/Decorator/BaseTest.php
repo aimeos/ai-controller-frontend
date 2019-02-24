@@ -67,12 +67,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCompare()
 	{
-		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'compare' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'catalog.code', 'test' ) );
+		$this->assertSame( $this->object, $this->object->compare( '==', 'catalog.code', 'test' ) );
 	}
 
 
@@ -102,12 +97,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testParse()
 	{
-		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'parse' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+		$this->assertSame( $this->object, $this->object->parse( [] ) );
 	}
 
 
@@ -133,23 +123,19 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testRoot()
 	{
-		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
+		$this->assertSame( $this->object, $this->object->root( -1 ) );
+	}
 
-		$this->stub->expects( $this->once() )->method( 'root' )
-			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( $expected, $this->object->root( -1 ) );
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
 
 
 	public function testVisible()
 	{
-		$expected = \Aimeos\Controller\Frontend\Catalog\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'visible' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->visible( [1, 2] ) );
+		$this->assertSame( $this->object, $this->object->visible( [1, 2] ) );
 	}
 
 

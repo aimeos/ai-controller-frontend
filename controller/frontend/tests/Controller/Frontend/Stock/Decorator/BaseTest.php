@@ -67,23 +67,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCode()
 	{
-		$expected = \Aimeos\Controller\Frontend\Stock\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'code' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->code( ['CNC', 'CNE'] ) );
+		$this->assertSame( $this->object, $this->object->code( ['CNC', 'CNE'] ) );
 	}
 
 
 	public function testCompare()
 	{
-		$expected = \Aimeos\Controller\Frontend\Stock\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'compare' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'stock.dateback', '2000-01-01 00:00:00' ) );
+		$this->assertSame( $this->object, $this->object->compare( '==', 'stock.dateback', '2000-01-01 00:00:00' ) );
 	}
 
 
@@ -113,12 +103,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testParse()
 	{
-		$expected = \Aimeos\Controller\Frontend\Stock\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'parse' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+		$this->assertSame( $this->object, $this->object->parse( [] ) );
 	}
 
 
@@ -135,31 +120,19 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSlice()
 	{
-		$expected = \Aimeos\Controller\Frontend\Stock\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'slice' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+		$this->assertSame( $this->object, $this->object->slice( 0, 100 ) );
 	}
 
 
 	public function testSort()
 	{
-		$expected = \Aimeos\Controller\Frontend\Stock\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'sort' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->sort( 'stock' ) );
+		$this->assertSame( $this->object, $this->object->sort( 'stock' ) );
 	}
 
 
 	public function testGetController()
 	{
-		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );
-
-		$this->assertSame( $this->stub, $result );
+		$this->assertSame( $this->stub, $this->access( 'getController' )->invokeArgs( $this->object, [] ) );
 	}
 
 

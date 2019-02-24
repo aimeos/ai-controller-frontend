@@ -303,9 +303,14 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function use( array $domains )
+	public function uses( array $domains )
 	{
-		$this->item = $this->manager->getItem( $this->getContext()->getUserId(), $domains, true );
+		$this->domains = $domains;
+
+		if( ( $id = $this->getContext()->getUserId() ) !== null ) {
+			$this->item = $this->manager->getItem( $id, $domains, true );
+		}
+
 		return $this;
 	}
 

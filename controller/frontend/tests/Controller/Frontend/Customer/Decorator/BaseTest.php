@@ -189,9 +189,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testUse()
+	public function testUses()
 	{
-		$this->assertSame( $this->object, $this->object->use( [] ) );
+		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
 
 

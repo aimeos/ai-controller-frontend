@@ -23,6 +23,7 @@ class Standard
 {
 	private $conditions = [];
 	private $domain = 'product';
+	private $domains = [];
 	private $filter;
 	private $manager;
 
@@ -102,14 +103,13 @@ class Standard
 	 * Returns the attribute for the given attribute code
 	 *
 	 * @param string $code Unique attribute code
-	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
 	 * @param string $type Type assigned to the attribute
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'price', 'text'], $type = 'product' )
+	public function find( $code, $type )
 	{
-		return $this->manager->findItem( $code, $domains, $this->domain, $type, true );
+		return $this->manager->findItem( $code, $this->domains, $this->domain, $type, true );
 	}
 
 
@@ -117,13 +117,12 @@ class Standard
 	 * Returns the attribute for the given attribute ID
 	 *
 	 * @param string $id Unique attribute ID
-	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $domains = ['media', 'price', 'text'] )
+	public function get( $id )
 	{
-		return $this->manager->getItem( $id, $domains, true );
+		return $this->manager->getItem( $id, $this->domains, true );
 	}
 
 
@@ -182,17 +181,16 @@ class Standard
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the attributes and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Ordered list of attribute items
 	 * @since 2019.04
 	 */
-	public function search( $domains = ['media', 'price', 'text'], &$total = null )
+	public function search( &$total = null )
 	{
 		$expr = array_merge( $this->conditions, [$this->filter->compare( '==', 'attribute.domain', $this->domain )] );
 		$this->filter->setConditions( $this->filter->combine( '&&', $expr ) );
 
-		return $this->manager->searchItems( $this->filter, $domains, $total );
+		return $this->manager->searchItems( $this->filter, $this->domains, $total );
 	}
 
 
@@ -260,6 +258,20 @@ class Standard
 			$this->conditions[] = $this->filter->compare( '==', 'attribute.type', $codes );
 		}
 
+		return $this;
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains )
+	{
+		$this->domains = $domains;
 		return $this;
 	}
 }

@@ -53,18 +53,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$iface = \Aimeos\MShop\Attribute\Item\Iface::class;
-		$this->assertInstanceOf( $iface, $this->object->find( 'white', [], 'color' ) );
+		$item = $this->object->uses( ['text'] )->find( 'white', 'color' );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $item );
+		$this->assertEquals( 1, count( $item->getRefItems( 'text' ) ) );
 	}
 
 
 	public function testGet()
 	{
-		$iface = \Aimeos\MShop\Attribute\Item\Iface::class;
 		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'white', [], 'product', 'color' );
+		$item = $this->object->uses( ['text'] )->get( $item->getId() );
 
-		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $item );
+		$this->assertEquals( 1, count( $item->getRefItems( 'text' ) ) );
 	}
+
 
 
 	public function testHas()
@@ -89,8 +93,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$this->assertGreaterThanOrEqual( 26, count( $this->object->search( [], $total ) ) );
+		$items = $this->object->uses( ['text'] )->sort( 'attribute.code' )->search( $total );
+
+		$this->assertGreaterThanOrEqual( 26, count( $items ) );
 		$this->assertGreaterThanOrEqual( 26, $total );
+		$this->assertEquals( 1, count( current( array_reverse( $items, true ) )->getRefItems( 'text' ) ) );
 	}
 
 
@@ -114,14 +121,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSortPosition()
 	{
-		$result = $this->object->sort( 'position' )->search( [] );
+		$result = $this->object->sort( 'position' )->search();
 		$this->assertEquals( 'white', reset( $result )->getCode() );
 	}
 
 
 	public function testSortCodeDesc()
 	{
-		$result = $this->object->sort( '-position' )->search( [] );
+		$result = $this->object->sort( '-position' )->search();
 		$this->assertStringStartsWith( 'white', end( $result )->getCode() );
 	}
 
@@ -129,5 +136,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testType()
 	{
 		$this->assertEquals( 6, count( $this->object->type( 'size' )->search() ) );
+	}
+
+
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
 }

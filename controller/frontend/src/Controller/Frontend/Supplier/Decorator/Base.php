@@ -32,10 +32,10 @@ abstract class Base
 	 */
 	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
+		parent::__construct( $context );
+
 		$iface = \Aimeos\Controller\Frontend\Supplier\Iface::class;
 		$this->controller = \Aimeos\MW\Common\Base::checkClass( $iface, $controller );
-
-		parent::__construct( $context );
 	}
 
 
@@ -82,13 +82,12 @@ abstract class Base
 	 * Returns the supplier for the given supplier code
 	 *
 	 * @param string $code Unique supplier code
-	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'text'] )
+	public function find( $code )
 	{
-		return $this->controller->find( $code, $domains );
+		return $this->controller->find( $code );
 	}
 
 
@@ -96,13 +95,12 @@ abstract class Base
 	 * Returns the supplier for the given supplier ID
 	 *
 	 * @param string $id Unique supplier ID
-	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $domains = ['media', 'text'] )
+	public function get( $id )
 	{
-		return $this->controller->get( $id, $domains );
+		return $this->controller->get( $id );
 	}
 
 
@@ -123,14 +121,13 @@ abstract class Base
 	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found suppliers will be stored in
 	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
 	 * @since 2019.04
 	 */
-	public function search( $domains = ['media', 'text'], &$total = null )
+	public function search( &$total = null )
 	{
-		return $this->controller->search( $domains, $total );
+		return $this->controller->search( $total );
 	}
 
 
@@ -159,6 +156,20 @@ abstract class Base
 	public function sort( $key = null )
 	{
 		$this->controller->sort( $key );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains )
+	{
+		$this->controller->uses( $domains );
 		return $this;
 	}
 

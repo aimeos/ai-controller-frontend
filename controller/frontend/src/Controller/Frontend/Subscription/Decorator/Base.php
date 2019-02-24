@@ -32,10 +32,10 @@ abstract class Base
 	 */
 	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
 	{
+		parent::__construct( $context );
+
 		$iface = \Aimeos\Controller\Frontend\Subscription\Iface::class;
 		$this->controller = \Aimeos\MW\Common\Base::checkClass( $iface, $controller );
-
-		parent::__construct( $context );
 	}
 
 

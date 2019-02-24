@@ -67,7 +67,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'price', 'text'] );
+	public function find( $code );
 
 	/**
 	 * Returns the product for the given product ID
@@ -77,7 +77,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $domains = ['media', 'price', 'text'] );
+	public function get( $id );
 
 	/**
 	 * Adds a filter to return only items containing a reference to the given ID
@@ -132,11 +132,10 @@ interface Iface
 	 * Returns the products filtered by the previously assigned conditions
 	 *
 	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
-	 * @param integer &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
-	public function search( $domains = ['media', 'price', 'text'], &$total = null );
+	public function search( &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products
@@ -175,4 +174,13 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function text( $text );
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains );
 }

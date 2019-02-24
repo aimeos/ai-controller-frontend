@@ -150,5 +150,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function use( array $domains );
+	public function uses( array $domains );
 }

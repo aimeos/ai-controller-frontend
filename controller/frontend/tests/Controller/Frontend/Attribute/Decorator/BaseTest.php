@@ -67,34 +67,19 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAttribute()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'attribute' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->attribute( [1, 3] ) );
+		$this->assertSame( $this->object, $this->object->attribute( [1, 3] ) );
 	}
 
 
 	public function testDomain()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'domain' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->domain( 'catalog' ) );
+		$this->assertSame( $this->object, $this->object->domain( 'catalog' ) );
 	}
 
 
 	public function testCompare()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'compare' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'attribute.code', 'test' ) );
+		$this->assertSame( $this->object, $this->object->compare( '==', 'attribute.code', 'test' ) );
 	}
 
 
@@ -106,7 +91,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'find' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( $expected, $this->object->find( 'test', ['text'], 'color' ) );
+		$this->assertInstanceOf( $expected, $this->object->find( 'test', 'color' ) );
 	}
 
 
@@ -118,40 +103,25 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( $expected, $this->object->get( 1, ['text'] ) );
+		$this->assertInstanceOf( $expected, $this->object->get( 1 ) );
 	}
 
 
 	public function testHas()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'has' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->has( 'price', 'default', -1 ) );
+		$this->assertSame( $this->object, $this->object->has( 'price', 'default', -1 ) );
 	}
 
 
 	public function testParse()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'parse' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+		$this->assertSame( $this->object, $this->object->parse( [] ) );
 	}
 
 
 	public function testProperty()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'property' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->property( 'test', 'value' ) );
+		$this->assertSame( $this->object, $this->object->property( 'test', 'value' ) );
 	}
 
 
@@ -164,29 +134,25 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( [$item] ) );
 
-		$this->assertEquals( [$item], $this->object->search( ['text'], $total ) );
+		$this->assertEquals( [$item], $this->object->search( $total ) );
 	}
 
 
 	public function testSlice()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'slice' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+		$this->assertSame( $this->object, $this->object->slice( 0, 100 ) );
 	}
 
 
 	public function testSort()
 	{
-		$expected = \Aimeos\Controller\Frontend\Attribute\Iface::class;
+		$this->assertSame( $this->object, $this->object->sort( 'position' ) );
+	}
 
-		$this->stub->expects( $this->once() )->method( 'sort' )
-			->will( $this->returnValue( $this->stub ) );
 
-		$this->assertInstanceOf( $expected, $this->object->sort( 'position' ) );
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
 
 

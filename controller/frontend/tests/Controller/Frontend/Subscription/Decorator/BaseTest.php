@@ -78,12 +78,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCompare()
 	{
-		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'compare' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->compare( '==', 'supplier.status', 1 ) );
+		$this->assertSame( $this->object, $this->object->compare( '==', 'supplier.status', 1 ) );
 	}
 
 
@@ -109,12 +104,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testParse()
 	{
-		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'parse' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->parse( [] ) );
+		$this->assertSame( $this->object, $this->object->parse( [] ) );
 	}
 
 
@@ -142,31 +132,19 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSlice()
 	{
-		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'slice' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->slice( 0, 100 ) );
+		$this->assertSame( $this->object, $this->object->slice( 0, 100 ) );
 	}
 
 
 	public function testSort()
 	{
-		$expected = \Aimeos\Controller\Frontend\Subscription\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'sort' )
-			->will( $this->returnValue( $this->stub ) );
-
-		$this->assertInstanceOf( $expected, $this->object->sort( 'interval' ) );
+		$this->assertSame( $this->object, $this->object->sort( 'interval' ) );
 	}
 
 
 	public function testGetController()
 	{
-		$result = $this->access( 'getController' )->invokeArgs( $this->object, [] );
-
-		$this->assertSame( $this->stub, $result );
+		$this->assertSame( $this->stub, $this->access( 'getController' )->invokeArgs( $this->object, [] ) );
 	}
 
 

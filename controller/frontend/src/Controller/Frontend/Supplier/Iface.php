@@ -38,7 +38,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $domains = ['media', 'text'] );
+	public function find( $code );
 
 	/**
 	 * Returns the supplier for the given supplier ID
@@ -48,7 +48,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $domains = ['media', 'text'] );
+	public function get( $id );
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -62,12 +62,11 @@ interface Iface
 	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the suppliers and that should be fetched too
 	 * @param integer &$total Parameter where the total number of found suppliers will be stored in
 	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
 	 * @since 2019.04
 	 */
-	public function search( $domains = ['media', 'text'], &$total = null );
+	public function search( &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned supplier items for slicing the list of found supplier items
@@ -87,4 +86,13 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function sort( $key = null );
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains );
 }

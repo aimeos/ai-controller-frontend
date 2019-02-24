@@ -24,42 +24,57 @@ use \Psr\Http\Message\ResponseInterface;
 interface Iface
 {
 	/**
+	 * Adds generic condition for filtering services
+	 *
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the service manager, e.g. "service.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function compare( $operator, $key, $value );
+
+	/**
 	 * Returns the service for the given code
 	 *
 	 * @param string $code Unique service code
-	 * @param string[] $domains Domain names of items that are associated with the service and that should be fetched too
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $ref = ['media', 'price', 'text'] );
+	public function find( $code );
 
 	/**
 	 * Returns the service for the given ID
 	 *
 	 * @param string $id Unique service ID
-	 * @param string[] $domains Domain names of items that are associated with the services and that should be fetched too
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id, $ref = ['media', 'price', 'text'] );
+	public function get( $id );
 
 	/**
 	 * Returns the service item for the given ID
 	 *
 	 * @param string $serviceId Unique service ID
-	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
-	public function getProvider( $id, $ref = ['media', 'price', 'text'] );
+	public function getProvider( $id );
 
 	/**
-	 * Returns the service providers for the given type
+	 * Returns the service providers
 	 *
-	 * @param string|null $type Service type, e.g. "delivery" (shipping related), "payment" (payment related) or null for all
-	 * @param array $ref List of domains for which the items referenced by the services should be fetched too
 	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
 	 */
-	public function getProviders( $type = null, $ref = ['media', 'price', 'text'] );
+	public function getProviders();
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['&&' => [['>' => ['service.status' => 0]], ['==' => ['service.type' => 'default']]]]
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions );
 
 	/**
 	 * Processes the service for the given order, e.g. payment and delivery services
@@ -73,6 +88,43 @@ interface Iface
 	 * 	or null if no form data is required
 	 */
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $id, array $urls, array $params );
+
+	/**
+	 * Returns the services filtered by the previously assigned conditions
+	 *
+	 * @param integer &$total Parameter where the total number of found services will be stored in
+	 * @return \Aimeos\MShop\Service\Item\Iface[] Ordered list of service items
+	 * @since 2019.04
+	 */
+	public function search( &$total = null );
+
+	/**
+	 * Sets the start value and the number of returned services for slicing the list of found services
+	 *
+	 * @param integer $start Start value of the first attribute in the list
+	 * @param integer $limit Number of returned services
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit );
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting of the result list like "position", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null );
+
+	/**
+	 * Adds attribute types for filtering
+	 *
+	 * @param array|string $code Service type or list of types
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function type( $code );
 
 	/**
 	 * Updates the order status sent by payment gateway notifications
@@ -93,4 +145,13 @@ interface Iface
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Order item that has been updated
 	 */
 	public function updateSync( ServerRequestInterface $request, $code, $orderid );
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains );
 }

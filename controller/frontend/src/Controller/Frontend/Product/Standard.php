@@ -244,10 +244,27 @@ class Standard
 				break;
 
 			case 'price':
+				/** controller/frontend/product/price-types
+				 * Fetch product prices with multiple types
+				 *
+				 * In some cases prices are stored with different types, eg. price per kg.
+				 * This configuration option defines which types are incorporated when sorting
+				 * the product list by price.
+				 *
+				 * @param array List of price types to be considered for order-by-price request
+				 * @since 2018.10
+				 * @category Developer
+				 */
+				$priceTypes = $context->getConfig()->get( 'controller/frontend/product/price-types', array('default') );
+				
 				$currencyid = $context->getLocale()->getCurrencyId();
 
-				$cmpfunc = $search->createFunction( 'index.price:value', array( $listtype, $currencyid, 'default' ) );
-				$expr[] = $search->compare( '!=', $cmpfunc, null );
+				$priceExpr = array();
+				foreach($priceTypes as $type) {
+					$cmpfunc = $search->createFunction( 'index.price:value', array( $listtype, $currencyid, $type ) );
+					$priceExpr[] = $search->compare( '!=', $cmpfunc, null );
+				}
+				$expr[] = $search->combine( '||', $priceExpr );
 
 				$sortfunc = $search->createFunction( 'sort:index.price:value', array( $listtype, $currencyid, 'default' ) );
 				$sortations[] = $search->sort( $direction, $sortfunc );

@@ -25,6 +25,7 @@ class Standard
 	private $conditions = [];
 	private $manager;
 	private $filter;
+	private $sort;
 	private $item;
 
 

@@ -32,23 +32,108 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAddItem()
+	public function testAdd()
 	{
-		$manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
+		$this->assertSame( $this->object, $this->object->add( -1, [] ) );
+	}
+
+
+	public function testCompare()
+	{
+		$this->assertSame( $this->object, $this->object->compare( '==', 'order.type', 'test' ) );
+	}
+
+
+	public function testGet()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'order' );
+		$items = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1) );
+
+		if( ( $item = reset( $items ) ) === null ) {
+			throw new \RuntimeException( 'No order item found' );
+		}
+
+		$this->assertEquals( $item, $this->object->get( $item->getId(), false ) );
+	}
+
+
+	public function testParse()
+	{
+		$this->assertSame( $this->object, $this->object->parse( [] ) );
+	}
+
+
+	public function testSave()
+	{
+		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['saveItem'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( 'order', $manager );
 
-		$manager->expects( $this->once() )->method( 'saveItem' )
-			->will( $this->returnValue( $manager->createItem() ) );
+		$item = $manager->createItem();
+		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->addItem( -1, 'test' ) );
+		$manager->expects( $this->once() )->method( 'saveItem' )->will( $this->returnArgument( 0 ) );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->save( $item ) );
 	}
 
 
-	public function testAddItemLimit()
+	public function testSearch()
+	{
+		$userId = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId();
+		$this->context->setUserId( $userId );
+
+		$total = 0;
+		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
+
+		$this->assertGreaterThanOrEqual( 10, $object->search( $total ) );
+	}
+
+
+	public function testSlice()
+	{
+		$this->assertSame( $this->object, $this->object->slice( 0, 100 ) );
+	}
+
+
+	public function testSort()
+	{
+		$this->assertSame( $this->object, $this->object->sort( 'order.id' ) );
+	}
+
+
+	public function testStore()
+	{
+		$class = \Aimeos\Controller\Common\Order\Standard::class;
+
+		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['saveItem'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( 'order', $manager );
+
+		$stub = $this->getMockBuilder( $class )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['block'] )
+			->getMock();
+
+		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
+		$item = $manager->createItem()->setBaseId( 1 );
+
+		$manager->expects( $this->once() )->method( 'saveItem' )->will( $this->returnValue( $item ) );
+		$stub->expects( $this->once() )->method( 'block' )->will( $this->returnValue( $item ) );
+
+		\Aimeos\Controller\Common\Order\Factory::inject( $class, $stub );
+		$this->assertEquals( $item, $object->store() );
+		\Aimeos\Controller\Common\Order\Factory::inject( $class, null );
+	}
+
+
+	public function testStoreLimit()
 	{
 		$this->context->getConfig()->set( 'controller/frontend/order/limit-seconds', 86400 * 365 );
 
@@ -56,125 +141,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1 ) );
 
 		if( ( $item = reset( $result ) ) === false ) {
-			throw new \RuntimeException( 'No order item found' );
+			throw new \RuntimeException( 'No order base item found' );
 		}
 
 		$this->setExpectedException( \Aimeos\Controller\Frontend\Order\Exception::class );
-		$this->object->addItem( $item->getId(), 'test' );
-	}
-
-
-	public function testCreateFilter()
-	{
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
-	}
-
-
-	public function testGetItem()
-	{
-		$manager = \Aimeos\MShop::create( $this->context, 'customer' );
-		$customerItem = $manager->findItem( 'UTC001' );
-
-		$this->context->setEditor( 'core:lib/mshoplib' );
-
-		$manager = \Aimeos\MShop::create( $this->context, 'order' );
-		$search = $manager->createSearch()->setSlice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'order.base.customerid', $customerItem->getId() ) );
-		$result = $manager->searchItems( $search );
-
-		if( ( $item = reset( $result ) ) === false ) {
-			throw new \RuntimeException( 'No order item found' );
-		}
-
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->getItem( $item->getId() ) );
-	}
-
-
-	public function testGetItemException()
-	{
-		$this->setExpectedException( \Aimeos\Controller\Frontend\Order\Exception::class );
-		$this->object->getItem( -1 );
-	}
-
-
-	public function testSaveItem()
-	{
-		$manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
-			->setConstructorArgs( [$this->context] )
-			->setMethods( ['saveItem'] )
-			->getMock();
-
-		\Aimeos\MShop::inject( 'order', $manager );
-
-		$manager->expects( $this->once() )->method( 'saveItem' )
-			->will( $this->returnValue( $manager->createItem() ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->saveItem( $manager->createItem() ) );
-	}
-
-
-	public function testSearchItems()
-	{
-		$this->assertGreaterThan( 1, $this->object->searchItems( $this->object->createFilter() ) );
-	}
-
-
-	public function testBlock()
-	{
-		$name = 'ControllerFrontendOrderBlock';
-		$this->context->getConfig()->set( 'controller/common/order/name', $name );
-
-
-		$orderCntlStub = $this->getMockBuilder( '\\Aimeos\\Controller\\Common\\Order\\Standard' )
-			->setMethods( array( 'block' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\Controller\Common\Order\Factory::injectController( '\\Aimeos\\Controller\\Common\\Order\\' . $name, $orderCntlStub );
-
-		$orderCntlStub->expects( $this->once() )->method( 'block' );
-
-
-		$this->object->block( \Aimeos\MShop::create( $this->context, 'order' )->createItem() );
-	}
-
-
-	public function testUnblock()
-	{
-		$name = 'ControllerFrontendOrderUnblock';
-		$this->context->getConfig()->set( 'controller/common/order/name', $name );
-
-
-		$orderCntlStub = $this->getMockBuilder( '\\Aimeos\\Controller\\Common\\Order\\Standard' )
-			->setMethods( array( 'unblock' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\Controller\Common\Order\Factory::injectController( '\\Aimeos\\Controller\\Common\\Order\\' . $name, $orderCntlStub );
-
-		$orderCntlStub->expects( $this->once() )->method( 'unblock' );
-
-
-		$this->object->unblock( \Aimeos\MShop::create( $this->context, 'order' )->createItem() );
-	}
-
-
-	public function testUpdate()
-	{
-		$name = 'ControllerFrontendOrderUpdate';
-		$this->context->getConfig()->set( 'controller/common/order/name', $name );
-
-
-		$orderCntlStub = $this->getMockBuilder( '\\Aimeos\\Controller\\Common\\Order\\Standard' )
-			->setMethods( array( 'update' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\Controller\Common\Order\Factory::injectController( '\\Aimeos\\Controller\\Common\\Order\\' . $name, $orderCntlStub );
-
-		$orderCntlStub->expects( $this->once() )->method( 'update' );
-
-
-		$this->object->update( \Aimeos\MShop::create( $this->context, 'order' )->createItem() );
+		$this->object->add( $item->getId() )->store();
 	}
 }

@@ -65,73 +65,77 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAddItem()
+	public function testAdd()
+	{
+		$this->stub->expects( $this->once() )->method( 'add' );
+		$this->assertSame( $this->object, $this->object->add( -1, [] ) );
+	}
+
+
+	public function testCompare()
+	{
+		$this->assertSame( $this->object, $this->object->compare( '==', 'order.type', 'test' ) );
+	}
+
+
+	public function testGet()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$expected = \Aimeos\MShop\Order\Item\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $item ) );
+
+		$this->assertInstanceOf( $expected, $this->object->get( -1, false ) );
+	}
+
+
+	public function testParse()
+	{
+		$this->assertSame( $this->object, $this->object->parse( [] ) );
+	}
+
+
+	public function testSave()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$expected = \Aimeos\MShop\Order\Item\Iface::class;
+
+		$this->stub->expects( $this->once() )->method( 'save' )->will( $this->returnArgument( 0 ) );
+
+		$this->assertInstanceOf( $expected, $this->object->save( $item ) );
+	}
+
+
+	public function testSearch()
+	{
+		$total = 0;
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'search' )->will( $this->returnValue( [$item] ) );
+
+		$this->assertEquals( [$item], $this->object->search( $total ) );
+	}
+
+
+	public function testSlice()
+	{
+		$this->assertSame( $this->object, $this->object->slice( 0, 100 ) );
+	}
+
+
+	public function testSort()
+	{
+		$this->assertSame( $this->object, $this->object->sort( 'order.id' ) );
+	}
+
+
+	public function testStore()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'addItem' )->will( $this->returnValue( $item ) );
+		$this->stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->addItem( -1, '' ) );
-	}
-
-
-	public function testCreateFilter()
-	{
-		$search = \Aimeos\MShop::create( $this->context, 'order' )->createSearch();
-
-		$this->stub->expects( $this->once() )->method( 'createFilter' )->will( $this->returnValue( $search ) );
-
-		$this->assertInstanceOf( \Aimeos\MW\Criteria\Iface::class, $this->object->createFilter() );
-	}
-
-
-	public function testGetItem()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'getItem' )->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->getItem( -1 ) );
-	}
-
-
-	public function testSaveItem()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'saveItem' );
-
-		$this->object->saveItem( $item );
-	}
-
-
-	public function testSearchItems()
-	{
-		$search = $this->getMockBuilder( \Aimeos\MW\Criteria\Iface::class )->getMock();
-
-		$this->stub->expects( $this->once() )->method( 'searchItems' )->will( $this->returnValue( [] ) );
-
-		$this->assertEquals( [], $this->object->searchItems( $search ) );
-	}
-
-
-	public function testUnblock()
-	{
-		$orderItem = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'unblock' );
-
-		$this->object->unblock( $orderItem );
-	}
-
-
-	public function testUpdate()
-	{
-		$orderItem = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
-
-		$this->stub->expects( $this->once() )->method( 'update' );
-
-		$this->object->update( $orderItem );
+		$this->assertEquals( $item, $this->object->store() );
 	}
 
 

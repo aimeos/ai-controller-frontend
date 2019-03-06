@@ -22,19 +22,200 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	/**
-	 * Creates and adds a new order for the given order base ID
-	 *
-	 * @param string $baseId Unique ID of the saved basket
-	 * @param string $type Arbitrary order type (max. eight chars)
-	 * @return \Aimeos\MShop\Order\Item\Iface Created order object
-	 */
-	public function addItem( $baseId, $type )
-	{
-		$total = 0;
-		$context = $this->getContext();
-		$manager = \Aimeos\MShop::create( $context, 'order' );
+	private $conditions = [];
+	private $manager;
+	private $filter;
+	private $item;
 
+
+	/**
+	 * Initializes the controller
+	 *
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Common MShop context object
+	 */
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context )
+	{
+		parent::__construct( $context );
+
+		$this->manager = \Aimeos\MShop::create( $context, 'order' );
+		$this->item = $this->manager->createItem();
+
+		$this->filter = $this->manager->createSearch( true );
+		$this->conditions[] = $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() );
+		$this->conditions[] = $this->filter->getConditions();
+	}
+
+
+	/**
+	 * Clones objects in controller and resets values
+	 */
+	public function __clone()
+	{
+		$this->item = clone $this->item;
+	}
+
+
+	/**
+	 * Adds the values to the order object (not yet stored)
+	 *
+	 * @param string $baseId ID of the stored basket
+	 * @param array $values Values added to the order item (new or existing) like "order.type"
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function add( $baseId, array $values = [] )
+	{
+		$this->item = $this->item->fromArray( $values )->setBaseId( $baseId );
+		return $this;
+	}
+
+
+	/**
+	 * Adds generic condition for filtering orders
+	 *
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the order manager, e.g. "order.type"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function compare( $operator, $key, $value )
+	{
+		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		return $this;
+	}
+
+
+	/**
+	 * Returns the order for the given order ID
+	 *
+	 * @param string $id Unique order ID
+	 * @param boolean $default Use default criteria to limit orders
+	 * @return \Aimeos\MShop\Order\Item\Iface Order item object
+	 * @since 2019.04
+	 */
+	public function get( $id, $default = true )
+	{
+		return $this->manager->getItem( $id, [], $default );
+	}
+
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['&&' => [['>' => ['order.statuspayment' => 0]], ['==' => ['order.type' => 'web']]]]
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function parse( array $conditions )
+	{
+		$this->conditions[] = $this->filter->toConditions( $conditions );
+		return $this;
+	}
+
+
+	/**
+	 * Updates the given order item in the storage
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
+	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Saved order item object
+	 * @since 2019.04
+	 */
+	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	{
+		return $this->manager->saveItem( $orderItem );
+	}
+
+	/**
+	 * Returns the orders filtered by the previously assigned conditions
+	 *
+	 * @param string[] $domains Domain names of items that are associated with the orders and that should be fetched too
+	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
+	 * @since 2019.04
+	 */
+	public function search( &$total = null )
+	{
+		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		return $this->manager->searchItems( $this->filter, [], $total );
+	}
+
+
+	/**
+	 * Sets the start value and the number of returned orders for slicing the list of found orders
+	 *
+	 * @param integer $start Start value of the first order in the list
+	 * @param integer $limit Number of returned orders
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function slice( $start, $limit )
+	{
+		$this->filter->setSlice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting of the result list like "-order.id", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null )
+	{
+		$direction = '+';
+
+		if( $key != null && $key[0] === '-' )
+		{
+			$key = substr( $key, 1 );
+			$direction = '-';
+		}
+
+		switch( $key )
+		{
+			case null:
+				$this->sort = null;
+				break;
+
+			default:
+				$this->sort = $this->filter->sort( $direction, $key );
+		}
+
+		if( $this->sort ) {
+			$this->filter->setSortations( [$this->sort] );
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Saves the modified order item in the storage and blocks the stock and coupon codes
+	 *
+	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
+	 * @since 2019.04
+	 */
+	public function store()
+	{
+		$this->checkLimit( $this->item->getBaseId() );
+
+		$cntl = \Aimeos\Controller\Common\Order\Factory::create( $this->getContext() );
+		$this->item = $this->manager->saveItem( $this->item );
+
+		return $cntl->block( $this->item );
+	}
+
+
+	/**
+	 * Checks if more orders than allowed have been created by the user
+	 *
+	 * @param string $baseId Unique ID of the order base item (basket)
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @throws \Aimeos\Controller\Frontend\Order\Exception If limit is exceeded
+	 */
+	protected function checkLimit( $baseId )
+	{
 		/** controller/frontend/order/limit-seconds
 		 * Order limitation time frame in seconds
 		 *
@@ -51,171 +232,21 @@ class Standard
 		 * @see controller/frontend/basket/limit-count
 		 * @see controller/frontend/basket/limit-seconds
 		 */
-		$seconds = $context->getConfig()->get( 'controller/frontend/order/limit-seconds', 300 );
+		$seconds = $this->getContext()->getConfig()->get( 'controller/frontend/order/limit-seconds', 300 );
 
-		$search = $manager->createSearch();
-		$expr = [
+		$search = $this->manager->createSearch()->setSlice( 0, 0 );
+		$search->setConditions( $search->combine( '&&', [
 			$search->compare( '==', 'order.baseid', $baseId ),
 			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
-		];
-		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSlice( 0, 0 );
+		] ) );
 
-		$manager->searchItems( $search, [], $total );
+		$total = 0;
+		$this->manager->searchItems( $search, [], $total );
 
 		if( $total > 0 ) {
 			throw new \Aimeos\Controller\Frontend\Order\Exception( sprintf( 'The order has already been created' ) );
 		}
 
-		$item = $manager->createItem()->setBaseId( $baseId )->setType( $type );
-		return $manager->saveItem( $item );
-	}
-
-
-	/**
-	 * Returns the filter for searching items
-	 *
-	 * @return \Aimeos\MW\Criteria\Iface Filter object
-	 */
-	public function createFilter()
-	{
-		return \Aimeos\MShop::create( $this->getContext(), 'order' )->createSearch( true );
-	}
-
-
-	/**
-	 * Returns the order item for the given ID
-	 *
-	 * @param string $id Unique order ID
-	 * @param boolean $default Use default criteria to limit orders
-	 * @return \Aimeos\MShop\Order\Item\Iface Order object
-	 */
-	public function getItem( $id, $default = true )
-	{
-		$context = $this->getContext();
-		$manager = \Aimeos\MShop::create( $context, 'order' );
-
-		$search = $manager->createSearch( true );
-		$expr = [
-			$search->compare( '==', 'order.id', $id ),
-			$search->getConditions(),
-		];
-
-		if( $default !== false ) {
-			$expr[] = $search->compare( '==', 'order.editor', $context->getEditor() );
-		}
-
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$items = $manager->searchItems( $search );
-
-		if( ( $item = reset( $items ) ) !== false ) {
-			return $item;
-		}
-
-		throw new \Aimeos\Controller\Frontend\Order\Exception( sprintf( 'No order item for ID "%1$s" found', $id ) );
-	}
-
-
-	/**
-	 * Saves the modified order item
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Iface $item Order object
-	 * @return \Aimeos\MShop\Order\Item\Iface Saved order item
-	 */
-	public function saveItem( \Aimeos\MShop\Order\Item\Iface $item )
-	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'order' );
-		return $manager->saveItem( $item );
-	}
-
-
-	/**
-	 * Returns the order items based on the given filter that belong to the current user
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface Filter object
-	 * @param integer|null &$total Variable that will contain the total number of available items
-	 * @return \Aimeos\MShop\Order\Item\Iface[] Associative list of IDs as keys and order objects as values
-	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
-	{
-		$context = $this->getContext();
-		$manager = \Aimeos\MShop::create( $context, 'order' );
-
-		$expr = [
-			$filter->getConditions(),
-			$filter->compare( '==', 'order.base.customerid', $context->getUserId() ),
-		];
-		$filter->setConditions( $filter->combine( '&&', $expr ) );
-
-		return $manager->searchItems( $filter, [], $total );
-	}
-
-
-	/**
-	 * Blocks the resources listed in the order.
-	 *
-	 * Every order contains resources like products or redeemed coupon codes
-	 * that must be blocked so they can't be used by another customer in a
-	 * later order. This method reduces the the stock level of products, the
-	 * counts of coupon codes and others.
-	 *
-	 * It's save to call this method multiple times for one order. In this case,
-	 * the actions will be executed only once. All subsequent calls will do
-	 * nothing as long as the resources haven't been unblocked in the meantime.
-	 *
-	 * You can also block and unblock resources several times. Please keep in
-	 * mind that unblocked resources may be reused by other orders in the
-	 * meantime. This can lead to an oversell of products!
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
-	 */
-	public function block( \Aimeos\MShop\Order\Item\Iface $orderItem )
-	{
-		\Aimeos\Controller\Common\Order\Factory::create( $this->getContext() )->block( $orderItem );
-	}
-
-
-	/**
-	 * Frees the resources listed in the order.
-	 *
-	 * If customers created orders but didn't pay for them, the blocked resources
-	 * like products and redeemed coupon codes must be unblocked so they can be
-	 * ordered again or used by other customers. This method increased the stock
-	 * level of products, the counts of coupon codes and others.
-	 *
-	 * It's save to call this method multiple times for one order. In this case,
-	 * the actions will be executed only once. All subsequent calls will do
-	 * nothing as long as the resources haven't been blocked in the meantime.
-	 *
-	 * You can also unblock and block resources several times. Please keep in
-	 * mind that unblocked resources may be reused by other orders in the
-	 * meantime. This can lead to an oversell of products!
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
-	 */
-	public function unblock( \Aimeos\MShop\Order\Item\Iface $orderItem )
-	{
-		\Aimeos\Controller\Common\Order\Factory::create( $this->getContext() )->unblock( $orderItem );
-	}
-
-
-	/**
-	 * Blocks or frees the resources listed in the order if necessary.
-	 *
-	 * After payment status updates, the resources like products or coupon
-	 * codes listed in the order must be blocked or unblocked. This method
-	 * cares about executing the appropriate action depending on the payment
-	 * status.
-	 *
-	 * It's save to call this method multiple times for one order. In this case,
-	 * the actions will be executed only once. All subsequent calls will do
-	 * nothing as long as the payment status hasn't changed in the meantime.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
-	 */
-	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem )
-	{
-		\Aimeos\Controller\Common\Order\Factory::create( $this->getContext() )->update( $orderItem );
+		return $this;
 	}
 }

@@ -54,135 +54,128 @@ abstract class Base
 
 
 	/**
-	 * Creates and adds a new order for the given order base ID
+	 * Adds the values to the order object (not yet stored)
 	 *
-	 * @param string $baseId Unique ID of the saved basket
-	 * @param string $type Arbitrary order type (max. eight chars)
-	 * @return \Aimeos\MShop\Order\Item\Iface Created order object
+	 * @param string $baseId ID of the stored basket
+	 * @param array $values Values added to the order item (new or existing) like "order.type"
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function addItem( $baseId, $type )
+	public function add( $baseId, array $values = [] )
 	{
-		return $this->controller->addItem( $baseId, $type );
+		$this->controller->add( $baseId, $values );
+		return $this;
 	}
 
 
 	/**
-	 * Returns the filter for searching items
+	 * Adds generic condition for filtering orders
 	 *
-	 * @return \Aimeos\MW\Criteria\Iface Filter object
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the order manager, e.g. "order.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function createFilter()
+	public function compare( $operator, $key, $value )
 	{
-		return $this->controller->createFilter();
+		$this->controller->compare( $operator, $key, $value );
+		return $this;
 	}
 
 
 	/**
-	 * Returns the order item for the given ID
+	 * Returns the order for the given order ID
 	 *
 	 * @param string $id Unique order ID
 	 * @param boolean $default Use default criteria to limit orders
-	 * @return \Aimeos\MShop\Order\Item\Iface Order object
+	 * @return \Aimeos\MShop\Order\Item\Iface Order item object
+	 * @since 2019.04
 	 */
-	public function getItem( $id, $default = true )
+	public function get( $id, $default = true )
 	{
-		return $this->controller->getItem( $id, $default );
+		return $this->controller->get( $id, $default );
 	}
 
 
 	/**
-	 * Saves the modified order item
+	 * Parses the given array and adds the conditions to the list of conditions
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Iface $item Order object
-	 * @return \Aimeos\MShop\Order\Item\Iface Saved order item
+	 * @param array $conditions List of conditions, e.g. ['&&' => [['>' => ['order.statuspayment' => 0]], ['==' => ['order.type' => 'web']]]]
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function saveItem( \Aimeos\MShop\Order\Item\Iface $item )
+	public function parse( array $conditions )
 	{
-		return $this->controller->saveItem( $item );
+		$this->controller->parse( $conditions );
+		return $this;
 	}
 
 
 	/**
-	 * Returns the order items based on the given filter that belong to the current user
-	 *
-	 * @param \Aimeos\MW\Criteria\Iface Filter object
-	 * @param integer &$total|null Variable that will contain the total number of available items
-	 * @return \Aimeos\MShop\Order\Item\Iface[] Associative list of IDs as keys and order objects as values
-	 */
-	public function searchItems( \Aimeos\MW\Criteria\Iface $filter, &$total = null )
-	{
-		return $this->controller->searchItems( $filter, $total );
-	}
-
-
-	/**
-	 * Blocks the resources listed in the order.
-	 *
-	 * Every order contains resources like products or redeemed coupon codes
-	 * that must be blocked so they can't be used by another customer in a
-	 * later order. This method reduces the the stock level of products, the
-	 * counts of coupon codes and others.
-	 *
-	 * It's save to call this method multiple times for one order. In this case,
-	 * the actions will be executed only once. All subsequent calls will do
-	 * nothing as long as the resources haven't been unblocked in the meantime.
-	 *
-	 * You can also block and unblock resources several times. Please keep in
-	 * mind that unblocked resources may be reused by other orders in the
-	 * meantime. This can lead to an oversell of products!
+	 * Updates the given order item in the storage
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
-	 * @return void
+	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Saved order item object
+	 * @since 2019.04
 	 */
-	public function block( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem )
 	{
-		$this->getController()->block( $orderItem );
+		return $this->controller->save( $orderItem );
 	}
 
 
 	/**
-	 * Frees the resources listed in the order.
+	 * Returns the orders filtered by the previously assigned conditions
 	 *
-	 * If customers created orders but didn't pay for them, the blocked resources
-	 * like products and redeemed coupon codes must be unblocked so they can be
-	 * ordered again or used by other customers. This method increased the stock
-	 * level of products, the counts of coupon codes and others.
-	 *
-	 * It's save to call this method multiple times for one order. In this case,
-	 * the actions will be executed only once. All subsequent calls will do
-	 * nothing as long as the resources haven't been blocked in the meantime.
-	 *
-	 * You can also unblock and block resources several times. Please keep in
-	 * mind that unblocked resources may be reused by other orders in the
-	 * meantime. This can lead to an oversell of products!
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
-	 * @return void
+	 * @param string[] $domains Domain names of items that are associated with the orders and that should be fetched too
+	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
+	 * @since 2019.04
 	 */
-	public function unblock( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	public function search( &$total = null )
 	{
-		$this->getController()->unblock( $orderItem );
+		return $this->controller->search( $total );
 	}
 
 
 	/**
-	 * Blocks or frees the resources listed in the order if necessary.
+	 * Sets the start value and the number of returned orders for slicing the list of found orders
 	 *
-	 * After payment status updates, the resources like products or coupon
-	 * codes listed in the order must be blocked or unblocked. This method
-	 * cares about executing the appropriate action depending on the payment
-	 * status.
-	 *
-	 * It's save to call this method multiple times for one order. In this case,
-	 * the actions will be executed only once. All subsequent calls will do
-	 * nothing as long as the payment status hasn't changed in the meantime.
-	 *
-	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
-	 * @return void
+	 * @param integer $start Start value of the first order in the list
+	 * @param integer $limit Number of returned orders
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
 	 */
-	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	public function slice( $start, $limit )
 	{
-		$this->getController()->update( $orderItem );
+		$this->controller->slice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting of the result list like "-order.id", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function sort( $key = null )
+	{
+		$this->controller->sort( $key );
+		return $this;
+	}
+
+
+	/**
+	 * Saves the modified order item in the storage and blocks the stock and coupon codes
+	 *
+	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
+	 * @since 2019.04
+	 */
+	public function store()
+	{
+		return $this->controller->store();
 	}
 
 

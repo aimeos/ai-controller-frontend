@@ -34,6 +34,7 @@ class Select
 	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
 	 * 	along with the product in the order
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
@@ -45,10 +46,11 @@ class Select
 
 		if( $productManager->getItem( $prodid, [], true )->getType() !== 'select' )
 		{
-			return $this->getController()->addProduct(
+			$this->getController()->addProduct(
 				$prodid, $quantity, $stocktype, $variantAttributeIds,
 				$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
 			);
+			return $this;
 		}
 
 		$productItem = $productManager->getItem( $prodid, ['attribute', 'media', 'supplier', 'price', 'product', 'text'], true );
@@ -76,6 +78,8 @@ class Select
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );
 		$this->getController()->save();
+
+		return $this;
 	}
 
 

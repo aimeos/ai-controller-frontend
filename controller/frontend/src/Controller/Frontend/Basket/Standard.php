@@ -22,8 +22,8 @@ class Standard
 	extends Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
+	private $manager;
 	private $baskets = [];
-	private $domainManager;
 	private $type = 'default';
 
 
@@ -37,19 +37,19 @@ class Standard
 	{
 		parent::__construct( $context );
 
-		$this->domainManager = \Aimeos\MShop::create( $context, 'order/base' );
+		$this->manager = \Aimeos\MShop::create( $context, 'order/base' );
 	}
 
 
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
 	 *
-	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function clear()
 	{
-		$this->baskets[$this->type] = $this->domainManager->createItem();
-		$this->domainManager->setSession( $this->baskets[$this->type], $this->type );
+		$this->baskets[$this->type] = $this->manager->createItem();
+		$this->manager->setSession( $this->baskets[$this->type], $this->type );
 
 		return $this;
 	}
@@ -64,7 +64,7 @@ class Standard
 	{
 		if( !isset( $this->baskets[$this->type] ) )
 		{
-			$this->baskets[$this->type] = $this->domainManager->getSession( $this->type );
+			$this->baskets[$this->type] = $this->manager->getSession( $this->type );
 			$this->checkLocale( $this->baskets[$this->type]->getLocale(), $this->type );
 		}
 
@@ -75,12 +75,12 @@ class Standard
 	/**
 	 * Explicitely persists the basket content
 	 *
-	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function save()
 	{
 		if( isset( $this->baskets[$this->type] ) && $this->baskets[$this->type]->isModified() ) {
-			$this->domainManager->setSession( $this->baskets[$this->type], $this->type );
+			$this->manager->setSession( $this->baskets[$this->type], $this->type );
 		}
 
 		return $this;
@@ -91,7 +91,7 @@ class Standard
 	 * Sets the new basket type
 	 *
 	 * @param string $type Basket type
-	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function setType( $type )
 	{
@@ -147,7 +147,7 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/basket/limit-seconds', 300 );
 
-		$search = $this->domainManager->createSearch();
+		$search = $this->manager->createSearch();
 		$expr = [
 			$search->compare( '==', 'order.base.editor', $context->getEditor() ),
 			$search->compare( '>=', 'order.base.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
@@ -155,7 +155,7 @@ class Standard
 		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSlice( 0, 0 );
 
-		$this->domainManager->searchItems( $search, [], $total );
+		$this->manager->searchItems( $search, [], $total );
 
 		if( $total > $count )
 		{
@@ -167,9 +167,9 @@ class Standard
 		$basket = $this->get()->finish();
 		$basket->setCustomerId( (string) $context->getUserId() );
 
-		$this->domainManager->begin();
-		$this->domainManager->store( $basket );
-		$this->domainManager->commit();
+		$this->manager->begin();
+		$this->manager->store( $basket );
+		$this->manager->commit();
 
 		$this->save(); // for reusing unpaid orders, might have side effects (!)
 		$this->createSubscriptions( $basket );
@@ -188,7 +188,7 @@ class Standard
 	 */
 	public function load( $id, $parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_ALL, $default = true )
 	{
-		return $this->domainManager->load( $id, $parts, false, $default );
+		return $this->manager->load( $id, $parts, false, $default );
 	}
 
 
@@ -205,6 +205,7 @@ class Standard
 	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
 	 * 	along with the product in the order
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
@@ -234,8 +235,8 @@ class Standard
 		$orderBaseProductItem->setAttributeItems( $attr );
 		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
 
-		$this->get()->addProduct( $orderBaseProductItem );
-		$this->save();
+		$this->baskets[$this->type] = $this->get()->addProduct( $orderBaseProductItem );
+		return $this->save();
 	}
 
 
@@ -243,6 +244,7 @@ class Standard
 	 * Deletes a product item from the basket.
 	 *
 	 * @param integer $position Position number (key) of the order product item
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function deleteProduct( $position )
 	{
@@ -254,8 +256,8 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
-		$this->get()->deleteProduct( $position );
-		$this->save();
+		$this->baskets[$this->type] = $this->get()->deleteProduct( $position );
+		return $this->save();
 	}
 
 
@@ -265,6 +267,7 @@ class Standard
 	 * @param integer $position Position number (key) of the order product item
 	 * @param integer $quantity New quantiy of the product item
 	 * @param string[] $configAttributeCodes Codes of the product config attributes that should be REMOVED
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function editProduct( $position, $quantity, array $configAttributeCodes = [] )
 	{
@@ -291,9 +294,8 @@ class Standard
 		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );
 		$product->setPrice( $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity ) );
 
-		$this->get()->addProduct( $product, $position );
-
-		$this->save();
+		$this->baskets[$this->type] = $this->get()->addProduct( $product, $position );
+		return $this->save();
 	}
 
 
@@ -301,6 +303,7 @@ class Standard
 	 * Adds the given coupon code and updates the basket.
 	 *
 	 * @param string $code Coupon code entered by the user
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid or not allowed
 	 */
 	public function addCoupon( $code )
@@ -331,8 +334,8 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
-		$this->get()->addCoupon( $code );
-		$this->save();
+		$this->baskets[$this->type] = $this->get()->addCoupon( $code );
+		return $this->save();
 	}
 
 
@@ -340,12 +343,13 @@ class Standard
 	 * Removes the given coupon code and its effects from the basket.
 	 *
 	 * @param string $code Coupon code entered by the user
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid
 	 */
 	public function deleteCoupon( $code )
 	{
-		$this->get()->deleteCoupon( $code );
-		$this->save();
+		$this->baskets[$this->type] = $this->get()->deleteCoupon( $code );
+		return $this->save();
 	}
 
 
@@ -354,6 +358,7 @@ class Standard
 	 *
 	 * @param string $type Address type constant from \Aimeos\MShop\Order\Item\Base\Address\Base
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface|array|null $value Address object or array with key/value pairs of address or null to remove address from basket
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the billing or delivery address is not of any required type of
 	 * 	if one of the keys is invalid when using an array with key/value pairs
 	 */
@@ -364,15 +369,15 @@ class Standard
 
 		if( $value instanceof \Aimeos\MShop\Common\Item\Address\Iface )
 		{
-			$this->get()->addAddress( $address->copyFrom( $value ), $type, 0 );
+			$this->baskets[$this->type] = $this->get()->addAddress( $address->copyFrom( $value ), $type, 0 );
 		}
 		else if( is_array( $value ) )
 		{
-			$this->get()->addAddress( $this->setAddressFromArray( $address, $value ), $type, 0 );
+			$this->baskets[$this->type] = $this->get()->addAddress( $this->setAddressFromArray( $address, $value ), $type, 0 );
 		}
 		else if( $value === null )
 		{
-			$this->get()->deleteAddress( $type );
+			$this->baskets[$this->type] = $this->get()->deleteAddress( $type );
 		}
 		else
 		{
@@ -380,7 +385,7 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $type ) );
 		}
 
-		$this->save();
+		return $this->save();
 	}
 
 
@@ -391,6 +396,7 @@ class Standard
 	 * @param string $id|null Unique ID of the service item or null to remove it
 	 * @param array $attributes Associative list of key/value pairs containing the attributes selected or
 	 * 	entered by the customer when choosing one of the delivery or payment options
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
 	 */
 	public function addService( $type, $id, array $attributes = [] )
@@ -426,8 +432,8 @@ class Standard
 
 		$provider->setConfigFE( $orderServiceItem, $attributes );
 
-		$this->get()->addService( $orderServiceItem, $type );
-		$this->save();
+		$this->baskets[$this->type] = $this->get()->addService( $orderServiceItem, $type );
+		return $this->save();
 	}
 
 
@@ -435,11 +441,12 @@ class Standard
 	 * Removes the delivery or payment service items from the basket
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function deleteService( $type )
 	{
-		$this->get()->deleteService( $type );
-		$this->save();
+		$this->baskets[$this->type] = $this->get()->deleteService( $type );
+		return $this->save();
 	}
 
 

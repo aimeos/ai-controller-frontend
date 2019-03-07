@@ -55,7 +55,7 @@ abstract class Base
 
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
-	 * @return void
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function clear()
 	{
@@ -77,6 +77,8 @@ abstract class Base
 
 	/**
 	 * Explicitely persists the basket content
+	 *
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function save()
 	{
@@ -89,7 +91,7 @@ abstract class Base
 	 * Sets the new basket type
 	 *
 	 * @param string $type Basket type
-	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function setType( $type )
 	{
@@ -142,7 +144,7 @@ abstract class Base
 	 * 	along with the product in the order
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
-	 * @return void
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
 		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
@@ -151,6 +153,8 @@ abstract class Base
 			$prodid, $quantity, $stocktype, $variantAttributeIds,
 			$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
 		);
+
+		return $this;
 	}
 
 
@@ -158,11 +162,12 @@ abstract class Base
 	 * Deletes a product item from the basket.
 	 *
 	 * @param integer $position Position number (key) of the order product item
-	 * @return void
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function deleteProduct( $position )
 	{
 		$this->controller->deleteProduct( $position );
+		return $this;
 	}
 
 
@@ -172,11 +177,12 @@ abstract class Base
 	 * @param integer $position Position number (key) of the order product item
 	 * @param integer $quantity New quantiy of the product item
 	 * @param array $configAttributeCodes Codes of the product config attributes that should be REMOVED
-	 * @return void
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function editProduct( $position, $quantity, array $configAttributeCodes = [] )
 	{
 		$this->controller->editProduct( $position, $quantity, $configAttributeCodes );
+		return $this;
 	}
 
 
@@ -184,12 +190,13 @@ abstract class Base
 	 * Adds the given coupon code and updates the basket.
 	 *
 	 * @param string $code Coupon code entered by the user
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid or not allowed
-	 * @return void
 	 */
 	public function addCoupon( $code )
 	{
 		$this->controller->addCoupon( $code );
+		return $this;
 	}
 
 
@@ -197,12 +204,13 @@ abstract class Base
 	 * Removes the given coupon code and its effects from the basket.
 	 *
 	 * @param string $code Coupon code entered by the user
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid
-	 * @return void
 	 */
 	public function deleteCoupon( $code )
 	{
 		$this->controller->deleteCoupon( $code );
+		return $this;
 	}
 
 
@@ -211,13 +219,14 @@ abstract class Base
 	 *
 	 * @param string $type Address type constant from \Aimeos\MShop\Order\Item\Base\Address\Base
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface|array|null $value Address object or array with key/value pairs of address or null to remove address from basket
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the billing or delivery address is not of any required type of
 	 * 	if one of the keys is invalid when using an array with key/value pairs
-	 * @return void
 	 */
 	public function setAddress( $type, $value )
 	{
 		$this->controller->setAddress( $type, $value );
+		return $this;
 	}
 
 
@@ -228,12 +237,13 @@ abstract class Base
 	 * @param string $id Unique ID of the service item
 	 * @param array $attributes Associative list of key/value pairs containing the attributes selected or
 	 * 	entered by the customer when choosing one of the delivery or payment options
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
-	 * @return void
 	 */
 	public function addService( $type, $id, array $attributes = [] )
 	{
 		$this->controller->addService( $type, $id, $attributes );
+		return $this;
 	}
 
 
@@ -241,10 +251,12 @@ abstract class Base
 	 * Removes the delivery or payment service items from the basket
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function deleteService( $type )
 	{
 		$this->controller->deleteService( $type );
+		return $this;
 	}
 
 

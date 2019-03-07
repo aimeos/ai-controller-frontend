@@ -46,8 +46,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testClear()
 	{
 		$this->object->addProduct( self::$testItem->getId(), 2 );
-		$this->object->clear();
 
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $this->object->clear() );
 		$this->assertEquals( 0, count( $this->object->get()->getProducts() ) );
 	}
 
@@ -71,7 +71,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 		$object->addProduct( self::$testItem->getId(), 2 );
-		$object->save();
+
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $object->save() );
 	}
 
 
@@ -90,10 +91,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\MShop::inject( 'order/base', $stub );
 
-		$stub->expects( $this->once() )->method( 'store' );
+		$stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $stub->createItem() ) );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
-		$object->store();
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->store() );
 	}
 
 
@@ -124,7 +125,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->will( $this->returnValue( $stub->createItem() ) );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
-		$object->load( -1 );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->load( -1 ) );
 	}
 
 
@@ -133,10 +135,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$basket = $this->object->get();
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 
-		$this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [] );
+		$result1 = $this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [] );
 		$item2 = $this->object->get()->getProduct( 0 );
-		$this->object->deleteProduct( 0 );
+		$result2 = $this->object->deleteProduct( 0 );
 
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result1 );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result2 );
 		$this->assertEquals( 0, count( $basket->getProducts() ) );
 		$this->assertEquals( 'CNC', $item2->getProductCode() );
 	}
@@ -144,75 +148,35 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductCustomAttribute()
 	{
-		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.code', 'custom' ),
-			$search->compare( '==', 'attribute.type', 'date' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( ( $attrItem = reset( $attributes ) ) === false ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'date' );
 		$attrValues = array( $attrItem->getId() => '2000-01-01' );
 
-		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
+		$result = $this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
 		$this->assertEquals( '2000-01-01', $basket->getProduct( 0 )->getAttribute( 'date', 'custom' ) );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
 	public function testAddProductCustomPrice()
 	{
-		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.code', 'custom' ),
-			$search->compare( '==', 'attribute.type', 'price' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( ( $attrItem = reset( $attributes ) ) === false ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'price' );
 		$attrValues = array( $attrItem->getId() => '0.01' );
 
-		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
+		$result = $this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
 		$this->assertEquals( '0.01', $basket->getProduct( 0 )->getPrice()->getValue() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
 	public function testAddProductCustomPriceException()
 	{
-		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.code', 'custom' ),
-			$search->compare( '==', 'attribute.type', 'price' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( ( $attrItem = reset( $attributes ) ) === false ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'price' );
 		$attrValues = array( $attrItem->getId() => ',' );
 
 		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
@@ -222,49 +186,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductAttributePrice()
 	{
-		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'xs', [], 'product', 'size' );
 
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.code', 'xs' ),
-			$search->compare( '==', 'attribute.type', 'size' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( ( $attribute = reset( $attributes ) ) === false ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
-		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [$attribute->getId() => 2] );
+		$result = $this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [$attrItem->getId() => 2] );
 
 		$this->assertEquals( '43.90', $this->object->get()->getPrice()->getValue() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
 	public function testAddProductAttributeNotAssigned()
 	{
-		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$expr = array(
-			$search->compare( '==', 'attribute.code', '30' ),
-			$search->compare( '==', 'attribute.type', 'width' ),
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		$attribute = $attributeManager->searchItems( $search );
-
-		if( empty( $attribute ) ) {
-			throw new \RuntimeException( 'Attribute not found' );
-		}
-
-		$hiddenAttrIds = array_keys( $attribute );
-		$configAttrIds = array_keys( $attribute );
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( '30', [], 'product', 'width' );
+		$ids = [$attrItem->getId()];
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], $configAttrIds, $hiddenAttrIds );
+		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], $ids, $ids );
 	}
 
 
@@ -304,10 +241,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
 
-		$this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [], 'unit_type3' );
+		$result = $this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [], 'unit_type3' );
 
 		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
 		$this->assertEquals( 'IJKL', $this->object->get()->getProduct( 0 )->getProductCode() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
@@ -330,43 +268,22 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 1, $item->getQuantity() );
 
-		$this->object->editProduct( 0, 4 );
-
+		$result = $this->object->editProduct( 0, 4 );
 		$item = $this->object->get()->getProduct( 0 );
+
 		$this->assertEquals( 4, $item->getQuantity() );
 		$this->assertEquals( 'U:TESTP', $item->getProductCode() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
 	public function testEditProductAttributes()
 	{
-		$configAttrIds = [];
-		$attributeManager = \Aimeos\MShop::create( $this->context, 'attribute' );
-
-		$search = $attributeManager->createSearch();
-		$conditions = array(
-			$search->compare( '==', 'attribute.domain', 'product' ),
-			$search->combine( '||', array(
-				$search->combine( '&&', array(
-					$search->compare( '==', 'attribute.code', 'xs' ),
-					$search->compare( '==', 'attribute.type', 'size' ),
-				) ),
-				$search->combine( '&&', array(
-					$search->compare( '==', 'attribute.code', 'white' ),
-					$search->compare( '==', 'attribute.type', 'color' ),
-				) ),
-			) )
-		);
-		$search->setConditions( $search->combine( '&&', $conditions ) );
-		$attributes = $attributeManager->searchItems( $search );
-
-		if( empty( $attributes ) ) {
-			throw new \RuntimeException( 'No attributes available' );
-		}
-
-		foreach( $attributes as $id => $attribute ) {
-			$configAttrIds[$id] = 1;
-		}
+		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
+		$configAttrIds = [
+			$manager->findItem( 'xs', [], 'product', 'size')->getId() => 1,
+			$manager->findItem( 'white', [], 'product', 'color')->getId() => 1,
+		];
 
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:TESTP' );
 
@@ -378,12 +295,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 4, $item->getQuantity() );
 
 
-		$this->object->editProduct( 0, 3, array( reset( $attributes )->getType() ) );
-
+		$result = $this->object->editProduct( 0, 3, ['size'] );
 		$item = $this->object->get()->getProduct( 0 );
+
 		$this->assertEquals( 3, $item->getQuantity() );
 		$this->assertEquals( 2, count( $item->getAttributeItems() ) );
 		$this->assertEquals( 'U:TESTP', $item->getProductCode() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
@@ -402,11 +320,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddCoupon()
 	{
 		$this->object->addProduct( self::$testItem->getId(), 2 );
-		$this->object->addCoupon( 'GHIJ' );
 
+		$result = $this->object->addCoupon( 'GHIJ' );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getCoupons() ) );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
@@ -431,11 +350,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->object->addProduct( self::$testItem->getId(), 2 );
 		$this->object->addCoupon( '90AB' );
-		$this->object->deleteCoupon( '90AB' );
 
+		$result = $this->object->deleteCoupon( '90AB' );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 0, count( $basket->getCoupons() ) );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
@@ -452,10 +372,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = $this->getAddress( 'Example company' );
 
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $item );
-
+		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $item );
 		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
+
 		$this->assertEquals( 'Example company', $address->getCompany() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
@@ -482,12 +403,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'order.base.address.website' => 'www.example.com',
 		);
 
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $fixture );
-
+		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $fixture );
 		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
+
 		$this->assertEquals( 'Example company', $address->getCompany() );
 		$this->assertEquals( 'Dr.', $address->getTitle() );
 		$this->assertEquals( 'firstunit', $address->getFirstname() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
@@ -509,10 +431,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = $this->getAddress( 'Example company' );
 
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $item );
-
+		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $item );
 		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 0 );
+
 		$this->assertEquals( 'Example company', $address->getCompany() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 
@@ -538,12 +461,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'order.base.address.telefax' => '05554433222',
 			'order.base.address.website' => 'www.example.com',
 		);
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $fixture );
 
+		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $fixture );
 		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 0 );
+
 		$this->assertEquals( 'Example company', $address->getCompany() );
 		$this->assertEquals( 'Dr.', $address->getTitle() );
 		$this->assertEquals( 'firstunit', $address->getFirstname() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
 

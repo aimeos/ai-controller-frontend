@@ -36,8 +36,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:BUNDLE' );
 
-		$this->object->addProduct( $item->getId(), 1 );
-
+		$this->assertSame( $this->object, $this->object->addProduct( $item->getId(), 1 ) );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
 		$this->assertEquals( 'U:BUNDLE', $this->object->get()->getProduct( 0 )->getProductCode() );
 		$this->assertEquals( 2, count( $this->object->get()->getProduct( 0 )->getProducts() ) );
@@ -48,8 +47,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 
-		$this->object->addProduct( $item->getId(), 1 );
-
+		$this->assertSame( $this->object, $this->object->addProduct( $item->getId(), 1 ) );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
 		$this->assertEquals( 'CNC', $this->object->get()->getProduct( 0 )->getProductCode() );
 		$this->assertEquals( 0, count( $this->object->get()->getProduct( 0 )->getProducts() ) );

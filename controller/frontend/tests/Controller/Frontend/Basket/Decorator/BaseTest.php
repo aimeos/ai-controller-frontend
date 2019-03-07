@@ -68,8 +68,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testClear()
 	{
 		$this->stub->expects( $this->once() )->method( 'clear' );
-
-		$this->object->clear();
+		$this->assertSame( $this->object, $this->object->clear() );
 	}
 
 
@@ -78,8 +77,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperFrontend::getContext();
 		$order = \Aimeos\MShop::create( $context, 'order/base' )->createItem();
 
-		$this->stub->expects( $this->once() )->method( 'get' )
-			->will( $this->returnValue( $order ) );
+		$this->stub->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $order ) );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $this->object->get() );
 	}
@@ -88,32 +86,34 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testSave()
 	{
 		$this->stub->expects( $this->once() )->method( 'save' );
-
-		$this->object->save();
+		$this->assertSame( $this->object, $this->object->save() );
 	}
 
 
 	public function testSetType()
 	{
 		$this->stub->expects( $this->once() )->method( 'setType' );
-
-		$this->object->setType( 'test' );
+		$this->assertSame( $this->object, $this->object->setType( 'test' ) );
 	}
 
 
 	public function testStore()
 	{
-		$this->stub->expects( $this->once() )->method( 'store' );
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->createItem();
 
-		$this->object->store();
+		$this->stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $basket ) );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $this->object->store() );
 	}
 
 
 	public function testLoad()
 	{
-		$this->stub->expects( $this->once() )->method( 'load' );
+		$basket = \Aimeos\MShop::create( $this->context, 'order/base' )->createItem();
 
-		$this->object->load( -1 );
+		$this->stub->expects( $this->once() )->method( 'load' )->will( $this->returnValue( $basket ) );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $this->object->load( -1 ) );
 	}
 
 
@@ -121,7 +121,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'addProduct' );
 
-		$this->object->addProduct( -1 );
+		$this->assertSame( $this->object, $this->object->addProduct( -1 ) );
 	}
 
 
@@ -129,7 +129,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'deleteProduct' );
 
-		$this->object->deleteProduct( 0 );
+		$this->assertSame( $this->object, $this->object->deleteProduct( 0 ) );
 	}
 
 
@@ -137,7 +137,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'editProduct' );
 
-		$this->object->editProduct( 0, 1 );
+		$this->assertSame( $this->object, $this->object->editProduct( 0, 1 ) );
 	}
 
 
@@ -145,7 +145,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'addCoupon' );
 
-		$this->object->addCoupon( 'test' );
+		$this->assertSame( $this->object, $this->object->addCoupon( 'test' ) );
 	}
 
 
@@ -153,7 +153,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'deleteCoupon' );
 
-		$this->object->deleteCoupon( 'test' );
+		$this->assertSame( $this->object, $this->object->deleteCoupon( 'test' ) );
 	}
 
 
@@ -161,7 +161,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'setAddress' );
 
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, null );
+		$this->assertSame( $this->object, $this->object->setAddress( 'payment', null ) );
 	}
 
 
@@ -169,7 +169,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'addService' );
 
-		$this->object->addService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT, -1 );
+		$this->assertSame( $this->object, $this->object->addService( 'payment', -1 ) );
 	}
 
 
@@ -177,7 +177,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->stub->expects( $this->once() )->method( 'deleteService' );
 
-		$this->object->deleteService( \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_PAYMENT );
+		$this->assertSame( $this->object, $this->object->deleteService( 'payment' ) );
 	}
 
 

@@ -285,7 +285,7 @@ class Standard
 		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );
 
 		$price = $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity );
-		$product = $product->setQuantity( $quantity )->setPrice( $price, $quantity );
+		$product = $product->setQuantity( $quantity )->setPrice( $price );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $product, $position );
 		return $this->save();

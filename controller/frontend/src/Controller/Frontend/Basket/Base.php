@@ -20,9 +20,6 @@ namespace Aimeos\Controller\Frontend\Basket;
  */
 abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 {
-	private $listTypeItems = [];
-
-
 	/**
 	 * Calculates and returns the current price for the given order product and product prices.
 	 *
@@ -60,7 +57,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		}
 
 		$orderAttributes = $product->getAttributeItems();
-		$attrItems = $this->getAttributeItems( $orderAttributes, ['price'] );
+		$attrItems = $this->getAttributeItems( $orderAttributes );
 
 		// add prices of (optional) attributes
 		foreach( $orderAttributes as $orderAttrItem )

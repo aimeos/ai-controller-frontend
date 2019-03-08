@@ -42,6 +42,19 @@ class Standard
 
 
 	/**
+	 * Adds values like comments to the basket
+	 *
+	 * @param array $values Order base values like comment
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
+	 */
+	public function add( array $values )
+	{
+		$this->baskets[$this->type] = $this->get()->fromArray( $values );
+		return $this;
+	}
+
+
+	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
 	 *
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
@@ -193,47 +206,37 @@ class Standard
 
 
 	/**
-	 * Adds a categorized product to the basket of the user stored in the session.
+	 * Adds a product to the basket of the customer stored in the session
 	 *
-	 * @param string $prodid ID of the base product to add
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product to add including texts, media, prices, attributes, etc.
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
-	 * 	in a selection products
-	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
-	 * 	selection of products but are stored together with the product (e.g. for configurable products)
-	 * @param array $hiddenAttributeIds Deprecated
-	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
-	 * 	along with the product in the order
+	 * @param array $variant List of variant-building attribute IDs that identify an article in a selection product
+	 * @param array $config List of configurable attribute IDs the customer has chosen from
+	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @param string|null $supplier Unique supplier code the product is from
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
+		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null )
 	{
-		$attributeMap = [
-			'custom' => array_keys( $customAttributeValues ),
-			'config' => array_keys( $configAttributeIds ),
-		];
-		$this->checkListRef( $prodid, 'attribute', $attributeMap );
+		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
+		$this->checkListRef( $product->getId(), 'attribute', $attributeMap );
 
+		$prices = $product->getRefItems( 'price', 'default', 'default' );
+		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$context = $this->getContext();
-		$productManager = \Aimeos\MShop::create( $context, 'product' );
+		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
+		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
+		$hideAttr = $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) );
 
-		$productItem = $productManager->getItem( $prodid, ['attribute', 'media', 'supplier', 'price', 'product', 'text'], true );
-		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
-		$hidden = $productItem->getRefItems( 'attribute', null, 'hidden' );
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem()
+			->copyFrom( $product )->setQuantity( $quantity )->setStockType( $stocktype )->setSupplierCode( $supplier )
+			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->createItem();
-		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
-
-		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
-		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds );
-		$attr = array_merge( $custAttr, $confAttr, $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) ) );
-
-		$orderBaseProductItem->setAttributeItems( $attr );
-		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
+		$orderBaseProductItem = $orderBaseProductItem
+			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderBaseProductItem );
 		return $this->save();
@@ -266,10 +269,9 @@ class Standard
 	 *
 	 * @param integer $position Position number (key) of the order product item
 	 * @param integer $quantity New quantiy of the product item
-	 * @param string[] $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function editProduct( $position, $quantity, array $configAttributeCodes = [] )
+	public function updateProduct( $position, $quantity )
 	{
 		$product = $this->get()->getProduct( $position );
 
@@ -279,20 +281,11 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
-		$product->setQuantity( $quantity );
-
-		$attributes = $product->getAttributeItems();
-		foreach( $attributes as $key => $attribute )
-		{
-			if( in_array( $attribute->getCode(), $configAttributeCodes ) ) {
-				unset( $attributes[$key] );
-			}
-		}
-		$product->setAttributeItems( $attributes );
-
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );
-		$product->setPrice( $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity ) );
+
+		$price = $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity );
+		$product = $product->setQuantity( $quantity )->setPrice( $price, $quantity );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $product, $position );
 		return $this->save();

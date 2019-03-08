@@ -37,8 +37,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( empty( $prices ) )
 		{
-			$manager = \Aimeos\MShop::create( $context, 'product' );
-			$prices = $manager->getItem( $product->getProductId(), array( 'price' ) )->getRefItems( 'price', 'default' );
+			$item = \Aimeos\MShop::create( $context, 'product' )->getItem( $product->getProductId(), ['price'] );
+			$prices = $item->getRefItems( 'price', 'default', 'default' );
 		}
 
 
@@ -56,11 +56,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $amount ) );
 			}
 
-			$price->setValue( $amount );
+			$price = $price->setValue( $amount );
 		}
 
 		$orderAttributes = $product->getAttributeItems();
-		$attrItems = $this->getAttributeItems( $orderAttributes );
+		$attrItems = $this->getAttributeItems( $orderAttributes, ['price'] );
 
 		// add prices of (optional) attributes
 		foreach( $orderAttributes as $orderAttrItem )
@@ -68,17 +68,15 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$attrId = $orderAttrItem->getAttributeId();
 
 			if( isset( $attrItems[$attrId] )
-				&& ( $prices = $attrItems[$attrId]->getRefItems( 'price', 'default' ) ) !== []
+				&& ( $prices = $attrItems[$attrId]->getRefItems( 'price', 'default', 'default' ) ) !== []
 			) {
 				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity() );
-				$price->addItem( $attrPrice, $orderAttrItem->getQuantity() );
+				$price = $price->addItem( $attrPrice, $orderAttrItem->getQuantity() );
 			}
 		}
 
 		// remove product rebate of original price in favor to rebates granted for the order
-		$price->setRebate( '0.00' );
-
-		return $price;
+		return $price->setRebate( '0.00' );
 	}
 
 
@@ -100,14 +98,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$productManager = \Aimeos\MShop::create( $context, 'product' );
 		$search = $productManager->createSearch( true );
 
-		$expr = array(
-			$search->compare( '==', 'product.id', $prodId ),
-			$search->getConditions(),
-		);
+		$expr = [$search->getConditions()];
+		$expr[] = $search->compare( '==', 'product.id', $prodId );
 
 		foreach( $refMap as $listType => $refIds )
 		{
-			foreach( $refIds as $key => $refId )
+			foreach( $refIds as $refId )
 			{
 				$cmpfunc = $search->createFunction( 'product:has', [$domain, $listType, (string) $refId] );
 				$expr[] = $search->compare( '!=', $cmpfunc, null );
@@ -243,6 +239,9 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function copyProducts( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
 	{
+		$domains = ['attribute', 'media', 'price', 'product', 'text'];
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+
 		foreach( $basket->getProducts() as $pos => $product )
 		{
 			if( $product->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE ) {
@@ -263,9 +262,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 				}
 
+				$item = $manager->getItem( $product->getProductId(), $domains );
+
 				$this->addProduct(
-					$product->getProductId(), $product->getQuantity(), $product->getStockType(),
-					$variantIds, $configIds, [], $customIds
+					$item, $product->getQuantity(), $variantIds, $configIds, $customIds,
+					$product->getStockType(), $product->getSupplierCode()
 				);
 
 				$basket->deleteProduct( $pos );
@@ -330,17 +331,15 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			if( ( $interval = $orderProduct->getAttribute( 'interval', 'config' ) ) !== null )
 			{
-				$item = $manager->createItem();
-				$item->setOrderBaseId( $basket->getId() );
-				$item->setOrderProductId( $orderProduct->getId() );
-				$item->setInterval( $interval );
-				$item->setStatus( 1 );
+				$item = $manager->createItem()->setInterval( $interval )
+					->setOrderProductId( $orderProduct->getId() )
+					->setOrderBaseId( $basket->getId() );
 
 				if( ( $end = $orderProduct->getAttribute( 'intervalend', 'custom' ) ) !== null
 					|| ( $end = $orderProduct->getAttribute( 'intervalend', 'config' ) ) !== null
 					|| ( $end = $orderProduct->getAttribute( 'intervalend', 'hidden' ) ) !== null
 				) {
-					$item->setDateEnd( $end );
+					$item = $item->setDateEnd( $end );
 				}
 
 				$manager->saveItem( $item, false );
@@ -357,7 +356,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @return array List of items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the actual attribute number doesn't match the expected one
 	 */
-	protected function getAttributes( array $attributeIds, array $domains = array( 'price', 'text' ) )
+	protected function getAttributes( array $attributeIds, array $domains = ['text'] )
 	{
 		if( empty( $attributeIds ) ) {
 			return [];
@@ -433,115 +432,20 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function getOrderProductAttributes( $type, array $ids, array $values = [], array $quantities = [] )
 	{
-		if( empty( $ids ) ) {
-			return [];
-		}
-
 		$list = [];
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
 
-		foreach( $this->getAttributes( $ids ) as $id => $attrItem )
+		if( !empty( $ids ) )
 		{
-			$item = $manager->createItem();
-			$item->copyFrom( $attrItem );
-			$item->setType( $type );
-			$item->setQuantity( isset( $quantities[$id] ) ? $quantities[$id] : 1 );
+			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
 
-			if( isset( $values[$id] ) ) {
-				$item->setValue( $values[$id] );
+			foreach( $this->getAttributes( $ids ) as $id => $attrItem )
+			{
+				$list[] = $manager->createItem()->copyFrom( $attrItem )->setType( $type )
+					->setValue( isset( $values[$id] ) ? $values[$id] : $attrItem->getCode() )
+					->setQuantity( isset( $quantities[$id] ) ? $quantities[$id] : 1 );
 			}
-
-			$list[] = $item;
 		}
 
 		return $list;
-	}
-
-
-	/**
-	 * Returns the list type item for the given domain and code.
-	 *
-	 * @param string $domain Domain name of the list type
-	 * @param string $code Code of the list type
-	 * @return \Aimeos\MShop\Common\Item\Type\Iface List type item
-	 */
-	protected function getProductListTypeItem( $domain, $code )
-	{
-		$context = $this->getContext();
-
-		if( empty( $this->listTypeItems ) )
-		{
-			$manager = \Aimeos\MShop::create( $context, 'product/lists/type' );
-
-			foreach( $manager->searchItems( $manager->createSearch( true ) ) as $item ) {
-				$this->listTypeItems[ $item->getDomain() ][ $item->getCode() ] = $item;
-			}
-		}
-
-		if( !isset( $this->listTypeItems[$domain][$code] ) )
-		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'List type for domain "%1$s" and code "%2$s" not found' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $domain, $code ) );
-		}
-
-		return $this->listTypeItems[$domain][$code];
-	}
-
-
-	/**
-	 * Returns the product variants of a selection product that match the given attributes.
-	 *
-	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Product item including sub-products
-	 * @param array $variantAttributeIds IDs for the variant-building attributes
-	 * @param array $domains Names of the domain items that should be fetched too
-	 * @return array List of products matching the given attributes
-	 */
-	protected function getProductVariants( \Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds,
-			array $domains = array( 'attribute', 'media', 'price', 'text' ) )
-	{
-		$subProductIds = [];
-		foreach( $productItem->getRefItems( 'product', 'default', 'default' ) as $item ) {
-			$subProductIds[] = $item->getId();
-		}
-
-		if( count( $subProductIds ) === 0 ) {
-			return [];
-		}
-
-		$productManager = \Aimeos\MShop::create( $this->getContext(), 'product' );
-		$search = $productManager->createSearch( true );
-
-		$expr = array(
-			$search->compare( '==', 'product.id', $subProductIds ),
-			$search->getConditions(),
-		);
-
-		foreach( $variantAttributeIds as $id )
-		{
-			$cmpfunc = $search->createFunction( 'product:has', ['attribute', 'variant', (string) $id] );
-			$expr[] = $search->compare( '!=', $cmpfunc, null );
-		}
-
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		return $productManager->searchItems( $search, $domains );
-	}
-
-
-	/**
-	 * Returns the value of an array or the default value if it's not available.
-	 *
-	 * @param array $values Associative list of key/value pairs
-	 * @param string $name Name of the key to return the value for
-	 * @param mixed $default Default value if no value is available for the given name
-	 * @return mixed Value from the array or default value
-	 */
-	protected function getValue( array $values, $name, $default = null )
-	{
-		if( isset( $values[$name] ) ) {
-			return $values[$name];
-		}
-
-		return $default;
 	}
 }

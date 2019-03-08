@@ -13,14 +13,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 {
 	private $object;
 	private $context;
-	private static $testItem;
-
-
-	public static function setUpBeforeClass()
-	{
-		$context = \TestHelperFrontend::getContext();
-		self::$testItem = \Aimeos\MShop::create( $context, 'product' )->findItem( 'U:TESTP' );
-	}
+	private $testItem;
 
 
 	protected function setUp()
@@ -28,6 +21,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::cache( true );
 
 		$this->context = \TestHelperFrontend::getContext();
+
+		$manager = \Aimeos\MShop::create( $this->context, 'product' );
+		$this->testItem = $manager->findItem( 'U:TESTP', ['attribute', 'media', 'price', 'product', 'text'] );
+
 		$this->object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 	}
 
@@ -43,9 +40,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAdd()
+	{
+		$result = $this->object->add( ['order.base.comment' => 'test'] );
+
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
+		$this->assertEquals( 'test', $this->object->get()->getComment() );
+	}
+
+
 	public function testClear()
 	{
-		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addProduct( $this->testItem );
 
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $this->object->clear() );
 		$this->assertEquals( 0, count( $this->object->get()->getProducts() ) );
@@ -70,7 +76,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$stub->expects( $this->exactly( 2 ) )->method( 'setSession' );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
-		$object->addProduct( self::$testItem->getId(), 2 );
+		$object->addProduct( $this->testItem );
 
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $object->save() );
 	}
@@ -133,25 +139,28 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddDeleteProduct()
 	{
 		$basket = $this->object->get();
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
+		$manager = \Aimeos\MShop::create( $this->context, 'product' );
+		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
 
-		$result1 = $this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [] );
+		$result1 = $this->object->addProduct( $item, 2, [], [], [], 'default', 'unitsupplier' );
 		$item2 = $this->object->get()->getProduct( 0 );
 		$result2 = $this->object->deleteProduct( 0 );
 
-		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result1 );
-		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result2 );
 		$this->assertEquals( 0, count( $basket->getProducts() ) );
 		$this->assertEquals( 'CNC', $item2->getProductCode() );
+		$this->assertEquals( 'default', $item2->getStockType() );
+		$this->assertEquals( 'unitsupplier', $item2->getSupplierCode() );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result1 );
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result2 );
 	}
 
 
 	public function testAddProductCustomAttribute()
 	{
 		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'date' );
-		$attrValues = array( $attrItem->getId() => '2000-01-01' );
+		$attrValues = [$attrItem->getId() => '2000-01-01'];
 
-		$result = $this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
+		$result = $this->object->addProduct( $this->testItem, 1, [], [], $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
@@ -163,9 +172,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductCustomPrice()
 	{
 		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'price' );
-		$attrValues = array( $attrItem->getId() => '0.01' );
+		$attrValues = [$attrItem->getId() => '0.01'];
 
-		$result = $this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
+		$result = $this->object->addProduct( $this->testItem, 1, [], [], $attrValues );
 		$basket = $this->object->get();
 
 		$this->assertEquals( 1, count( $basket->getProducts() ) );
@@ -177,10 +186,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductCustomPriceException()
 	{
 		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'price' );
-		$attrValues = array( $attrItem->getId() => ',' );
+		$attrValues = [$attrItem->getId() => ','];
 
 		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
-		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [], [], $attrValues );
+		$this->object->addProduct( $this->testItem, 1, [], [], $attrValues );
 	}
 
 
@@ -188,7 +197,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'xs', [], 'product', 'size' );
 
-		$result = $this->object->addProduct( self::$testItem->getId(), 1, 'default', [], [$attrItem->getId() => 2] );
+		$result = $this->object->addProduct( $this->testItem, 1, [], [$attrItem->getId() => 2] );
 
 		$this->assertEquals( '43.90', $this->object->get()->getPrice()->getValue() );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
@@ -201,14 +210,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$ids = [$attrItem->getId()];
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], $ids, $ids );
+		$this->object->addProduct( $this->testItem, 1, [], $ids, $ids );
 	}
 
 
 	public function testAddProductNegativeQuantityException()
 	{
 		$this->setExpectedException( '\\Aimeos\\MShop\\Order\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), -1 );
+		$this->object->addProduct( $this->testItem, -1 );
 	}
 
 
@@ -217,23 +226,23 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'MNOP' );
 
 		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
-		$this->object->addProduct( $item->getId(), 1 );
+		$this->object->addProduct( $item );
 	}
 
 
 	public function testAddProductConfigAttributeException()
 	{
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addProduct( self::$testItem->getId(), 1, 'default', [], array( -1 ) );
+		$this->object->addProduct( $this->testItem, 1, [], [-1] );
 	}
 
 
 	public function testAddProductLowQuantityPriceException()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL', ['attribute', 'price'] );
 
 		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
-		$this->object->addProduct( $item->getId(), 1 );
+		$this->object->addProduct( $item );
 	}
 
 
@@ -241,7 +250,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
 
-		$result = $this->object->addProduct( $item->getId(), 2, 'default', [], [], [], [], 'unit_type3' );
+		$result = $this->object->addProduct( $item, 2 );
 
 		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
 		$this->assertEquals( 'IJKL', $this->object->get()->getProduct( 0 )->getProductCode() );
@@ -251,7 +260,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteProductFlagError()
 	{
-		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addProduct( $this->testItem, 2 );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
@@ -261,14 +270,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testEditProduct()
+	public function testUpdateProduct()
 	{
-		$this->object->addProduct( self::$testItem->getId(), 1 );
+		$this->object->addProduct( $this->testItem );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$this->assertEquals( 1, $item->getQuantity() );
 
-		$result = $this->object->editProduct( 0, 4 );
+		$result = $this->object->updateProduct( 0, 4 );
 		$item = $this->object->get()->getProduct( 0 );
 
 		$this->assertEquals( 4, $item->getQuantity() );
@@ -277,49 +286,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testEditProductAttributes()
+	public function testUpdateProductFlagError()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
-		$configAttrIds = [
-			$manager->findItem( 'xs', [], 'product', 'size')->getId() => 1,
-			$manager->findItem( 'white', [], 'product', 'color')->getId() => 1,
-		];
-
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:TESTP' );
-
-		$this->object->addProduct( $item->getId(), 1, 'default', [], $configAttrIds );
-		$this->object->editProduct( 0, 4 );
-
-		$item = $this->object->get()->getProduct( 0 );
-		$this->assertEquals( 3, count( $item->getAttributeItems() ) );
-		$this->assertEquals( 4, $item->getQuantity() );
-
-
-		$result = $this->object->editProduct( 0, 3, ['size'] );
-		$item = $this->object->get()->getProduct( 0 );
-
-		$this->assertEquals( 3, $item->getQuantity() );
-		$this->assertEquals( 2, count( $item->getAttributeItems() ) );
-		$this->assertEquals( 'U:TESTP', $item->getProductCode() );
-		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
-	}
-
-
-	public function testEditProductFlagError()
-	{
-		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addProduct( $this->testItem, 2 );
 
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->editProduct( 0, 4 );
+		$this->object->updateProduct( 0, 4 );
 	}
 
 
 	public function testAddCoupon()
 	{
-		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addProduct( $this->testItem, 2 );
 
 		$result = $this->object->addCoupon( 'GHIJ' );
 		$basket = $this->object->get();
@@ -331,7 +312,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddCouponExceedCount()
 	{
-		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addProduct( $this->testItem, 2 );
 		$this->object->addCoupon( 'GHIJ' );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
@@ -348,7 +329,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteCoupon()
 	{
-		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addProduct( $this->testItem, 2 );
 		$this->object->addCoupon( '90AB' );
 
 		$result = $this->object->deleteCoupon( '90AB' );
@@ -520,7 +501,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$payment = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
 		$delivery = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
-		$this->object->addProduct( self::$testItem->getId(), 2 );
+		$this->object->addProduct( $this->testItem, 2 );
 		$this->object->addCoupon( 'OPQR' );
 
 		$this->object->addService( 'payment', $payment->getId() );

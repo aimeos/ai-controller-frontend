@@ -75,27 +75,20 @@ interface Iface
 	public function load( $id, $parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_ALL, $default = true );
 
 	/**
-	 * Adds a categorized product to the basket of the user stored in the session.
+	 * Adds a product to the basket of the customer stored in the session
 	 *
-	 * @param string $prodid ID of the base product to add
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product to add including texts, media, prices, attributes, etc.
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
-	 * 	in a selection products
-	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
-	 * 	selection of products but are stored together with the product (e.g. for configurable products)
-	 * @param array $hiddenAttributeIds List of attribute IDs that should be stored along with the product in the order
-	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
-	 * 	along with the product in the order
+	 * @param array $variant List of variant-building attribute IDs that identify an article in a selection product
+	 * @param array $config List of configurable attribute IDs the customer has chosen from
+	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
+	 * @param string|null $supplier Unique supplier code the product is from
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
+	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] );
-
-//	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
-//		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null );
-
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
+		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null );
 
 	/**
 	 * Deletes a product item from the basket.
@@ -110,7 +103,6 @@ interface Iface
 	 *
 	 * @param integer $position Position number (key) of the order product item
 	 * @param integer $quantity New quantiy of the product item
-	 * @param array $configAttributeCodes Codes of the product config attributes that should be REMOVED
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function updateProduct( $position, $quantity );

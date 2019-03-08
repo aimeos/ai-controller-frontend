@@ -22,58 +22,44 @@ class Bundle
 	implements \Aimeos\Controller\Frontend\Basket\Iface, \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
 	/**
-	 * Adds a bundle product to the basket of the user stored in the session.
+	 * Adds a product to the basket of the customer stored in the session
 	 *
-	 * @param string $prodid ID of the base product to add
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product to add including texts, media, prices, attributes, etc.
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
-	 * 	in a selection products
-	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
-	 * 	selection of products but are stored together with the product (e.g. for configurable products)
-	 * @param array $hiddenAttributeIds Deprecated
-	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
-	 * 	along with the product in the order
+	 * @param array $variant List of variant-building attribute IDs that identify an article in a selection product
+	 * @param array $config List of configurable attribute IDs the customer has chosen from
+	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @param string|null $supplier Unique supplier code the product is from
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
+		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null )
 	{
-		$context = $this->getContext();
-		$productManager = \Aimeos\MShop::create( $context, 'product' );
-
-		if( $productManager->getItem( $prodid, [], true )->getType() !== 'bundle' )
+		if( $product->getType() !== 'bundle' )
 		{
-			$this->getController()->addProduct(
-				$prodid, $quantity, $stocktype, $variantAttributeIds,
-				$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
-			);
+			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier );
 			return $this;
 		}
 
-		$attributeMap = [
-			'custom' => array_keys( $customAttributeValues ),
-			'config' => array_keys( $configAttributeIds ),
-		];
-		$this->checkListRef( $prodid, 'attribute', $attributeMap );
+		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
+		$this->checkListRef( $product->getId(), 'attribute', $attributeMap );
 
+		$prices = $product->getRefItems( 'price', 'default', 'default' );
+		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$productItem = $productManager->getItem( $prodid, ['attribute', 'media', 'supplier', 'price', 'product', 'text'], true );
-		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
-		$hidden = $productItem->getRefItems( 'attribute', null, 'hidden' );
+		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
+		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
+		$hideAttr = $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->createItem();
-		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem();
 
-		$this->addBundleProducts( $orderBaseProductItem, $productItem, $variantAttributeIds, $stocktype );
-
-		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
-		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds );
-		$attr = array_merge( $custAttr, $confAttr, $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) ) );
-
-		$orderBaseProductItem->setAttributeItems( $attr );
-		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
+		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product )
+			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype, $supplier ) )
+			->setQuantity( $quantity )->setStockType( $stocktype )->setSupplierCode( $supplier )
+			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) )
+			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );
 		$this->getController()->save();
@@ -85,48 +71,26 @@ class Bundle
 	/**
 	 * Adds the bundled products to the order product item.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Order product item
-	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Bundle product item
-	 * @param array $variantAttributeIds List of product variant attribute IDs
-	 * @param string $stocktype
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Bundle product item
+	 * @param integer $quantity Amount of products that should by added
+	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @param string|null $supplier Unique supplier code the product is from
+	 * @return \Aimeos\MShop\Order\Item\Base\Product\Iface[] List of order product item from bundle
 	 */
-	protected function addBundleProducts( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-		\Aimeos\MShop\Product\Item\Iface $productItem, array $variantAttributeIds, $stocktype )
+	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, $quantity, $stocktype, $supplier )
 	{
-		$quantity = $orderBaseProductItem->getQuantity();
-		$products = $subProductIds = $orderProducts = [];
+		$orderProducts = [];
 		$orderProductManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' );
 
-		foreach( $productItem->getRefItems( 'product', null, 'default' ) as $item ) {
-			$subProductIds[] = $item->getId();
-		}
-
-		if( count( $subProductIds ) > 0 )
+		foreach( $product->getRefItems( 'product', null, 'default' ) as $item )
 		{
-			$productManager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+			$orderProduct = $orderProductManager->createItem()->copyFrom( $item );
+			$prices = $item->getRefItems( 'price', 'default', 'default' );
 
-			$search = $productManager->createSearch( true );
-			$expr = array(
-				$search->compare( '==', 'product.id', $subProductIds ),
-				$search->getConditions(),
-			);
-			$search->setConditions( $search->combine( '&&', $expr ) );
-
-			$products = $productManager->searchItems( $search, array( 'attribute', 'media', 'price', 'text' ) );
+			$orderProducts[] = $orderProduct->setStockType( $stocktype )->setSupplierCode( $supplier )
+				->setPrice( $this->calcPrice( $orderProduct, $prices, $quantity ) );
 		}
 
-		foreach( $products as $product )
-		{
-			$prices = $product->getRefItems( 'price', 'default', 'default' );
-
-			$orderProduct = $orderProductManager->createItem();
-			$orderProduct->copyFrom( $product );
-			$orderProduct->setStockType( $stocktype );
-			$orderProduct->setPrice( $this->calcPrice( $orderProduct, $prices, $quantity ) );
-
-			$orderProducts[] = $orderProduct;
-		}
-
-		$orderBaseProductItem->setProducts( $orderProducts );
+		return $orderProducts;
 	}
 }

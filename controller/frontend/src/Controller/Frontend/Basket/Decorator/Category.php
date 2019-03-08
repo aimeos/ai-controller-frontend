@@ -22,48 +22,43 @@ class Category
 	implements \Aimeos\Controller\Frontend\Basket\Iface, \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
 	/**
-	 * Adds a categorized product to the basket of the user stored in the session.
+	 * Adds a product to the basket of the customer stored in the session
 	 *
-	 * @param string $prodid ID of the base product to add
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product to add including texts, media, prices, attributes, etc.
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
-	 * 	in a selection products
-	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
-	 * 	selection of products but are stored together with the product (e.g. for configurable products)
-	 * @param array $hiddenAttributeIds List of attribute IDs that should be stored along with the product in the order
-	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
-	 * 	along with the product in the order
+	 * @param array $variant List of variant-building attribute IDs that identify an article in a selection product
+	 * @param array $config List of configurable attribute IDs the customer has chosen from
+	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @param string|null $supplier Unique supplier code the product is from
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
+		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null )
 	{
 		$context = $this->getContext();
-		$catalogListManager = \Aimeos\MShop::create( $context, 'catalog/lists' );
+		$manager = \Aimeos\MShop::create( $context, 'catalog' );
 
-		$search = $catalogListManager->createSearch( true );
-		$expr = array(
-			$search->compare( '==', 'catalog.lists.domain', 'product' ),
-			$search->compare( '==', 'catalog.lists.refid', $prodid ),
-			$search->getConditions()
-		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSlice( 0, 1 );
+		$expr = [];
+		$search = $manager->createSearch( true )->setSlice( 0, 1 );
 
-		$result = $catalogListManager->searchItems( $search );
+		$func = $search->createFunction( 'catalog:has', ['product', 'default', $product->getId()] );
+		$expr[] = $search->compare( '!=', $func, null );
+		$func = $search->createFunction( 'catalog:has', ['product', 'promotion', $product->getId()] );
+		$expr[] = $search->compare( '!=', $func, null );
+
+		$search->setConditions( $search->combine( '&&', [$search->getConditions(), $search->combine( '||', $expr )] ) );
+
+		$result = $manager->searchItems( $search );
 
 		if( reset( $result ) === false )
 		{
 			$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $prodid ) );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $product->getId() ) );
 		}
 
-		$this->getController()->addProduct(
-			$prodid, $quantity, $stocktype, $variantAttributeIds,
-			$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
-		);
+		$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier );
 
 		return $this;
 	}

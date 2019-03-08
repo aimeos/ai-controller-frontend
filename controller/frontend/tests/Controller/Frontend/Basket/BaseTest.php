@@ -112,7 +112,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->setMethods( null )
 			->getMock();
 
-		$object->addProduct( $product->getId() );
+		$object->addProduct( $product );
 
 		$result = $this->access( 'copyCoupons' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
 

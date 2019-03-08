@@ -65,6 +65,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAdd()
+	{
+		$this->stub->expects( $this->once() )->method( 'add' );
+		$this->assertSame( $this->object, $this->object->add( [] ) );
+	}
+
+
 	public function testClear()
 	{
 		$this->stub->expects( $this->once() )->method( 'clear' );
@@ -119,9 +126,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProduct()
 	{
+		$product = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+
 		$this->stub->expects( $this->once() )->method( 'addProduct' );
 
-		$this->assertSame( $this->object, $this->object->addProduct( -1 ) );
+		$this->assertSame( $this->object, $this->object->addProduct( $product ) );
 	}
 
 
@@ -133,11 +142,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testEditProduct()
+	public function testUpdateProduct()
 	{
-		$this->stub->expects( $this->once() )->method( 'editProduct' );
+		$this->stub->expects( $this->once() )->method( 'updateProduct' );
 
-		$this->assertSame( $this->object, $this->object->editProduct( 0, 1 ) );
+		$this->assertSame( $this->object, $this->object->updateProduct( 0, 1 ) );
 	}
 
 

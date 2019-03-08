@@ -22,59 +22,66 @@ class Select
 	implements \Aimeos\Controller\Frontend\Basket\Iface, \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
 	/**
-	 * Adds a selection product to the basket of the user stored in the session.
+	 * Adds a product to the basket of the customer stored in the session
 	 *
-	 * @param string $prodid ID of the base product to add
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product to add including texts, media, prices, attributes, etc.
 	 * @param integer $quantity Amount of products that should by added
-	 * @param array $variantAttributeIds List of variant-building attribute IDs that identify a specific product
-	 * 	in a selection products
-	 * @param array $configAttributeIds  List of attribute IDs that doesn't identify a specific product in a
-	 * 	selection of products but are stored together with the product (e.g. for configurable products)
-	 * @param array $hiddenAttributeIds Deprecated
-	 * @param array $customAttributeValues Associative list of attribute IDs and arbitrary values that should be stored
-	 * 	along with the product in the order
+	 * @param array $variant List of variant-building attribute IDs that identify an article in a selection product
+	 * @param array $config List of configurable attribute IDs the customer has chosen from
+	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @param string|null $supplier Unique supplier code the product is from
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( $prodid, $quantity = 1, $stocktype = 'default', array $variantAttributeIds = [],
-		array $configAttributeIds = [], array $hiddenAttributeIds = [], array $customAttributeValues = [] )
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
+		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null )
 	{
-		$context = $this->getContext();
-		$productManager = \Aimeos\MShop::create( $context, 'product' );
-		$productItem = $productManager->getItem( $prodid, [], true );
-
-		if( $productManager->getItem( $prodid, [], true )->getType() !== 'select' )
+		if( $product->getType() !== 'select' )
 		{
-			$this->getController()->addProduct(
-				$prodid, $quantity, $stocktype, $variantAttributeIds,
-				$configAttributeIds, $hiddenAttributeIds, $customAttributeValues
-			);
+			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier );
 			return $this;
 		}
 
-		$productItem = $productManager->getItem( $prodid, ['attribute', 'media', 'supplier', 'price', 'product', 'text'], true );
-		$prices = $productItem->getRefItems( 'price', 'default', 'default' );
-		$hidden = $productItem->getRefItems( 'attribute', null, 'hidden' );
+		$attr = [];
+		$prodId = $product->getId();
+		$prices = $product->getRefItems( 'price', 'default', 'default' );
+		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->createItem();
-		$orderBaseProductItem->copyFrom( $productItem )->setQuantity( $quantity )->setStockType( $stocktype );
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem();
+		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product );
 
-		$attr = $this->getVariantDetails( $orderBaseProductItem, $productItem, $prices, $variantAttributeIds );
-		$hidden += $productItem->getRefItems( 'attribute', null, 'hidden' );
+		$product = $this->getArticle( $product, $variant );
+		$orderBaseProductItem->setProductCode( $product->getCode() );
 
-		$attributeMap = [
-			'custom' => array_keys( $customAttributeValues ),
-			'config' => array_keys( $configAttributeIds ),
-		];
-		$this->checkListRef( array( $prodid, $productItem->getId() ), 'attribute', $attributeMap );
+		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
+		$this->checkListRef( [$prodId, $product->getId()], 'attribute', $attributeMap );
 
-		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $customAttributeValues ), $customAttributeValues );
-		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $configAttributeIds ), [], $configAttributeIds );
-		$attr = array_merge( $attr, $custAttr, $confAttr, $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) ) );
+		if( ( $subprices = $product->getRefItems( 'price', 'default', 'default' ) ) !== [] ) {
+			$prices = $subprices;
+		}
 
-		$orderBaseProductItem->setAttributeItems( $attr );
-		$orderBaseProductItem->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
+		if( ( $mediaItems = $product->getRefItems( 'media', 'default', 'default' ) ) !== [] ) {
+			$orderBaseProductItem->setMediaUrl( current( $mediaItems )->getPreview() );
+		}
+
+		$hidden += $product->getRefItems( 'attribute', null, 'hidden' );
+
+		$orderProductAttrManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
+		$attributes = $product->getRefItems( 'attribute', null, 'variant' );
+
+		foreach( $this->getAttributes( array_keys( $attributes ), ['text'] ) as $attrItem ) {
+			$attr[] = $orderProductAttrManager->createItem()->copyFrom( $attrItem )->setType( 'variant' );
+		}
+
+		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
+		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
+		$hideAttr = $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) );
+
+		$orderBaseProductItem = $orderBaseProductItem->setQuantity( $quantity )
+			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) )
+			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) )
+			->setStockType( $stocktype )->setSupplierCode( $supplier );
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );
 		$this->getController()->save();
@@ -86,19 +93,15 @@ class Select
 	/**
 	 * Returns the variant attributes and updates the price list if necessary.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem Order product item
-	 * @param \Aimeos\MShop\Product\Item\Iface &$productItem Product item which is replaced if necessary
-	 * @param array &$prices List of product prices that will be updated if necessary
+	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Product item which is replaced if necessary
 	 * @param array $variantAttributeIds List of product variant attribute IDs
-	 * @return \Aimeos\MShop\Order\Item\Base\Product\Attribute\Iface[] List of order product attributes
+	 * @return \Aimeos\MShop\Product\Item\Iface Product variant article
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If no product variant is found
 	 */
-	protected function getVariantDetails( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderBaseProductItem,
-		\Aimeos\MShop\Product\Item\Iface &$productItem, array &$prices, array $variantAttributeIds )
+	protected function getArticle( \Aimeos\MShop\Product\Item\Iface $productItem, array $variant )
 	{
-		$attr = [];
+		$items = [];
 		$context = $this->getContext();
-		$productItems = $this->getProductVariants( $productItem, $variantAttributeIds );
 
 		/** controller/frontend/basket/require-variant
 		 * A variant of a selection product must be chosen
@@ -121,47 +124,30 @@ class Select
 		 */
 		$requireVariant = $context->getConfig()->get( 'controller/frontend/basket/require-variant', true );
 
+		foreach( $productItem->getRefItems( 'product', 'default', 'default' ) as $item )
+		{
+			foreach( $variant as $id )
+			{
+				if( $item->getListItem( 'attribute', 'variant', $id ) === null ) {
+					continue 2;
+				}
+			}
 
-		if( count( $productItems ) > 1 )
+			$items[] = $item;
+		}
+
+		if( count( $items ) > 1 )
 		{
 			$msg = $context->getI18n()->dt( 'controller/frontend', 'No unique article found for selected attributes and product ID "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $productItem->getId() ) );
 		}
-		else if( ( $result = reset( $productItems ) ) !== false ) // count == 1
-		{
-			$productItem = $result;
-			$orderBaseProductItem->setProductCode( $productItem->getCode() );
 
-			$subprices = $productItem->getRefItems( 'price', 'default', 'default' );
-
-			if( !empty( $subprices ) ) {
-				$prices = $subprices;
-			}
-
-			$submedia = $productItem->getRefItems( 'media', 'default', 'default' );
-
-			if( ( $mediaItem = reset( $submedia ) ) !== false ) {
-				$orderBaseProductItem->setMediaUrl( $mediaItem->getPreview() );
-			}
-
-			$orderProductAttrManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
-			$variantAttributes = $productItem->getRefItems( 'attribute', null, 'variant' );
-
-			foreach( $this->getAttributes( array_keys( $variantAttributes ), array( 'text' ) ) as $attrItem )
-			{
-				$orderAttributeItem = $orderProductAttrManager->createItem();
-				$orderAttributeItem->copyFrom( $attrItem );
-				$orderAttributeItem->setType( 'variant' );
-
-				$attr[] = $orderAttributeItem;
-			}
-		}
-		else if( $requireVariant != false ) // count == 0
+		if( empty( $items ) && $requireVariant != false ) // count == 0
 		{
 			$msg = $context->getI18n()->dt( 'controller/frontend', 'No article found for selected attributes and product ID "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $productItem->getId() ) );
 		}
 
-		return $attr;
+		return current( $items ) ?: $productItem;
 	}
 }

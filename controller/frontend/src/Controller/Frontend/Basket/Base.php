@@ -292,6 +292,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function copyServices( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors )
 	{
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
+
 		foreach( $basket->getServices() as $type => $list )
 		{
 			foreach( $list as $item )
@@ -304,7 +306,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 						$attributes[$attrItem->getCode()] = $attrItem->getValue();
 					}
 
-					$this->addService( $type, $item->getServiceId(), $attributes );
+					$service = $manager->getItem( $item->getServiceId(), ['media', 'price', 'text'] );
+					$this->addService( $service, $attributes );
 					$basket->deleteService( $type );
 				}
 				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically

@@ -383,25 +383,22 @@ class Standard
 
 
 	/**
-	 * Adds the delivery/payment service item based on the service ID.
+	 * Adds the delivery/payment service including the given configuration
 	 *
-	 * @param string $type Service type code like 'payment' or 'delivery'
-	 * @param string $id|null Unique ID of the service item or null to remove it
-	 * @param array $attributes Associative list of key/value pairs containing the attributes selected or
-	 * 	entered by the customer when choosing one of the delivery or payment options
+	 * @param \Aimeos\MShop\Service\Item\Iface $service Service item selected by the customer
+	 * @param array $config Associative list of key/value pairs with the options selected by the customer
+	 * @param integer|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
+	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
-	public function addService( $type, $id, array $attributes = [] )
+	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], $position = null )
 	{
 		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, 'service' );
 
-		$serviceManager = \Aimeos\MShop::create( $context, 'service' );
-		$serviceItem = $serviceManager->getItem( $id, array( 'media', 'price', 'text' ) );
-
-		$provider = $serviceManager->getProvider( $serviceItem, $serviceItem->getType() );
-		$errors = array_filter( $provider->checkConfigFE( $attributes ) );
-		$unknown = array_diff_key( $attributes, $errors );
+		$provider = $manager->getProvider( $service, $service->getType() );
+		$errors = array_filter( $provider->checkConfigFE( $config ) );
+		$unknown = array_diff_key( $config, $errors );
 
 		if( count( $unknown ) > 0 )
 		{
@@ -415,17 +412,15 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, $errors );
 		}
 
-		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/base/service' );
-		$orderServiceItem = $orderBaseServiceManager->createItem();
-		$orderServiceItem->copyFrom( $serviceItem );
-
 		// remove service rebate of original price
 		$price = $provider->calcPrice( $this->get() )->setRebate( '0.00' );
-		$orderServiceItem->setPrice( $price );
 
-		$provider->setConfigFE( $orderServiceItem, $attributes );
+		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/base/service' );
 
-		$this->baskets[$this->type] = $this->get()->addService( $orderServiceItem, $type );
+		$orderServiceItem = $orderBaseServiceManager->createItem()->copyFrom( $service )->setPrice( $price );
+		$orderServiceItem = $provider->setConfigFE( $orderServiceItem, $config );
+
+		$this->baskets[$this->type] = $this->get()->addService( $orderServiceItem, $service->getType(), $position );
 		return $this->save();
 	}
 
@@ -434,11 +429,12 @@ class Standard
 	 * Removes the delivery or payment service items from the basket
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
+	 * @param integer|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteService( $type )
+	public function deleteService( $type, $position = null )
 	{
-		$this->baskets[$this->type] = $this->get()->deleteService( $type );
+		$this->baskets[$this->type] = $this->get()->deleteService( $type, $position );
 		return $this->save();
 	}
 

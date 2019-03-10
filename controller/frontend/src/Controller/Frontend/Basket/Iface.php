@@ -135,24 +135,26 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function setAddress( $type, $value );
+//	public function addAddress( $type, array $values = [] );
+//	public function deleteAddress( $type, $pos = null );
 
 	/**
-	 * Adds the delivery/payment service item based on the service ID.
+	 * Adds the delivery/payment service including the given configuration
 	 *
-	 * @param string $type Service type code like 'payment' or 'delivery'
-	 * @param string $id|null Unique ID of the service item or null to remove it
-	 * @param array $attributes Associative list of key/value pairs containing the attributes selected or
-	 * 	entered by the customer when choosing one of the delivery or payment options
+	 * @param \Aimeos\MShop\Service\Item\Iface $service Service item selected by the customer
+	 * @param array $config Associative list of key/value pairs with the options selected by the customer
+	 * @param integer|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If there is no price to the service item attached
+	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
-	public function addService( $type, $id, array $attributes = [] );
+	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], $position = null );
 
 	/**
 	 * Removes the delivery or payment service items from the basket
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
+	 * @param integer|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteService( $type );
+	public function deleteService( $type, $position = null );
 }

@@ -467,31 +467,57 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testSetServicePayment()
+	public function testAddServicePayment()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$service = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
 
-		$this->object->addService( 'payment', $service->getId(), [] );
+		$this->object->addService( $service );
 		$item = $this->object->get()->getService( 'payment', 'unitpaymentcode' )->getCode();
 		$this->assertEquals( 'unitpaymentcode', $item );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addService( 'payment', $service->getId(), array( 'prepay' => true ) );
+		$this->object->addService( $service, ['prepay' => true] );
 	}
 
 
-	public function testSetDeliveryOption()
+	public function testAddServiceDelivery()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
-		$this->object->addService( 'delivery', $service->getId(), [] );
+		$this->object->addService( $service );
 		$item = $this->object->get()->getService( 'delivery', 'unitcode' );
 		$this->assertEquals( 'unitcode', $item->getCode() );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->addService( 'delivery', $service->getId(), array( 'fast shipping' => true, 'air shipping' => false ) );
+		$this->object->addService( $service, ['fast shipping' => true, 'air shipping' => false] );
+	}
+
+
+	public function testDeleteServices()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
+
+		$this->assertSame( $this->object, $this->object->addService( $service ) );
+		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 'unitcode' )->getCode() );
+
+		$this->assertSame( $this->object, $this->object->deleteService( 'delivery' ) );
+		$this->assertEquals( 0, count( $this->object->get()->getService( 'delivery' ) ) );
+	}
+
+
+	public function testDeleteServicePosition()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
+
+		$this->assertSame( $this->object, $this->object->addService( $service ) );
+		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 'unitcode' )->getCode() );
+
+		$this->assertSame( $this->object, $this->object->deleteService( 'delivery', 0 ) );
+		$this->assertEquals( 0, count( $this->object->get()->getService( 'delivery' ) ) );
 	}
 
 
@@ -504,8 +530,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->addProduct( $this->testItem, 2 );
 		$this->object->addCoupon( 'OPQR' );
 
-		$this->object->addService( 'payment', $payment->getId() );
-		$this->object->addService( 'delivery', $delivery->getId() );
+		$this->object->addService( $payment );
+		$this->object->addService( $delivery );
 
 		$basket = $this->object->get();
 		$price = $basket->getPrice();

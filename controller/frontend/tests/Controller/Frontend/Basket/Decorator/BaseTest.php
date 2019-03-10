@@ -176,9 +176,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddService()
 	{
+		$item = \Aimeos\MShop::create( $this->context, 'service' )->createItem()->setType( 'payment' );
+
 		$this->stub->expects( $this->once() )->method( 'addService' );
 
-		$this->assertSame( $this->object, $this->object->addService( 'payment', -1 ) );
+		$this->assertSame( $this->object, $this->object->addService( $item ) );
 	}
 
 

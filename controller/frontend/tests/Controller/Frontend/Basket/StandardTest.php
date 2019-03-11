@@ -340,30 +340,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testSetAddressDelete()
+	public function testAddAddress()
 	{
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, null );
-
-		$this->setExpectedException( \Aimeos\MShop\Order\Exception::class );
-		$this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
-	}
-
-
-	public function testSetBillingAddressByItem()
-	{
-		$item = $this->getAddress( 'Example company' );
-
-		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $item );
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
-
-		$this->assertEquals( 'Example company', $address->getCompany() );
-		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
-	}
-
-
-	public function testSetBillingAddressByArray()
-	{
-		$fixture = array(
+		$values = array(
 			'order.base.address.company' => '<p onclick="javascript: alert(\'gotcha\');">Example company</p>',
 			'order.base.address.vatid' => 'DE999999999',
 			'order.base.address.title' => '<br/>Dr.',
@@ -384,8 +363,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'order.base.address.website' => 'www.example.com',
 		);
 
-		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $fixture );
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 0 );
+		$result = $this->object->addAddress( 'payment', $values );
+		$address = $this->object->get()->getAddress( 'payment', 0 );
 
 		$this->assertEquals( 'Example company', $address->getCompany() );
 		$this->assertEquals( 'Dr.', $address->getTitle() );
@@ -394,77 +373,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testSetBillingAddressByArrayError()
+	public function testDeleteAddress()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, array( 'error' => false ) );
-	}
+		$this->object->addAddress( 'payment', [] );
+		$this->assertEquals( 1, count( $this->object->get()->getAddress( 'payment') ) );
 
+		$result = $this->object->deleteAddress( 'payment' );
 
-	public function testSetBillingAddressParameterError()
-	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, 'error' );
-	}
-
-
-	public function testSetDeliveryAddressByItem()
-	{
-		$item = $this->getAddress( 'Example company' );
-
-		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $item );
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 0 );
-
-		$this->assertEquals( 'Example company', $address->getCompany() );
+		$this->assertEquals( 0, count( $this->object->get()->getAddress( 'payment') ) );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 
-
-	public function testSetDeliveryAddressByArray()
-	{
-		$fixture = array(
-			'order.base.address.company' => '<p onclick="javascript: alert(\'gotcha\');">Example company</p>',
-			'order.base.address.vatid' => 'DE999999999',
-			'order.base.address.title' => '<br/>Dr.',
-			'order.base.address.salutation' => \Aimeos\MShop\Common\Item\Address\Base::SALUTATION_MR,
-			'order.base.address.firstname' => 'firstunit',
-			'order.base.address.lastname' => 'lastunit',
-			'order.base.address.address1' => 'unit str.',
-			'order.base.address.address2' => ' 166',
-			'order.base.address.address3' => '4.OG',
-			'order.base.address.postal' => '22769',
-			'order.base.address.city' => 'Hamburg',
-			'order.base.address.state' => 'Hamburg',
-			'order.base.address.countryid' => 'de',
-			'order.base.address.languageid' => 'de',
-			'order.base.address.telephone' => '05554433221',
-			'order.base.address.email' => 'test@example.com',
-			'order.base.address.telefax' => '05554433222',
-			'order.base.address.website' => 'www.example.com',
-		);
-
-		$result = $this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, $fixture );
-		$address = $this->object->get()->getAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 0 );
-
-		$this->assertEquals( 'Example company', $address->getCompany() );
-		$this->assertEquals( 'Dr.', $address->getTitle() );
-		$this->assertEquals( 'firstunit', $address->getFirstname() );
-		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
-	}
-
-
-	public function testSetDeliveryAddressByArrayError()
-	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, array( 'error' => false ) );
-	}
-
-
-	public function testSetDeliveryAddressTypeError()
-	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_DELIVERY, 'error' );
-	}
 
 
 	public function testAddServicePayment()
@@ -548,7 +467,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$price->setCurrencyId( 'CHF' );
 
 		$this->context->getLocale()->setCurrencyId( 'CHF' );
-		$this->object->setAddress( \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT, $this->getAddress( 'Example company' ) );
+		$this->object->addAddress( 'payment', $this->getAddress( 'Example company' )->toArray() );
 
 		$this->context->getSession()->set( 'aimeos/basket/currency', 'CHF' );
 		$this->context->getLocale()->setCurrencyId( 'EUR' );

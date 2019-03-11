@@ -126,17 +126,22 @@ interface Iface
 	public function deleteCoupon( $code );
 
 	/**
-	 * Sets the address of the customer in the basket.
+	 * Adds an address of the customer to the basket
 	 *
-	 * @param string $type Address type constant from \Aimeos\MShop\Order\Item\Base\Address\Base
-	 * @param \Aimeos\MShop\Common\Item\Address\Iface|array|null $value Address object or array with key/value pairs of address or null to remove address from basket
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the billing or delivery address is not of any required type of
-	 * 	if one of the keys is invalid when using an array with key/value pairs
+	 * @param string $type Address type code like 'payment' or 'delivery'
+	 * @param array $values Associative list of key/value pairs with address details
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function setAddress( $type, $value );
-//	public function addAddress( $type, array $values = [] );
-//	public function deleteAddress( $type, $pos = null );
+	public function addAddress( $type, array $values = [], $position = null );
+
+	/**
+	 * Removes the address of the given type and position if available
+	 *
+	 * @param string $type Address type code like 'payment' or 'delivery'
+	 * @param integer|null $position Position of the address in the list to overwrite
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
+	 */
+	public function deleteAddress( $type, $position = null );
 
 	/**
 	 * Adds the delivery/payment service including the given configuration
@@ -153,7 +158,7 @@ interface Iface
 	 * Removes the delivery or payment service items from the basket
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
-	 * @param integer|null $position Position of the address in the list to overwrite
+	 * @param integer|null $position Position of the service in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function deleteService( $type, $position = null );

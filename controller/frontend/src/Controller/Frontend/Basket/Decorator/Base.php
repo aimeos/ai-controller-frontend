@@ -216,17 +216,28 @@ abstract class Base
 
 
 	/**
-	 * Adds the delivery/payment service item based on the service ID.
+	 * Adds an address of the customer to the basket
 	 *
-	 * @param string $type Address type constant from \Aimeos\MShop\Order\Item\Base\Address\Base
-	 * @param \Aimeos\MShop\Common\Item\Address\Iface|array|null $value Address object or array with key/value pairs of address or null to remove address from basket
+	 * @param string $type Address type code like 'payment' or 'delivery'
+	 * @param array $values Associative list of key/value pairs with address details
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
-	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the billing or delivery address is not of any required type of
-	 * 	if one of the keys is invalid when using an array with key/value pairs
 	 */
-	public function setAddress( $type, $value )
+	public function addAddress( $type, array $values = [], $position = null )
 	{
-		$this->controller->setAddress( $type, $value );
+		$this->controller->addAddress( $type, $values, $position );
+		return $this;
+	}
+
+	/**
+	 * Removes the address of the given type and position if available
+	 *
+	 * @param string $type Address type code like 'payment' or 'delivery'
+	 * @param integer|null $position Position of the address in the list to overwrite
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
+	 */
+	public function deleteAddress( $type, $position = null )
+	{
+		$this->controller->deleteAddress( $type, $position );
 		return $this;
 	}
 

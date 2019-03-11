@@ -166,11 +166,19 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testSetAddress()
+	public function testAddAddress()
 	{
-		$this->stub->expects( $this->once() )->method( 'setAddress' );
+		$this->stub->expects( $this->once() )->method( 'addAddress' );
 
-		$this->assertSame( $this->object, $this->object->setAddress( 'payment', null ) );
+		$this->assertSame( $this->object, $this->object->addAddress( 'payment', [] ) );
+	}
+
+
+	public function testDeleteAddress()
+	{
+		$this->stub->expects( $this->once() )->method( 'deleteAddress' );
+
+		$this->assertSame( $this->object, $this->object->deleteAddress( 'payment' ) );
 	}
 
 

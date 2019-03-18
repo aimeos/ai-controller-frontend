@@ -396,7 +396,7 @@ class Standard
 		$manager = \Aimeos\MShop::create( $context, 'service' );
 
 		$provider = $manager->getProvider( $service, $service->getType() );
-		$errors = array_filter( $provider->checkConfigFE( $config ) );
+		$errors = $provider->checkConfigFE( $config );
 		$unknown = array_diff_key( $config, $errors );
 
 		if( count( $unknown ) > 0 )
@@ -405,10 +405,10 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, $unknown );
 		}
 
-		if( count( $errors ) > 0 )
+		if( count( array_filter( $errors ) ) > 0 )
 		{
 			$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid service attributes' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, $errors );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, array_filter( $errors ) );
 		}
 
 		// remove service rebate of original price

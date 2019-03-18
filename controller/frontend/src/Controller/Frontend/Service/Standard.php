@@ -234,7 +234,10 @@ class Standard
 	 */
 	public function type( $code )
 	{
-		$this->conditions[] = $this->filter->compare( '==', 'service.type', $code );
+		if( $code ) {
+			$this->conditions[] = $this->filter->compare( '==', 'service.type', $code );
+		}
+
 		return $this;
 	}
 

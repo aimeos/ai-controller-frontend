@@ -256,15 +256,40 @@ class Standard
 	 *
 	 * @param string $type Type code of the property, e.g. "isbn"
 	 * @param string|null $value Exact value of the property
-	 * @param string|null $langId ISO country code (en or en_US) or null if not language specific
+	 * @param string|null $langid ISO country code (en or en_US) or null if not language specific
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( $type, $value = null, $langId = null )
+	public function property( $type, $value = null, $langid = null )
 	{
-		$func = $this->filter->createFunction( 'product:prop', [$type, $langId, $value] );
+		$func = $this->filter->createFunction( 'product:prop', [$type, $langid, $value] );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		return $this;
+	}
+
+
+	/**
+	 * Returns the product for the given product URL name
+	 *
+	 * @param string $name Product URL name
+	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function resolve( $name )
+	{
+		$langid = $this->getContext()->getLocale()->getLanguageId();
+
+		$search = $this->manager->createSearch();
+		$func = $search->createFunction( 'index.text:url', [$langid] );
+		$search->setConditions( $search->compare( '==', $func, $name ) );
+
+		$items = $this->manager->searchItems( $search, $this->domains );
+
+		if( ( $item = reset( $items ) ) !== false ) {
+			return $item;
+		}
+
+		throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( 'Unable to find product "%1$s"', $name ) );
 	}
 
 

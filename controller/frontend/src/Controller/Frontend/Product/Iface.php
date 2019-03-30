@@ -63,7 +63,6 @@ interface Iface
 	 * Returns the product for the given product code
 	 *
 	 * @param string $code Unique product code
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
@@ -73,7 +72,6 @@ interface Iface
 	 * Returns the product for the given product ID
 	 *
 	 * @param string $id Unique product ID
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
@@ -127,6 +125,15 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function property( $type, $value = null, $langId = null );
+
+	/**
+	 * Returns the product for the given product URL name
+	 *
+	 * @param string $name Product URL name
+	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function resolve( $name );
 
 	/**
 	 * Returns the products filtered by the previously assigned conditions

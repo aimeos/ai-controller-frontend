@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-27 08:31+0200\n"
-"PO-Revision-Date: 2017-10-02 15:52+0000\n"
+"POT-Creation-Date: 2019-04-02 15:11+0200\n"
+"PO-Revision-Date: 2019-04-02 13:26+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Portuguese (http://www.transifex.com/aimeos/aimeos-core/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,10 @@ msgstr "Propriedades de endereço inválidas, por favor verifique"
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
 msgstr "Caracteres inválidos no nome da classe \"%1$s\""
+
+#, php-format
+msgid "Invalid characters in controller name \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -173,6 +177,10 @@ msgstr "Incapaz de chamar o método \"%1$s::%2$s\""
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "Incapaz de criar provedor \"%1$s\" para o serviço com ID \"%2$s\""
+
+#, php-format
+msgid "Unable to find product \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""

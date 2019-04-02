@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-27 08:31+0200\n"
-"PO-Revision-Date: 2018-10-02 14:27+0000\n"
-"Last-Translator: stevechen <steve.stevechen@gmail.com>\n"
+"POT-Creation-Date: 2019-04-02 15:11+0200\n"
+"PO-Revision-Date: 2019-04-02 13:26+0000\n"
+"Last-Translator: Aimeos\n"
 "Language-Team: Chinese (http://www.transifex.com/aimeos/aimeos-core/language/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,6 +74,10 @@ msgstr "無效的地址，請確認您的輸入"
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
 msgstr "class名稱 \"%1$s\" 包含無效的字符"
+
+#, php-format
+msgid "Invalid characters in controller name \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -174,6 +178,10 @@ msgstr "無法呼叫method \"%1$s::%2$s\""
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "無法為服務ID \"%2$s\" 創建供應者: %1$s"
+
+#, php-format
+msgid "Unable to find product \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""

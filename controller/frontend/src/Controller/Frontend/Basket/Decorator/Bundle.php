@@ -56,10 +56,10 @@ class Bundle
 		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem();
 
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product )
+			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
 			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype, $supplier ) )
 			->setQuantity( $quantity )->setStockType( $stocktype )->setSupplierCode( $supplier )
-			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) )
-			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
+			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );
 		$this->getController()->save();

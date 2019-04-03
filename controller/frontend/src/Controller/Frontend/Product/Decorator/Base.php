@@ -222,6 +222,19 @@ abstract class Base
 
 
 	/**
+	 * Returns the product for the given product URL name
+	 *
+	 * @param string $name Product URL name
+	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
+	 * @since 2019.04
+	 */
+	public function resolve( $name )
+	{
+		return $this->controller->resolve( $name );
+	}
+
+
+	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
 	 * @param integer &$total Parameter where the total number of found products will be stored in

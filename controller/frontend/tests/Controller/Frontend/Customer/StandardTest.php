@@ -77,8 +77,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteAddressItem()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
-
-		$this->setExpectedException( \Aimeos\MShop\Exception::class );
 		$this->assertSame( $this->object, $this->object->deleteAddressItem( $item ) );
 	}
 
@@ -86,8 +84,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteListItem()
 	{
 		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
-
-		$this->setExpectedException( \Aimeos\MShop\Exception::class );
 		$this->assertSame( $this->object, $this->object->deleteListItem( 'customer', $listItem ) );
 	}
 
@@ -95,8 +91,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeletePropertyItem()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
-
-		$this->setExpectedException( \Aimeos\MShop\Exception::class );
 		$this->assertSame( $this->object, $this->object->deletePropertyItem( $item ) );
 	}
 

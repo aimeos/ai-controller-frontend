@@ -314,7 +314,7 @@ abstract class Base
 	 */
 	public function uses( array $domains )
 	{
-		$this->controller->text( $domains );
+		$this->controller->uses( $domains );
 		return $this;
 	}
 

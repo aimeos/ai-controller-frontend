@@ -392,7 +392,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$service = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
 
 		$this->object->addService( $service );
-		$item = $this->object->get()->getService( 'payment', 'unitpaymentcode' )->getCode();
+		$item = $this->object->get()->getService( 'payment', 0 )->getCode();
 		$this->assertEquals( 'unitpaymentcode', $item );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
@@ -406,7 +406,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
 		$this->object->addService( $service );
-		$item = $this->object->get()->getService( 'delivery', 'unitcode' );
+		$item = $this->object->get()->getService( 'delivery', 0 );
 		$this->assertEquals( 'unitcode', $item->getCode() );
 
 		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
@@ -420,7 +420,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
 		$this->assertSame( $this->object, $this->object->addService( $service ) );
-		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 'unitcode' )->getCode() );
+		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
 
 		$this->assertSame( $this->object, $this->object->deleteService( 'delivery' ) );
 		$this->assertEquals( 0, count( $this->object->get()->getService( 'delivery' ) ) );
@@ -433,7 +433,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
 
 		$this->assertSame( $this->object, $this->object->addService( $service ) );
-		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 'unitcode' )->getCode() );
+		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
 
 		$this->assertSame( $this->object, $this->object->deleteService( 'delivery', 0 ) );
 		$this->assertEquals( 0, count( $this->object->get()->getService( 'delivery' ) ) );
@@ -461,8 +461,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			$product->getPrice()->setCurrencyId( 'CHF' );
 		}
 
-		$basket->getService( 'delivery', 'unitcode' )->getPrice()->setCurrencyId( 'CHF' );
-		$basket->getService( 'payment', 'unitpaymentcode' )->getPrice()->setCurrencyId( 'CHF' );
+		$basket->getService( 'delivery', 0 )->getPrice()->setCurrencyId( 'CHF' );
+		$basket->getService( 'payment', 0 )->getPrice()->setCurrencyId( 'CHF' );
 		$basket->getLocale()->setCurrencyId( 'CHF' );
 		$price->setCurrencyId( 'CHF' );
 
@@ -483,8 +483,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			$this->assertEquals( 2, $product->getQuantity() );
 		}
 
-		$this->assertEquals( 'EUR', $basket->getService( 'payment', 'unitpaymentcode' )->getPrice()->getCurrencyId() );
-		$this->assertEquals( 'EUR', $basket->getService( 'delivery', 'unitcode' )->getPrice()->getCurrencyId() );
+		$this->assertEquals( 'EUR', $basket->getService( 'payment', 0 )->getPrice()->getCurrencyId() );
+		$this->assertEquals( 'EUR', $basket->getService( 'delivery', 0 )->getPrice()->getCurrencyId() );
 		$this->assertEquals( 'EUR', $basket->getLocale()->getCurrencyId() );
 		$this->assertEquals( 'EUR', $basket->getPrice()->getCurrencyId() );
 	}

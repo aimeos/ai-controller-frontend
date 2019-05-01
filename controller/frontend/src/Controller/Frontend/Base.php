@@ -20,7 +20,8 @@ namespace Aimeos\Controller\Frontend;
  */
 abstract class Base
 {
-	private $context = null;
+	private $context;
+	private $object;
 
 
 	/**
@@ -55,5 +56,33 @@ abstract class Base
 	protected function getContext()
 	{
 		return $this->context;
+	}
+
+
+	/**
+	 * Returns the outmost decorator of the decorator stack
+	 *
+	 * @return \Aimeos\Controller\Frontend\Iface Outmost decorator object
+	 */
+	protected function getObject()
+	{
+		if( $this->object !== null ) {
+			return $this->object;
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Injects the reference of the outmost object
+	 *
+	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
+	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 */
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	{
+		$this->object = $object;
+		return $this;
 	}
 }

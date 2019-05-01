@@ -133,7 +133,7 @@ class Base
 		$decorators = $config->get( 'controller/frontend/' . $domain . '/decorators/local', [] );
 		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
 
-		return $controller;
+		return $controller->setObject( $controller );
 	}
 
 

@@ -181,7 +181,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			try
 			{
-				$this->setAddress( $type, $item->toArray() );
+				$this->getObject()->setAddress( $type, $item->toArray() );
 				$basket->deleteAddress( $type );
 			}
 			catch( \Exception $e )
@@ -212,7 +212,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			try
 			{
-				$this->addCoupon( $code );
+				$this->getObject()->addCoupon( $code );
 				$basket->deleteCoupon( $code, true );
 			}
 			catch( \Exception $e )
@@ -259,7 +259,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 				}
 
-				$this->addProduct(
+				$this->getObject()->addProduct(
 					$product->getProductId(), $product->getQuantity(), $product->getStockType(),
 					$variantIds, $configIds, [], $customIds
 				);
@@ -302,7 +302,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 						$attributes[$attrItem->getCode()] = $attrItem->getValue();
 					}
 
-					$this->addService( $type, $item->getServiceId(), $attributes );
+					$this->getObject()->addService( $type, $item->getServiceId(), $attributes );
 					$basket->deleteService( $type );
 				}
 				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically

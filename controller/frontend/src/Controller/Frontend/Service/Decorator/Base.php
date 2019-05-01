@@ -142,6 +142,22 @@ abstract class Base
 
 
 	/**
+	 * Injects the reference of the outmost object
+	 *
+	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
+	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 */
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	{
+		parent::setObject( $object );
+
+		$this->controller->setObject( $object );
+
+		return $this;
+	}
+
+
+	/**
 	 * Returns the frontend controller
 	 *
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Frontend controller object

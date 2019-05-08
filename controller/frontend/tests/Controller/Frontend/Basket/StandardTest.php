@@ -88,36 +88,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testStore()
-	{
-		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
-			->setConstructorArgs( [$this->context] )
-			->setMethods( ['store'] )
-			->getMock();
-
-		\Aimeos\MShop::inject( 'order/base', $stub );
-
-		$stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $stub->createItem() ) );
-
-		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->store() );
-	}
-
-
-	public function testStoreLimit()
-	{
-		$this->context->setEditor( 'core:lib/mshoplib' );
-		$config = $this->context->getConfig();
-		$config->set( 'controller/frontend/basket/limit-count', 0 );
-		$config->set( 'controller/frontend/basket/limit-seconds', 86400 * 365 );
-
-		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
-
-		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
-		$object->store();
-	}
-
-
 	public function testLoad()
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
@@ -133,6 +103,49 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->load( -1 ) );
+	}
+
+
+	public function testStore()
+	{
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['store'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( 'order/base', $stub );
+
+		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
+
+		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
+			->setConstructorArgs( [$priceManager->createItem(), $this->context->getLocale()] )
+			->setMethods( ['check'] )
+			->getMock();
+
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['get'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $basket ) );
+		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnValue( $basket ) );
+		$stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $basket ) );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->store() );
+	}
+
+
+	public function testStoreLimit()
+	{
+		$this->context->setEditor( 'core:lib/mshoplib' );
+		$config = $this->context->getConfig();
+		$config->set( 'controller/frontend/basket/limit-count', 0 );
+		$config->set( 'controller/frontend/basket/limit-seconds', 86400 * 365 );
+
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
+		$object->store();
 	}
 
 

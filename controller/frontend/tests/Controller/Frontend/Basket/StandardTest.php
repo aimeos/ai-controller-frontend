@@ -91,10 +91,23 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\MShop\Factory::injectManager( $this->context, 'order/base', $stub );
 
-		$stub->expects( $this->once() )->method( 'store' );
+		$priceManager = \Aimeos\MShop\Factory::createManager( $this->context, 'price' );
 
-		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
-		$object->store();
+		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
+			->setConstructorArgs( [$priceManager->createItem(), $this->context->getLocale()] )
+			->setMethods( ['check'] )
+			->getMock();
+
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->setMethods( ['get'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $basket ) );
+		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnValue( $basket ) );
+		$stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $basket ) );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->store() );
 	}
 
 

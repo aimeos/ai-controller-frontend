@@ -164,8 +164,7 @@ class Standard
 		}
 
 
-		$basket = $this->get()->finish();
-		$basket->setCustomerId( (string) $context->getUserId() );
+		$basket = $this->get()->setCustomerId( (string) $context->getUserId() )->finish()->check();
 
 		$this->domainManager->begin();
 		$this->domainManager->store( $basket );

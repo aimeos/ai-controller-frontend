@@ -125,18 +125,19 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyCouponException()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
-
-		$ordBaseItem->addCoupon( '90AB', [] );
-
+		$ordBaseItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base' )->createItem();
+		$ordBaseProductItem = \Aimeos\MShop\Factory::createManager( $this->context, 'order/base/product' )->createItem();
 
 		$object = $this->getMockBuilder( '\Aimeos\Controller\Frontend\Basket\Standard' )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['addCoupon'] )
 			->getMock();
 
-		$object->expects( $this->once() )->method( 'addCoupon' )->will( $this->throwException( new \Exception() ) );
+		$object->expects( $this->any() )->method( 'addCoupon' )->will( $this->throwException( new \Exception() ) );
+
+		$ordBaseProductItem->setProductCode( 'test' )->getPrice()->setValue( '10.00' );
+		$ordBaseItem->addProduct( $ordBaseProductItem );
+		$ordBaseItem->addCoupon( '90AB', [] );
 
 		$result = $this->access( 'copyCoupons' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
 

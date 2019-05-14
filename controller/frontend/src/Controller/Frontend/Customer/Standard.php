@@ -152,8 +152,7 @@ class Standard
 	 */
 	public function createAddressItem( array $values = [] )
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/address' );
-		return $manager->createItem()->fromArray( $values );
+		return $this->manager->createAddressItem()->fromArray( $values );
 	}
 
 
@@ -162,11 +161,11 @@ class Standard
 	 *
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface List item
 	 * @since 2019.04
+	 * @todo 2020.01 Rename to "createListsItem"
 	 */
 	public function createListItem( array $values = [] )
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/lists' );
-		return $manager->createItem()->fromArray( $values );
+		return $this->manager->createListsItem()->fromArray( $values );
 	}
 
 
@@ -178,8 +177,7 @@ class Standard
 	 */
 	public function createPropertyItem( array $values = [] )
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'customer/property' );
-		return $manager->createItem()->fromArray( $values );
+		return $this->manager->createPropertyItem()->fromArray( $values );
 	}
 
 

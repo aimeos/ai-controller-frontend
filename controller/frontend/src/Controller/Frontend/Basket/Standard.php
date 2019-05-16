@@ -71,8 +71,9 @@ class Standard
 				}
 
 				foreach( $basket->getProducts() as $pos => $product ) {
-					if( isset( $couponProductIds[$product->getProductId()] ) )
+					if( isset( $couponProductIds[$product->getProductId()] ) ) {
 						continue;
+					}
 
 					$this->deleteProduct( $pos );
 				}

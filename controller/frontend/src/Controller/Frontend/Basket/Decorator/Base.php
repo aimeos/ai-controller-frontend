@@ -56,11 +56,13 @@ abstract class Base
 
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
-	 * @return void
+	 *
+	 * @param boolean $selective Only clear configured basket parts
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
 	 */
-	public function clear()
+	public function clear( $selective = false )
 	{
-		$this->controller->clear();
+		$this->controller->clear( $selective );
 		return $this;
 	}
 

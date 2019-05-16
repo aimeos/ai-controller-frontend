@@ -44,10 +44,58 @@ class Standard
 	/**
 	 * Empties the basket and removing all products, addresses, services, etc.
 	 *
+	 * @param boolean $selective Only clear configured basket parts
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object
 	 */
-	public function clear()
+	public function clear( $selective = false )
 	{
+		if( $selective ) {
+			$context = $this->getContext();
+			$config = $context->getConfig();
+			$basket = $this->get();
+			
+			if( $config->get( 'clearCoupons', false ) )
+			{
+				foreach( $basket->getCoupons() as $code => $product ) {
+					$this->deleteCoupon( $code );
+				}
+			}
+
+			if( $config->get( 'clearArticles', false ) )
+			{
+				$couponProductIds = array();
+				foreach( $basket->getCoupons() as $code => $productList ) {
+					foreach( $productList as $product ) {
+						$couponProductIds[$product->getProductId()] = true;
+					}
+				}
+
+				foreach( $basket->getProducts() as $pos => $product ) {
+					if( isset( $couponProductIds[$product->getProductId()] ) )
+						continue;
+
+					$this->deleteProduct( $pos );
+				}
+			}
+
+			if( $config->get( 'clearAddresses', false ) )
+			{
+				$this->setAddress( 'payment', null );
+				$this->setAddress( 'delivery', null );
+			}
+
+			if( $config->get( 'clearPayment', false ) )
+			{
+				$this->deleteService( 'payment', null );
+			}
+
+			if( $config->get( 'clearDelivery', false ) )
+			{
+				$this->deleteService( 'delivery', null );
+			}
+
+			return $this;
+		}
 		$this->baskets[$this->type] = $this->domainManager->createItem();
 		$this->domainManager->setSession( $this->baskets[$this->type], $this->type );
 
@@ -213,7 +261,6 @@ class Standard
 			'config' => array_keys( $configAttributeIds ),
 		];
 		$this->checkListRef( $prodid, 'attribute', $attributeMap );
-
 
 		$context = $this->getContext();
 		$productManager = \Aimeos\MShop\Factory::createManager( $context, 'product' );

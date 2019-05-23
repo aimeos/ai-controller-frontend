@@ -289,7 +289,8 @@ class Standard
 			return $item;
 		}
 
-		throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( 'Unable to find product "%1$s"', $name ) );
+		$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Unable to find product "%1$s"' );
+		throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ) );
 	}
 
 

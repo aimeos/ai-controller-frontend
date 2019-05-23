@@ -297,7 +297,8 @@ class Standard
 			return $item;
 		}
 
-		throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Product item with ID "%1$s" not found', $productId ) );
+		$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Product item with ID "%1$s" not found' );
+		throw new \Aimeos\Controller\Frontend\Exception( sprintf( $msg, $productId ) );
 	}
 
 

@@ -1,4 +1,4 @@
-sudo: false
+dist: xenial
 language: php
 
 php:
@@ -11,6 +11,11 @@ php:
 
 matrix:
   fast_finish: true
+
+before_install:
+  - sudo mysql -e "update mysql.user set authentication_string=PASSWORD(''), plugin='mysql_native_password' where User='root';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -p''
+  - sudo service mysql restart
 
 before_script:
   - git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core

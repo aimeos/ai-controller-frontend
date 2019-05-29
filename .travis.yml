@@ -13,8 +13,7 @@ matrix:
   fast_finish: true
 
 before_install:
-  - sudo cat /etc/mysql/debian.cnf
-  - sudo mysql --defaults-file=/etc/mysql/debian.cnf  -e "use mysql; update user set authentication_string=PASSWORD('new_password') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - mysql -u debian-sys-maint -pza5hQ5mIBSyzNuH2  -e "use mysql; update user set authentication_string=PASSWORD('new_password') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo mysql_upgrade -u root -pnew_password
   - sudo service mysql restart
 

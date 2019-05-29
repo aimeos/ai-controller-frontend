@@ -13,9 +13,8 @@ matrix:
   fast_finish: true
 
 before_install:
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('new_password') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-  - sudo mysql_upgrade -u root -pnew_password
-  - sudo service mysql restart
+  - sudo service mysql stop
+  - mysqld_safe --skip-grant-tables &
 
 before_script:
   - git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core

@@ -25,7 +25,6 @@ class Standard
 	private $conditions = [];
 	private $manager;
 	private $filter;
-	private $sort;
 	private $item;
 
 
@@ -165,28 +164,16 @@ class Standard
 	 */
 	public function sort( $key = null )
 	{
-		$direction = '+';
+		$sort = [];
+		$list = ( $key ? explode( ',', $key ) : [] );
 
-		if( $key != null && $key[0] === '-' )
+		foreach( $list as $sortkey )
 		{
-			$key = substr( $key, 1 );
-			$direction = '-';
+			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			$sort[] = $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) );
 		}
 
-		switch( $key )
-		{
-			case null:
-				$this->sort = null;
-				break;
-
-			default:
-				$this->sort = $this->filter->sort( $direction, $key );
-		}
-
-		if( $this->sort ) {
-			$this->filter->setSortations( [$this->sort] );
-		}
-
+		$this->filter->setSortations( $sort );
 		return $this;
 	}
 

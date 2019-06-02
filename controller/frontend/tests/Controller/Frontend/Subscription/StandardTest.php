@@ -129,6 +129,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSortMultiple()
+	{
+		$this->assertEquals( 2, count( $this->object->sort( 'subscription.dateend,-subscription.id' )->search() ) );
+	}
+
+
 	protected function getCustomerId()
 	{
 		return \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'UTC001' )->getId();

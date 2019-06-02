@@ -101,7 +101,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSort()
 	{
-		$this->assertSame( $this->object, $this->object->sort( 'order.id' ) );
+		$this->assertSame( $this->object, $this->object->sort( '-order.type,order.id' ) );
 	}
 
 

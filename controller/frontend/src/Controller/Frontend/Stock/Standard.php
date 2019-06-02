@@ -162,29 +162,26 @@ class Standard
 	 */
 	public function sort( $key = null )
 	{
-		$direction = '+';
+		$sort = [];
+		$list = ( $key ? explode( ',', $key ) : [] );
 
-		if( $key != null && $key[0] === '-' )
+		foreach( $list as $sortkey )
 		{
-			$key = substr( $key, 1 );
-			$direction = '-';
+			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			$sortkey = ltrim( $sortkey, '+-' );
+
+			switch( $sortkey )
+			{
+				case 'stock':
+					$sort[] = $this->filter->sort( $direction, 'stock.type' );
+					$sort[] = $this->filter->sort( $direction, 'stock.stocklevel' );
+					break;
+				default:
+					$sort[] = $this->filter->sort( $direction, $sortkey );
+				}
 		}
 
-		switch( $key )
-		{
-			case null:
-				$this->filter->setSortations( [] );
-				break;
-			case 'stock':
-				$this->filter->setSortations( [
-					$this->filter->sort( $direction, 'stock.type' ),
-					$this->filter->sort( $direction, 'stock.stocklevel' )
-				] );
-				break;
-			default:
-				$this->filter->setSortations( [$this->filter->sort( $direction, $key )] );
-		}
-
+		$this->filter->setSortations( $sort );
 		return $this;
 	}
 

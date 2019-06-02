@@ -29,7 +29,6 @@ class Standard
 	private $domains = [];
 	private $filter;
 	private $manager;
-	private $sort;
 
 
 	/**
@@ -44,7 +43,7 @@ class Standard
 		$this->manager = \Aimeos\MShop::create( $context, 'service' );
 		$this->filter = $this->manager->createSearch( true );
 		$this->conditions[] = $this->filter->getConditions();
-		$this->sort = $this->filter->sort( '+', 'service.position' );
+		$this->filter->setSortations( [$this->filter->sort( '+', 'service.position' )] );
 	}
 
 
@@ -195,30 +194,24 @@ class Standard
 	 */
 	public function sort( $key = null )
 	{
-		$direction = '+';
+		$sort = [];
+		$list = ( $key ? explode( ',', $key ) : [] );
 
-		if( $key != null && $key[0] === '-' )
+		foreach( $list as $sortkey )
 		{
-			$key = substr( $key, 1 );
-			$direction = '-';
+			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			$sortkey = ltrim( $sortkey, '+-' );
+
+			switch( $sortkey )
+			{
+				case 'type':
+					$sort[] = $this->filter->sort( $direction, 'service.type' );
+					break;
+
+				default:
+					$sort[] = $this->filter->sort( $direction, $sortkey );
+			}
 		}
-
-		switch( $key )
-		{
-			case null:
-				$this->sort = null;
-				break;
-
-			case 'type':
-				$this->sort = $this->filter->sort( $direction, 'service.type' );
-				break;
-
-			default:
-				$this->sort = $this->filter->sort( $direction, $key );
-		}
-
-		$sort = $this->sort ? [$this->sort] : [];
-		$sort[] = $this->filter->sort( '+', 'service.position' );
 
 		$this->filter->setSortations( $sort );
 		return $this;

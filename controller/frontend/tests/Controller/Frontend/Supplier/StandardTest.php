@@ -90,6 +90,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSortMultiple()
+	{
+		$this->assertGreaterThanOrEqual( 2, count( $this->object->sort( 'supplier.label,-supplier.id' )->search() ) );
+	}
+
+
 	public function testUses()
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );

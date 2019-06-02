@@ -23,9 +23,9 @@ class Standard
 {
 	private $conditions = [];
 	private $domains = [];
+	private $sort = [];
 	private $filter;
 	private $manager;
-	private $sort;
 
 
 	/**
@@ -117,7 +117,7 @@ class Standard
 			$this->conditions[] = $this->filter->compare( '>=', $func, 0 );
 
 			$func = $this->filter->createFunction( 'sort:index.catalog:position', [$listtype, $ids] );
-			$this->sort = $this->filter->sort( '+', $func );
+			$this->sort[] = $this->filter->sort( '+', $func );
 		}
 
 		return $this;
@@ -303,6 +303,7 @@ class Standard
 	 */
 	public function search( &$total = null )
 	{
+		$this->filter->setSortations( $this->sort );
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, $this->domains, $total );
 	}
@@ -326,85 +327,79 @@ class Standard
 	/**
 	 * Sets the sorting of the result list
 	 *
-	 * @param string|null $key Sorting of the result list like "name", "-name", "price", "-price", "code", "-code", "ctime, "-ctime" and "relevance", null for no sorting
+	 * @param string|null $key Sorting of the result list like "name", "-name", "price", "-price", "code", "-code",
+	 * 	"ctime, "-ctime", "relevance" or comma separated combinations and null for no sorting
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function sort( $key = null )
 	{
-		$direction = '+';
+		$list = ( $key ? explode( ',', $key ) : $this->sort = [] );
 
-		if( $key != null && $key[0] === '-' )
+		foreach( $list as $sortkey )
 		{
-			$key = substr( $key, 1 );
-			$direction = '-';
+			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			$sortkey = ltrim( $sortkey, '+-' );
+
+			switch( $sortkey )
+			{
+				case 'relevance':
+					break;
+
+				case 'code':
+					$this->sort[] = $this->filter->sort( $direction, 'product.code' );
+					break;
+
+				case 'ctime':
+					$this->sort[] = $this->filter->sort( $direction, 'product.ctime' );
+					break;
+
+				case 'name':
+					$langid = $this->getContext()->getLocale()->getLanguageId();
+
+					$cmpfunc = $this->filter->createFunction( 'index.text:name', [$langid] );
+					$this->conditions[] = $this->filter->compare( '!=', $cmpfunc, null );
+
+					$sortfunc = $this->filter->createFunction( 'sort:index.text:name', [$langid] );
+					$this->sort[] = $this->filter->sort( $direction, $sortfunc );
+					break;
+
+				case 'price':
+					$expr = [];
+					$context = $this->getContext();
+
+					/** controller/frontend/product/price-types
+					 * Use different product prices types for sorting by price
+					 *
+					 * In some cases, prices are stored with different types, eg. price per kg.
+					 * This configuration option defines which types are incorporated when sorting
+					 * the product list by price.
+					 *
+					 * @param array List of price types codes
+					 * @since 2018.10
+					 * @category Developer
+					 */
+					$types = $context->getConfig()->get( 'controller/frontend/product/price-types', ['default'] );
+					$currencyid = $context->getLocale()->getCurrencyId();
+
+					foreach( $types as $type )
+					{
+						$cmpfunc = $this->filter->createFunction( 'index.price:value', [$currencyid] );
+						$expr[] = $this->filter->compare( '!=', $cmpfunc, null );
+					}
+
+					$this->conditions[] = $this->filter->combine( '||', $expr );
+
+					$sortfunc = $this->filter->createFunction( 'sort:index.price:value', [$currencyid] );
+					$this->sort[] = $this->filter->sort( $direction, $sortfunc );
+					break;
+
+				default:
+					$this->sort[] = $this->filter->sort( $direction, $sortkey );
+			}
 		}
 
-		switch( $key )
-		{
-			case null:
-				$this->sort = null;
-				break;
-
-			case 'relevance':
-				break;
-
-			case 'code':
-				$this->sort = $this->filter->sort( $direction, 'product.code' );
-				break;
-
-			case 'ctime':
-				$this->sort = $this->filter->sort( $direction, 'product.ctime' );
-				break;
-
-			case 'name':
-				$langid = $this->getContext()->getLocale()->getLanguageId();
-
-				$cmpfunc = $this->filter->createFunction( 'index.text:name', [$langid] );
-				$this->conditions[] = $this->filter->compare( '!=', $cmpfunc, null );
-
-				$sortfunc = $this->filter->createFunction( 'sort:index.text:name', [$langid] );
-				$this->sort = $this->filter->sort( $direction, $sortfunc );
-				break;
-
-			case 'price':
-				$expr = [];
-				$context = $this->getContext();
-
-				/** controller/frontend/product/price-types
-				 * Use different product prices types for sorting by price
-				 *
-				 * In some cases, prices are stored with different types, eg. price per kg.
-				 * This configuration option defines which types are incorporated when sorting
-				 * the product list by price.
-				 *
-				 * @param array List of price types codes
-				 * @since 2018.10
-				 * @category Developer
-				 */
-				$types = $context->getConfig()->get( 'controller/frontend/product/price-types', ['default'] );
-				$currencyid = $context->getLocale()->getCurrencyId();
-
-				foreach( $types as $type )
-				{
-					$cmpfunc = $this->filter->createFunction( 'index.price:value', [$currencyid] );
-					$expr[] = $this->filter->compare( '!=', $cmpfunc, null );
-				}
-
-				$this->conditions[] = $this->filter->combine( '||', $expr );
-
-				$sortfunc = $this->filter->createFunction( 'sort:index.price:value', [$currencyid] );
-				$this->sort = $this->filter->sort( $direction, $sortfunc );
-				break;
-
-			default:
-				$this->sort = $this->filter->sort( $direction, $key );
-		}
-
-		if( $this->sort ) {
-			$this->filter->setSortations( [$this->sort] );
-		}
-
+		$this->filter->setSortations( $this->sort );
 		return $this;
 	}
 
@@ -427,7 +422,7 @@ class Standard
 			$this->conditions[] = $this->filter->compare( '>=', $func, 0 );
 
 			$func = $this->filter->createFunction( 'sort:index.supplier:position', [$listtype, $ids] );
-			$this->sort = $this->filter->sort( '+', $func );
+			$this->sort[] = $this->filter->sort( '+', $func );
 		}
 
 		return $this;

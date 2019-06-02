@@ -175,13 +175,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSort()
 	{
-		$this->assertEquals( 8, count( $this->object->sort( 'relevance' )->search() ) );
+		$this->assertEquals( 8, count( $this->object->sort( '+relevance' )->search() ) );
 	}
 
 
 	public function testSortGeneric()
 	{
-		$this->assertEquals( 8, count( $this->object->sort( 'product.status' )->search() ) );
+		$this->assertEquals( 8, count( $this->object->sort( '-product.status' )->search() ) );
+	}
+
+
+	public function testSortMultiple()
+	{
+		$this->assertEquals( 8, count( $this->object->sort( '-product.status,product.id' )->search() ) );
 	}
 
 

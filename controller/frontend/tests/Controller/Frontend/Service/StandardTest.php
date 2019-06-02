@@ -148,6 +148,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSortMultiple()
+	{
+		$this->assertEquals( 4, count( $this->object->sort( 'service.status,-service.id' )->search() ) );
+	}
+
+
 	public function testSortType()
 	{
 		$result = $this->object->sort( 'type' )->search();

@@ -89,6 +89,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSortMultiple()
+	{
+		$this->assertGreaterThanOrEqual( 15, count( $this->object->sort( 'stock.type,-stock.dateback' )->search() ) );
+	}
+
+
 	public function testSortStock()
 	{
 		$result = $this->object->sort( 'stock' )->search();

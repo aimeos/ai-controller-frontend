@@ -119,6 +119,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSortMultiple()
+	{
+		$this->assertGreaterThanOrEqual( 26, count( $this->object->sort( 'attribute.status,-attribute.code' )->search() ) );
+	}
+
+
 	public function testSortPosition()
 	{
 		$result = $this->object->sort( 'position' )->search();

@@ -145,23 +145,16 @@ class Standard
 	 */
 	public function sort( $key = null )
 	{
-		$direction = '+';
+		$sort = [];
+		$list = ( $key ? explode( ',', $key ) : [] );
 
-		if( $key != null && $key[0] === '-' )
+		foreach( $list as $sortkey )
 		{
-			$key = substr( $key, 1 );
-			$direction = '-';
+			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			$sort[] = $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) );
 		}
 
-		switch( $key )
-		{
-			case null:
-				$this->filter->setSortations( [] );
-				break;
-			default:
-				$this->filter->setSortations( [$this->filter->sort( $direction, $key )] );
-		}
-
+		$this->filter->setSortations( $sort );
 		return $this;
 	}
 

@@ -82,4 +82,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertEquals( 1, count( $this->object->sort( 'locale.status' )->search() ) );
 	}
+
+
+	public function testSortMultiple()
+	{
+		$this->assertEquals( 1, count( $this->object->sort( 'locale.languageid,locale.status' )->search() ) );
+	}
 }

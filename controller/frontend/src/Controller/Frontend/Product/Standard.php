@@ -100,8 +100,8 @@ class Standard
 			$catIds = $list;
 		}
 
-		$expr = array( $filter->compare( '==', 'index.catalog.id', array_unique( $catIds ) ) );
-		$expr[] = $filter->getConditions();
+		$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, array_unique( $catIds ) ) );
+		$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 
 		if( $sort === 'relevance' )
 		{

@@ -100,9 +100,6 @@ class Standard
 			$catIds = $list;
 		}
 
-		$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, array_unique( $catIds ) ) );
-		$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
-
 		if( $sort === 'relevance' )
 		{
 			$start = $filter->getSliceStart();
@@ -113,6 +110,11 @@ class Standard
 
 			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', array( $listtype, $catIds, $start, $end ) );
 			$filter->setSortations( [$filter->sort( $direction, $sortfunc ), $filter->sort( '+', 'product.id' )] );
+		}
+		else
+		{
+			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, array_unique( $catIds ) ) );
+			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 		}
 
 		$filter->setConditions( $filter->combine( '&&', $expr ) );

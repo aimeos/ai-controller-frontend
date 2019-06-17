@@ -100,6 +100,8 @@ class Standard
 			$catIds = $list;
 		}
 
+		$expr = [$filter->getConditions()];
+
 		if( $sort === 'relevance' )
 		{
 			$start = $filter->getSliceStart();
@@ -117,7 +119,6 @@ class Standard
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 		}
 
-		$expr[] = $filter->getConditions();
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
 
 		return $filter;

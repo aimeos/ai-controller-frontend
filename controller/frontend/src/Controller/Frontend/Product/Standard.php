@@ -101,6 +101,7 @@ class Standard
 		}
 
 		$expr = [$filter->getConditions()];
+		$expr[] = $this->filter->compare( '==', 'index.catalog.id', $ids );
 
 		if( $sort === 'relevance' )
 		{

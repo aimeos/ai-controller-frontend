@@ -117,6 +117,7 @@ class Standard
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 		}
 
+		$expr[] = $filter->getConditions();
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
 
 		return $filter;

@@ -84,7 +84,7 @@ class Standard
 	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' )
 	{
-		$catIds = ( !is_array( $catId ) ? explode( ',', $catId ) : $catId );
+		$catIds = ( !is_array( $catId ) ? array_unique( explode( ',', $catId ) ) : array_unique( $catId ) );
 
 		if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 		{
@@ -101,7 +101,7 @@ class Standard
 		}
 
 		$expr = [$filter->getConditions()];
-		$expr[] = $this->filter->compare( '==', 'index.catalog.id', $ids );
+		$expr[] = $filter->compare( '==', 'index.catalog.id', $catIds );
 
 		if( $sort === 'relevance' )
 		{
@@ -116,7 +116,7 @@ class Standard
 		}
 		else
 		{
-			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, array_unique( $catIds ) ) );
+			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, $catIds ) );
 			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 		}
 

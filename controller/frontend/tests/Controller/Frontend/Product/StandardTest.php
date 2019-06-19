@@ -116,13 +116,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$filter = $this->object->addFilterCategory( $filter, $catId, $level );
 
 		$list = $filter->getConditions()->getExpressions();
+		$expr1 = $list[0]->getExpressions();
+		$expr2 = $list[2];
 
-		if( !isset( $list[0] ) || !( $list[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
-			throw new \RuntimeException( 'Wrong expression' );
+		if( !isset( $expr1[0] ) || !( $expr1[0] instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Wrong expression 1' );
 		}
 
-		$this->assertEquals( 'index.catalog.id', $list[0]->getName() );
-		$this->assertEquals( 3, count( $list[0]->getValue() ) );
+		if( !isset( $expr2 ) || !( $expr2 instanceof \Aimeos\MW\Criteria\Expression\Compare\Iface ) ) {
+			throw new \RuntimeException( 'Wrong expression 2' );
+		}
+
+		$this->assertEquals( 'index.catalog.id', $expr1[0]->getName() );
+		$this->assertEquals( 'index.catalog:position("default",["1","2","3"])', $expr2->getName() );
 		$this->assertEquals( [], $filter->getSortations() );
 	}
 

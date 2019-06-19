@@ -84,7 +84,7 @@ class Standard
 	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' )
 	{
-		$catIds = ( !is_array( $catId ) ? explode( ',', $catId ) : $catId );
+		$catIds = array_unique( !is_array( $catId ) ? explode( ',', $catId ) : $catId );
 
 		if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 		{
@@ -100,8 +100,8 @@ class Standard
 			$catIds = $list;
 		}
 
-		$expr = array( $filter->compare( '==', 'index.catalog.id', array_unique( $catIds ) ) );
-		$expr[] = $filter->getConditions();
+		$expr = [$filter->getConditions()];
+		$expr[] = $filter->compare( '==', 'index.catalog.id', $catIds );
 
 		if( $sort === 'relevance' )
 		{
@@ -113,6 +113,11 @@ class Standard
 
 			$sortfunc = $filter->createFunction( 'sort:index.catalog:position', array( $listtype, $catIds, $start, $end ) );
 			$filter->setSortations( [$filter->sort( $direction, $sortfunc ), $filter->sort( '+', 'product.id' )] );
+		}
+		else
+		{
+			$cmpfunc = $filter->createFunction( 'index.catalog:position', array( $listtype, $catIds ) );
+			$expr[] = $filter->compare( '>=', $cmpfunc, 0 );
 		}
 
 		$filter->setConditions( $filter->combine( '&&', $expr ) );

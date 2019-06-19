@@ -84,7 +84,7 @@ class Standard
 	public function addFilterCategory( \Aimeos\MW\Criteria\Iface $filter, $catId,
 		$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $sort = null, $direction = '+', $listtype = 'default' )
 	{
-		$catIds = ( !is_array( $catId ) ? array_unique( explode( ',', $catId ) ) : array_unique( $catId ) );
+		$catIds = array_unique( !is_array( $catId ) ? explode( ',', $catId ) : $catId );
 
 		if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 		{

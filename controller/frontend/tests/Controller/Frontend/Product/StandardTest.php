@@ -42,7 +42,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
 		$width = $manager->findItem( '29', [], 'product', 'width' )->getId();
 
-		$this->assertEquals( 2, count( $this->object->allOf( [$length, $width] )->search() ) );
+		$this->assertEquals( 1, count( $this->object->allOf( [$length, $width] )->search() ) );
 	}
 
 
@@ -108,7 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
 		$width = $manager->findItem( '30', [], 'product', 'width' )->getId();
 
-		$this->assertEquals( 3, count( $this->object->oneOf( [$length, $width] )->search() ) );
+		$this->assertEquals( 2, count( $this->object->oneOf( [$length, $width] )->search() ) );
 	}
 
 
@@ -286,7 +286,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testText()
 	{
-		$this->assertEquals( 3, count( $this->object->text( 'Cafe' )->search() ) );
+		$this->assertEquals( 2, count( $this->object->text( 'Cafe' )->search() ) );
 	}
 
 

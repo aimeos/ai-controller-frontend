@@ -279,11 +279,12 @@ class Standard
 		if( $id === null )
 		{
 			$msg = $this->item->toArray();
-			$msg['customer.password'] = null;
 
 			// Show only generated passwords in account creation e-mails
-			if( $this->item->getPassword() === '' ) {
+			if( $this->item->getPassword() === '' )
+			{
 				$msg['customer.password'] = substr( sha1( microtime( true ) . getmypid() . rand() ), -8 );
+				$this->item->setPassword( $msg['customer.password'] );
 			}
 
 			$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );

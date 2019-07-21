@@ -42,7 +42,7 @@ interface Iface
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
-	 * @param array $conditions List of conditions, e.g. ['>' => ['locale.interval' => 'P0Y1M0W0D']]
+	 * @param array $conditions List of conditions, e.g. ['>' => ['locale.languageid' => 'de']]
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
@@ -70,7 +70,7 @@ interface Iface
 	/**
 	 * Sets the sorting of the result list
 	 *
-	 * @param string|null $key Sorting key of the result list like "interval", null for no sorting
+	 * @param string|null $key Sorting key of the result list like "position", null for no sorting
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */

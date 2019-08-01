@@ -332,7 +332,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			if( ( $interval = $orderProduct->getAttribute( 'interval', 'config' ) ) !== null )
 			{
 				$item = $manager->createItem()->setInterval( $interval )
-					->setProductCode( $orderProduct->getProductCode() )
+					->setProductId( $orderProduct->getProductId() )
 					->setOrderProductId( $orderProduct->getId() )
 					->setOrderBaseId( $basket->getId() );
 

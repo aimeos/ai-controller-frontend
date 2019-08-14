@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-07-01 19:09+0200\n"
-"PO-Revision-Date: 2019-07-01 23:49+0000\n"
+"PO-Revision-Date: 2019-07-24 17:14+0000\n"
 "Last-Translator: Metal <meteoramic@yahoo.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/aimeos/aimeos-core/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr "\"%1$s\" ID'li ürünü eklemeye izin verilmiyor"
+msgstr "\"%1$s\" kimlik numaralı ürünü eklemeye izin verilmiyor"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr "Mevcut nitelik ID'ler \"%1$s\" verilen nitelik ID'ler \"%2$s\" ile eşleşmiyor"
+msgstr "Mevcut nitelik kimlik numaraları \"%1$s\" verilen nitelik kimlik numaraları \"%2$s\" ile eşleşmiyor"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
@@ -60,11 +60,11 @@ msgstr "\"%1$s\" kupon kodu artık kullanılamaz"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr "\"%2$s\" ID'li ürün için geçersiz \"%1$s\" referanslar"
+msgstr "\"%2$s\" kimlik numaralı ürün için geçersiz \"%1$s\" referanslar"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr "%2$s ID'li ürün için geçersiz \"%1$s\" referanslar"
+msgstr "%2$s kimlik numaralı ürün için geçersiz \"%1$s\" referanslar"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
@@ -104,7 +104,7 @@ msgstr "Domain \"%1$s\" ve kod \"%2$s\" için liste türü bulunamadı"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr "Seçilen nitelikler ve \"%1$s\" ürün ID'si için ürün bulunamadı"
+msgstr "Seçilen nitelikler ve \"%1$s\" ürün kimlik numarası için ürün bulunamadı"
 
 #, php-format
 msgid "No customer lists domain"
@@ -120,19 +120,19 @@ msgstr "\"%1$s\" (%2$s) için hiçbir öğe bulumadı"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr "\"%1$s\" ID'si için sipariş öğesi bulunamadı"
+msgstr "\"%1$s\" kimlik numarası için sipariş öğesi bulunamadı"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr "\"%1$s\" ürün ID'si ve \"%2$s\" türü için stok mevcut değil"
+msgstr "\"%1$s\" ürün kimlik numarası ve \"%2$s\" türü için stok mevcut değil"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr "Seçilmiş nitelikler ve \"%1$s\" ürün ID'si için benzersiz ürün bulunamadı"
+msgstr "Seçilmiş nitelikler ve \"%1$s\" ürün kimlik numarası için benzersiz ürün bulunamadı"
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr "\"%1$s\" ID'si için müşteri bilgisine erişime izin verilmiyor"
+msgstr "\"%1$s\" kimlik numarası için müşteri bilgisine erişime izin verilmiyor"
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -140,7 +140,7 @@ msgstr "Kupon kodu sayısı limiti aşıyor"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr "\"%1$s\" ID'li ürün öğesi bulunamadı"
+msgstr "\"%1$s\" kimlik numaralı ürün öğesi bulunamadı"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
@@ -148,7 +148,7 @@ msgstr "\"%1$s\" kupon kodu için gereksinimler karşılanmıyor"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr "Tür \"%1$s\" ve ID \"%2$s\" ID için hizmet öğesi bulunamadı"
+msgstr "\"%1$s\" türü ve \"%2$s\" kimlik numarası için hizmet öğesi bulunamadı"
 
 #, php-format
 msgid "Temporary limit reached"
@@ -176,7 +176,7 @@ msgstr "Metot \"%1$s::%2$s\" çağrılamıyor"
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr "\"%2$s\" ID'li hizmet için sağlayıcı \"%1$s\" oluşturulamıyor"
+msgstr "\"%2$s\" kimlik numaralı hizmet için sağlayıcı \"%1$s\" oluşturulamıyor"
 
 #, php-format
 msgid "Unable to find product \"%1$s\""

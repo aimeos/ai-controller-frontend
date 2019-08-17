@@ -325,21 +325,21 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
+		$types = ['config', 'custom', 'hidden', 'variant'];
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'subscription' );
 
 		foreach( $basket->getProducts() as $orderProduct )
 		{
-			if( ( $interval = $orderProduct->getAttribute( 'interval', 'config' ) ) !== null )
+			if( ( $interval = $orderProduct->getAttribute( 'interval', $types ) ) !== null )
 			{
+				$interval = is_array( $interval ) ? reset( $interval ) : $interval;
+
 				$item = $manager->createItem()->setInterval( $interval )
 					->setProductId( $orderProduct->getProductId() )
 					->setOrderProductId( $orderProduct->getId() )
 					->setOrderBaseId( $basket->getId() );
 
-				if( ( $end = $orderProduct->getAttribute( 'intervalend', 'custom' ) ) !== null
-					|| ( $end = $orderProduct->getAttribute( 'intervalend', 'config' ) ) !== null
-					|| ( $end = $orderProduct->getAttribute( 'intervalend', 'hidden' ) ) !== null
-				) {
+				if( ( $end = $orderProduct->getAttribute( 'intervalend', $types ) ) !== null ) {
 					$item = $item->setDateEnd( $end );
 				}
 

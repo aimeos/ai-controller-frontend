@@ -53,6 +53,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testHas()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'product' );
+		$prodId = $manager->findItem( 'CNE' )->getId();
+
+		$this->assertEquals( 1, count( $this->object->has( 'product', 'default', $prodId )->search() ) );
+	}
+
+
 	public function testParse()
 	{
 		$cond = ['&&' => [['==' => ['supplier.status' => 1]], ['=~' => ['supplier.label' => 'unit']]]];

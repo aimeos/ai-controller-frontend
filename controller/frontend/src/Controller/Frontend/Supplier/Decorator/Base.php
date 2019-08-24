@@ -105,6 +105,22 @@ abstract class Base
 
 
 	/**
+	 * Adds a filter to return only items containing a reference to the given ID
+	 *
+	 * @param string $domain Domain name of the referenced item, e.g. "product"
+	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
+	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.10
+	 */
+	public function has( $domain, $type = null, $refId = null )
+	{
+		$this->controller->has( $domain, $type, $refId );
+		return $this;
+	}
+
+
+	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
 	 * @param array $conditions List of conditions, e.g. ['>' => ['supplier.dateback' => '2000-01-01 00:00:00']]

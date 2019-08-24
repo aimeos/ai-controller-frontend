@@ -95,6 +95,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testHas()
+	{
+		$this->assertSame( $this->object, $this->object->has( 'product', 'default', -1 ) );
+	}
+
+
 	public function testParse()
 	{
 		$this->assertSame( $this->object, $this->object->parse( [] ) );

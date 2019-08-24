@@ -94,6 +94,27 @@ class Standard
 
 
 	/**
+	 * Adds a filter to return only items containing a reference to the given ID
+	 *
+	 * @param string $domain Domain name of the referenced item, e.g. "product"
+	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
+	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.10
+	 */
+	public function has( $domain, $type = null, $refId = null )
+	{
+		$params = [$domain];
+		!$type ?: $params[] = $type;
+		!$refId ?: $params[] = $refId;
+
+		$func = $this->filter->createFunction( 'supplier:has', $params );
+		$this->conditions[] = $this->filter->compare( '!=', $func, null );
+		return $this;
+	}
+
+
+	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
 	 * @param array $conditions List of conditions, e.g. ['=~' => ['supplier.label' => 'test']]

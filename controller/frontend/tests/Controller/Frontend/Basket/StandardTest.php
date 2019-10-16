@@ -271,6 +271,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddProductOptionalParameters()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
+
+		$product = $this->object->addProduct( $item, 2, [], [], [], 'stock', 'supplier', 123 )->get()->getProduct( 0 );
+
+		$this->assertEquals( 'stock', $product->getStockType() );
+		$this->assertEquals( 'supplier', $product->getSupplierCode() );
+		$this->assertEquals( 123, $product->getSiteId() );
+	}
+
+
 	public function testDeleteProductFlagError()
 	{
 		$this->object->addProduct( $this->testItem, 2 );

@@ -215,11 +215,12 @@ class Standard
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @param string|null $supplier Unique supplier code the product is from
+	 * @param string|null $siteid Unique site ID the product is from or null for siteid of the product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null )
+		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null, $siteid = null )
 	{
 		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
 		$this->checkListRef( $product->getId(), 'attribute', $attributeMap );
@@ -237,6 +238,10 @@ class Standard
 
 		$orderBaseProductItem = $orderBaseProductItem
 			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
+
+		if( $siteid ) {
+			$orderBaseProductItem->setSiteId( $siteid );
+		}
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderBaseProductItem );
 		return $this->save();

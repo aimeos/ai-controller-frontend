@@ -143,7 +143,10 @@ class Standard
 	 */
 	public function parse( array $conditions )
 	{
-		$this->conditions[] = $this->filter->toConditions( $conditions );
+		if( ($cond = $this->filter->toConditions( $conditions ) ) !== null ) {
+			$this->conditions[] = $cond;
+		}
+
 		return $this;
 	}
 

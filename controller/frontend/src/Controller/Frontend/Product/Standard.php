@@ -229,7 +229,7 @@ class Standard
 	 */
 	public function parse( array $conditions )
 	{
-		if( ($cond = $this->filter->toConditions( $conditions ) ) !== null ) {
+		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
 		}
 
@@ -479,7 +479,7 @@ class Standard
 			return [];
 		}
 
-		$list = [ $item->getId() ];
+		$list = [$item->getId()];
 
 		foreach( $item->getChildren() as $child ) {
 			$list = array_merge( $list, $this->getCatalogIdsFromTree( $child ) );

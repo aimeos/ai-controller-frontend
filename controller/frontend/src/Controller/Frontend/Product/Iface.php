@@ -180,7 +180,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( string $text ) : Iface;
+	public function text( string $text = null ) : Iface;
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items

@@ -439,7 +439,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( string $text ) : Iface
+	public function text( string $text = null ) : Iface
 	{
 		if( !empty( $text ) )
 		{

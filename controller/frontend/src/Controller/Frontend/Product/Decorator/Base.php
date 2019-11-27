@@ -298,7 +298,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( string $text ) : \Aimeos\Controller\Frontend\Product\Iface
+	public function text( string $text = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->text( $text );
 		return $this;

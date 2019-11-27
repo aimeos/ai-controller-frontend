@@ -28,7 +28,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function add( $baseId, array $values = [] );
+	public function add( string $baseId, array $values = [] ) : Iface;
 
 	/**
 	 * Adds generic condition for filtering orders
@@ -39,17 +39,17 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value );
+	public function compare( string $operator, string $key, $value ) : Iface;
 
 	/**
 	 * Returns the order for the given order ID
 	 *
 	 * @param string $id Unique order ID
-	 * @param boolean $default Use default criteria to limit orders
+	 * @param bool $default Use default criteria to limit orders
 	 * @return \Aimeos\MShop\Order\Item\Iface Order item object
 	 * @since 2019.04
 	 */
-	public function get( $id, $default = true );
+	public function get( string $id, bool $default = true ) : \Aimeos\MShop\Order\Item\Iface;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -58,7 +58,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions );
+	public function parse( array $conditions ) : Iface;
 
 	/**
 	 * Updates the given order item in the storage
@@ -67,26 +67,26 @@ interface Iface
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Saved order item object
 	 * @since 2019.04
 	 */
-	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem );
+	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem ) : \Aimeos\MShop\Order\Item\Iface;
 
 	/**
 	 * Returns the orders filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the orders and that should be fetched too
+	 * @param int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null );
+	public function search( int &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned orders for slicing the list of found orders
 	 *
-	 * @param integer $start Start value of the first order in the list
-	 * @param integer $limit Number of returned orders
+	 * @param int $start Start value of the first order in the list
+	 * @param int $limit Number of returned orders
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit );
+	public function slice( int $start, int $limit ) : Iface;
 
 	/**
 	 * Sets the sorting of the result list
@@ -95,7 +95,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null );
+	public function sort( string $key = null ) : Iface;
 
 	/**
 	 * Saves the modified order item in the storage and blocks the stock and coupon codes
@@ -103,5 +103,5 @@ interface Iface
 	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
 	 * @since 2019.04
 	 */
-	public function store();
+	public function store() : \Aimeos\MShop\Order\Item\Iface;
 }

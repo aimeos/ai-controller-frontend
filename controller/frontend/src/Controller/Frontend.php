@@ -3,7 +3,8 @@
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
  * @copyright Aimeos (aimeos.org), 2015-2018
- * @package MShop
+ * @package Controller
+ * @subpackage Frontend
  */
 
 
@@ -13,7 +14,8 @@ namespace Aimeos\Controller;
 /**
  * Factory which can create all Frontend controllers
  *
- * @package \Aimeos\Controller\Frontend
+ * @package Controller
+ * @subpackage Frontend
  */
 class Frontend
 {
@@ -24,10 +26,9 @@ class Frontend
 	/**
 	 * Enables or disables caching of class instances
 	 *
-	 * @param boolean $value True to enable caching, false to disable it.
-	 * @return boolean Previous cache setting
+	 * @param bool $value True to enable caching, false to disable it.
 	 */
-	public static function cache( $value )
+	public static function cache( bool $value )
 	{
 		self::$cache = (boolean) $value;
 		self::$objects = [];
@@ -49,7 +50,7 @@ class Frontend
 	 * @return \Aimeos\Controller\Frontend\Iface New frontend controller
 	 * @throws \Aimeos\Controller\Frontend\Exception If the given path is invalid or the manager wasn't found
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $path )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path )
 	{
 		if( empty( $path ) ) {
 			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Controller path is empty' ) );
@@ -87,7 +88,7 @@ class Frontend
 	 * @param string $path Name of the domain (and sub-controllers) separated by slashes, e.g "product"
 	 * @param \Aimeos\Controller\Frontend\Iface|null $object Frontend controller object for the given name or null to clear
 	 */
-	public static function inject( $path, \Aimeos\Controller\Frontend\Iface $object = null )
+	public static function inject( string $path, \Aimeos\Controller\Frontend\Iface $object = null )
 	{
 		self::$objects[$path] = $object;
 	}

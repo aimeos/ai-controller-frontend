@@ -47,7 +47,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -68,7 +68,7 @@ abstract class Base
 	 * @param string $id Unique subscription ID
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Canceled subscription item
 	 */
-	public function cancel( $id )
+	public function cancel( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
 		return $this->controller->cancel( $id );
 	}
@@ -83,7 +83,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Subscription\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -97,7 +97,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Subscription item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
 		return $this->controller->get( $id );
 	}
@@ -121,7 +121,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Subscription\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -134,7 +134,7 @@ abstract class Base
 	 * @param \Aimeos\MShop\Subscription\Item\Iface $item Subscription object
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Saved subscription item
 	 */
-	public function save( \Aimeos\MShop\Subscription\Item\Iface $item )
+	public function save( \Aimeos\MShop\Subscription\Item\Iface $item ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
 		return $this->controller->save( $item );
 	}
@@ -143,11 +143,11 @@ abstract class Base
 	/**
 	 * Returns the subscriptions filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found subscriptions will be stored in
+	 * @param int &$total Parameter where the total number of found subscriptions will be stored in
 	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
@@ -156,12 +156,12 @@ abstract class Base
 	/**
 	 * Sets the start value and the number of returned subscription items for slicing the list of found subscription items
 	 *
-	 * @param integer $start Start value of the first subscription item in the list
-	 * @param integer $limit Number of returned subscription items
+	 * @param int $start Start value of the first subscription item in the list
+	 * @param int $limit Number of returned subscription items
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Subscription\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -175,7 +175,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Subscription\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -188,7 +188,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -203,7 +203,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Subscription\Iface
 	{
 		return $this->controller;
 	}

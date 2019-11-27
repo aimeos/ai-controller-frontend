@@ -56,7 +56,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -70,7 +70,7 @@ class Standard
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Service\Item\Iface
 	{
 		return $this->manager->findItem( $code, $this->domains, null, null, true );
 	}
@@ -83,7 +83,7 @@ class Standard
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Service\Item\Iface
 	{
 		return $this->manager->getItem( $id, $this->domains, true );
 	}
@@ -95,7 +95,7 @@ class Standard
 	 * @param string $serviceId Unique service ID
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
-	public function getProvider( $serviceId )
+	public function getProvider( string $serviceId ) : \Aimeos\MShop\Service\Provider\Iface
 	{
 		$item = $this->manager->getItem( $serviceId, $this->domains, true );
 		return $this->manager->getProvider( $item, $item->getType() );
@@ -127,7 +127,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -148,7 +148,8 @@ class Standard
 	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
 	 * 	or null if no form data is required
 	 */
-	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params )
+	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem,
+		string $serviceId, array $urls, array $params ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
 	{
 		$item = $this->manager->getItem( $serviceId, [], true );
 
@@ -162,11 +163,11 @@ class Standard
 	/**
 	 * Returns the services filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found services will be stored in
+	 * @param int &$total Parameter where the total number of found services will be stored in
 	 * @return \Aimeos\MShop\Service\Item\Iface[] Ordered list of service items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, $this->domains, $total );
@@ -176,12 +177,12 @@ class Standard
 	/**
 	 * Sets the start value and the number of returned services for slicing the list of found services
 	 *
-	 * @param integer $start Start value of the first attribute in the list
-	 * @param integer $limit Number of returned services
+	 * @param int $start Start value of the first attribute in the list
+	 * @param int $limit Number of returned services
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -195,7 +196,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : Iface
 	{
 		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
@@ -228,7 +229,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $code )
+	public function type( $code ) : Iface
 	{
 		if( $code ) {
 			$this->conditions[] = $this->filter->compare( '==', 'service.type', $code );
@@ -246,7 +247,8 @@ class Standard
 	 * @param string $code Unique code of the service used for the current order
 	 * @return \Psr\Http\Message\ResponseInterface Response object
 	 */
-	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code )
+	public function updatePush( ServerRequestInterface $request, ResponseInterface $response,
+		string $code ) : \Psr\Http\Message\ResponseInterface
 	{
 		$item = $this->manager->findItem( $code );
 		$provider = $this->manager->getProvider( $item, $item->getType() );
@@ -263,7 +265,8 @@ class Standard
 	 * @param string $orderid ID of the order whose payment status should be updated
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Order item that has been updated
 	 */
-	public function updateSync( ServerRequestInterface $request, $code, $orderid )
+	public function updateSync( ServerRequestInterface $request,
+		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$orderItem = \Aimeos\MShop::create( $this->getContext(), 'order' )->getItem( $orderid );
 		$serviceItem = $this->manager->findItem( $code );
@@ -291,7 +294,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : Iface
 	{
 		$this->domains = $domains;
 		return $this;

@@ -28,7 +28,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value );
+	public function compare( string $operator, string $key, $value ) : Iface;
 
 	/**
 	 * Returns the supplier for the given supplier code
@@ -38,7 +38,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code );
+	public function find( string $code ) : \Aimeos\MShop\Supplier\Item\Iface;
 
 	/**
 	 * Returns the supplier for the given supplier ID
@@ -48,7 +48,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id );
+	public function get( string $id ) : \Aimeos\MShop\Supplier\Item\Iface;
 
 	/**
 	 * Adds a filter to return only items containing a reference to the given ID
@@ -59,7 +59,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.10
 	 */
-	public function has( $domain, $type = null, $refId = null );
+	public function has( string $domain, string $type = null, string $refId = null ) : Iface;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -68,26 +68,26 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions );
+	public function parse( array $conditions ) : Iface;
 
 	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found suppliers will be stored in
+	 * @param int &$total Parameter where the total number of found suppliers will be stored in
 	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null );
+	public function search( int &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned supplier items for slicing the list of found supplier items
 	 *
-	 * @param integer $start Start value of the first supplier item in the list
-	 * @param integer $limit Number of returned supplier items
+	 * @param int $start Start value of the first supplier item in the list
+	 * @param int $limit Number of returned supplier items
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit );
+	public function slice( int $start, int $limit ) : Iface;
 
 	/**
 	 * Sets the sorting of the result list
@@ -96,7 +96,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null );
+	public function sort( string $key = null ) : Iface;
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
@@ -105,5 +105,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains );
+	public function uses( array $domains ) : Iface;
 }

@@ -25,10 +25,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $product Ordered product item
 	 * @param \Aimeos\MShop\Price\Item\Iface[] $prices List of price items
-	 * @param integer $quantity New product quantity
+	 * @param int $quantity New product quantity
 	 * @return \Aimeos\MShop\Price\Item\Iface Price item with calculated price
 	 */
-	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $product, array $prices, $quantity )
+	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $product,
+		array $prices, int $quantity ) : \Aimeos\MShop\Price\Item\Iface
 	{
 		$context = $this->getContext();
 
@@ -85,7 +86,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param array $refMap Associative list of list type codes as keys and lists of reference IDs as values
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If one or more of the IDs are not associated
 	 */
-	protected function checkListRef( $prodId, $domain, array $refMap )
+	protected function checkListRef( $prodId, string $domain, array $refMap )
 	{
 		if( empty( $refMap ) ) {
 			return;
@@ -123,7 +124,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param \Aimeos\MShop\Locale\Item\Iface $locale Locale object from current basket
 	 * @param string $type Basket type
 	 */
-	protected function checkLocale( \Aimeos\MShop\Locale\Item\Iface $locale, $type )
+	protected function checkLocale( \Aimeos\MShop\Locale\Item\Iface $locale, string $type )
 	{
 		$errors = [];
 		$context = $this->getContext();
@@ -168,7 +169,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param string $localeKey Unique identifier of the site, language and currency
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyAddresses( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
+	protected function copyAddresses( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
 	{
 		foreach( $basket->getAddresses() as $type => $items )
 		{
@@ -203,7 +204,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param string $localeKey Unique identifier of the site, language and currency
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyCoupons( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
+	protected function copyCoupons( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
 	{
 		foreach( $basket->getCoupons() as $code => $list )
 		{
@@ -234,7 +235,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param string $localeKey Unique identifier of the site, language and currency
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyProducts( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, $localeKey )
+	protected function copyProducts( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
 	{
 		$domains = ['attribute', 'media', 'price', 'product', 'text'];
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
@@ -290,7 +291,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param array $errors Associative list of previous errors
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyServices( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors )
+	protected function copyServices( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors ) : array
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
 
@@ -431,7 +432,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param array $quantities Associative list of attribute IDs as keys and their quantities as values
 	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
 	 */
-	protected function getOrderProductAttributes( $type, array $ids, array $values = [], array $quantities = [] )
+	protected function getOrderProductAttributes( string $type, array $ids, array $values = [], array $quantities = [] )
 	{
 		$list = [];
 

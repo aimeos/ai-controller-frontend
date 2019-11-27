@@ -31,7 +31,7 @@ class Base
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Controller\Frontend\Iface|null $controller Frontend controller object
 	 */
-	public static function injectController( $classname, \Aimeos\Controller\Frontend\Iface $controller = null )
+	public static function injectController( string $classname, \Aimeos\Controller\Frontend\Iface $controller = null )
 	{
 		self::$objects[$classname] = $controller;
 	}
@@ -44,10 +44,10 @@ class Base
 	 * @param \Aimeos\Controller\Frontend\Common\Iface $controller Controller object
 	 * @param array $decorators List of decorator names that should be wrapped around the controller object
 	 * @param string $classprefix Decorator class prefix, e.g. "\Aimeos\Controller\Frontend\Basket\Decorator\"
-	 * @return \Aimeos\Controller\Frontend\Common\Iface Controller object
+	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
 	protected static function addDecorators( \Aimeos\MShop\Context\Item\Iface $context,
-		\Aimeos\Controller\Frontend\Iface $controller, array $decorators, $classprefix )
+		\Aimeos\Controller\Frontend\Iface $controller, array $decorators, string $classprefix ) : \Aimeos\Controller\Frontend\Iface
 	{
 		foreach( $decorators as $name )
 		{
@@ -78,10 +78,10 @@ class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param \Aimeos\Controller\Frontend\Common\Iface $controller Controller object
 	 * @param string $domain Domain name in lower case, e.g. "product"
-	 * @return \Aimeos\Controller\Frontend\Common\Iface Controller object
+	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
 	protected static function addControllerDecorators( \Aimeos\MShop\Context\Item\Iface $context,
-		\Aimeos\Controller\Frontend\Iface $controller, $domain )
+		\Aimeos\Controller\Frontend\Iface $controller, string $domain ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( !is_string( $domain ) || $domain === '' ) {
 			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Invalid domain "%1$s"', $domain ) );
@@ -143,9 +143,10 @@ class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param string $classname Name of the controller class
 	 * @param string $interface Name of the controller interface
-	 * @return \Aimeos\Controller\Frontend\Common\Iface Controller object
+	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
-	protected static function createController( \Aimeos\MShop\Context\Item\Iface $context, $classname, $interface )
+	protected static function createController( \Aimeos\MShop\Context\Item\Iface $context,
+		string $classname, string $interface ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
 			return self::$objects[$classname];

@@ -42,7 +42,7 @@ abstract class Base
 	 * @param array $param List of method parameter
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Unable to call method "%1$s"', $name ) );
 	}
@@ -51,9 +51,9 @@ abstract class Base
 	/**
 	 * Returns the context object.
 	 *
-	 * @return \Aimeos\MShop\Context\Item\Iface context object implementing \Aimeos\MShop\Context\Item\Iface
+	 * @return \Aimeos\MShop\Context\Item\Iface Context object implementing \Aimeos\MShop\Context\Item\Iface
 	 */
-	protected function getContext()
+	protected function getContext() : \Aimeos\MShop\Context\Item\Iface
 	{
 		return $this->context;
 	}
@@ -64,7 +64,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Iface Outmost decorator object
 	 */
-	protected function getObject()
+	protected function getObject() : Iface
 	{
 		if( $this->object !== null ) {
 			return $this->object;
@@ -80,7 +80,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : Iface
 	{
 		$this->object = $object;
 		return $this;

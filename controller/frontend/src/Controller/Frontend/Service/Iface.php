@@ -32,7 +32,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value );
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
 	 * Returns the service for the given code
@@ -41,7 +41,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code );
+	public function find( string $code ) : \Aimeos\MShop\Service\Item\Iface;
 
 	/**
 	 * Returns the service for the given ID
@@ -50,7 +50,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id );
+	public function get( string $id ) : \Aimeos\MShop\Service\Item\Iface;
 
 	/**
 	 * Returns the service item for the given ID
@@ -58,7 +58,7 @@ interface Iface
 	 * @param string $serviceId Unique service ID
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
-	public function getProvider( $id );
+	public function getProvider( string $id ) : \Aimeos\MShop\Service\Provider\Iface;
 
 	/**
 	 * Returns the service providers
@@ -74,7 +74,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions );
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
 	 * Processes the service for the given order, e.g. payment and delivery services
@@ -87,26 +87,27 @@ interface Iface
 	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
 	 * 	or null if no form data is required
 	 */
-	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $id, array $urls, array $params );
+	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem,
+		string $id, array $urls, array $params ) : ?\Aimeos\MShop\Common\Helper\Form\Iface;
 
 	/**
 	 * Returns the services filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found services will be stored in
+	 * @param int &$total Parameter where the total number of found services will be stored in
 	 * @return \Aimeos\MShop\Service\Item\Iface[] Ordered list of service items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null );
+	public function search( int &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned services for slicing the list of found services
 	 *
-	 * @param integer $start Start value of the first attribute in the list
-	 * @param integer $limit Number of returned services
+	 * @param int $start Start value of the first attribute in the list
+	 * @param int $limit Number of returned services
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit );
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
 	 * Sets the sorting of the result list
@@ -115,7 +116,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null );
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
 	 * Adds attribute types for filtering
@@ -124,7 +125,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $code );
+	public function type( $code ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
 	 * Updates the order status sent by payment gateway notifications
@@ -134,7 +135,8 @@ interface Iface
 	 * @param string $code Unique code of the service used for the current order
 	 * @return \Psr\Http\Message\ResponseInterface Response object
 	 */
-	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code );
+	public function updatePush( ServerRequestInterface $request, ResponseInterface $response,
+		string $code ) : \Psr\Http\Message\ResponseInterface;
 
 	/**
 	 * Updates the payment or delivery status for the given request
@@ -144,7 +146,8 @@ interface Iface
 	 * @param string $orderid ID of the order whose payment status should be updated
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Order item that has been updated
 	 */
-	public function updateSync( ServerRequestInterface $request, $code, $orderid );
+	public function updateSync( ServerRequestInterface $request,
+		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface;
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
@@ -153,5 +156,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains );
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Service\Iface;
 }

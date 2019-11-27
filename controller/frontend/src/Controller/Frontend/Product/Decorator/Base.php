@@ -56,7 +56,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -69,7 +69,7 @@ abstract class Base
 	 * @return array Associative list of key values as key and the product count for this key as value
 	 * @since 2019.04
 	 */
-	public function aggregate( $key )
+	public function aggregate( string $key )
 	{
 		return $this->controller->aggregate( $key );
 	}
@@ -82,7 +82,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function allOf( $attrIds )
+	public function allOf( $attrIds ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->allOf( $attrIds );
 		return $this;
@@ -94,11 +94,11 @@ abstract class Base
 	 *
 	 * @param array|string $catIds Catalog ID or list of IDs
 	 * @param string $listtype List type of the products referenced by the categories
-	 * @param integer $level Constant from \Aimeos\MW\Tree\Manager\Base if products in subcategories are matched too
+	 * @param int $level Constant from \Aimeos\MW\Tree\Manager\Base if products in subcategories are matched too
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function category( $catIds, $listtype = 'default', $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
+	public function category( $catIds, string $listtype = 'default', int $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->category( $catIds, $listtype, $level );
 		return $this;
@@ -114,7 +114,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -128,7 +128,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		return $this->controller->find( $code );
 	}
@@ -141,7 +141,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		return $this->controller->get( $id );
 	}
@@ -156,7 +156,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( $domain, $type = null, $refId = null )
+	public function has( string $domain, string $type = null, string $refId = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->has( $domain, $type, $refId );
 		return $this;
@@ -170,7 +170,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function oneOf( $attrIds )
+	public function oneOf( $attrIds ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->oneOf( $attrIds );
 		return $this;
@@ -184,7 +184,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -198,7 +198,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function product( $prodIds )
+	public function product( $prodIds ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->product( $prodIds );
 		return $this;
@@ -214,7 +214,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( $type, $value = null, $langId = null )
+	public function property( string $type, string $value = null, string $langId = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->property( $type, $value, $langId );
 		return $this;
@@ -228,7 +228,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function resolve( $name )
+	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		return $this->controller->resolve( $name );
 	}
@@ -237,11 +237,11 @@ abstract class Base
 	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found products will be stored in
+	 * @param int &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
@@ -250,12 +250,12 @@ abstract class Base
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products
 	 *
-	 * @param integer $start Start value of the first product in the list
-	 * @param integer $limit Number of returned products
+	 * @param int $start Start value of the first product in the list
+	 * @param int $limit Number of returned products
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -269,7 +269,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -284,7 +284,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function supplier( $supIds, $listtype = 'default' )
+	public function supplier( $supIds, string $listtype = 'default' ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->supplier( $supIds, $listtype );
 		return $this;
@@ -298,7 +298,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( $text )
+	public function text( string $text ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->text( $text );
 		return $this;
@@ -312,7 +312,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->uses( $domains );
 		return $this;
@@ -325,7 +325,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -340,7 +340,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		return $this->controller;
 	}

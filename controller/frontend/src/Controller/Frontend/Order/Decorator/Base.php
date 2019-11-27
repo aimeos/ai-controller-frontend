@@ -47,7 +47,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -61,7 +61,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function add( $baseId, array $values = [] )
+	public function add( string $baseId, array $values = [] ) : \Aimeos\Controller\Frontend\Order\Iface
 	{
 		$this->controller->add( $baseId, $values );
 		return $this;
@@ -77,7 +77,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Order\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -88,11 +88,11 @@ abstract class Base
 	 * Returns the order for the given order ID
 	 *
 	 * @param string $id Unique order ID
-	 * @param boolean $default Use default criteria to limit orders
+	 * @param bool $default Use default criteria to limit orders
 	 * @return \Aimeos\MShop\Order\Item\Iface Order item object
 	 * @since 2019.04
 	 */
-	public function get( $id, $default = true )
+	public function get( string $id, bool $default = true ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->controller->get( $id, $default );
 	}
@@ -105,7 +105,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Order\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -119,7 +119,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Saved order item object
 	 * @since 2019.04
 	 */
-	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->controller->save( $orderItem );
 	}
@@ -128,11 +128,11 @@ abstract class Base
 	/**
 	 * Returns the orders filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the orders and that should be fetched too
+	 * @param int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
@@ -141,12 +141,12 @@ abstract class Base
 	/**
 	 * Sets the start value and the number of returned orders for slicing the list of found orders
 	 *
-	 * @param integer $start Start value of the first order in the list
-	 * @param integer $limit Number of returned orders
+	 * @param int $start Start value of the first order in the list
+	 * @param int $limit Number of returned orders
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Order\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -160,7 +160,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Order\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -173,7 +173,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
 	 * @since 2019.04
 	 */
-	public function store()
+	public function store() : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->controller->store();
 	}
@@ -185,7 +185,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -200,7 +200,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Order\Iface
 	{
 		return $this->controller;
 	}

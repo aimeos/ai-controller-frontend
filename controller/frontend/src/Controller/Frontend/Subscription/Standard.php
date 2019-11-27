@@ -56,7 +56,7 @@ class Standard
 	 * @param string $id Unique subscription ID
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Canceled subscription item
 	 */
-	public function cancel( $id )
+	public function cancel( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
 		$item = $this->manager->getItem( $id );
 		$item = $item->setDateEnd( $item->getDateNext() )
@@ -75,7 +75,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -88,7 +88,7 @@ class Standard
 	 * @param string $id Unique subscription ID
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Subscription object
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
 		$context = $this->getContext();
 
@@ -147,7 +147,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -163,7 +163,7 @@ class Standard
 	 * @param \Aimeos\MShop\Subscription\Item\Iface $item Subscription object
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Saved subscription item
 	 */
-	public function save( \Aimeos\MShop\Subscription\Item\Iface $item )
+	public function save( \Aimeos\MShop\Subscription\Item\Iface $item ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
 		return $this->manager->saveItem( $item );
 	}
@@ -171,11 +171,11 @@ class Standard
 	/**
 	 * Returns the subscriptions filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found subscriptions will be stored in
+	 * @param int &$total Parameter where the total number of found subscriptions will be stored in
 	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, [], $total );
@@ -185,12 +185,12 @@ class Standard
 	/**
 	 * Sets the start value and the number of returned subscription items for slicing the list of found subscription items
 	 *
-	 * @param integer $start Start value of the first subscription item in the list
-	 * @param integer $limit Number of returned subscription items
+	 * @param int $start Start value of the first subscription item in the list
+	 * @param int $limit Number of returned subscription items
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -204,7 +204,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : Iface
 	{
 		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );

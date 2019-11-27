@@ -28,7 +28,7 @@ class Factory
 	 * @param string|null $name Name of the controller implementaton (default: "Standard")
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Controller object
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $name = null ) : \Aimeos\Controller\Frontend\Iface
 	{
 		/** controller/frontend/locale/name
 		 * Class name of the used locale frontend controller implementation
@@ -67,14 +67,12 @@ class Factory
 			$name = $context->getConfig()->get( 'controller/frontend/locale/name', 'Standard' );
 		}
 
-		if( ctype_alnum( $name ) === false )
-		{
-			$classname = is_string( $name ) ? '\\Aimeos\\Controller\\Frontend\\Locale\\' . $name : '<not a string>';
-			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
-		}
-
 		$iface = '\\Aimeos\\Controller\\Frontend\\Locale\\Iface';
 		$classname = '\\Aimeos\\Controller\\Frontend\\Locale\\' . $name;
+
+		if( ctype_alnum( $name ) === false ) {
+			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
+		}
 
 		$manager = self::createController( $context, $classname, $iface );
 

@@ -47,7 +47,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -60,7 +60,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function code( $codes )
+	public function code( $codes ) : \Aimeos\Controller\Frontend\Stock\Iface
 	{
 		$this->controller->code( $codes );
 		return $this;
@@ -76,7 +76,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Stock\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -91,7 +91,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
 	 * @since 2019.04
 	 */
-	public function find( $code, $type )
+	public function find( string $code, string $type ) : \Aimeos\MShop\Stock\Item\Iface
 	{
 		return $this->controller->find( $code, $type );
 	}
@@ -104,7 +104,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Stock\Item\Iface
 	{
 		return $this->controller->get( $id );
 	}
@@ -117,7 +117,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Stock\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -127,11 +127,11 @@ abstract class Base
 	/**
 	 * Returns the stock items filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found stock items will be stored in
+	 * @param int &$total Parameter where the total number of found stock items will be stored in
 	 * @return \Aimeos\MShop\Stock\Item\Iface[] Ordered list of stock items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
@@ -140,12 +140,12 @@ abstract class Base
 	/**
 	 * Sets the start value and the number of returned stock items for slicing the list of found stock items
 	 *
-	 * @param integer $start Start value of the first stock item in the list
-	 * @param integer $limit Number of returned stock items
+	 * @param int $start Start value of the first stock item in the list
+	 * @param int $limit Number of returned stock items
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Stock\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -159,7 +159,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Stock\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -173,7 +173,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $types )
+	public function type( $types ) : \Aimeos\Controller\Frontend\Stock\Iface
 	{
 		$this->controller->type( $types );
 		return $this;
@@ -186,7 +186,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -201,7 +201,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Stock\Iface
 	{
 		return $this->controller;
 	}

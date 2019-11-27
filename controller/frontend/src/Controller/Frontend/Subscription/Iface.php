@@ -25,7 +25,7 @@ interface Iface
 	 * @param string $id Unique subscription ID
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Canceled subscription item
 	 */
-	public function cancel( $id );
+	public function cancel( string $id ) : \Aimeos\MShop\Subscription\Item\Iface;
 
 	/**
 	 * Adds generic condition for filtering
@@ -36,7 +36,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value );
+	public function compare( string $operator, string $key, $value ) : Iface;
 
 	/**
 	 * Returns the subscription for the given subscription ID
@@ -45,7 +45,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Subscription item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id );
+	public function get( string $id ) : \Aimeos\MShop\Subscription\Item\Iface;
 
 	/**
 	 * Returns the available interval attribute items
@@ -61,7 +61,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions );
+	public function parse( array $conditions ) : Iface;
 
 	/**
 	 * Saves the modified subscription item
@@ -69,26 +69,26 @@ interface Iface
 	 * @param \Aimeos\MShop\Subscription\Item\Iface $item Subscription object
 	 * @return \Aimeos\MShop\Subscription\Item\Iface Saved subscription item
 	 */
-	public function save( \Aimeos\MShop\Subscription\Item\Iface $item );
+	public function save( \Aimeos\MShop\Subscription\Item\Iface $item ) : \Aimeos\MShop\Subscription\Item\Iface;
 
 	/**
 	 * Returns the subscriptions filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found subscriptions will be stored in
+	 * @param int &$total Parameter where the total number of found subscriptions will be stored in
 	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null );
+	public function search( int &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned subscription items for slicing the list of found subscription items
 	 *
-	 * @param integer $start Start value of the first subscription item in the list
-	 * @param integer $limit Number of returned subscription items
+	 * @param int $start Start value of the first subscription item in the list
+	 * @param int $limit Number of returned subscription items
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit );
+	public function slice( int $start, int $limit ) : Iface;
 
 	/**
 	 * Sets the sorting of the result list
@@ -97,5 +97,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null );
+	public function sort( string $key = null ) : Iface;
 }

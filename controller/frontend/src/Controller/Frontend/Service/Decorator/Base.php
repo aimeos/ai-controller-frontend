@@ -50,7 +50,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -65,7 +65,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Service\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -79,7 +79,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Service\Item\Iface
 	{
 		return $this->controller->find( $code );
 	}
@@ -92,7 +92,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Service\Item\Iface Service item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Service\Item\Iface
 	{
 		return $this->controller->get( $id );
 	}
@@ -104,7 +104,7 @@ abstract class Base
 	 * @param string $serviceId Unique service ID
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
-	public function getProvider( $serviceId )
+	public function getProvider( string $serviceId ) : \Aimeos\MShop\Service\Provider\Iface
 	{
 		return $this->controller->getProvider( $serviceId );
 	}
@@ -128,7 +128,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Service\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -146,7 +146,8 @@ abstract class Base
 	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
 	 * 	or null if no form data is required
 	 */
-	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, $serviceId, array $urls, array $params )
+	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem, string $serviceId,
+		array $urls, array $params ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
 	{
 		return $this->controller->process( $orderItem, $serviceId, $urls, $params );
 	}
@@ -154,11 +155,11 @@ abstract class Base
 	/**
 	 * Returns the services filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found services will be stored in
+	 * @param int &$total Parameter where the total number of found services will be stored in
 	 * @return \Aimeos\MShop\Service\Item\Iface[] Ordered list of service items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
@@ -167,12 +168,12 @@ abstract class Base
 	/**
 	 * Sets the start value and the number of returned services for slicing the list of found services
 	 *
-	 * @param integer $start Start value of the first attribute in the list
-	 * @param integer $limit Number of returned services
+	 * @param int $start Start value of the first attribute in the list
+	 * @param int $limit Number of returned services
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Service\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -186,7 +187,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Service\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -200,7 +201,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $code )
+	public function type( $code ) : \Aimeos\Controller\Frontend\Service\Iface
 	{
 		$this->controller->type( $code );
 		return $this;
@@ -215,7 +216,7 @@ abstract class Base
 	 * @param string $code Unique code of the service used for the current order
 	 * @return \Psr\Http\Message\ResponseInterface Response object
 	 */
-	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, $code )
+	public function updatePush( ServerRequestInterface $request, ResponseInterface $response, string $code ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->controller->updatePush( $request, $response, $code );
 	}
@@ -229,7 +230,7 @@ abstract class Base
 	 * @param string $orderid ID of the order whose payment status should be updated
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Order item that has been updated
 	 */
-	public function updateSync( ServerRequestInterface $request, $code, $orderid )
+	public function updateSync( ServerRequestInterface $request, string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->controller->updateSync( $request, $code, $orderid );
 	}
@@ -242,7 +243,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Service\Iface
 	{
 		$this->controller->uses( $domains );
 
@@ -256,7 +257,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -271,7 +272,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Service\Iface
 	{
 		return $this->controller;
 	}

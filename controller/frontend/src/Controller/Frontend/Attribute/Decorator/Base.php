@@ -47,7 +47,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -69,7 +69,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function attribute( $attrIds )
+	public function attribute( $attrIds ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->attribute( $attrIds );
 		return $this;
@@ -85,7 +85,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -99,7 +99,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function domain( $domain )
+	public function domain( string $domain ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->domain( $domain );
 		return $this;
@@ -114,7 +114,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $type )
+	public function find( string $code, string $type ) : \Aimeos\MShop\Attribute\Item\Iface
 	{
 		return $this->controller->find( $code, $type );
 	}
@@ -127,7 +127,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Attribute\Item\Iface
 	{
 		return $this->controller->get( $id );
 	}
@@ -142,7 +142,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( $domain, $type = null, $refId = null )
+	public function has( string $domain, string $type = null, string $refId = null ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->has( $domain, $type, $refId );
 		return $this;
@@ -156,7 +156,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -172,7 +172,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( $type, $value = null, $langId = null )
+	public function property( string $type, string $value = null, string $langId = null ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->property( $type, $value, $langId );
 		return $this;
@@ -186,7 +186,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Ordered list of attribute items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
@@ -195,12 +195,12 @@ abstract class Base
 	/**
 	 * Sets the start value and the number of returned attributes for slicing the list of found attributes
 	 *
-	 * @param integer $start Start value of the first attribute in the list
-	 * @param integer $limit Number of returned attributes
+	 * @param int $start Start value of the first attribute in the list
+	 * @param int $limit Number of returned attributes
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -214,7 +214,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -228,7 +228,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $codes )
+	public function type( $codes ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->type( $codes );
 		return $this;
@@ -242,7 +242,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		$this->controller->uses( $domains );
 		return $this;
@@ -255,7 +255,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -270,7 +270,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Attribute\Iface
 	{
 		return $this->controller;
 	}

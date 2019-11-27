@@ -26,7 +26,7 @@ interface Iface
 	 * @return array Associative list of key values as key and the product count for this key as value
 	 * @since 2019.04
 	 */
-	public function aggregate( $key );
+	public function aggregate( string $key );
 
 	/**
 	 * Adds attribute IDs for filtering where products must reference all IDs
@@ -35,18 +35,18 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function allOf( $attrIds );
+	public function allOf( $attrIds ) : Iface;
 
 	/**
 	 * Adds catalog IDs for filtering
 	 *
 	 * @param array|string $catIds Catalog ID or list of IDs
 	 * @param string $listtype List type of the products referenced by the categories
-	 * @param integer $level Constant from \Aimeos\MW\Tree\Manager\Base if products in subcategories are matched too
+	 * @param int $level Constant from \Aimeos\MW\Tree\Manager\Base if products in subcategories are matched too
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function category( $catIds, $listtype = 'default', $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE );
+	public function category( $catIds, string $listtype = 'default', int $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE ) : Iface;
 
 	/**
 	 * Adds generic condition for filtering products
@@ -57,7 +57,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value );
+	public function compare( string $operator, string $key, $value ) : Iface;
 
 	/**
 	 * Returns the product for the given product code
@@ -66,7 +66,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code );
+	public function find( string $code );
 
 	/**
 	 * Returns the product for the given product ID
@@ -75,7 +75,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id );
+	public function get( string $id );
 
 	/**
 	 * Adds a filter to return only items containing a reference to the given ID
@@ -86,7 +86,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( $domain, $type = null, $refId = null );
+	public function has( string $domain, string $type = null, string $refId = null ) : Iface;
 
 	/**
 	 * Adds attribute IDs for filtering where products must reference at least one ID
@@ -95,7 +95,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function oneOf( $attrIds );
+	public function oneOf( $attrIds ) : Iface;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -104,7 +104,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions );
+	public function parse( array $conditions ) : Iface;
 
 	/**
 	 * Adds product IDs for filtering
@@ -113,7 +113,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function product( $prodIds );
+	public function product( $prodIds ) : Iface;
 
 	/**
 	 * Adds a filter to return only items containing the property
@@ -124,7 +124,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( $type, $value = null, $langId = null );
+	public function property( string $type, string $value = null, string $langId = null ) : Iface;
 
 	/**
 	 * Returns the product for the given product URL name
@@ -133,16 +133,16 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function resolve( $name );
+	public function resolve( string $name );
 
 	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the products and that should be fetched too
+	 * @param int &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null );
+	public function search( int &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products
@@ -152,7 +152,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit );
+	public function slice( int $start, int $limit ) : Iface;
 
 	/**
 	 * Sets the sorting of the result list
@@ -161,7 +161,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null );
+	public function sort( string $key = null ) : Iface;
 
 	/**
 	 * Adds supplier IDs for filtering
@@ -171,7 +171,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function supplier( $supIds, $listtype = 'default' );
+	public function supplier( $supIds, string $listtype = 'default' ) : Iface;
 
 	/**
 	 * Adds input string for full text search
@@ -180,7 +180,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( $text );
+	public function text( string $text ) : Iface;
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
@@ -189,5 +189,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains );
+	public function uses( array $domains ) : Iface;
 }

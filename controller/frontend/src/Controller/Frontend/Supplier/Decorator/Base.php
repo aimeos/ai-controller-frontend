@@ -47,7 +47,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -71,7 +71,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Supplier\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -85,7 +85,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Supplier\Item\Iface
 	{
 		return $this->controller->find( $code );
 	}
@@ -98,7 +98,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Supplier\Item\Iface
 	{
 		return $this->controller->get( $id );
 	}
@@ -113,7 +113,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.10
 	 */
-	public function has( $domain, $type = null, $refId = null )
+	public function has( string $domain, string $type = null, string $refId = null ) : \Aimeos\Controller\Frontend\Supplier\Iface
 	{
 		$this->controller->has( $domain, $type, $refId );
 		return $this;
@@ -127,7 +127,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Supplier\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -137,11 +137,11 @@ abstract class Base
 	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found suppliers will be stored in
+	 * @param int &$total Parameter where the total number of found suppliers will be stored in
 	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
@@ -150,12 +150,12 @@ abstract class Base
 	/**
 	 * Sets the start value and the number of returned supplier items for slicing the list of found supplier items
 	 *
-	 * @param integer $start Start value of the first supplier item in the list
-	 * @param integer $limit Number of returned supplier items
+	 * @param int $start Start value of the first supplier item in the list
+	 * @param int $limit Number of returned supplier items
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Supplier\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -169,7 +169,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Supplier\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -183,7 +183,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Supplier\Iface
 	{
 		$this->controller->uses( $domains );
 		return $this;
@@ -196,7 +196,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -211,7 +211,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Supplier\Iface
 	{
 		return $this->controller;
 	}

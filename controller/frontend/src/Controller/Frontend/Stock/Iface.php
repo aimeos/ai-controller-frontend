@@ -26,7 +26,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function code( $codes );
+	public function code( $codes ) : Iface;
 
 	/**
 	 * Adds generic condition for filtering
@@ -37,7 +37,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value );
+	public function compare( string $operator, string $key, $value ) : Iface;
 
 	/**
 	 * Returns the stock item for the given SKU and type
@@ -47,7 +47,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
 	 * @since 2019.04
 	 */
-	public function find( $code, $type );
+	public function find( string $code, string $type ) : \Aimeos\MShop\Stock\Item\Iface;
 
 	/**
 	 * Returns the stock item for the given stock ID
@@ -56,7 +56,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
 	 * @since 2019.04
 	 */
-	public function get( $id );
+	public function get( string $id ) : \Aimeos\MShop\Stock\Item\Iface;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -65,26 +65,26 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions );
+	public function parse( array $conditions ) : Iface;
 
 	/**
 	 * Returns the stock items filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found stock items will be stored in
+	 * @param int &$total Parameter where the total number of found stock items will be stored in
 	 * @return \Aimeos\MShop\Stock\Item\Iface[] Ordered list of stock items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null );
+	public function search( int &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned stock items for slicing the list of found stock items
 	 *
-	 * @param integer $start Start value of the first stock item in the list
-	 * @param integer $limit Number of returned stock items
+	 * @param int $start Start value of the first stock item in the list
+	 * @param int $limit Number of returned stock items
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit );
+	public function slice( int $start, int $limit ) : Iface;
 
 	/**
 	 * Sets the sorting of the result list
@@ -93,7 +93,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null );
+	public function sort( string $key = null ) : Iface;
 
 	/**
 	 * Adds stock types for filtering
@@ -102,5 +102,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $types );
+	public function type( $types ) : Iface;
 }

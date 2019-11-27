@@ -122,7 +122,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->getMock();
 
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
-		$item = $manager->createItem()->setBaseId( 1 );
+		$object->add( -1 );
+
+		$item = $manager->createItem()->setBaseId( -1 );
 
 		$manager->expects( $this->once() )->method( 'saveItem' )->will( $this->returnValue( $item ) );
 		$stub->expects( $this->once() )->method( 'block' )->will( $this->returnValue( $item ) );

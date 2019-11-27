@@ -70,7 +70,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function add( array $values )
+	public function add( array $values ) : Iface
 	{
 		$item = $this->item->fromArray( $values );
 		$addrItem = $item->getPaymentAddress();
@@ -103,11 +103,11 @@ class Standard
 	 * Adds the given address item to the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to add
-	 * @param integer|null $idx Key in the list of address items or null to add the item at the end
+	 * @param int|null $idx Key in the list of address items or null to add the item at the end
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, $idx = null )
+	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : Iface
 	{
 		$this->item = $this->item->addAddressItem( $item, $idx );
 		return $this;
@@ -123,7 +123,8 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addListItem( $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item, \Aimeos\MShop\Common\Item\Iface $refItem = null )
+	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
+		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
 		$this->item = $this->item->addListItem( $domain, $item, $refItem );
 		return $this;
@@ -137,7 +138,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item )
+	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : Iface
 	{
 		$this->item = $this->item->addPropertyItem( $item );
 		return $this;
@@ -147,10 +148,11 @@ class Standard
 	/**
 	 * Creates a new address item object pre-filled with the given values
 	 *
+	 * @param array $values Associative list of key/value pairs for populating the item
 	 * @return \Aimeos\MShop\Customer\Item\Address\Iface Address item
 	 * @since 2019.04
 	 */
-	public function createAddressItem( array $values = [] )
+	public function createAddressItem( array $values = [] ) : \Aimeos\MShop\Customer\Item\Address\Iface
 	{
 		return $this->manager->createAddressItem()->fromArray( $values );
 	}
@@ -159,11 +161,12 @@ class Standard
 	/**
 	 * Creates a new list item object pre-filled with the given values
 	 *
+	 * @param array $values Associative list of key/value pairs for populating the item
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface List item
 	 * @since 2019.04
 	 * @todo 2020.01 Rename to "createListsItem"
 	 */
-	public function createListItem( array $values = [] )
+	public function createListItem( array $values = [] ) : \Aimeos\MShop\Common\Item\Lists\Iface
 	{
 		return $this->manager->createListsItem()->fromArray( $values );
 	}
@@ -172,10 +175,11 @@ class Standard
 	/**
 	 * Creates a new property item object pre-filled with the given values
 	 *
+	 * @param array $values Associative list of key/value pairs for populating the item
 	 * @return \Aimeos\MShop\Common\Item\Property\Iface Property item
 	 * @since 2019.04
 	 */
-	public function createPropertyItem( array $values = [] )
+	public function createPropertyItem( array $values = [] ) : \Aimeos\MShop\Common\Item\Property\Iface
 	{
 		return $this->manager->createPropertyItem()->fromArray( $values );
 	}
@@ -187,7 +191,7 @@ class Standard
 	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function delete()
+	public function delete() : Iface
 	{
 		if( $this->item && $this->item->getId() ) {
 			\Aimeos\MShop::create( $this->getContext(), 'customer' )->deleteItem( $this->item->getId() );
@@ -203,7 +207,7 @@ class Standard
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to remove
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
-	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item )
+	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item ) : Iface
 	{
 		$this->item = $this->item->deleteAddressItem( $item );
 		return $this;
@@ -218,7 +222,8 @@ class Standard
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to remove or null if only list item should be removed
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
-	public function deleteListItem( $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem, \Aimeos\MShop\Common\Item\Iface $refItem = null )
+	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
+		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
 		$this->item = $this->item->deleteListItem( $domain, $listItem, $refItem );
 		return $this;
@@ -231,7 +236,7 @@ class Standard
 	 * @param \Aimeos\MShop\Common\Item\Property\Iface $item Property item to remove
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
-	public function deletePropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item )
+	public function deletePropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : Iface
 	{
 		$this->item = $this->item->deletePropertyItem( $item );
 		return $this;
@@ -247,7 +252,7 @@ class Standard
 	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Customer\Item\Iface
 	{
 		return $this->manager->findItem( $code, $this->domains, true );
 	}
@@ -259,7 +264,7 @@ class Standard
 	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get()
+	public function get() : \Aimeos\MShop\Customer\Item\Iface
 	{
 		return $this->item;
 	}
@@ -271,7 +276,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function store()
+	public function store() : Iface
 	{
 		( $id = $this->item->getId() ) !== null ? $this->checkId( $id ) : $this->checkLimit();
 		$context = $this->getContext();
@@ -302,7 +307,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : Iface
 	{
 		$this->domains = $domains;
 
@@ -382,7 +387,7 @@ class Standard
 	 * @return string Unique customer ID
 	 * @throws \Aimeos\Controller\Frontend\Customer\Exception If access isn't allowed
 	 */
-	protected function checkId( $id )
+	protected function checkId( string $id ) : string
 	{
 		if( $id != $this->getContext()->getUserId() )
 		{

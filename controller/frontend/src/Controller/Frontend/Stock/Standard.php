@@ -57,7 +57,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function code( $codes )
+	public function code( $codes ) : Iface
 	{
 		if( !empty( $codes ) ) {
 			$this->conditions[] = $this->filter->compare( '==', 'stock.productcode', $codes );
@@ -76,7 +76,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -91,7 +91,7 @@ class Standard
 	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
 	 * @since 2019.04
 	 */
-	public function find( $code, $type )
+	public function find( string $code, string $type ) : \Aimeos\MShop\Stock\Item\Iface
 	{
 		return $this->manager->findItem( $code, [], 'product', $type, true );
 	}
@@ -104,7 +104,7 @@ class Standard
 	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Stock\Item\Iface
 	{
 		return $this->manager->getItem( $id, [], true );
 	}
@@ -117,7 +117,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -130,11 +130,11 @@ class Standard
 	/**
 	 * Returns the stock items filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found stock items will be stored in
+	 * @param int &$total Parameter where the total number of found stock items will be stored in
 	 * @return \Aimeos\MShop\Stock\Item\Iface[] Ordered list of stock items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, [], $total );
@@ -149,7 +149,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -163,7 +163,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : Iface
 	{
 		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
@@ -196,7 +196,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $types )
+	public function type( $types ) : Iface
 	{
 		if( !empty( $types ) ) {
 			$this->conditions[] = $this->filter->compare( '==', 'stock.type', $types );

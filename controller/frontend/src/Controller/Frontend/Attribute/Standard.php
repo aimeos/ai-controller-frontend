@@ -59,7 +59,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function attribute( $attrIds )
+	public function attribute( $attrIds ) : Iface
 	{
 		if( !empty( $attrIds ) ) {
 			$this->conditions[] = $this->filter->compare( '==', 'attribute.id', $attrIds );
@@ -78,7 +78,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -92,7 +92,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function domain( $domain )
+	public function domain( string $domain ) : Iface
 	{
 		$this->domain = $domain;
 		return $this;
@@ -107,7 +107,7 @@ class Standard
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code, $type )
+	public function find( string $code, string $type ) : \Aimeos\MShop\Attribute\Item\Iface
 	{
 		return $this->manager->findItem( $code, $this->domains, $this->domain, $type, true );
 	}
@@ -120,7 +120,7 @@ class Standard
 	 * @return \Aimeos\MShop\Attribute\Item\Iface Attribute item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Attribute\Item\Iface
 	{
 		return $this->manager->getItem( $id, $this->domains, true );
 	}
@@ -135,7 +135,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( $domain, $type = null, $refId = null )
+	public function has( string $domain, string $type = null, string $refId = null ) : Iface
 	{
 		$params = [$domain];
 		!$type ?: $params[] = $type;
@@ -154,7 +154,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -173,7 +173,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( $type, $value = null, $langId = null )
+	public function property( string $type, string $value = null, string $langId = null ) : Iface
 	{
 		$func = $this->filter->createFunction( 'attribute:prop', [$type, $langId, $value] );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
@@ -184,11 +184,11 @@ class Standard
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found attributes will be stored in
+	 * @param int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Ordered list of attribute items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		$expr = array_merge( $this->conditions, [$this->filter->compare( '==', 'attribute.domain', $this->domain )] );
 		$this->filter->setConditions( $this->filter->combine( '&&', $expr ) );
@@ -200,12 +200,12 @@ class Standard
 	/**
 	 * Sets the start value and the number of returned attributes for slicing the list of found attributes
 	 *
-	 * @param integer $start Start value of the first attribute in the list
-	 * @param integer $limit Number of returned attributes
+	 * @param int $start Start value of the first attribute in the list
+	 * @param int $limit Number of returned attributes
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -219,7 +219,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : Iface
 	{
 		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
@@ -252,7 +252,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function type( $codes )
+	public function type( $codes ) : Iface
 	{
 		if( !empty( $codes ) ) {
 			$this->conditions[] = $this->filter->compare( '==', 'attribute.type', $codes );
@@ -269,7 +269,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : Iface
 	{
 		$this->domains = $domains;
 		return $this;

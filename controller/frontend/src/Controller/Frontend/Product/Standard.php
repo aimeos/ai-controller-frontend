@@ -60,7 +60,7 @@ class Standard
 	 * @return array Associative list of key values as key and the product count for this key as value
 	 * @since 2019.04
 	 */
-	public function aggregate( $key )
+	public function aggregate( string $key )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->aggregate( $this->filter, $key );
@@ -74,7 +74,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function allOf( $attrIds )
+	public function allOf( $attrIds ) : Iface
 	{
 		if( !empty( $attrIds ) && ( $ids = array_unique( $this->validateIds( (array) $attrIds ) ) ) !== [] )
 		{
@@ -91,11 +91,11 @@ class Standard
 	 *
 	 * @param array|string $catIds Catalog ID or list of IDs
 	 * @param string $listtype List type of the products referenced by the categories
-	 * @param integer $level Constant from \Aimeos\MW\Tree\Manager\Base if products in subcategories are matched too
+	 * @param int $level Constant from \Aimeos\MW\Tree\Manager\Base if products in subcategories are matched too
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function category( $catIds, $listtype = 'default', $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
+	public function category( $catIds, string $listtype = 'default', int $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE ) : Iface
 	{
 		if( !empty( $catIds ) && ( $ids = $this->validateIds( (array) $catIds ) ) !== [] )
 		{
@@ -133,7 +133,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -147,7 +147,7 @@ class Standard
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		return $this->manager->findItem( $code, $this->domains, 'product', null, true );
 	}
@@ -160,7 +160,7 @@ class Standard
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		return $this->manager->getItem( $id, $this->domains, true );
 	}
@@ -175,7 +175,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( $domain, $type = null, $refId = null )
+	public function has( string $domain, string $type = null, string $refId = null ) : Iface
 	{
 		$params = [$domain];
 		!$type ?: $params[] = $type;
@@ -196,7 +196,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function oneOf( $attrIds )
+	public function oneOf( $attrIds ) : Iface
 	{
 		$attrIds = (array) $attrIds;
 
@@ -227,7 +227,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -244,7 +244,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function product( $prodIds )
+	public function product( $prodIds ) : Iface
 	{
 		if( !empty( $prodIds ) && ( $ids = array_unique( $this->validateIds( (array) $prodIds ) ) ) !== [] ) {
 			$this->conditions[] = $this->filter->compare( '==', 'product.id', $ids );
@@ -263,7 +263,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( $type, $value = null, $langid = null )
+	public function property( string $type, string $value = null, string $langid = null ) : Iface
 	{
 		$func = $this->filter->createFunction( 'product:prop', [$type, $langid, $value] );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
@@ -278,7 +278,7 @@ class Standard
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function resolve( $name )
+	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		$langid = $this->getContext()->getLocale()->getLanguageId();
 
@@ -300,11 +300,11 @@ class Standard
 	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found products will be stored in
+	 * @param int &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		$this->filter->setSortations( $this->sort );
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
@@ -315,12 +315,12 @@ class Standard
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products
 	 *
-	 * @param integer $start Start value of the first product in the list
-	 * @param integer $limit Number of returned products
+	 * @param int $start Start value of the first product in the list
+	 * @param int $limit Number of returned products
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -335,7 +335,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : Iface
 	{
 		$list = ( $key ? explode( ',', $key ) : $this->sort = [] );
 
@@ -415,7 +415,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function supplier( $supIds, $listtype = 'default' )
+	public function supplier( $supIds, string $listtype = 'default' ) : Iface
 	{
 		if( !empty( $supIds ) && ( $ids = array_unique( $this->validateIds( (array) $supIds ) ) ) !== [] )
 		{
@@ -439,7 +439,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( $text )
+	public function text( string $text ) : Iface
 	{
 		if( !empty( $text ) )
 		{
@@ -460,7 +460,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : Iface
 	{
 		$this->domains = $domains;
 		return $this;
@@ -473,7 +473,7 @@ class Standard
 	 * @param \Aimeos\MShop\Catalog\Item\Iface $item Catalog item with children
 	 * @return array List of catalog IDs
 	 */
-	protected function getCatalogIdsFromTree( \Aimeos\MShop\Catalog\Item\Iface $item )
+	protected function getCatalogIdsFromTree( \Aimeos\MShop\Catalog\Item\Iface $item ) : array
 	{
 		if( $item->getStatus() < 1 ) {
 			return [];
@@ -495,7 +495,7 @@ class Standard
 	 * @param array $ids List of IDs to validate
 	 * @return array List of validated IDs
 	 */
-	protected function validateIds( array $ids )
+	protected function validateIds( array $ids ) : array
 	{
 		$list = [];
 

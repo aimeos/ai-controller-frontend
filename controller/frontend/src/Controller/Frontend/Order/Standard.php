@@ -63,7 +63,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function add( $baseId, array $values = [] )
+	public function add( string $baseId, array $values = [] ) : Iface
 	{
 		$this->item = $this->item->fromArray( $values )->setBaseId( $baseId );
 		return $this;
@@ -79,7 +79,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -90,11 +90,11 @@ class Standard
 	 * Returns the order for the given order ID
 	 *
 	 * @param string $id Unique order ID
-	 * @param boolean $default Use default criteria to limit orders
+	 * @param bool $default Use default criteria to limit orders
 	 * @return \Aimeos\MShop\Order\Item\Iface Order item object
 	 * @since 2019.04
 	 */
-	public function get( $id, $default = true )
+	public function get( string $id, bool $default = true ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->manager->getItem( $id, [], $default );
 	}
@@ -107,7 +107,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -124,7 +124,7 @@ class Standard
 	 * @return \Aimeos\MShop\Order\Item\Iface $orderItem Saved order item object
 	 * @since 2019.04
 	 */
-	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem )
+	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->manager->saveItem( $orderItem );
 	}
@@ -151,7 +151,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( $start, $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -165,7 +165,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : Iface
 	{
 		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
@@ -187,7 +187,7 @@ class Standard
 	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
 	 * @since 2019.04
 	 */
-	public function store()
+	public function store() : \Aimeos\MShop\Order\Item\Iface
 	{
 		$this->checkLimit( $this->item->getBaseId() );
 
@@ -205,7 +205,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Order\Exception If limit is exceeded
 	 */
-	protected function checkLimit( $baseId )
+	protected function checkLimit( string $baseId ) : Iface
 	{
 		/** controller/frontend/order/limit-seconds
 		 * Order limitation time frame in seconds

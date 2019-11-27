@@ -47,7 +47,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
@@ -66,12 +66,12 @@ abstract class Base
 	 * Adds generic condition for filtering
 	 *
 	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
-	 * @param string $key Search key defined by the subscription manager, e.g. "subscription.status"
+	 * @param string $key Search key defined by the locale manager, e.g. "locale.status"
 	 * @param array|string $value Value or list of values to compare to
-	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Locale\Iface
 	{
 		$this->controller->compare( $operator, $key, $value );
 		return $this;
@@ -79,13 +79,13 @@ abstract class Base
 
 
 	/**
-	 * Returns the subscription for the given subscription ID
+	 * Returns the locale for the given locale ID
 	 *
-	 * @param string $id Unique subscription ID
-	 * @return \Aimeos\MShop\Subscription\Item\Iface Subscription item including the referenced domains items
+	 * @param string $id Unique locale ID
+	 * @return \Aimeos\MShop\Locale\Item\Iface Locale item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Locale\Item\Iface
 	{
 		return $this->controller->get( $id );
 	}
@@ -94,11 +94,11 @@ abstract class Base
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
-	 * @param array $conditions List of conditions, e.g. ['>' => ['subscription.interval' => 'P0Y1M0W0D']]
-	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @param array $conditions List of conditions, e.g. ['>' => ['locale.interval' => 'P0Y1M0W0D']]
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Locale\Iface
 	{
 		$this->controller->parse( $conditions );
 		return $this;
@@ -106,27 +106,27 @@ abstract class Base
 
 
 	/**
-	 * Returns the subscriptions filtered by the previously assigned conditions
+	 * Returns the locales filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found subscriptions will be stored in
-	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
+	 * @param int|null &$total Parameter where the total number of found locales will be stored in
+	 * @return \Aimeos\MShop\Locale\Item\Iface[] Ordered list of locale items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		return $this->controller->search( $total );
 	}
 
 
 	/**
-	 * Sets the start value and the number of returned subscription items for slicing the list of found subscription items
+	 * Sets the start value and the number of returned locale items for slicing the list of found locale items
 	 *
-	 * @param integer $start Start value of the first subscription item in the list
-	 * @param integer $limit Number of returned subscription items
-	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @param int $start Start value of the first locale item in the list
+	 * @param int $limit Number of returned locale items
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Locale\Iface
 	{
 		$this->controller->slice( $start, $limit );
 		return $this;
@@ -137,10 +137,10 @@ abstract class Base
 	 * Sets the sorting of the result list
 	 *
 	 * @param string|null $key Sorting key of the result list like "interval", null for no sorting
-	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Locale\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -153,7 +153,7 @@ abstract class Base
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object )
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
 	{
 		parent::setObject( $object );
 
@@ -168,7 +168,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Frontend controller object
 	 */
-	protected function getController()
+	protected function getController() : \Aimeos\Controller\Frontend\Locale\Iface
 	{
 		return $this->controller;
 	}

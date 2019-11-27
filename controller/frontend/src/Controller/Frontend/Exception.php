@@ -28,11 +28,11 @@ class Exception
 	 * Initializes the exception.
 	 *
 	 * @param string $msg The exception message
-	 * @param integer $code The exception code
+	 * @param int $code The exception code
 	 * @param \Exception $previous The previous exception used for the exception chaining.
 	 * @param array $list The associative list of errors and their messages when several errors occured
 	 */
-	public function __construct( $msg = '', $code = 0, \Exception $previous = null, array $list = [] )
+	public function __construct( string $msg = '', int $code = 0, \Exception $previous = null, array $list = [] )
 	{
 		parent::__construct( $msg, $code, $previous );
 
@@ -45,7 +45,7 @@ class Exception
 	 *
 	 * @return array Associative list of keys and their error messages
 	 */
-	public function getErrorList()
+	public function getErrorList() : array
 	{
 		return $this->list;
 	}

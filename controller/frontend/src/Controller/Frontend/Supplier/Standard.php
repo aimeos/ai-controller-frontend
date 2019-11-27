@@ -60,7 +60,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -74,7 +74,7 @@ class Standard
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Supplier\Item\Iface
 	{
 		return $this->manager->findItem( $code, $this->domains, null, null, true );
 	}
@@ -87,7 +87,7 @@ class Standard
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Supplier\Item\Iface
 	{
 		return $this->manager->getItem( $id, $this->domains, true );
 	}
@@ -102,7 +102,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.10
 	 */
-	public function has( $domain, $type = null, $refId = null )
+	public function has( string $domain, string $type = null, string $refId = null ) : Iface
 	{
 		$params = [$domain];
 		!$type ?: $params[] = $type;
@@ -121,7 +121,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -134,11 +134,11 @@ class Standard
 	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found suppliers will be stored in
+	 * @param int &$total Parameter where the total number of found suppliers will be stored in
 	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, $this->domains, $total );
@@ -148,12 +148,12 @@ class Standard
 	/**
 	 * Sets the start value and the number of returned supplier items for slicing the list of found supplier items
 	 *
-	 * @param integer $start Start value of the first supplier item in the list
-	 * @param integer $limit Number of returned supplier items
+	 * @param int $start Start value of the first supplier item in the list
+	 * @param int $limit Number of returned supplier items
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -167,7 +167,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null )
+	public function sort( string $key = null ) : Iface
 	{
 		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
@@ -190,7 +190,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : Iface
 	{
 		$this->domains = $domains;
 		return $this;

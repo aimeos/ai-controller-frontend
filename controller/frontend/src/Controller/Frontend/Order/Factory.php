@@ -29,7 +29,7 @@ class Factory
 	 * @param string|null $name Name of the controller implementaton (default: "Standard")
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Controller object
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $name = null )
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $name = null ) : \Aimeos\Controller\Frontend\Iface
 	{
 		/** controller/frontend/order/name
 		 * Class name of the used order frontend controller implementation
@@ -68,13 +68,12 @@ class Factory
 			$name = $context->getConfig()->get( 'controller/frontend/order/name', 'Standard' );
 		}
 
-		if( ctype_alnum( $name ) === false ) {
-			$classname = is_string( $name ) ? '\\Aimeos\\Controller\\Frontend\\Order\\' . $name : '<not a string>';
-			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
-		}
-
 		$iface = '\\Aimeos\\Controller\\Frontend\\Order\\Iface';
 		$classname = '\\Aimeos\\Controller\\Frontend\\Order\\' . $name;
+
+		if( ctype_alnum( $name ) === false ) {
+			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Invalid characters in class name "%1$s"', $classname ) );
+		}
 
 		$manager = self::createController( $context, $classname, $iface );
 

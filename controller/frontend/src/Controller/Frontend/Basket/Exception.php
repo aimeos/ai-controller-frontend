@@ -27,11 +27,11 @@ class Exception extends \Aimeos\Controller\Frontend\Exception
 	 * Initializes the instance of the exception
 	 *
 	 * @param string $message Custom error message to describe the error
-	 * @param integer $code Custom error code to identify or classify the error
+	 * @param int $code Custom error code to identify or classify the error
 	 * @param \Exception|null $previous Previously thrown exception
 	 * @param array $errors List of error codes for error handling
 	 */
-	public function __construct( $message = '', $code = 0, \Exception $previous = null, $errors = [] )
+	public function __construct( string $message = '', int $code = 0, \Exception $previous = null, array $errors = [] )
 	{
 		parent::__construct( $message, $code, $previous );
 
@@ -44,7 +44,7 @@ class Exception extends \Aimeos\Controller\Frontend\Exception
 	 *
 	 * @return array list of error codes
 	 */
-	public function getErrors()
+	public function getErrors() : array
 	{
 		return $this->errors;
 	}

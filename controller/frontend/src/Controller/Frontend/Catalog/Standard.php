@@ -61,7 +61,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value )
+	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
@@ -75,7 +75,7 @@ class Standard
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( $code )
+	public function find( string $code ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
 		return $this->manager->findItem( $code, $this->domains, null, null, true );
 	}
@@ -88,7 +88,7 @@ class Standard
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id )
+	public function get( string $id ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
 		return $this->manager->getItem( $id, $this->domains, true );
 	}
@@ -97,11 +97,11 @@ class Standard
 	/**
 	 * Returns the list of categories up to the root node including the node given by its ID
 	 *
-	 * @param integer $id Current category ID
+	 * @param string $id Current category ID
 	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Associative list of categories
 	 * @since 2017.03
 	 */
-	public function getPath( $id )
+	public function getPath( string $id )
 	{
 		$list = $this->manager->getPath( $id, $this->domains );
 
@@ -127,7 +127,7 @@ class Standard
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Category tree
 	 * @since 2019.04
 	 */
-	public function getTree( $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE )
+	public function getTree( int $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->getTree( $this->root, $this->domains, $level, $this->filter );
@@ -141,7 +141,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions )
+	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
@@ -158,7 +158,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function root( $id )
+	public function root( string $id = null ) : Iface
 	{
 		$this->root = ( $id ? $id : null );
 		return $this;
@@ -172,7 +172,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains )
+	public function uses( array $domains ) : Iface
 	{
 		$this->domains = $domains;
 		return $this;
@@ -185,7 +185,7 @@ class Standard
 	 * @param array $catIds List of category IDs
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 */
-	public function visible( array $catIds )
+	public function visible( array $catIds ) : Iface
 	{
 		if( empty( $catIds ) ) {
 			return $this;

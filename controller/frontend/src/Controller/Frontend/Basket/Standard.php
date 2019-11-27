@@ -47,7 +47,7 @@ class Standard
 	 * @param array $values Order base values like comment
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function add( array $values )
+	public function add( array $values ) : Iface
 	{
 		$this->baskets[$this->type] = $this->get()->fromArray( $values );
 		return $this;
@@ -59,7 +59,7 @@ class Standard
 	 *
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function clear()
+	public function clear() : Iface
 	{
 		$this->baskets[$this->type] = $this->manager->createItem();
 		$this->manager->setSession( $this->baskets[$this->type], $this->type );
@@ -73,7 +73,7 @@ class Standard
 	 *
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket holding products, addresses and delivery/payment options
 	 */
-	public function get()
+	public function get() : \Aimeos\MShop\Order\Item\Base\Iface
 	{
 		if( !isset( $this->baskets[$this->type] ) )
 		{
@@ -91,7 +91,7 @@ class Standard
 	 *
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function save()
+	public function save() : Iface
 	{
 		if( isset( $this->baskets[$this->type] ) && $this->baskets[$this->type]->isModified() ) {
 			$this->manager->setSession( $this->baskets[$this->type], $this->type );
@@ -107,7 +107,7 @@ class Standard
 	 * @param string $type Basket type
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function setType( $type )
+	public function setType( string $type ) : Iface
 	{
 		$this->type = $type;
 		return $this;
@@ -119,7 +119,7 @@ class Standard
 	 *
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including products, addresses and services
 	 */
-	public function store()
+	public function store() : \Aimeos\MShop\Order\Item\Base\Iface
 	{
 		$total = 0;
 		$context = $this->getContext();
@@ -195,11 +195,12 @@ class Standard
 	 * Returns the order base object for the given ID
 	 *
 	 * @param string $id Unique ID of the order base object
-	 * @param integer $parts Constants which parts of the order base object should be loaded
-	 * @param boolean $default True to add default criteria (user logged in), false if not
+	 * @param int $parts Constants which parts of the order base object should be loaded
+	 * @param bool $default True to add default criteria (user logged in), false if not
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including the given parts
 	 */
-	public function load( $id, $parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_ALL, $default = true )
+	public function load( string $id, int $parts = \Aimeos\MShop\Order\Item\Base\Base::PARTS_ALL,
+		bool $default = true ) : \Aimeos\MShop\Order\Item\Base\Iface
 	{
 		return $this->manager->load( $id, $parts, false, $default );
 	}
@@ -209,7 +210,7 @@ class Standard
 	 * Adds a product to the basket of the customer stored in the session
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Product to add including texts, media, prices, attributes, etc.
-	 * @param integer $quantity Amount of products that should by added
+	 * @param int $quantity Amount of products that should by added
 	 * @param array $variant List of variant-building attribute IDs that identify an article in a selection product
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
@@ -219,8 +220,9 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], $stocktype = 'default', $supplier = null, $siteid = null )
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product,
+		int $quantity = 1, array $variant = [], array $config = [], array $custom = [],
+		string $stocktype = 'default', string $supplier = null, string $siteid = null ) : Iface
 	{
 		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
 		$this->checkListRef( $product->getId(), 'attribute', $attributeMap );
@@ -251,10 +253,10 @@ class Standard
 	/**
 	 * Deletes a product item from the basket.
 	 *
-	 * @param integer $position Position number (key) of the order product item
+	 * @param int $position Position number (key) of the order product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteProduct( $position )
+	public function deleteProduct( int $position ) : Iface
 	{
 		$product = $this->get()->getProduct( $position );
 
@@ -272,11 +274,11 @@ class Standard
 	/**
 	 * Edits the quantity of a product item in the basket.
 	 *
-	 * @param integer $position Position number (key) of the order product item
-	 * @param integer $quantity New quantiy of the product item
+	 * @param int $position Position number (key) of the order product item
+	 * @param int $quantity New quantiy of the product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function updateProduct( $position, $quantity )
+	public function updateProduct( int $position, int $quantity ) : Iface
 	{
 		$product = $this->get()->getProduct( $position );
 
@@ -304,7 +306,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid or not allowed
 	 */
-	public function addCoupon( $code )
+	public function addCoupon( string $code ) : Iface
 	{
 		$context = $this->getContext();
 
@@ -344,7 +346,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception if the coupon code is invalid
 	 */
-	public function deleteCoupon( $code )
+	public function deleteCoupon( string $code ) : Iface
 	{
 		$this->baskets[$this->type] = $this->get()->deleteCoupon( $code );
 		return $this->save();
@@ -356,9 +358,10 @@ class Standard
 	 *
 	 * @param string $type Address type code like 'payment' or 'delivery'
 	 * @param array $values Associative list of key/value pairs with address details
+	 * @param int|null $position Position number (key) of the order address item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function addAddress( $type, array $values = [], $position = null )
+	public function addAddress( string $type, array $values = [], int $position = null ) : Iface
 	{
 		foreach( $values as $key => $value ) {
 			$values[$key] = strip_tags( $value ); // prevent XSS
@@ -376,10 +379,10 @@ class Standard
 	 * Removes the address of the given type and position if available
 	 *
 	 * @param string $type Address type code like 'payment' or 'delivery'
-	 * @param integer|null $position Position of the address in the list to overwrite
+	 * @param int|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteAddress( $type, $position = null )
+	public function deleteAddress( string $type, int $position = null ) : Iface
 	{
 		$this->baskets[$this->type] = $this->get()->deleteAddress( $type, $position );
 		return $this->save();
@@ -391,11 +394,11 @@ class Standard
 	 *
 	 * @param \Aimeos\MShop\Service\Item\Iface $service Service item selected by the customer
 	 * @param array $config Associative list of key/value pairs with the options selected by the customer
-	 * @param integer|null $position Position of the address in the list to overwrite
+	 * @param int|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
-	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], $position = null )
+	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], int $position = null ) : Iface
 	{
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, 'service' );
@@ -433,10 +436,10 @@ class Standard
 	 * Removes the delivery or payment service items from the basket
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
-	 * @param integer|null $position Position of the address in the list to overwrite
+	 * @param int|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteService( $type, $position = null )
+	public function deleteService( string $type, int $position = null ) : Iface
 	{
 		$this->baskets[$this->type] = $this->get()->deleteService( $type, $position );
 		return $this->save();

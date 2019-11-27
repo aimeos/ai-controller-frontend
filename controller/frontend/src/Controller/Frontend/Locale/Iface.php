@@ -28,7 +28,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function compare( $operator, $key, $value );
+	public function compare( string $operator, string $key, $value ) : Iface;
 
 	/**
 	 * Returns the locale for the given locale ID
@@ -37,7 +37,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Locale\Item\Iface Locale item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( $id );
+	public function get( string $id ) : \Aimeos\MShop\Locale\Item\Iface;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -46,26 +46,26 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function parse( array $conditions );
+	public function parse( array $conditions ) : Iface;
 
 	/**
 	 * Returns the locales filtered by the previously assigned conditions
 	 *
-	 * @param integer &$total Parameter where the total number of found locales will be stored in
+	 * @param int|null &$total Parameter where the total number of found locales will be stored in
 	 * @return \Aimeos\MShop\Locale\Item\Iface[] Ordered list of locale items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null );
+	public function search( int &$total = null );
 
 	/**
 	 * Sets the start value and the number of returned locale items for slicing the list of found locale items
 	 *
-	 * @param integer $start Start value of the first locale item in the list
-	 * @param integer $limit Number of returned locale items
+	 * @param int $start Start value of the first locale item in the list
+	 * @param int $limit Number of returned locale items
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit );
+	public function slice( int $start, int $limit ) : Iface;
 
 	/**
 	 * Sets the sorting of the result list
@@ -74,5 +74,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( $key = null );
+	public function sort( string $key = null ) : Iface;
 }

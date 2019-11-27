@@ -25,7 +25,7 @@ interface Iface
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
 	 * @param string|null $name Name of the controller implementation (Default if null)
-	 * @return \Aimeos\Controller\Frontend\Common\Iface Controller object
+	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, $name = null );
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $name = null ) : \Aimeos\Controller\Frontend\Iface;
 }

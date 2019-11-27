@@ -222,7 +222,7 @@ class Standard
 		 * @category User
 		 * @category Developer
 		 * @see controller/frontend/catalog/levels-only
-		*/
+		 */
 		if( ( $levels = $config->get( 'controller/frontend/catalog/levels-always' ) ) != null ) {
 			$expr[] = $this->filter->compare( '<=', 'catalog.level', $levels );
 		}

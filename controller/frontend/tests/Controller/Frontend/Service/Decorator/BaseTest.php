@@ -169,7 +169,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdateSync()
 	{
-		$response = $this->getMockBuilder( \Psr\Http\Message\ResponseInterface::class )->getMock();
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
 

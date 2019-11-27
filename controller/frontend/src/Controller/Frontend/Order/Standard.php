@@ -132,11 +132,11 @@ class Standard
 	/**
 	 * Returns the orders filtered by the previously assigned conditions
 	 *
-	 * @param string[] $domains Domain names of items that are associated with the orders and that should be fetched too
+	 * @param int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
 	 * @since 2019.04
 	 */
-	public function search( &$total = null )
+	public function search( int &$total = null )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, [], $total );
@@ -146,12 +146,12 @@ class Standard
 	/**
 	 * Sets the start value and the number of returned orders for slicing the list of found orders
 	 *
-	 * @param integer $start Start value of the first order in the list
-	 * @param integer $limit Number of returned orders
+	 * @param int $start Start value of the first order in the list
+	 * @param int $limit Number of returned orders
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function slice( $start, $limit ) : Iface
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;

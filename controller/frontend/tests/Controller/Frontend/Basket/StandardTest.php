@@ -401,11 +401,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteAddress()
 	{
 		$this->object->addAddress( 'payment', [] );
-		$this->assertEquals( 1, count( $this->object->get()->getAddress( 'payment') ) );
+		$this->assertEquals( 1, count( $this->object->get()->getAddress( 'payment' ) ) );
 
 		$result = $this->object->deleteAddress( 'payment' );
 
-		$this->assertEquals( 0, count( $this->object->get()->getAddress( 'payment') ) );
+		$this->assertEquals( 0, count( $this->object->get()->getAddress( 'payment' ) ) );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 

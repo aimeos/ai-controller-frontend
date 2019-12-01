@@ -108,7 +108,7 @@ class Standard
 					$list += $cntl->root( $catId )->getTree( $level )->toList();
 				}
 
-				$ids = array_keys( $list );
+				$ids = $this->validateIds( array_keys( $list ) );
 			}
 
 			$func = $this->filter->createFunction( 'index.catalog:position', [$listtype, $ids] );

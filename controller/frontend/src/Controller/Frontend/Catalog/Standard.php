@@ -172,7 +172,7 @@ class Standard
 	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Ordered list of catalog items
 	 * @since 2019.10
 	 */
-	public function search( int &$total = null )
+	public function search( &$total = null )
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, $this->domains, $total );

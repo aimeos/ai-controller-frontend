@@ -166,6 +166,20 @@ class Standard
 
 
 	/**
+	 * Returns the categories filtered by the previously assigned conditions
+	 *
+	 * @param int &$total Parameter where the total number of found categories will be stored in
+	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Ordered list of catalog items
+	 * @since 2019.10
+	 */
+	public function search( int &$total = null )
+	{
+		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		return $this->manager->searchItems( $this->filter, $this->domains, $total );
+	}
+
+
+	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too

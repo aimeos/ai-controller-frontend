@@ -100,6 +100,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSearch()
+	{
+		$total = 0;
+		$items = $this->object->uses( ['product'] )->compare( '==', 'catalog.code', 'cafe' )->search( $total );
+
+		$this->assertCount( 1, $items );
+		$this->assertEquals( 2, count( current( $items )->getRefItems( 'product' ) ) );
+	}
+
+
 	public function testUses()
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );

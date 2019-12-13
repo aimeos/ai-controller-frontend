@@ -83,6 +83,16 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFunction()
+	{
+		$this->stub->expects( $this->once() )->method( 'function' )
+			->will( $this->returnValue( 'catalog:has("domain","type","refid")' ) );
+
+		$str = $this->object->function( 'catalog:has', ['domain', 'type', 'refid'] );
+		$this->assertEquals( 'catalog:has("domain","type","refid")', $str );
+	}
+
+
 	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();

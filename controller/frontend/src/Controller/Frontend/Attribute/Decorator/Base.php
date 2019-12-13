@@ -121,6 +121,19 @@ abstract class Base
 
 
 	/**
+	 * Creates a search function string for the given name and parameters
+	 *
+	 * @param string $name Name of the search function without parenthesis, e.g. "attribute:prop"
+	 * @param array $params List of parameters for the search function with numeric keys starting at 0
+	 * @return string Search function string that can be used in compare()
+	 */
+	public function function( string $name, array $params ) : string
+	{
+		return $this->controller->function( $name, $params );
+	}
+
+
+	/**
 	 * Returns the attribute for the given attribute ID
 	 *
 	 * @param string $id Unique attribute ID

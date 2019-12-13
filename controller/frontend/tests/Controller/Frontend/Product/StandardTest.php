@@ -82,6 +82,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFunction()
+	{
+		$str = $this->object->function( 'product:has', ['domain', 'type', 'refid'] );
+		$this->assertEquals( 'product:has("domain","type","refid")', $str );
+	}
+
+
 	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:BUNDLE' );

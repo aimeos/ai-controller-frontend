@@ -45,6 +45,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFunction()
+	{
+		$str = $this->object->function( 'catalog:has', ['domain', 'type', 'refid'] );
+		$this->assertEquals( 'catalog:has("domain","type","refid")', $str );
+	}
+
+
 	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->findItem( 'cafe' );

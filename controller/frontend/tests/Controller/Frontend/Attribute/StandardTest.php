@@ -60,6 +60,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFunction()
+	{
+		$str = $this->object->function( 'attribute:prop', ['type', null, 'value'] );
+		$this->assertEquals( 'attribute:prop("type",null,"value")', $str );
+	}
+
+
 	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'white', [], 'product', 'color' );

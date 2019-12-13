@@ -44,6 +44,15 @@ interface Iface
 	public function find( string $code ) : \Aimeos\MShop\Service\Item\Iface;
 
 	/**
+	 * Creates a search function string for the given name and parameters
+	 *
+	 * @param string $name Name of the search function without parenthesis, e.g. "service:has"
+	 * @param array $params List of parameters for the search function with numeric keys starting at 0
+	 * @param string Search function string that can be used in compare()
+	 */
+	public function function( string $name, array $params ) : string;
+
+	/**
 	 * Returns the service for the given ID
 	 *
 	 * @param string $id Unique service ID

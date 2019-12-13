@@ -56,6 +56,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testFunction()
+	{
+		$str = $this->object->function( 'service:has', ['domain', 'type', 'refid'] );
+		$this->assertEquals( 'service:has("domain","type","refid")', $str );
+	}
+
+
 	public function testGet()
 	{
 		$item = $this->object->uses( ['price'] )->get( $this->getServiceItem()->getId() );

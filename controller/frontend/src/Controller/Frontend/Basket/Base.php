@@ -131,7 +131,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$session = $context->getSession();
 
 		$localeStr = $session->get( 'aimeos/basket/locale' );
-		$localeKey = $locale->getSite()->getCode() . '|' . $locale->getLanguageId() . '|' . $locale->getCurrencyId();
+		$localeKey = $locale->getSiteItem()->getCode() . '|' . $locale->getLanguageId() . '|' . $locale->getCurrencyId();
 
 		if( $localeStr !== null && $localeStr !== $localeKey )
 		{

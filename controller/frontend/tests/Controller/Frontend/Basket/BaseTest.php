@@ -292,13 +292,15 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetOrderProductAttributes()
 	{
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->createItem()
+			->setCode( 'special_instructions' )->setCode( 'test' )->setType( 'test' )->setId( '-1' );
+
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['getAttributes'] )
 			->getMock();
 
-		$list = [1 => new \Aimeos\MShop\Attribute\Item\Standard( ['attribute.code' => 'special_instructions'] )];
-		$object->expects( $this->once() )->method( 'getAttributes' )->will( $this->returnValue( $list ) );
+		$object->expects( $this->once() )->method( 'getAttributes' )->will( $this->returnValue( [1 => $attrItem] ) );
 
 		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], ['1' => 'test']] );
 

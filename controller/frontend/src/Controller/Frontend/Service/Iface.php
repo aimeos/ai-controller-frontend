@@ -86,12 +86,12 @@ interface Iface
 	public function parse( array $conditions ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
-	 * Processes the service for the given order, e.g. payment and delivery services
+	 * Processes the payment service for the given order
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order which should be processed
-	 * @param string $id Unique service item ID
+	 * @param string $serviceId Unique service item ID
 	 * @param array $urls Associative list of keys and the corresponding URLs
-	 * 	(keys are <type>.url-self, <type>.url-success, <type>.url-update where type can be "delivery" or "payment")
+	 * 	(keys are payment.url-self, payment.url-success, payment.url-update)
 	 * @param array $params Request parameters and order service attributes
 	 * @return \Aimeos\MShop\Common\Helper\Form\Iface|null Form object with URL, parameters, etc.
 	 * 	or null if no form data is required

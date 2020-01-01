@@ -101,9 +101,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$form = new \Aimeos\MShop\Common\Helper\Form\Standard();
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
-		$serviceId = \Aimeos\MShop::create( $this->context, 'service' )->findItem( 'unitcode' )->getId();
+		$serviceId = \Aimeos\MShop::create( $this->context, 'service' )->findItem( 'unitpaymentcode' )->getId();
 
-		$provider = $this->getMockBuilder( \Aimeos\MShop\Service\Provider\Delivery\Standard::class )
+		$provider = $this->getMockBuilder( \Aimeos\MShop\Service\Provider\Payment\PostPay::class )
 			->disableOriginalConstructor()
 			->setMethods( ['process'] )
 			->getMock();

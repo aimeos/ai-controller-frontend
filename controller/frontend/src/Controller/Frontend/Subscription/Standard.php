@@ -175,7 +175,7 @@ class Standard
 	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null )
+	public function search( int &$total = null ) : array
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, [], $total );

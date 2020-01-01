@@ -55,7 +55,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Locale\Item\Iface[] Ordered list of locale items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null );
+	public function search( int &$total = null ) : array;
 
 	/**
 	 * Sets the start value and the number of returned locale items for slicing the list of found locale items

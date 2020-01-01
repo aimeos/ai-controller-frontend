@@ -201,7 +201,7 @@ class Standard
 	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Ordered list of attribute items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null )
+	public function search( int &$total = null ) : array
 	{
 		$expr = array_merge( $this->conditions, [$this->filter->compare( '==', 'attribute.domain', $this->domain )] );
 		$this->filter->setConditions( $this->filter->combine( '&&', $expr ) );

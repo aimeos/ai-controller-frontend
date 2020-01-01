@@ -151,7 +151,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null );
+	public function search( int &$total = null ) : array;
 
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products

@@ -112,7 +112,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Locale\Item\Iface[] Ordered list of locale items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null )
+	public function search( int &$total = null ) : array
 	{
 		return $this->controller->search( $total );
 	}

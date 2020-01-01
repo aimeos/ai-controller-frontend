@@ -86,7 +86,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null );
+	public function search( int &$total = null ) : array;
 
 	/**
 	 * Sets the start value and the number of returned supplier items for slicing the list of found supplier items

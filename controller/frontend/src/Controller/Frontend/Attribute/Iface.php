@@ -114,7 +114,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Ordered list of attribute items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null );
+	public function search( int &$total = null ) : array;
 
 	/**
 	 * Sets the start value and the number of returned attributes for slicing the list of found attributes

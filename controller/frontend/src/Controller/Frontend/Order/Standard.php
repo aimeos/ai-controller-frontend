@@ -136,7 +136,7 @@ class Standard
 	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null )
+	public function search( int &$total = null ) : array
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, [], $total );

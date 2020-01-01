@@ -78,7 +78,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null );
+	public function search( int &$total = null ) : array;
 
 	/**
 	 * Sets the start value and the number of returned subscription items for slicing the list of found subscription items

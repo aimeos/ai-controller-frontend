@@ -100,7 +100,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Ordered list of catalog items
 	 * @since 2019.10
 	 */
-	public function search( int &$total = null );
+	public function search( int &$total = null ) : array;
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items

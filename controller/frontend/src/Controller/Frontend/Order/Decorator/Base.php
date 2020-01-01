@@ -132,7 +132,7 @@ abstract class Base
 	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null )
+	public function search( int &$total = null ) : array
 	{
 		return $this->controller->search( $total );
 	}

@@ -15,7 +15,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 	private $context;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::getContext();
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
@@ -23,7 +23,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		$this->object->clear();
 		$this->context->getSession()->set( 'aimeos', [] );

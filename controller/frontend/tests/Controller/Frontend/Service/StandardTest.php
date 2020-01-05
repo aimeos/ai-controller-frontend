@@ -17,7 +17,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private static $basket;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		\Aimeos\MShop::cache( true );
 
@@ -26,7 +26,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass() : void
 	{
 		$orderManager = \Aimeos\MShop\Order\Manager\Factory::create( \TestHelperFrontend::getContext() );
 		$orderBaseMgr = $orderManager->getSubManager( 'base' );
@@ -34,7 +34,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
 		unset( $this->object, $this->context );

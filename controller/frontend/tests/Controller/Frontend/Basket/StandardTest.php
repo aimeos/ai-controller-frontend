@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private $testItem;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		\Aimeos\MShop::cache( true );
 
@@ -29,7 +29,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
 
@@ -144,7 +144,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
-		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
+		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
 		$object->store();
 	}
 
@@ -201,7 +201,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'price' );
 		$attrValues = [$attrItem->getId() => ','];
 
-		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
+		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
 		$this->object->addProduct( $this->testItem, 1, [], [], $attrValues );
 	}
 
@@ -222,14 +222,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( '30', [], 'product', 'width' );
 		$ids = [$attrItem->getId()];
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $this->testItem, 1, [], $ids, $ids );
 	}
 
 
 	public function testAddProductNegativeQuantityException()
 	{
-		$this->setExpectedException( '\\Aimeos\\MShop\\Order\\Exception' );
+		$this->expectException( '\\Aimeos\\MShop\\Order\\Exception' );
 		$this->object->addProduct( $this->testItem, -1 );
 	}
 
@@ -238,14 +238,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'MNOP' );
 
-		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
+		$this->expectException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item );
 	}
 
 
 	public function testAddProductConfigAttributeException()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $this->testItem, 1, [], [-1] );
 	}
 
@@ -254,7 +254,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL', ['attribute', 'price'] );
 
-		$this->setExpectedException( '\\Aimeos\\MShop\\Price\\Exception' );
+		$this->expectException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item );
 	}
 
@@ -290,7 +290,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->deleteProduct( 0 );
 	}
 
@@ -318,7 +318,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->get()->getProduct( 0 );
 		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->updateProduct( 0, 4 );
 	}
 
@@ -340,14 +340,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->addProduct( $this->testItem, 2 );
 		$this->object->addCoupon( 'GHIJ' );
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addCoupon( 'GHIJ' );
 	}
 
 
 	public function testAddCouponInvalidCode()
 	{
-		$this->setExpectedException( \Aimeos\MShop\Plugin\Provider\Exception::class );
+		$this->expectException( \Aimeos\MShop\Plugin\Provider\Exception::class );
 		$this->object->addCoupon( 'invalid' );
 	}
 
@@ -420,7 +420,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->get()->getService( 'payment', 0 )->getCode();
 		$this->assertEquals( 'unitpaymentcode', $item );
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addService( $service, ['prepay' => true] );
 	}
 
@@ -434,7 +434,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->get()->getService( 'delivery', 0 );
 		$this->assertEquals( 'unitcode', $item->getCode() );
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addService( $service, ['fast shipping' => true, 'air shipping' => false] );
 	}
 

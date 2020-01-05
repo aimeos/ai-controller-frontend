@@ -15,7 +15,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	private $context;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::getContext();
 		$config = $this->context->getConfig();

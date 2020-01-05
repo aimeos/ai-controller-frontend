@@ -20,28 +20,28 @@ class FrontendTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateControllerEmpty()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
 		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), '' );
 	}
 
 
 	public function testCreateControllerInvalidName()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
 		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), '%^' );
 	}
 
 
 	public function testCreateControllerNotExisting()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
 		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), 'notexist' );
 	}
 
 
 	public function testCreateSubControllerNotExisting()
 	{
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
 		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), 'basket/notexist' );
 	}
 

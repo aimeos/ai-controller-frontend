@@ -15,7 +15,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	private $context;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::getContext();
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
@@ -23,7 +23,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		$this->object->clear();
 		$this->context->getSession()->set( 'aimeos', [] );
@@ -46,7 +46,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$item = $manager->findItem( 'ABCD' );
 
-		$this->setExpectedException( \Aimeos\Controller\Frontend\Basket\Exception::class );
+		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
 		$this->object->addProduct( $item );
 	}
 }

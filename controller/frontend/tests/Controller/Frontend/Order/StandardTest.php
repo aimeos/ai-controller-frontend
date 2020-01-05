@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private $context;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		\Aimeos\MShop::cache( true );
 
@@ -25,7 +25,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
 		unset( $this->object, $this->context );
@@ -146,7 +146,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( 'No order base item found' );
 		}
 
-		$this->setExpectedException( \Aimeos\Controller\Frontend\Order\Exception::class );
+		$this->expectException( \Aimeos\Controller\Frontend\Order\Exception::class );
 		$this->object->add( $item->getId() )->store();
 	}
 }

@@ -13,13 +13,13 @@ class ExceptionTest extends \PHPUnit\Framework\TestCase
 	private $object;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->object = new \Aimeos\Controller\Frontend\Exception( 'msg', 1, null, array( 'key' => 'value' ) );
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 	}
 

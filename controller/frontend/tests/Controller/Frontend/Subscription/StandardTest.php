@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private $object;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::getContext();
 		$this->context->setUserId( $this->getCustomerId() );
@@ -33,7 +33,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
 		unset( $this->object, $this->manager, $this->context );
@@ -67,7 +67,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$this->setExpectedException( \Aimeos\Controller\Frontend\Subscription\Exception::class );
+		$this->expectException( \Aimeos\Controller\Frontend\Subscription\Exception::class );
 		$this->object->get( -1 );
 	}
 

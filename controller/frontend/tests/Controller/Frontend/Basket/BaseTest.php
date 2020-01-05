@@ -13,14 +13,14 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	private $context;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::getContext();
 		\Aimeos\MShop::cache( true );
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
 		$this->context->getSession()->set( 'aimeos', [] );
@@ -38,6 +38,8 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$this->context->getSession()->set( 'aimeos/basket/locale', 'unittest|en|EUR' );
 		$this->access( 'checkLocale' )->invokeArgs( $object, [$this->context->getLocale(), 'unittest'] );
+
+		$this->assertEquals( 'unittest|de|EUR', $this->context->getSession()->get( 'aimeos/basket/locale' ) );
 	}
 
 

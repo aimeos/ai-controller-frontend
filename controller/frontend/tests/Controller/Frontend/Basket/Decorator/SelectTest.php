@@ -16,7 +16,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	private $testItem;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::getContext();
 
@@ -28,7 +28,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		$this->object->clear();
 		$this->context->getSession()->set( 'aimeos', [] );
@@ -108,7 +108,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$item = $manager->findItem( 'U:TEST', ['attribute', 'media', 'price', 'product', 'text'] );
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item, 1, [$id] );
 	}
 
@@ -130,7 +130,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$item = $manager->findItem( 'U:noSel', ['attribute', 'media', 'price', 'product', 'text'] );
 
-		$this->setExpectedException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
+		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item );
 	}
 

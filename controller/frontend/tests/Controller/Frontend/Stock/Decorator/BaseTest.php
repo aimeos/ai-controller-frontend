@@ -16,7 +16,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	private $stub;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::getContext();
 
@@ -30,7 +30,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		unset( $this->context, $this->object, $this->stub );
 	}
@@ -40,7 +40,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Iface::class )->getMock();
 
-		$this->setExpectedException( \Aimeos\MW\Common\Exception::class );
+		$this->expectException( \Aimeos\MW\Common\Exception::class );
 
 		$this->getMockBuilder( \Aimeos\Controller\Frontend\Stock\Decorator\Base::class )
 			->setConstructorArgs( [$stub, $this->context] )

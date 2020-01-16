@@ -45,9 +45,7 @@ class Category
 		$expr = [];
 		$search = $manager->createSearch( true )->setSlice( 0, 1 );
 
-		$func = $search->createFunction( 'catalog:has', ['product', 'default', $product->getId()] );
-		$expr[] = $search->compare( '!=', $func, null );
-		$func = $search->createFunction( 'catalog:has', ['product', 'promotion', $product->getId()] );
+		$func = $search->createFunction( 'catalog:has', ['product', ['default', 'promotion'], $product->getId()] );
 		$expr[] = $search->compare( '!=', $func, null );
 
 		$search->setConditions( $search->combine( '&&', [$search->getConditions(), $search->combine( '||', $expr )] ) );

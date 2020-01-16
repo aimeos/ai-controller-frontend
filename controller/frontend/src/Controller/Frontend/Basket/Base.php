@@ -100,19 +100,19 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		foreach( $refMap as $listType => $refIds )
 		{
-			foreach( $refIds as $refId )
+			if( !empty( $refIds ) )
 			{
-				$cmpfunc = $search->createFunction( 'product:has', [$domain, $listType, (string) $refId] );
-				$expr[] = $search->compare( '!=', $cmpfunc, null );
+				$cmpfunc = $search->createFunction( 'product:has', [$domain, $listType, $refIds] );
+				$expr[2] = $search->compare( '!=', $cmpfunc, null );
+
+				$search->setConditions( $search->combine( '&&', $expr ) );
+
+				if( count( $productManager->searchItems( $search, [] ) ) === 0 )
+				{
+					$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
+					throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $domain, json_encode( $prodId ) ) );
+				}
 			}
-		}
-
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-		if( count( $productManager->searchItems( $search, [] ) ) === 0 )
-		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $domain, json_encode( $prodId ) ) );
 		}
 	}
 

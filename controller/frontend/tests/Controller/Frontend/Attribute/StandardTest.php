@@ -104,7 +104,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertGreaterThanOrEqual( 26, count( $items ) );
 		$this->assertGreaterThanOrEqual( 26, $total );
-		$this->assertEquals( 1, count( current( array_reverse( $items, true ) )->getRefItems( 'text' ) ) );
+		$this->assertEquals( 1, count( $items->last()->getRefItems( 'text' ) ) );
 	}
 
 
@@ -135,14 +135,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortPosition()
 	{
 		$result = $this->object->sort( 'position' )->search();
-		$this->assertEquals( 'white', reset( $result )->getCode() );
+		$this->assertEquals( 'white', $result->first()->getCode() );
 	}
 
 
 	public function testSortCodeDesc()
 	{
 		$result = $this->object->sort( '-position' )->search();
-		$this->assertStringStartsWith( 'white', end( $result )->getCode() );
+		$this->assertStringStartsWith( 'white', $result->last()->getCode() );
 	}
 
 

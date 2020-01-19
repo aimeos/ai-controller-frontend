@@ -79,41 +79,27 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
-	 * Checks if the reference IDs are really associated to the product
+	 * Checks if the attribute IDs are really associated to the product
 	 *
-	 * @param string|array $prodId Unique ID of the product or list of product IDs
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item with referenced items
 	 * @param string $domain Domain the references must be of
 	 * @param array $refMap Associative list of list type codes as keys and lists of reference IDs as values
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If one or more of the IDs are not associated
 	 */
-	protected function checkListRef( $prodId, string $domain, array $refMap )
+	protected function checkAttributes( array $products, string $listType, array $refIds )
 	{
-		if( empty( $refMap ) ) {
-			return;
+		$attrIds = [];
+
+		foreach( $products as $product ) {
+			$attrIds += array_keys( $product->getRefItems( 'attribute', null, $listType ) );
 		}
 
-		$context = $this->getContext();
-		$productManager = \Aimeos\MShop::create( $context, 'product' );
-		$search = $productManager->createSearch( true );
-
-		$expr = [$search->getConditions()];
-		$expr[] = $search->compare( '==', 'product.id', $prodId );
-
-		foreach( $refMap as $listType => $refIds )
+		if( count( array_intersect( $refIds, $attrIds ) ) !== count( $refIds ) )
 		{
-			if( !empty( $refIds ) )
-			{
-				$cmpfunc = $search->createFunction( 'product:has', [$domain, $listType, $refIds] );
-				$expr[2] = $search->compare( '!=', $cmpfunc, null );
-
-				$search->setConditions( $search->combine( '&&', $expr ) );
-
-				if( count( $productManager->searchItems( $search, [] ) ) === 0 )
-				{
-					$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
-					throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $domain, json_encode( $prodId ) ) );
-				}
-			}
+			$i18n = $this->getContext()->getI18n();
+			$prodIds = \Aimeos\Map::from( $products )->getId()->join( ', ' );
+			$msg = $i18n->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, 'attribute', $prodIds ) );
 		}
 	}
 
@@ -153,6 +139,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$this->copyServices( $basket, $errors );
 			$this->copyProducts( $basket, $errors, $localeKey );
 			$this->copyCoupons( $basket, $errors, $localeKey );
+
+			$this->getObject()->get()->setCustomerId( $basket->getCustomerId() )
+				->setCustomerReference( $basket->getCustomerReference() )
+				->setComment( $basket->getComment() );
 
 			$manager->setSession( $basket, $type );
 		}
@@ -355,13 +345,13 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 *
 	 * @param array $attributeIds List of attribute IDs
 	 * @param string[] $domains Names of the domain items that should be fetched too
-	 * @return array List of items implementing \Aimeos\MShop\Attribute\Item\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the actual attribute number doesn't match the expected one
 	 */
-	protected function getAttributes( array $attributeIds, array $domains = ['text'] )
+	protected function getAttributes( array $attributeIds, array $domains = ['text'] ) : \Aimeos\Map
 	{
 		if( empty( $attributeIds ) ) {
-			return [];
+			return new \Aimeos\Map();
 		}
 
 		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
@@ -376,11 +366,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		$attrItems = $attributeManager->searchItems( $search, $domains );
 
-		if( count( $attrItems ) !== count( $attributeIds ) )
+		if( $attrItems->count() !== count( $attributeIds ) )
 		{
 			$i18n = $this->getContext()->getI18n();
 			$expected = implode( ',', $attributeIds );
-			$actual = implode( ',', array_keys( $attrItems ) );
+			$actual = $attrItems->keys()->join( ',' );
 			$msg = $i18n->dt( 'controller/frontend', 'Available attribute IDs "%1$s" do not match the given attribute IDs "%2$s"' );
 
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $actual, $expected ) );
@@ -394,12 +384,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Returns the attribute items using the given order attribute items.
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Base\Product\Attribute\Item[] $orderAttributes List of order product attribute items
-	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Associative list of attribute IDs as key and attribute items as values
+	 * @return \Aimeos\Map List of attribute IDs as key and attribute items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 */
-	protected function getAttributeItems( array $orderAttributes )
+	protected function getAttributeItems( array $orderAttributes ) : \Aimeos\Map
 	{
 		if( empty( $orderAttributes ) ) {
-			return [];
+			return new \Aimeos\Map();
 		}
 
 		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );

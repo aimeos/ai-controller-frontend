@@ -525,9 +525,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$search = $addressManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'customer.address.company', $company ) );
-		$items = $addressManager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $addressManager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( sprintf( 'No address item with company "%1$s" found', $company ) );
 		}
 

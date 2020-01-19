@@ -84,7 +84,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertGreaterThanOrEqual( 2, count( $items ) );
 		$this->assertGreaterThanOrEqual( 2, $total );
-		$this->assertEquals( 2, count( current( $items )->getRefItems( 'product' ) ) );
+		$this->assertEquals( 2, count( $items->first()->getRefItems( 'product' ) ) );
 	}
 
 

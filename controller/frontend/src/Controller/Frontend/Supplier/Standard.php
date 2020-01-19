@@ -148,10 +148,10 @@ class Standard
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found suppliers will be stored in
-	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
+	 * @return \Aimeos\Map Ordered list of supplier items implementing \Aimeos\MShop\Supplier\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array
+	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, $this->domains, $total );

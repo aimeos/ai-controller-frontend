@@ -101,14 +101,14 @@ class Standard
 		{
 			if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 			{
-				$list = [];
+				$list = new \Aimeos\Map();
 				$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' );
 
 				foreach( $ids as $catId ) {
-					$list += $cntl->root( $catId )->getTree( $level )->toList();
+					$list->union( $cntl->root( $catId )->getTree( $level )->toList() );
 				}
 
-				$ids = $this->validateIds( array_keys( $list ) );
+				$ids = $this->validateIds( $list->keys()->toArray() );
 			}
 
 			$func = $this->filter->createFunction( 'index.catalog:position', [$listtype, $ids] );
@@ -295,18 +295,17 @@ class Standard
 	{
 		$langid = $this->getContext()->getLocale()->getLanguageId();
 
-		$search = $this->manager->createSearch();
+		$search = $this->manager->createSearch()->setSlice( 0, 1 );
 		$func = $search->createFunction( 'index.text:url', [$langid] );
 		$search->setConditions( $search->compare( '==', $func, $name ) );
 
-		$items = $this->manager->searchItems( $search, $this->domains );
-
-		if( ( $item = reset( $items ) ) !== false ) {
-			return $item;
+		if( ( $item = $this->manager->searchItems( $search, $this->domains )->first() ) === null )
+		{
+			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Unable to find product "%1$s"' );
+			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ) );
 		}
 
-		$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Unable to find product "%1$s"' );
-		throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ) );
+		return $item;
 	}
 
 
@@ -314,13 +313,14 @@ class Standard
 	 * Returns the products filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found products will be stored in
-	 * @return \Aimeos\MShop\Product\Item\Iface[] Ordered list of product items
+	 * @return \Aimeos\Map Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array
+	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setSortations( $this->sort );
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+
 		return $this->manager->searchItems( $this->filter, $this->domains, $total );
 	}
 

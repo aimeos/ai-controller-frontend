@@ -133,7 +133,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, count( $items ) );
 		$this->assertEquals( 1, $total );
-		$this->assertEquals( 2, count( current( $items )->getRefItems( 'price' ) ) );
+		$this->assertEquals( 2, count( $items->first()->getRefItems( 'price' ) ) );
 	}
 
 
@@ -164,14 +164,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortType()
 	{
 		$result = $this->object->sort( 'type' )->search();
-		$this->assertEquals( 'unitcode', current( $result )->getCode() );
+		$this->assertEquals( 'unitcode', $result->first()->getCode() );
 	}
 
 
 	public function testSortTypeDesc()
 	{
 		$result = $this->object->sort( '-type' )->search();
-		$this->assertStringStartsWith( 'unitpaymentcode', current( $result )->getCode() );
+		$this->assertStringStartsWith( 'unitpaymentcode', $result->first()->getCode() );
 	}
 
 

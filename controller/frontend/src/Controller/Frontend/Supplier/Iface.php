@@ -83,10 +83,10 @@ interface Iface
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found suppliers will be stored in
-	 * @return \Aimeos\MShop\Supplier\Item\Iface[] Ordered list of supplier items
+	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Supplier\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array;
+	public function search( int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned supplier items for slicing the list of found supplier items

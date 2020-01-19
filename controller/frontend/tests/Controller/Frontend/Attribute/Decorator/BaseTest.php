@@ -142,9 +142,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$total = 0;
 
 		$this->stub->expects( $this->once() )->method( 'search' )
-			->will( $this->returnValue( [$item] ) );
+			->will( $this->returnValue( new \Aimeos\Map( [$item] ) ) );
 
-		$this->assertEquals( [$item], $this->object->search( $total ) );
+		$this->assertEquals( [$item], $this->object->search( $total )->toArray() );
 	}
 
 

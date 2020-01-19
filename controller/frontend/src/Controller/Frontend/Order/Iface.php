@@ -73,10 +73,10 @@ interface Iface
 	 * Returns the orders filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found attributes will be stored in
-	 * @return \Aimeos\MShop\Order\Item\Iface[] Ordered list of order items
+	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Order\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array;
+	public function search( int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned orders for slicing the list of found orders

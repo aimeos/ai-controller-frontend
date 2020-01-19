@@ -268,9 +268,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$search = $baseManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '53.50' ) );
 
-		$items = $baseManager->searchItems( $search, ['order/base/product'] );
-
-		if( ( $basket = reset( $items ) ) === false ) {
+		if( ( $basket = $baseManager->searchItems( $search, ['order/base/product'] )->first() ) === null ) {
 			throw new \Exception( sprintf( 'No order base item found for price "%1$s"', '53,50' ) );
 		}
 
@@ -302,7 +300,8 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['getAttributes'] )
 			->getMock();
 
-		$object->expects( $this->once() )->method( 'getAttributes' )->will( $this->returnValue( [1 => $attrItem] ) );
+		$object->expects( $this->once() )->method( 'getAttributes' )
+			->will( $this->returnValue( \Aimeos\Map::from( [1 => $attrItem] ) ) );
 
 		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], ['1' => 'test']] );
 
@@ -320,9 +319,8 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'customer.address.company', $company ) );
-		$items = $manager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( sprintf( 'No address item with company "%1$s" found', $company ) );
 		}
 

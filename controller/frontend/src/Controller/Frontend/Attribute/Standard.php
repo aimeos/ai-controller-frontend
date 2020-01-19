@@ -198,10 +198,10 @@ class Standard
 	 * Returns the attributes filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found attributes will be stored in
-	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Ordered list of attribute items
+	 * @return \Aimeos\Map Ordered list of attribute items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array
+	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$expr = array_merge( $this->conditions, [$this->filter->compare( '==', 'attribute.domain', $this->domain )] );
 		$this->filter->setConditions( $this->filter->combine( '&&', $expr ) );

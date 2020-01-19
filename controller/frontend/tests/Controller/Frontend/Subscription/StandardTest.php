@@ -144,11 +144,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getSubscriptionId()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
+
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'order.base.customerid', $this->context->getUserId() ) );
-		$result = $manager->searchItems( $search );
 
-		if( ( $item = reset( $result ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( 'No subscription item found' );
 		}
 

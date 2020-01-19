@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$items = $this->object->uses( ['product'] )->getPath( $item->getId() );
 
 		$this->assertEquals( 3, count( $items ) );
-		$this->assertEquals( 2, count( current( array_reverse( $items, true ) )->getRefItems( 'product' ) ) );
+		$this->assertEquals( 2, count( $items->last()->getRefItems( 'product' ) ) );
 
 		foreach( $items as $item ) {
 			$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $item );
@@ -85,7 +85,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		}
 
 		$this->assertEquals( 2, count( $tree->getChildren() ) );
-		$this->assertEquals( 4, count( current( array_reverse( $tree->toList(), true ) )->getRefItems( 'product' ) ) );
+		$this->assertEquals( 4, count( $tree->toList()->last()->getRefItems( 'product' ) ) );
 	}
 
 
@@ -113,7 +113,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$items = $this->object->uses( ['product'] )->compare( '==', 'catalog.code', 'cafe' )->search( $total );
 
 		$this->assertCount( 1, $items );
-		$this->assertEquals( 2, count( current( $items )->getRefItems( 'product' ) ) );
+		$this->assertEquals( 2, count( $items->first()->getRefItems( 'product' ) ) );
 	}
 
 
@@ -129,7 +129,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$root = $manager->findItem( 'root' );
 		$item = $manager->findItem( 'cafe' );
-		$catIds = array_keys( $manager->getPath( $item->getId() ) );
+		$catIds = $manager->getPath( $item->getId() )->keys()->toArray();
 
 		$result = $this->object->root( $root->getId() )->visible( $catIds )->getTree();
 

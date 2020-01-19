@@ -50,9 +50,7 @@ class Category
 
 		$search->setConditions( $search->combine( '&&', [$search->getConditions(), $search->combine( '||', $expr )] ) );
 
-		$result = $manager->searchItems( $search );
-
-		if( reset( $result ) === false )
+		if( $manager->searchItems( $search )->isEmpty() )
 		{
 			$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $product->getId() ) );

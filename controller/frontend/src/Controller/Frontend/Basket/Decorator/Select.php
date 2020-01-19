@@ -53,24 +53,24 @@ class Select
 		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem();
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product );
 
-		$product = $this->getArticle( $product, $variant );
-		$orderBaseProductItem->setProductCode( $product->getCode() );
+		$productItem = $this->getArticle( $product, $variant );
+		$orderBaseProductItem->setProductCode( $productItem->getCode() );
 
-		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
-		$this->checkListRef( [$prodId, $product->getId()], 'attribute', $attributeMap );
+		$this->checkAttributes( [$product, $productItem], 'custom', array_keys( $custom ) );
+		$this->checkAttributes( [$product, $productItem], 'config', array_keys( $config ) );
 
-		if( ( $subprices = $product->getRefItems( 'price', 'default', 'default' ) ) !== [] ) {
+		if( ( $subprices = $productItem->getRefItems( 'price', 'default', 'default' ) ) !== [] ) {
 			$prices = $subprices;
 		}
 
-		if( ( $mediaItems = $product->getRefItems( 'media', 'default', 'default' ) ) !== [] ) {
+		if( ( $mediaItems = $productItem->getRefItems( 'media', 'default', 'default' ) ) !== [] ) {
 			$orderBaseProductItem->setMediaUrl( current( $mediaItems )->getPreview() );
 		}
 
-		$hidden += $product->getRefItems( 'attribute', null, 'hidden' );
+		$hidden += $productItem->getRefItems( 'attribute', null, 'hidden' );
 
 		$orderProductAttrManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
-		$attributes = $product->getRefItems( 'attribute', null, 'variant' );
+		$attributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
 		foreach( $this->getAttributes( array_keys( $attributes ), ['text'] ) as $attrItem ) {
 			$attr[] = $orderProductAttrManager->createItem()->copyFrom( $attrItem )->setType( 'variant' );

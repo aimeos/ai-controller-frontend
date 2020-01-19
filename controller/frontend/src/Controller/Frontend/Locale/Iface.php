@@ -52,10 +52,10 @@ interface Iface
 	 * Returns the locales filtered by the previously assigned conditions
 	 *
 	 * @param int|null &$total Parameter where the total number of found locales will be stored in
-	 * @return \Aimeos\MShop\Locale\Item\Iface[] Ordered list of locale items
+	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array;
+	public function search( int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned locale items for slicing the list of found locale items

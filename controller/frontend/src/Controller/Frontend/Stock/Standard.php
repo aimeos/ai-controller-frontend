@@ -131,10 +131,10 @@ class Standard
 	 * Returns the stock items filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found stock items will be stored in
-	 * @return \Aimeos\MShop\Stock\Item\Iface[] Ordered list of stock items
+	 * @return \Aimeos\Map Ordered list of stock items implementing \Aimeos\MShop\Stock\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array
+	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, [], $total );

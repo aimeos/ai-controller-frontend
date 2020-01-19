@@ -161,13 +161,12 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/basket/limit-seconds', 300 );
 
-		$search = $this->manager->createSearch();
+		$search = $this->manager->createSearch()->setSlice( 0, 0 );
 		$expr = [
 			$search->compare( '==', 'order.base.editor', $context->getEditor() ),
 			$search->compare( '>=', 'order.base.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
 		];
 		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSlice( 0, 0 );
 
 		$this->manager->searchItems( $search, [], $total );
 
@@ -224,8 +223,8 @@ class Standard
 		int $quantity = 1, array $variant = [], array $config = [], array $custom = [],
 		string $stocktype = 'default', string $supplier = '', string $siteid = null ) : Iface
 	{
-		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
-		$this->checkListRef( $product->getId(), 'attribute', $attributeMap );
+		$this->checkAttributes( [$product], 'custom', array_keys( $custom ) );
+		$this->checkAttributes( [$product], 'config', array_keys( $config ) );
 
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );

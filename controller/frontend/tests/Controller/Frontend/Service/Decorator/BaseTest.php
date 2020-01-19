@@ -147,9 +147,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'service' )->createItem();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
-			->will( $this->returnValue( [$item] ) );
+			->will( $this->returnValue( new \Aimeos\Map( [$item] ) ) );
 
-		$this->assertEquals( [$item], $this->object->search( $total ) );
+		$this->assertEquals( [$item], $this->object->search( $total )->toArray() );
 	}
 
 

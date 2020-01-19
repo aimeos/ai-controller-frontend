@@ -45,8 +45,8 @@ class Bundle
 			return $this;
 		}
 
-		$attributeMap = ['custom' => array_keys( $custom ), 'config' => array_keys( $config )];
-		$this->checkListRef( $product->getId(), 'attribute', $attributeMap );
+		$this->checkAttributes( [$product], 'custom', array_keys( $custom ) );
+		$this->checkAttributes( [$product], 'config', array_keys( $config ) );
 
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );

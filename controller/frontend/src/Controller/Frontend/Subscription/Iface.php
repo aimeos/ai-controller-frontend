@@ -75,10 +75,10 @@ interface Iface
 	 * Returns the subscriptions filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found subscriptions will be stored in
-	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
+	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Subscription\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array;
+	public function search( int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned subscription items for slicing the list of found subscription items

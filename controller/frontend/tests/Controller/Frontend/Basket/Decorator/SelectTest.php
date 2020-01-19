@@ -67,9 +67,9 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'attribute.code', array( 'xs', 'white' ) ) );
 
-		$attrs = $manager->searchItems( $search );
+		$attrIds = $manager->searchItems( $search )->keys();
 
-		if( count( $attrs ) === 0 ) {
+		if( $attrIds->isEmpty() ) {
 			throw new \RuntimeException( 'Attributes not found' );
 		}
 
@@ -77,7 +77,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
 
-		$result = $this->object->addProduct( $item, 1, array_keys( $attrs ), [], [], 'default', 'unitsupplier' );
+		$result = $this->object->addProduct( $item, 1, $attrIds->toArray(), [], [], 'default', 'unitsupplier' );
 
 		$this->assertSame( $this->object, $result );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );

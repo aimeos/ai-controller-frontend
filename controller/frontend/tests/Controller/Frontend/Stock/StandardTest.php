@@ -98,14 +98,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortStock()
 	{
 		$result = $this->object->sort( 'stock' )->search();
-		$this->assertStringStartsWith( 'U:TEST', reset( $result )->getProductCode() );
+		$this->assertStringStartsWith( 'U:TEST', $result->first()->getProductCode() );
 	}
 
 
 	public function testSortStockDesc()
 	{
 		$result = $this->object->sort( '-stock' )->search();
-		$this->assertStringStartsWith( 'U:TEST', end( $result )->getProductCode() );
+		$this->assertStringStartsWith( 'U:TEST', $result->last()->getProductCode() );
 	}
 
 

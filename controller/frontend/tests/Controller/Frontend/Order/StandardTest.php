@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );
 		$items = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1 ) );
 
-		if( ( $item = reset( $items ) ) === null ) {
+		if( ( $item = $items->first() ) === null ) {
 			throw new \RuntimeException( 'No order item found' );
 		}
 
@@ -89,7 +89,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$total = 0;
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
 
-		$this->assertGreaterThanOrEqual( 10, $object->search( $total ) );
+		$this->assertGreaterThanOrEqual( 4, $object->search( $total )->count() );
 	}
 
 
@@ -140,9 +140,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->getConfig()->set( 'controller/frontend/order/limit-seconds', 86400 * 365 );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );
-		$result = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1 ) );
+		$items = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1 ) );
 
-		if( ( $item = reset( $result ) ) === false ) {
+		if( ( $item = $items->first() ) === false ) {
 			throw new \RuntimeException( 'No order base item found' );
 		}
 

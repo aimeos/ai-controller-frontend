@@ -182,10 +182,10 @@ class Standard
 	 * Returns the categories filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found categories will be stored in
-	 * @return \Aimeos\MShop\Catalog\Item\Iface[] Ordered list of catalog items
+	 * @return \Aimeos\Map Ordered list of catalog items implementing \Aimeos\MShop\Catalog\Item\Iface
 	 * @since 2019.10
 	 */
-	public function search( int &$total = null ) : array
+	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, $this->domains, $total );

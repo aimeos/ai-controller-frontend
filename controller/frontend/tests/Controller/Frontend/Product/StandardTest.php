@@ -170,7 +170,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 8, count( $items ) );
 		$this->assertEquals( 8, $total );
-		$this->assertEquals( 2, count( current( $items )->getRefItems( 'price' ) ) );
+		$this->assertEquals( 2, count( $items->first()->getRefItems( 'price' ) ) );
 	}
 
 
@@ -201,14 +201,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortCode()
 	{
 		$result = $this->object->sort( 'code' )->search();
-		$this->assertEquals( 'CNC', reset( $result )->getCode() );
+		$this->assertEquals( 'CNC', $result->first()->getCode() );
 	}
 
 
 	public function testSortCodeDesc()
 	{
 		$result = $this->object->sort( '-code' )->search();
-		$this->assertStringStartsWith( 'U:', reset( $result )->getCode() );
+		$this->assertStringStartsWith( 'U:', $result->first()->getCode() );
 	}
 
 
@@ -227,32 +227,32 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortName()
 	{
 		$result = $this->object->uses( ['text'] )->sort( 'name' )->search();
-		$this->assertEquals( 'Cafe Noire Cappuccino', reset( $result )->getName() );
+		$this->assertEquals( 'Cafe Noire Cappuccino', $result->first()->getName() );
 	}
 
 
 	public function testSortNameDesc()
 	{
 		$result = $this->object->uses( ['text'] )->sort( '-name' )->search();
-		$this->assertEquals( 'Unterproduct 3', reset( $result )->getName() );
+		$this->assertEquals( 'Unterproduct 3', $result->first()->getName() );
 	}
 
 
 	public function testSortPrice()
 	{
 		$result = $this->object->uses( ['price'] )->sort( 'price' )->search();
-		$prices = reset( $result )->getRefItems( 'price', 'default', 'default' );
+		$prices = $result->first()->getRefItems( 'price', 'default', 'default' );
 
-		$this->assertEquals( '12.00', reset( $prices )->getValue() );
+		$this->assertEquals( '12.00', current( $prices )->getValue() );
 	}
 
 
 	public function testSortPriceDesc()
 	{
 		$result = $this->object->uses( ['price'] )->sort( '-price' )->search();
-		$prices = reset( $result )->getRefItems( 'price', 'default', 'default' );
+		$prices = $result->first()->getRefItems( 'price', 'default', 'default' );
 
-		$this->assertEquals( '600.00', reset( $prices )->getValue() );
+		$this->assertEquals( '600.00', current( $prices )->getValue() );
 	}
 
 
@@ -264,8 +264,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->object->category( $catId )->sort( 'relevance' )->search();
 
 		$this->assertEquals( 3, count( $result ) );
-		$this->assertEquals( 'CNE', reset( $result )->getCode() );
-		$this->assertEquals( 'U:BUNDLE', end( $result )->getCode() );
+		$this->assertEquals( 'CNE', $result->first()->getCode() );
+		$this->assertEquals( 'U:BUNDLE', $result->last()->getCode() );
 	}
 
 
@@ -277,8 +277,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->object->supplier( $supId )->sort( 'relevance' )->search();
 
 		$this->assertEquals( 2, count( $result ) );
-		$this->assertEquals( 'CNC', reset( $result )->getCode() );
-		$this->assertEquals( 'CNE', end( $result )->getCode() );
+		$this->assertEquals( 'CNC', $result->first()->getCode() );
+		$this->assertEquals( 'CNE', $result->last()->getCode() );
 	}
 
 

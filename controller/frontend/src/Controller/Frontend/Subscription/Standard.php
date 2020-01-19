@@ -100,9 +100,7 @@ class Standard
 		];
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
 
-		$items = $this->manager->searchItems( $filter );
-
-		if( ( $item = reset( $items ) ) === false )
+		if( ( $item = $this->manager->searchItems( $filter )->first() ) === null )
 		{
 			$msg = 'Invalid subscription ID "%1$s" for customer ID "%2$s"';
 			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $context->getUserId() ) );
@@ -172,10 +170,10 @@ class Standard
 	 * Returns the subscriptions filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found subscriptions will be stored in
-	 * @return \Aimeos\MShop\Subscription\Item\Iface[] Ordered list of subscription items
+	 * @return \Aimeos\Map Ordered list of subscription items implementing \Aimeos\MShop\Subscription\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : array
+	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 		return $this->manager->searchItems( $this->filter, [], $total );

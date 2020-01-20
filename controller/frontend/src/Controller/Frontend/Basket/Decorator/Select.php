@@ -46,7 +46,6 @@ class Select
 		}
 
 		$attr = [];
-		$prodId = $product->getId();
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 

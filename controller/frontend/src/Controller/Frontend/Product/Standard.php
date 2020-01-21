@@ -101,7 +101,7 @@ class Standard
 		{
 			if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 			{
-				$list = new \Aimeos\Map();
+				$list = map();
 				$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' );
 
 				foreach( $ids as $catId ) {

@@ -351,7 +351,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function getAttributes( array $attributeIds, array $domains = ['text'] ) : \Aimeos\Map
 	{
 		if( empty( $attributeIds ) ) {
-			return new \Aimeos\Map();
+			return map();
 		}
 
 		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
@@ -389,7 +389,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function getAttributeItems( array $orderAttributes ) : \Aimeos\Map
 	{
 		if( empty( $orderAttributes ) ) {
-			return new \Aimeos\Map();
+			return map();
 		}
 
 		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );

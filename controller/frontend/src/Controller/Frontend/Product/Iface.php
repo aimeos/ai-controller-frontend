@@ -23,10 +23,12 @@ interface Iface
 	 * Returns the aggregated count of products for the given key.
 	 *
 	 * @param string $key Search key to aggregate for, e.g. "index.attribute.id"
-	 * @return array Associative list of key values as key and the product count for this key as value
+	 * @param string|null $value Search key for aggregating the value column
+	 * @param string|null $type Type of the aggregation, empty string for count or "sum" or "avg" (average)
+	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
 	 * @since 2019.04
 	 */
-	public function aggregate( string $key );
+	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map;
 
 	/**
 	 * Adds attribute IDs for filtering where products must reference all IDs

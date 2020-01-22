@@ -68,9 +68,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testAggregate()
 	{
 		$this->stub->expects( $this->once() )->method( 'aggregate' )
-			->will( $this->returnValue( [] ) );
+			->will( $this->returnValue( map() ) );
 
-		$this->assertEquals( [], $this->object->aggregate( 'test' ) );
+		$this->assertEquals( [], $this->object->aggregate( 'test' )->toArray() );
 	}
 
 

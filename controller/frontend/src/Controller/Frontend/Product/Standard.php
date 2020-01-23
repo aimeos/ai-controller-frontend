@@ -39,6 +39,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'index' );
 		$this->filter = $this->manager->createSearch( true );
+		$this->sort[] = $this->filter->sort( '+', 'product.id' );
 		$this->conditions[] = $this->filter->compare( '!=', 'index.catalog.id', null );
 		$this->conditions[] = $this->filter->getConditions();
 	}

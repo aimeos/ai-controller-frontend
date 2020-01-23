@@ -120,6 +120,7 @@ class Standard
 
 			$func = $this->filter->createFunction( 'sort:index.catalog:position', [$listtype, $ids] );
 			$this->sort[] = $this->filter->sort( '+', $func );
+			$this->sort[] = $this->filter->sort( '+', 'product.id' ); // prevent flaky order if products have same position
 		}
 
 		return $this;

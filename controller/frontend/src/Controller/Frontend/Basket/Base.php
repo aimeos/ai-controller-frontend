@@ -24,16 +24,16 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Calculates and returns the current price for the given order product and product prices.
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $product Ordered product item
-	 * @param \Aimeos\MShop\Price\Item\Iface[] $prices List of price items
+	 * @param \Aimeos\Map $prices List of price items implementing \Aimeos\MShop\Price\Item\Iface
 	 * @param int $quantity New product quantity
 	 * @return \Aimeos\MShop\Price\Item\Iface Price item with calculated price
 	 */
 	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $product,
-		array $prices, int $quantity ) : \Aimeos\MShop\Price\Item\Iface
+		\Aimeos\Map $prices, int $quantity ) : \Aimeos\MShop\Price\Item\Iface
 	{
 		$context = $this->getContext();
 
-		if( empty( $prices ) )
+		if( $prices->isEmpty() )
 		{
 			$item = \Aimeos\MShop::create( $context, 'product' )->getItem( $product->getProductId(), ['price'] );
 			$prices = $item->getRefItems( 'price', 'default', 'default' );
@@ -63,10 +63,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		// add prices of (optional) attributes
 		foreach( $orderAttributes as $orderAttrItem )
 		{
-			$attrId = $orderAttrItem->getAttributeId();
-
-			if( isset( $attrItems[$attrId] )
-				&& ( $prices = $attrItems[$attrId]->getRefItems( 'price', 'default', 'default' ) ) !== []
+			if( ( $attrItem = $attrItems->get( $orderAttrItem->getAttributeId() ) ) !== null
+				&& !( $prices = $attrItem->getRefItems( 'price', 'default', 'default' ) )->isEmpty()
 			) {
 				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity() );
 				$price = $price->addItem( $attrPrice, $orderAttrItem->getQuantity() );
@@ -88,13 +86,13 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function checkAttributes( array $products, string $listType, array $refIds )
 	{
-		$attrIds = [];
+		$attrIds = map();
 
 		foreach( $products as $product ) {
-			$attrIds += array_keys( $product->getRefItems( 'attribute', null, $listType ) );
+			$attrIds->merge( $product->getRefItems( 'attribute', null, $listType )->keys() );
 		}
 
-		if( count( array_intersect( $refIds, $attrIds ) ) !== count( $refIds ) )
+		if( $attrIds->intersect( $refIds )->count() !== count( $refIds ) )
 		{
 			$i18n = $this->getContext()->getI18n();
 			$prodIds = \Aimeos\Map::from( $products )->getId()->join( ', ' );

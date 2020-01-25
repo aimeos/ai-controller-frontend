@@ -58,26 +58,26 @@ class Select
 		$this->checkAttributes( [$product, $productItem], 'custom', array_keys( $custom ) );
 		$this->checkAttributes( [$product, $productItem], 'config', array_keys( $config ) );
 
-		if( ( $subprices = $productItem->getRefItems( 'price', 'default', 'default' ) ) !== [] ) {
+		if( !( $subprices = $productItem->getRefItems( 'price', 'default', 'default' ) )->isEmpty() ) {
 			$prices = $subprices;
 		}
 
-		if( ( $mediaItems = $productItem->getRefItems( 'media', 'default', 'default' ) ) !== [] ) {
-			$orderBaseProductItem->setMediaUrl( current( $mediaItems )->getPreview() );
+		if( ( $mediaItem = $productItem->getRefItems( 'media', 'default', 'default' ) )->first() ) {
+			$orderBaseProductItem->setMediaUrl( $mediaItem->getPreview() );
 		}
 
-		$hidden += $productItem->getRefItems( 'attribute', null, 'hidden' );
+		$hidden->union( $productItem->getRefItems( 'attribute', null, 'hidden' ) );
 
 		$orderProductAttrManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
 		$attributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
-		foreach( $this->getAttributes( array_keys( $attributes ), ['text'] ) as $attrItem ) {
+		foreach( $this->getAttributes( $attributes->keys()->toArray(), ['text'] ) as $attrItem ) {
 			$attr[] = $orderProductAttrManager->createItem()->copyFrom( $attrItem )->setType( 'variant' );
 		}
 
 		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
 		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
-		$hideAttr = $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) );
+		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
 
 		$orderBaseProductItem = $orderBaseProductItem->setQuantity( $quantity )
 			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) )

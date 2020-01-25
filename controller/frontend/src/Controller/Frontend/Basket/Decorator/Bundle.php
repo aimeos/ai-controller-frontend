@@ -53,7 +53,7 @@ class Bundle
 
 		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
 		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
-		$hideAttr = $this->getOrderProductAttributes( 'hidden', array_keys( $hidden ) );
+		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
 
 		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem();
 

@@ -102,8 +102,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
 		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product );
 
-		$priceItems = $product->getRefItems( 'price' );
-		$ordProdItem->setPrice( reset( $priceItems ) );
+		$ordProdItem->setPrice( $product->getRefItems( 'price' )->first() );
 
 		$ordBaseItem->addProduct( $ordProdItem );
 		$ordBaseItem->addCoupon( 'OPQR', [] );

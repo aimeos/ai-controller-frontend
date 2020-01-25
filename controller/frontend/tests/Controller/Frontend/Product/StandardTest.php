@@ -243,7 +243,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->object->uses( ['price'] )->sort( 'price' )->search();
 		$prices = $result->first()->getRefItems( 'price', 'default', 'default' );
 
-		$this->assertEquals( '12.00', current( $prices )->getValue() );
+		$this->assertEquals( '12.00', $prices->first()->getValue() );
 	}
 
 
@@ -252,7 +252,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->object->uses( ['price'] )->sort( '-price' )->search();
 		$prices = $result->first()->getRefItems( 'price', 'default', 'default' );
 
-		$this->assertEquals( '600.00', current( $prices )->getValue() );
+		$this->assertEquals( '600.00', $prices->first()->getValue() );
 	}
 
 

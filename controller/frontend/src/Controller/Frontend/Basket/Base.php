@@ -381,12 +381,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Returns the attribute items using the given order attribute items.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Attribute\Item[] $orderAttributes List of order product attribute items
+	 * @param \Aimeos\Map $orderAttributes List of items implementing \Aimeos\MShop\Order\Item\Base\Product\Attribute\Iface
 	 * @return \Aimeos\Map List of attribute IDs as key and attribute items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 */
-	protected function getAttributeItems( array $orderAttributes ) : \Aimeos\Map
+	protected function getAttributeItems( \Aimeos\Map $orderAttributes ) : \Aimeos\Map
 	{
-		if( empty( $orderAttributes ) ) {
+		if( $orderAttributes->isEmpty() ) {
 			return map();
 		}
 

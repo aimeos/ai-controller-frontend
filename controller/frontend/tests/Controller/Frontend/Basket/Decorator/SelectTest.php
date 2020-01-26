@@ -170,7 +170,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $attributes ) );
 
 		$this->assertSame( $this->object, $result );
-		$this->assertEquals( 'hidden', reset( $attributes )->getType() );
+		$this->assertEquals( 'hidden', $attributes->first()->getType() );
 		$this->assertEquals( '29', $product->getAttribute( 'width', 'hidden' ) );
 	}
 }

@@ -300,7 +300,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getAttributes' )
-			->will( $this->returnValue( \Aimeos\Map::from( [1 => $attrItem] ) ) );
+			->will( $this->returnValue( map( [1 => $attrItem] ) ) );
 
 		$result = $this->access( 'getOrderProductAttributes' )->invokeArgs( $object, ['test', ['1'], ['1' => 'test']] );
 

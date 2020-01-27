@@ -95,7 +95,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		if( $attrIds->intersect( $refIds )->count() !== count( $refIds ) )
 		{
 			$i18n = $this->getContext()->getI18n();
-			$prodIds = \Aimeos\Map::from( $products )->getId()->join( ', ' );
+			$prodIds = map( $products )->getId()->join( ', ' );
 			$msg = $i18n->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, 'attribute', $prodIds ) );
 		}

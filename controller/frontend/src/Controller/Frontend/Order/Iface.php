@@ -104,4 +104,13 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function store() : \Aimeos\MShop\Order\Item\Iface;
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2020.04
+	 */
+	public function uses( array $domains ) : Iface;
 }

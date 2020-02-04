@@ -88,8 +88,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$total = 0;
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
+		$items = $object->uses( ['order/base'] )->search( $total );
 
-		$this->assertGreaterThanOrEqual( 4, $object->search( $total )->count() );
+		$this->assertGreaterThanOrEqual( 4, $items->count() );
+		$this->assertGreaterThanOrEqual( 4, $total );
+
+		foreach( $items as $item ) {
+			$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $item->getBaseItem() );
+		}
 	}
 
 
@@ -148,5 +154,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->expectException( \Aimeos\Controller\Frontend\Order\Exception::class );
 		$this->object->add( $item->getId() )->store();
+	}
+
+
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['order/base'] ) );
 	}
 }

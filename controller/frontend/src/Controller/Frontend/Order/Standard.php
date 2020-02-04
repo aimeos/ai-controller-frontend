@@ -23,6 +23,7 @@ class Standard
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	private $conditions = [];
+	private $domains = [];
 	private $manager;
 	private $filter;
 	private $item;
@@ -96,7 +97,7 @@ class Standard
 	 */
 	public function get( string $id, bool $default = true ) : \Aimeos\MShop\Order\Item\Iface
 	{
-		return $this->manager->getItem( $id, [], $default );
+		return $this->manager->getItem( $id, $this->domains, $default );
 	}
 
 
@@ -139,7 +140,7 @@ class Standard
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
-		return $this->manager->searchItems( $this->filter, [], $total );
+		return $this->manager->searchItems( $this->filter, $this->domains, $total );
 	}
 
 
@@ -195,6 +196,20 @@ class Standard
 		$this->item = $this->manager->saveItem( $this->item );
 
 		return $cntl->block( $this->item );
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2019.04
+	 */
+	public function uses( array $domains ) : Iface
+	{
+		$this->domains = $domains;
+		return $this;
 	}
 
 

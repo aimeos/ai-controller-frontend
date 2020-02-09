@@ -25,11 +25,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $product Ordered product item
 	 * @param \Aimeos\Map $prices List of price items implementing \Aimeos\MShop\Price\Item\Iface
-	 * @param int $quantity New product quantity
+	 * @param float $quantity New product quantity
 	 * @return \Aimeos\MShop\Price\Item\Iface Price item with calculated price
 	 */
 	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $product,
-		\Aimeos\Map $prices, int $quantity ) : \Aimeos\MShop\Price\Item\Iface
+		\Aimeos\Map $prices, float $quantity ) : \Aimeos\MShop\Price\Item\Iface
 	{
 		$context = $this->getContext();
 

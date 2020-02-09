@@ -144,7 +144,7 @@ abstract class Base
 	 * Adds a product to the basket of the customer stored in the session
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Product to add including texts, media, prices, attributes, etc.
-	 * @param int $quantity Amount of products that should by added
+	 * @param float $quantity Amount of products that should by added
 	 * @param array $variant List of variant-building attribute IDs that identify an article in a selection product
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
@@ -155,7 +155,7 @@ abstract class Base
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product,
-		int $quantity = 1, array $variant = [], array $config = [], array $custom = [],
+		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
 		string $stocktype = 'default', string $supplier = '', string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		$this->controller->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier, $siteid );
@@ -180,10 +180,10 @@ abstract class Base
 	 * Edits the quantity of a product item in the basket.
 	 *
 	 * @param int $position Position number (key) of the order product item
-	 * @param int $quantity New quantiy of the product item
+	 * @param float $quantity New quantiy of the product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function updateProduct( int $position, int $quantity ) : \Aimeos\Controller\Frontend\Basket\Iface
+	public function updateProduct( int $position, float $quantity ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		$this->controller->updateProduct( $position, $quantity );
 		return $this;

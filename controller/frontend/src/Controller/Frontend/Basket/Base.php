@@ -23,28 +23,21 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Calculates and returns the current price for the given order product and product prices.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $product Ordered product item
+	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderProduct Ordered product item
 	 * @param \Aimeos\Map $prices List of price items implementing \Aimeos\MShop\Price\Item\Iface
 	 * @param float $quantity New product quantity
 	 * @return \Aimeos\MShop\Price\Item\Iface Price item with calculated price
 	 */
-	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $product,
+	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderProduct,
 		\Aimeos\Map $prices, float $quantity ) : \Aimeos\MShop\Price\Item\Iface
 	{
 		$context = $this->getContext();
-
-		if( $prices->isEmpty() )
-		{
-			$item = \Aimeos\MShop::create( $context, 'product' )->getItem( $product->getProductId(), ['price'] );
-			$prices = $item->getRefItems( 'price', 'default', 'default' );
-		}
-
 
 		$priceManager = \Aimeos\MShop::create( $context, 'price' );
 		$price = $priceManager->getLowestPrice( $prices, $quantity );
 
 		// customers can pay what they would like to pay
-		if( ( $attr = $product->getAttributeItem( 'price', 'custom' ) ) !== null )
+		if( ( $attr = $orderProduct->getAttributeItem( 'price', 'custom' ) ) !== null )
 		{
 			$amount = $attr->getValue();
 
@@ -57,7 +50,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$price = $price->setValue( $amount );
 		}
 
-		$orderAttributes = $product->getAttributeItems();
+		$orderAttributes = $orderProduct->getAttributeItems();
 		$attrItems = $this->getAttributeItems( $orderAttributes );
 
 		// add prices of (optional) attributes

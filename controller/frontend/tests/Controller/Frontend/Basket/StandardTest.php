@@ -261,7 +261,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductHigherQuantities()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL', ['price'] );
 
 		$result = $this->object->addProduct( $item, 2 );
 
@@ -273,7 +273,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductOptionalParameters()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL', ['price'] );
 
 		$product = $this->object->addProduct( $item, 2, [], [], [], 'stock', 'supplier', 123 )->get()->getProduct( 0 );
 

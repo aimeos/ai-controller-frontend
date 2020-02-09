@@ -168,6 +168,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddProductFractionalQuantity()
+	{
+		$basket = $this->object->get();
+		$manager = \Aimeos\MShop::create( $this->context, 'product' );
+		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item->setConfig( ['quantity-step' => '0.1'] );
+
+		$result1 = $this->object->addProduct( $item, 2.31 );
+		$this->assertEquals( 2.4, $this->object->get()->getProduct( 0 )->getQuantity() );
+	}
+
+
 	public function testAddProductCustomAttribute()
 	{
 		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'date' );

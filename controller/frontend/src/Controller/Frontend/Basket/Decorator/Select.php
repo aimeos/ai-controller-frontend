@@ -46,6 +46,7 @@ class Select
 		}
 
 		$attr = [];
+		$quantity = $this->checkQuantity( $product, $quantity );
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 

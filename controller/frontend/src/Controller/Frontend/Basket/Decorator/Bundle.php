@@ -45,6 +45,7 @@ class Bundle
 			return $this;
 		}
 
+		$quantity = $this->checkQuantity( $product, $quantity );
 		$this->checkAttributes( [$product], 'custom', array_keys( $custom ) );
 		$this->checkAttributes( [$product], 'config', array_keys( $config ) );
 
@@ -78,12 +79,12 @@ class Bundle
 	 * Adds the bundled products to the order product item.
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Bundle product item
-	 * @param int $quantity Amount of products that should by added
+	 * @param float $quantity Amount of products that should by added
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
 	 * @param string|null $supplier Unique supplier code the product is from
 	 * @return \Aimeos\MShop\Order\Item\Base\Product\Iface[] List of order product item from bundle
 	 */
-	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, int $quantity,
+	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, float $quantity,
 		string $stocktype, string $supplier = null ) : array
 	{
 		$orderProducts = [];

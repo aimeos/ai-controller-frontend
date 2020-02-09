@@ -223,6 +223,7 @@ class Standard
 		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
 		string $stocktype = 'default', string $supplier = '', string $siteid = null ) : Iface
 	{
+		$quantity = $this->checkQuantity( $product, $quantity );
 		$this->checkAttributes( [$product], 'custom', array_keys( $custom ) );
 		$this->checkAttributes( [$product], 'config', array_keys( $config ) );
 
@@ -279,21 +280,22 @@ class Standard
 	 */
 	public function updateProduct( int $position, float $quantity ) : Iface
 	{
-		$product = $this->get()->getProduct( $position );
+		$orderProduct = $this->get()->getProduct( $position );
 
-		if( $product->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
+		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
 			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
-		$productItem = $manager->findItem( $product->getProductCode(), array( 'price', 'text' ), true );
+		$product = $manager->findItem( $orderProduct->getProductCode(), array( 'price', 'text' ), true );
 
-		$price = $this->calcPrice( $product, $productItem->getRefItems( 'price', 'default' ), $quantity );
-		$product = $product->setQuantity( $quantity )->setPrice( $price );
+		$quantity = $this->checkQuantity( $product, $quantity );
+		$price = $this->calcPrice( $orderProduct, $product->getRefItems( 'price', 'default' ), $quantity );
+		$orderProduct = $orderProduct->setQuantity( $quantity )->setPrice( $price );
 
-		$this->baskets[$this->type] = $this->get()->addProduct( $product, $position );
+		$this->baskets[$this->type] = $this->get()->addProduct( $orderProduct, $position );
 		return $this->save();
 	}
 

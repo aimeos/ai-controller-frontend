@@ -70,6 +70,25 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
+	 * Returns the allowed quantity for the given product
+	 *
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item including referenced items
+	 * @param float $quantity New product quantity
+	 * @return float Updated quantity value
+	 */
+	protected function checkQuantity( \Aimeos\MShop\Product\Item\Iface $product, float $quantity ) : float
+	{
+		$step = $product->getConfigValue( 'quantity-step', 1 ) ?: 1;
+
+		if( fmod( $quantity, $step ) >= 0.0005 ) {
+			return ceil( $quantity / $step ) * $step;
+		}
+
+		return $quantity;
+	}
+
+
+	/**
 	 * Checks if the attribute IDs are really associated to the product
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item with referenced items

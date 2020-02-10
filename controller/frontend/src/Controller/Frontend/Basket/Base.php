@@ -78,10 +78,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function checkQuantity( \Aimeos\MShop\Product\Item\Iface $product, float $quantity ) : float
 	{
-		$step = $product->getConfigValue( 'quantity-step', 1 ) ?: 1;
+		$scale = $product->getScale();
 
-		if( fmod( $quantity, $step ) >= 0.0005 ) {
-			return ceil( $quantity / $step ) * $step;
+		if( fmod( $quantity, $scale ) >= 0.0005 ) {
+			return ceil( $quantity / $scale ) * $scale;
 		}
 
 		return $quantity;

@@ -360,8 +360,11 @@ class Standard
 	 */
 	public function addAddress( $type, array $values = [], $position = null )
 	{
-		foreach( $values as $key => $value ) {
-			$values[$key] = strip_tags( $value ); // prevent XSS
+		foreach( $values as $key => $value )
+		{
+			if( is_string( $value ) ) {
+				$values[$key] = strip_tags( $value ); // prevent XSS
+			}
 		}
 
 		$context = $this->getContext();

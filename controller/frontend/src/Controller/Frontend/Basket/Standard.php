@@ -365,7 +365,11 @@ class Standard
 	public function addAddress( string $type, array $values = [], int $position = null ) : Iface
 	{
 		foreach( $values as $key => $value ) {
-			$values[$key] = strip_tags( $value ); // prevent XSS
+			if( is_string( $value ) ) {
+				$values[$key] = strip_tags( $value ); // prevent XSS
+			}
+			// only apply the XSS checks on strings since all other value types must necessarily
+			// have come from a deserialization process, and thus must have been checked there
 		}
 
 		$context = $this->getContext();

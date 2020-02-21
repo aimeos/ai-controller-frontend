@@ -397,6 +397,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'order.base.address.email' => 'test@example.com',
 			'order.base.address.telefax' => '05554433222',
 			'order.base.address.website' => 'www.example.com',
+			'random key from a random manager' => [], // ups, not a string
 		);
 
 		$result = $this->object->addAddress( 'payment', $values );

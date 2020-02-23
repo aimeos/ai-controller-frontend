@@ -96,9 +96,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testGetIntervals()
 	{
 		$this->stub->expects( $this->once() )->method( 'getIntervals' )
-			->will( $this->returnValue( [] ) );
+			->will( $this->returnValue( map() ) );
 
-		$this->assertEquals( [], $this->object->getIntervals() );
+		$this->assertInstanceOf( \Aimeos\Map::class, $this->object->getIntervals() );
 	}
 
 

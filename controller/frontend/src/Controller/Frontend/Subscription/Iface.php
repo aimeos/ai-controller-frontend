@@ -50,9 +50,9 @@ interface Iface
 	/**
 	 * Returns the available interval attribute items
 	 *
-	 * @return \Aimeos\MShop\Attribute\Item\Iface[] Associative list of intervals as keys and interval attribute items as values
+	 * @return \Aimeos\Map Associative list of intervals as keys and items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 */
-	public function getIntervals();
+	public function getIntervals() : \Aimeos\Map;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions

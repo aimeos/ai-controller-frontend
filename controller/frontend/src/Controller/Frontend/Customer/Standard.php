@@ -164,11 +164,10 @@ class Standard
 	 * @param array $values Associative list of key/value pairs for populating the item
 	 * @return \Aimeos\MShop\Common\Item\Lists\Iface List item
 	 * @since 2019.04
-	 * @todo 2020.01 Rename to "createListsItem"
 	 */
 	public function createListItem( array $values = [] ) : \Aimeos\MShop\Common\Item\Lists\Iface
 	{
-		return $this->manager->createListsItem()->fromArray( $values );
+		return $this->manager->createListItem()->fromArray( $values );
 	}
 
 

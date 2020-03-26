@@ -118,9 +118,9 @@ class Standard
 	/**
 	 * Returns the service providers of the given type
 	 *
-	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
+	 * @return \Aimeos\Map List of service IDs as keys and service provider objects as values
 	 */
-	public function getProviders()
+	public function getProviders() : \Aimeos\Map
 	{
 		$list = [];
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
@@ -129,7 +129,7 @@ class Standard
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
 		}
 
-		return $list;
+		return map( $list );
 	}
 
 

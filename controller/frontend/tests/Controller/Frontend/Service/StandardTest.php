@@ -82,7 +82,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetProviders()
 	{
 		$providers = $this->object->getProviders( 'delivery' );
+
 		$this->assertGreaterThan( 0, count( $providers ) );
+		$this->assertInstanceOf( \Aimeos\Map::class, $providers );
 
 		foreach( $providers as $provider ) {
 			$this->assertInstanceOf( \Aimeos\MShop\Service\Provider\Iface::class, $provider );

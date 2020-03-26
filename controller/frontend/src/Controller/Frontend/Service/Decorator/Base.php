@@ -126,9 +126,9 @@ abstract class Base
 	/**
 	 * Returns the service providers for the given type
 	 *
-	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
+	 * @return \Aimeos\Map List of service IDs as keys and service provider objects as values
 	 */
-	public function getProviders()
+	public function getProviders() : \Aimeos\Map
 	{
 		return $this->controller->getProviders();
 	}

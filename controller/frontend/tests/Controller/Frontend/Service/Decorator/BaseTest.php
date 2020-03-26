@@ -118,9 +118,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testGetProviders()
 	{
 		$this->stub->expects( $this->once() )->method( 'getProviders' )
-			->will( $this->returnValue( [] ) );
+			->will( $this->returnValue( map() ) );
 
-		$this->assertEquals( [], $this->object->getProviders( 'payment' ) );
+		$this->assertEquals( [], $this->object->getProviders( 'payment' )->toArray() );
 	}
 
 

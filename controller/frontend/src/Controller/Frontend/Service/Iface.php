@@ -72,9 +72,9 @@ interface Iface
 	/**
 	 * Returns the service providers
 	 *
-	 * @return \Aimeos\MShop\Service\Provider\Iface[] List of service IDs as keys and service provider objects as values
+	 * @return \Aimeos\Map List of service IDs as keys and service provider objects as values
 	 */
-	public function getProviders();
+	public function getProviders() : \Aimeos\Map;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions

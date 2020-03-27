@@ -133,11 +133,11 @@ abstract class Base
 	/**
 	 * Returns the categories filtered by the previously assigned conditions
 	 *
-	 * @param int $level Constant from \Aimeos\MW\Tree\Manager\Base, e.g. LEVEL_ONE, LEVEL_LIST or LEVEL_TREE
+	 * @param int $level Tree level constant, e.g. ONE, LIST or TREE
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Category tree
 	 * @since 2019.04
 	 */
-	public function getTree( int $level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE ) : \Aimeos\MShop\Catalog\Item\Iface
+	public function getTree( int $level = \Aimeos\Controller\Frontend\Catalog\Iface::TREE ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
 		return $this->controller->getTree( $level );
 	}

@@ -63,7 +63,7 @@ class Select
 			$prices = $subprices;
 		}
 
-		if( ( $mediaItem = $productItem->getRefItems( 'media', 'default', 'default' ) )->first() ) {
+		if( $mediaItem = $productItem->getRefItems( 'media', 'default', 'default' )->first() ) {
 			$orderBaseProductItem->setMediaUrl( $mediaItem->getPreview() );
 		}
 

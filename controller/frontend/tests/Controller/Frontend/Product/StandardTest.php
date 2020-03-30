@@ -156,7 +156,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testResolve()
 	{
-		$item = $this->object->resolve( 'Cafe_Noire_Cappuccino' );
+		$item = $this->object->resolve( 'Cafe-Noire-Cappuccino' );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $item );
 		$this->assertEquals( 'Cafe Noire Cappuccino', $item->getLabel() );

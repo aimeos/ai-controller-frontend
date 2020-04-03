@@ -166,14 +166,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortType()
 	{
 		$result = $this->object->sort( 'type' )->search();
-		$this->assertEquals( 'unitcode', $result->first()->getCode() );
+		$this->assertEquals( 'delivery', current( $result )->getType() );
 	}
 
 
 	public function testSortTypeDesc()
 	{
 		$result = $this->object->sort( '-type' )->search();
-		$this->assertStringStartsWith( 'unitpaymentcode', $result->first()->getCode() );
+		$this->assertStringStartsWith( 'payment', current( $result )->getType() );
 	}
 
 

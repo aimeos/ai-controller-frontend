@@ -87,7 +87,7 @@ class Base
 			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Invalid domain "%1$s"', $domain ) );
 		}
 
-		$localClass = str_replace( ' ', '\\', ucwords( str_replace( '/', ' ', $domain ) ) );
+		$localClass = str_replace( '/', '\\', ucwords( $domain, '/' ) );
 		$config = $context->getConfig();
 
 		/** controller/frontend/common/decorators/default

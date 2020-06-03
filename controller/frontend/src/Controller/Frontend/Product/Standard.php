@@ -458,8 +458,10 @@ class Standard
 		{
 			$langid = $this->getContext()->getLocale()->getLanguageId();
 			$func = $this->filter->createFunction( 'index.text:relevance', [$langid, $text] );
+			$sortfunc = $this->filter->createFunction( 'sort:index.text:relevance', [$langid, $text] );
 
 			$this->conditions[] = $this->filter->compare( '>', $func, 0 );
+			$this->sort[] = $this->filter->sort( '-', $sortfunc );
 		}
 
 		return $this;

@@ -193,11 +193,25 @@ class Standard
 
 
 	/**
+	 * Sets the start value and the number of returned products for slicing the list of found products
+	 *
+	 * @param integer $start Start value of the first product in the list
+	 * @param integer $limit Number of returned products
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.10
+	 */
+	public function slice( $start, $limit )
+	{
+		$this->filter->setSlice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
 	 * Sets the sorting of the result list
 	 *
-	 * @param string|null $key Sorting of the result list like "name", "-name", "price", "-price", "code", "-code",
-	 * 	"ctime, "-ctime", "relevance" or comma separated combinations and null for no sorting
-	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @param string|null $key Search key for sorting of the result list and null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.10
 	 */
 	public function sort( $key = null )

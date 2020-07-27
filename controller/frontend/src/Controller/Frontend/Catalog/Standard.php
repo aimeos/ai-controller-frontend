@@ -193,6 +193,29 @@ class Standard
 
 
 	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting of the result list like "name", "-name", "price", "-price", "code", "-code",
+	 * 	"ctime, "-ctime", "relevance" or comma separated combinations and null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2019.10
+	 */
+	public function sort( $key = null )
+	{
+		$list = ( $key ? explode( ',', $key ) : $this->sort = [] );
+
+		foreach( $list as $sortkey )
+		{
+			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			$this->sort[] = $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) );
+		}
+
+		$this->filter->setSortations( $this->sort );
+		return $this;
+	}
+
+
+	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too

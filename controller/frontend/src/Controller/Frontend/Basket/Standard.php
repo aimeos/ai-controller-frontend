@@ -159,7 +159,7 @@ class Standard
 		 * @category Developer
 		 * @see controller/frontend/basket/limit-count
 		 */
-		$seconds = $config->get( 'controller/frontend/basket/limit-seconds', 300 );
+		$seconds = $config->get( 'controller/frontend/basket/limit-seconds', 900 );
 
 		$search = $this->manager->createSearch()->setSlice( 0, 0 );
 		$expr = [

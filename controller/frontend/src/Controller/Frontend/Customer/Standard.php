@@ -94,6 +94,8 @@ class Standard
 			$item = $item->setCode( $addrItem->getEmail() );
 		}
 
+		$item = $item->setPassword( $values['customer.password'] ?? '' );
+
 		$this->item = $item;
 		return $this;
 	}
@@ -187,7 +189,7 @@ class Standard
 	/**
 	 * Deletes a customer item that belongs to the current authenticated user
 	 *
-	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item including the referenced domains items
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function delete() : Iface
@@ -344,7 +346,7 @@ class Standard
 		 * @category Developer
 		 * @see controller/frontend/customer/limit-seconds
 		 */
-		$count = $config->get( 'controller/frontend/customer/limit-count', 5 );
+		$count = $config->get( 'controller/frontend/customer/limit-count', 3 );
 
 		/** controller/frontend/customer/limit-seconds
 		 * Customer account limitation time frame in seconds
@@ -362,7 +364,7 @@ class Standard
 		 * @category Developer
 		 * @see controller/frontend/customer/limit-count
 		 */
-		$seconds = $config->get( 'controller/frontend/customer/limit-seconds', 300 );
+		$seconds = $config->get( 'controller/frontend/customer/limit-seconds', 14400 );
 
 		$search = $this->manager->createSearch()->setSlice( 0, 0 );
 		$expr = [

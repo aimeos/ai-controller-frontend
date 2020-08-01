@@ -143,6 +143,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testStoreLimit()
 	{
+
+		$this->context->getConfig()->set( 'controller/frontend/order/limit-count', 1 );
 		$this->context->getConfig()->set( 'controller/frontend/order/limit-seconds', 86400 * 365 );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );

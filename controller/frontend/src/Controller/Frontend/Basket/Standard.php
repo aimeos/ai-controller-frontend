@@ -170,7 +170,7 @@ class Standard
 
 		$this->manager->searchItems( $search, [], $total );
 
-		if( $total > $count )
+		if( $total >= $count )
 		{
 			$msg = $context->getI18n()->dt( 'controller/frontend', 'Temporary order limit reached' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );

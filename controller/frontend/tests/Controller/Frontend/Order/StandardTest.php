@@ -143,16 +143,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testStoreLimit()
 	{
-
 		$this->context->getConfig()->set( 'controller/frontend/order/limit-count', 1 );
 		$this->context->getConfig()->set( 'controller/frontend/order/limit-seconds', 86400 * 365 );
 
 		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );
-		$items = $manager->searchItems( $manager->createSearch()->setSlice( 0, 1 ) );
+		$filter = $manager->filter()->add( 'order.base.price', '==', '53.50' );
+		$items = $manager->searchItems( $filter->setSlice( 0, 1 ) );
 
-		if( ( $item = $items->first() ) === false ) {
-			throw new \RuntimeException( 'No order base item found' );
-		}
+		$item = $items->first( new \RuntimeException( 'No order base item found' ) );
 
 		$this->expectException( \Aimeos\Controller\Frontend\Order\Exception::class );
 		$this->object->add( $item->getId() )->store();

@@ -242,7 +242,7 @@ class Standard
 		 * @see controller/frontend/basket/limit-count
 		 * @see controller/frontend/basket/limit-seconds
 		 */
-		 $count = $config->get( 'controller/frontend/order/limit-count', 5 );
+		 $count = $config->get( 'controller/frontend/order/limit-count', 3 );
 
 		/** controller/frontend/order/limit-seconds
 		 * Invoice limitation time frame in seconds
@@ -272,7 +272,7 @@ class Standard
 		$total = 0;
 		$this->manager->searchItems( $search, [], $total );
 
-		if( $total > $count ) {
+		if( $total >= $count ) {
 			throw new \Aimeos\Controller\Frontend\Order\Exception( sprintf( 'The order has already been created' ) );
 		}
 

@@ -375,7 +375,7 @@ class Standard
 
 		$this->manager->searchItems( $search, [], $total );
 
-		if( $total > $count ) {
+		if( $total >= $count ) {
 			throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'Temporary limit reached' ) );
 		}
 	}

@@ -73,8 +73,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'review' )->createItem();
-
 		$this->stub->expects( $this->once() )->method( 'delete' );
 
 		$this->assertSame( $this->object, $this->object->delete( '-1' ) );

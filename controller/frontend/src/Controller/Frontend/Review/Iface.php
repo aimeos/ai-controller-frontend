@@ -1,0 +1,123 @@
+<?php
+
+/**
+ * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
+ * @copyright Aimeos (aimeos.org), 2020
+ * @package Controller
+ * @subpackage Frontend
+ */
+
+
+namespace Aimeos\Controller\Frontend\Review;
+
+
+/**
+ * Interface for review frontend controllers
+ *
+ * @package Controller
+ * @subpackage Frontend
+ */
+interface Iface
+{
+	/**
+	 * Adds generic condition for filtering
+	 *
+	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
+	 * @param string $key Search key defined by the review manager, e.g. "review.status"
+	 * @param array|string $value Value or list of values to compare to
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function compare( string $operator, string $key, $value ) : Iface;
+
+	/**
+	 * Deletes the review item for the given ID
+	 *
+	 * @param string $id Unique review ID
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function delete( string $id ) : Iface;
+
+	/**
+	 * Sets the review domain for filtering
+	 *
+	 * @param string $domain Domain ("customer" or "product") of the reviewed items
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function domain( string $domain ) : Iface;
+
+	/**
+	 * Restricts the ratings to a specific domain item
+	 *
+	 * @param string $domain Domain the ratings belong to ("customer" or "product")
+	 * @param string $refid Id of the item the ratings belong to
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function for( string $domain, string $refid ) : Iface;
+
+	/**
+	 * Returns the review for the given review ID
+	 *
+	 * @param string $id Unique review ID
+	 * @return \Aimeos\MShop\Review\Item\Iface Review item including the referenced domains items
+	 * @since 2020.10
+	 */
+	public function get( string $id ) : \Aimeos\MShop\Review\Item\Iface;
+
+	/**
+	 * Returns the reviews for the logged-in user
+	 *
+	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
+	 * @since 2020.10
+	 */
+	public function list( int &$total = null ) : \Aimeos\Map;
+
+	/**
+	 * Parses the given array and adds the conditions to the list of conditions
+	 *
+	 * @param array $conditions List of conditions, e.g. ['>' => ['review.interval' => 'P0Y1M0W0D']]
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function parse( array $conditions ) : Iface;
+
+	/**
+	 * Saves the modified review item
+	 *
+	 * @param \Aimeos\MShop\Review\Item\Iface $item Review object
+	 * @return \Aimeos\MShop\Review\Item\Iface Saved review item
+	 */
+	public function save( \Aimeos\MShop\Review\Item\Iface $item ) : \Aimeos\MShop\Review\Item\Iface;
+
+	/**
+	 * Returns the reviews filtered by the previously assigned conditions
+	 *
+	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Review\Item\Iface
+	 * @since 2020.10
+	 */
+	public function search( int &$total = null ) : \Aimeos\Map;
+
+	/**
+	 * Sets the start value and the number of returned review items for slicing the list of found review items
+	 *
+	 * @param int $start Start value of the first review item in the list
+	 * @param int $limit Number of returned review items
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function slice( int $start, int $limit ) : Iface;
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Sorting key of the result list like "interval", null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function sort( string $key = null ) : Iface;
+}

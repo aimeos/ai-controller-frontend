@@ -195,12 +195,12 @@ class Standard
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products
 	 *
-	 * @param integer $start Start value of the first product in the list
-	 * @param integer $limit Number of returned products
+	 * @param int $start Start value of the first product in the list
+	 * @param int $limit Number of returned products
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.10
 	 */
-	public function slice( $start, $limit )
+	public function slice( int $start, int $limit ) : Iface
 	{
 		$this->filter->setSlice( $start, $limit );
 		return $this;
@@ -214,7 +214,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.10
 	 */
-	public function sort( $key = null )
+	public function sort( ?string $key = null ) : Iface
 	{
 		$list = ( $key ? explode( ',', $key ) : $this->sort = [] );
 

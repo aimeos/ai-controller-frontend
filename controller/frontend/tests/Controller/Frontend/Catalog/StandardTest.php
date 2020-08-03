@@ -117,6 +117,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSlice()
+	{
+		$this->assertEquals( 2, count( $this->object->slice( 0, 2 )->search() ) );
+	}
+
+
+	public function testSort()
+	{
+		$this->assertGreaterThanOrEqual( 8, count( $this->object->sort( 'catalog.label' )->search() ) );
+	}
+
+
 	public function testUses()
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );

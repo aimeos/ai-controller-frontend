@@ -107,6 +107,25 @@ interface Iface
 	public function search( int &$total = null ) : \Aimeos\Map;
 
 	/**
+	 * Sets the start value and the number of returned products for slicing the list of found products
+	 *
+	 * @param int $start Start value of the first product in the list
+	 * @param int $limit Number of returned products
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.10
+	 */
+	 public function slice( int $start, int $limit ) : Iface;
+
+	 /**
+	  * Sets the sorting of the result list
+	  *
+	  * @param string|null $key Search key for sorting of the result list and null for no sorting
+	  * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	  * @since 2019.10
+	  */
+	 public function sort( ?string $key = null ) : Iface;
+
+	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too

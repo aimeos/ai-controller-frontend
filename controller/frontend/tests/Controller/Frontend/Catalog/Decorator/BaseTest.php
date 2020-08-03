@@ -137,9 +137,27 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testUses()
+	public function testSearch()
 	{
-		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
+		$total = 0;
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
+
+		$this->stub->expects( $this->once() )->method( 'search' )
+			->will( $this->returnValue( map( [$item] ) ) );
+
+		$this->assertEquals( [$item], $this->object->search( $total )->toArray() );
+	}
+
+
+	public function testSlice()
+	{
+		$this->assertSame( $this->object, $this->object->slice( 0, 1 ) );
+	}
+
+
+	public function testSort()
+	{
+		$this->assertSame( $this->object, $this->object->sort( 'catalog.label' ) );
 	}
 
 

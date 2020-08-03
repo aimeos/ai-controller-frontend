@@ -170,6 +170,47 @@ abstract class Base
 		return $this;
 	}
 
+	/**
+	 * Returns the categories filtered by the previously assigned conditions
+	 *
+	 * @param int &$total Parameter where the total number of found categories will be stored in
+	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Catalog\Item\Iface
+	 * @since 2019.10
+	 */
+	 public function search( int &$total = null ) : \Aimeos\Map
+	 {
+		return $this->controller->search( $total );
+	 }
+
+
+	/**
+	 * Sets the start value and the number of returned products for slicing the list of found products
+	 *
+	 * @param int $start Start value of the first product in the list
+	 * @param int $limit Number of returned products
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.10
+	 */
+	public function slice( int $start, int $limit ) : \Aimeos\Controller\Frontend\Catalog\Iface
+	{
+		$this->controller->slice( $start, $limit );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the sorting of the result list
+	 *
+	 * @param string|null $key Search key for sorting of the result list and null for no sorting
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
+	 * @since 2019.10
+	 */
+	public function sort( ?string $key = null ) : \Aimeos\Controller\Frontend\Catalog\Iface
+	{
+		$this->controller->sort( $key );
+		return $this;
+	}
+
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items

@@ -23,6 +23,7 @@ class Standard
 {
 	private $conditions = [];
 	private $domains = [];
+	private $sort = [];
 	private $filter;
 	private $manager;
 	private $root;

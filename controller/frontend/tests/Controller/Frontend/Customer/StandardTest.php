@@ -49,6 +49,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddListItemGroup()
+	{
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+
+		$this->expectException( \Aimeos\Controller\Frontend\Customer\Exception::class );
+		$this->object->addListItem( 'customer/group', $listItem );
+	}
+
+
 	public function testAddPropertyItem()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
@@ -85,6 +94,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
 		$this->assertSame( $this->object, $this->object->deleteListItem( 'customer', $listItem ) );
+	}
+
+
+	public function testDeleteListItemGroup()
+	{
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+
+		$this->expectException( \Aimeos\Controller\Frontend\Customer\Exception::class );
+		$this->object->deleteListItem( 'customer/group', $listItem );
 	}
 
 

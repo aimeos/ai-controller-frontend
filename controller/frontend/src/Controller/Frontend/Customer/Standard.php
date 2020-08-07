@@ -128,6 +128,10 @@ class Standard
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
 		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
+		if( $domain === 'customer/group' ) {
+			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
+		}
+
 		$this->item = $this->item->addListItem( $domain, $item, $refItem );
 		return $this;
 	}
@@ -226,6 +230,10 @@ class Standard
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
 		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
+		if( $domain === 'customer/group' ) {
+			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
+		}
+
 		$this->item = $this->item->deleteListItem( $domain, $listItem, $refItem );
 		return $this;
 	}

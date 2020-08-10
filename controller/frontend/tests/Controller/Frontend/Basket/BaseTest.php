@@ -100,7 +100,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC', ['price'] );
 		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product );
+		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product )->setStockType( 'default' );
 
 		$ordProdItem->setPrice( $product->getRefItems( 'price' )->first() );
 
@@ -153,7 +153,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product );
+		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product )->setStockType( 'default' );
 		$ordBaseItem->addProduct( $ordProdItem );
 
 
@@ -180,7 +180,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'CNC' );
 		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product );
+		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product )->setStockType( 'default' );
 		$ordBaseItem->addProduct( $ordProdItem );
 
 

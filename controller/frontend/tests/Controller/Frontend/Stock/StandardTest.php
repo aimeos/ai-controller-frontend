@@ -36,7 +36,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCompare()
 	{
-		$this->assertEquals( 1, count( $this->object->compare( '==', 'stock.stocklevel', null )->search() ) );
+		$this->assertEquals( 7, count( $this->object->compare( '==', 'stock.stocklevel', null )->search() ) );
 	}
 
 
@@ -59,7 +59,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testParse()
 	{
 		$cond = ['||' => [['==' => ['stock.dateback' => null]], ['>=' => ['stock.dateback' => '2010-01-01 00:00:00']]]];
-		$this->assertEquals( 13, count( $this->object->parse( $cond )->search() ) );
+		$this->assertEquals( 19, count( $this->object->parse( $cond )->search() ) );
 	}
 
 

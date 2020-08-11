@@ -49,14 +49,14 @@ interface Iface
 	public function domain( string $domain ) : Iface;
 
 	/**
-	 * Restricts the ratings to a specific domain item
+	 * Restricts the reviews to a specific domain item
 	 *
-	 * @param string $domain Domain the ratings belong to ("customer" or "product")
-	 * @param string $refid Id of the item the ratings belong to
+	 * @param string $domain Domain the reviews belong to (e.g. "product")
+	 * @param string|null $refid Id of the item the reviews belong to or NULL for all reviews from the domain
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function for( string $domain, string $refid ) : Iface;
+	 public function for( string $domain, ?string $refid ) : Iface;
 
 	/**
 	 * Returns the review for the given review ID

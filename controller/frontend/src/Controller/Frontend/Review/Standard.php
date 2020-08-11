@@ -93,7 +93,7 @@ class Standard
 	/**
 	 * Sets the review domain for filtering
 	 *
-	 * @param string $domain Domain ("customer" or "product") of the reviewed items
+	 * @param string $domain Domain (e.g. "product") of the reviewed items
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
@@ -105,17 +105,21 @@ class Standard
 
 
 	/**
-	 * Restricts the ratings to a specific domain item
+	 * Restricts the reviews to a specific domain item
 	 *
-	 * @param string $domain Domain the ratings belong to ("customer" or "product")
-	 * @param string $refid Id of the item the ratings belong to
+	 * @param string $domain Domain the reviews belong to (e.g. "product")
+	 * @param string|null $refid Id of the item the reviews belong to or NULL for all reviews from the domain
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function for( string $domain, string $refid ) : Iface
+	public function for( string $domain, ?string $refid ) : Iface
 	{
 		$this->conditions['domain'] = $this->filter->compare( '==', 'review.domain', $domain );
-		$this->conditions['refid'] = $this->filter->compare( '==', 'review.refid', $refid );
+
+		if( $refid !== null ) {
+			$this->conditions['refid'] = $this->filter->compare( '==', 'review.refid', $refid );
+		}
+
 		return $this;
 	}
 
@@ -238,8 +242,8 @@ class Standard
 
 			switch( $sortkey )
 			{
-				case 'mtime':
-					$sort[] = $this->filter->sort( $direction, 'review.mtime' );
+				case 'ctime':
+					$sort[] = $this->filter->sort( $direction, 'review.ctime' );
 					break;
 				case 'rating':
 					$sort[] = $this->filter->sort( $direction, 'review.rating' );

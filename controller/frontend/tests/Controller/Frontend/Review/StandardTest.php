@@ -78,6 +78,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testForDomain()
+	{
+		$result = $this->object->for( 'product', null );
+
+		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Review\Iface::class, $result );
+		$this->assertCount( 1, $result->search() );
+	}
+
+
 	public function testGet()
 	{
 		$expected = \Aimeos\MShop\Review\Item\Iface::class;
@@ -145,9 +154,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testSortMtime()
+	public function testSortCtime()
 	{
-		$this->assertEquals( 2, count( $this->object->sort( 'mtime' )->search() ) );
+		$this->assertEquals( 2, count( $this->object->sort( 'ctime' )->search() ) );
 	}
 
 
@@ -159,7 +168,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSortGeneric()
 	{
-		$this->assertEquals( 2, count( $this->object->sort( 'review.customerid' )->search() ) );
+		$this->assertEquals( 2, count( $this->object->sort( 'review.mtime' )->search() ) );
 	}
 
 

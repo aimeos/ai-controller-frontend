@@ -129,7 +129,7 @@ class Standard
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' );
 		$item = $manager->getItem( $id, ['customer/group'], true );
 
-		unset( $values['customer.id'] );
+		unset( $values['customer.id'], $values['customer.groups'], $values['customer.status'] );
 		$item->fromArray( $values );
 
 		return $manager->saveItem( $item );

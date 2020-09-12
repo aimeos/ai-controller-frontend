@@ -22,7 +22,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Review\\Manager\\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['delete', 'saveItem'] )
+			->setMethods( ['delete', 'save'] )
 			->getMock();
 
 		\Aimeos\MShop::cache( true );
@@ -45,6 +45,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testCreate()
+	{
+		$item = $this->object->create( ['review.rating' => 5] );
+		$this->assertEquals( 5, $item->getRating() );
+	}
+
+
 	public function testDelete()
 	{
 		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId() );
@@ -52,13 +59,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->manager->expects( $this->once() )->method( 'delete' );
 
 		$this->assertSame( $this->object, $this->object->delete( $this->getReviewItem()->getId() ) );
-	}
-
-
-	public function testDeleteException()
-	{
-		$this->expectException( \Aimeos\Controller\Frontend\Review\Exception::class );
-		$this->object->delete( $this->getReviewItem()->getId() );
 	}
 
 
@@ -89,8 +89,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$expected = \Aimeos\MShop\Review\Item\Iface::class;
-		$this->assertInstanceOf( $expected, $this->object->get( $this->getReviewItem()->getId() ) );
+		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId() );
+		$result = $this->object->get( $this->getReviewItem() );
+		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $result );
 	}
 
 
@@ -116,14 +117,42 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSave()
 	{
+		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		$this->context->setUserId( $customerId );
 		$item = $this->getReviewItem();
-		$expected = \Aimeos\MShop\Review\Item\Iface::class;
-		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId() );
 
-		$this->manager->expects( $this->once() )->method( 'saveItem' )
+		$this->manager->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( $expected, $this->object->save( $item ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $this->object->save( $item ) );
+	}
+
+
+	public function testSaveCreate()
+	{
+		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		$this->context->setUserId( $customerId );
+
+		$item = $this->object->create( $this->getReviewItem()->setId( null )->toArray( true ) );
+
+		$this->manager->expects( $this->once() )->method( 'save' )
+			->will( $this->returnValue( (clone $item)->setId( 123 ) ) );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $this->object->save( $item ) );
+	}
+
+
+	public function testSaveInvalidDomain()
+	{
+		$this->expectException( \Aimeos\Controller\Frontend\Review\Exception::class );
+		$this->object->save( $this->getReviewItem()->setDomain( 'invalid' ) );
+	}
+
+
+	public function testSaveInvalidOrderProductId()
+	{
+		$this->expectException( \Aimeos\Controller\Frontend\Review\Exception::class );
+		$this->object->save( $this->getReviewItem()->setOrderProductId( 0 ) );
 	}
 
 

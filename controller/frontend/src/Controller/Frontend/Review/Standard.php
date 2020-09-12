@@ -36,7 +36,7 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'review' );
-		$this->filter = $this->manager->createSearch();
+		$this->filter = $this->manager->filter();
 	}
 
 
@@ -66,26 +66,30 @@ class Standard
 
 
 	/**
-	 * Deletes the review item for the given ID
+	 * Returns a new rating item
 	 *
-	 * @param string $id Unique review ID
+	 * @param array $vals Associative list of key/value pairs to initialize the item
+	 * @return \Aimeos\MShop\Review\Item\Iface New review item
+	 */
+	public function create( array $vals = [] ) : \Aimeos\MShop\Review\Item\Iface
+	{
+		return $this->manager->create()->setOrderProductId( $vals['review.orderproductid'] ?? '' )->fromArray( $vals );
+	}
+
+
+	/**
+	 * Deletes the review item for the given ID or IDs
+	 *
+	 * @param array|string $id Unique review ID or list of IDs
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function delete( string $id ) : Iface
+	public function delete( $ids ) : Iface
 	{
-		$item = $this->manager->get( $id );
+		$ids = (array) $ids;
+		$filter = $this->manager->filter()->add( ['review.id' => $ids] );
+		$this->manager->delete( $this->manager->search( $filter->slice( 0, count( $ids ) ) )->toArray() );
 
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
-		$filter = $manager->filter( true )->add( ['order.base.product.id' => $item->getOrderProductId()] );
-
-		if( $manager->search( $filter->slice( 0, 1 ) )->empty() )
-		{
-			$msg = sprintf( 'You are not allowed to delete the review' );
-			throw new \Aimeos\Controller\Frontend\Review\Exception( $msg );
-		}
-
-		$this->manager->delete( $id );
 		return $this;
 	}
 
@@ -171,23 +175,62 @@ class Standard
 
 
 	/**
-	 * Saves the modified review item
+	 * Adds or updates a review
 	 *
-	 * @param \Aimeos\MShop\Review\Item\Iface $item Review object
-	 * @return \Aimeos\MShop\Review\Item\Iface Saved review item
+	 * @param \Aimeos\MShop\Review\Item\Iface $item Review item including required data
+	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @since 2020.10
 	 */
 	public function save( \Aimeos\MShop\Review\Item\Iface $item ) : \Aimeos\MShop\Review\Item\Iface
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
-		$filter = $manager->filter( true )->add( ['order.base.product.id' => $item->getOrderProductId()] );
-
-		if( $manager->search( $filter->slice( 0, 1 ) )->empty() )
+		if( !in_array( $item->getDomain(), ['product'] ) )
 		{
-			$msg = sprintf( 'You are not allowed to add or change the review' );
+			$msg = sprintf( 'Domain "%1$s" is not supported', $item->getDomain() );
 			throw new \Aimeos\Controller\Frontend\Review\Exception( $msg );
 		}
 
-		return $this->manager->saveItem( $item );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, 'order/base' );
+
+		$filter = $manager->filter( true )->add( [
+			'order.base.product.id' => $item->getOrderProductId(),
+			'order.base.customerid' => $context->getUserId()
+		] );
+		$manager->search( $filter->slice( 0, 1 ) )->first( new \Aimeos\Controller\Frontend\Review\Exception(
+			sprintf( 'You can only add a review if you have ordered a product' )
+		) );
+
+		$orderProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->get( $item->getOrderProductId() );
+
+		$filter = $this->manager->filter()->add( [
+			'review.customerid' => $context->getUserId(),
+			'review.id' => $item->getId()
+		] );
+
+		$real = $this->manager->search( $filter->slice( 0, 1 ) )->first( $this->manager->create() );
+
+		$real = $real->setCustomerId( $context->getUserId() )
+			->setOrderProductId( $orderProductItem->getId() )
+			->setRefId( $orderProductItem->getProductId() )
+			->setComment( $item->getComment() )
+			->setRating( $item->getRating() )
+			->setName( $item->getName() )
+			->setDomain( 'product' );
+
+		$item =  $this->manager->save( $real );
+
+		$filter = $this->manager->filter( true )->add( [
+			'review.domain' => $item->getDomain(),
+			'review.refid' => $item->getRefId()
+		] );
+
+		if( $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first() )
+		{
+			$rateManager = \Aimeos\MShop::create( $context, $item->getDomain() );
+			$rateManager->rate( $item->getId(), $entry['sum'], $entry['count'] );
+		}
+
+		return $item;
 	}
 
 

@@ -71,6 +71,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testCreate()
+	{
+		$result = $this->object->create( ['review.rating' => 5] );
+		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $result );
+	}
+
+
 	public function testDelete()
 	{
 		$this->stub->expects( $this->once() )->method( 'delete' );

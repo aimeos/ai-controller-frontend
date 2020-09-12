@@ -79,6 +79,18 @@ abstract class Base
 
 
 	/**
+	 * Returns a new rating item
+	 *
+	 * @param array $values Associative list of key/value pairs to initialize the item
+	 * @return \Aimeos\MShop\Review\Item\Iface New review item
+	 */
+	public function create( array $values = [] ) : \Aimeos\MShop\Review\Item\Iface
+	{
+		return $this->controller->create( $values );
+	}
+
+
+	/**
 	 * Deletes the review item for the given ID
 	 *
 	 * @param string $id Unique review ID

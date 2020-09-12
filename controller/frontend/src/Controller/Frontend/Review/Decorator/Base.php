@@ -93,13 +93,13 @@ abstract class Base
 	/**
 	 * Deletes the review item for the given ID
 	 *
-	 * @param string $id Unique review ID
+	 * @param array|string $id Unique review ID or list of IDs
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function delete( string $id ) : \Aimeos\Controller\Frontend\Review\Iface
+	public function delete( $ids ) : \Aimeos\Controller\Frontend\Review\Iface
 	{
-		$this->controller->delete( $id );
+		$this->controller->delete( $ids );
 		return $this;
 	}
 

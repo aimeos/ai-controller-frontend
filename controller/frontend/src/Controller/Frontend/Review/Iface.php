@@ -33,11 +33,11 @@ interface Iface
 	/**
 	 * Deletes the review item for the given ID
 	 *
-	 * @param string $id Unique review ID
+	 * @param array|string $id Unique review ID or list of IDs
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function delete( string $id ) : Iface;
+	public function delete( $ids ) : Iface;
 
 	/**
 	 * Sets the review domain for filtering

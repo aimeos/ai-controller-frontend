@@ -217,7 +217,7 @@ class Standard
 			->setName( $item->getName() )
 			->setDomain( 'product' );
 
-		$item =  $this->manager->save( $real );
+		$item = $this->manager->save( $real );
 
 		$filter = $this->manager->filter( true )->add( [
 			'review.domain' => $item->getDomain(),

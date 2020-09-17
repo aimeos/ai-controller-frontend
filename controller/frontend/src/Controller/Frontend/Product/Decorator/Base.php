@@ -207,6 +207,20 @@ abstract class Base
 
 
 	/**
+	 * Adds price restrictions for filtering
+	 *
+	 * @param array|string $value Upper price limit, list of lower and upper price or NULL for no restrictions
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function price( $value = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	{
+		$this->controller->price( $value );
+		return $this;
+	}
+
+
+	/**
 	 * Adds product IDs for filtering
 	 *
 	 * @param array|string $prodIds Product ID or list of IDs

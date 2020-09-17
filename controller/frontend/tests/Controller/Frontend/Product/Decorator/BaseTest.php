@@ -145,6 +145,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPrice()
+	{
+		$this->assertSame( $this->object, $this->object->price( 0 ) );
+	}
+
+
 	public function testProduct()
 	{
 		$this->assertSame( $this->object, $this->object->product( [1, 3] ) );

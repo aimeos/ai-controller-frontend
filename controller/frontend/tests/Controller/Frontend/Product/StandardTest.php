@@ -137,6 +137,24 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPrice()
+	{
+		$this->assertEquals( 5, count( $this->object->price( 20 )->search() ) );
+	}
+
+
+	public function testPriceArray()
+	{
+		$this->assertEquals( 5, count( $this->object->price( [20] )->search() ) );
+	}
+
+
+	public function testPriceBoth()
+	{
+		$this->assertEquals( 3, count( $this->object->price( [15, 20] )->search() ) );
+	}
+
+
 	public function testProduct()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );

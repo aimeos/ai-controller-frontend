@@ -254,6 +254,31 @@ class Standard
 
 
 	/**
+	 * Adds price restrictions for filtering
+	 *
+	 * @param array|string $value Upper price limit, list of lower and upper price or NULL for no restrictions
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2020.10
+	 */
+	public function price( $value = null ) : Iface
+	{
+		if( $value )
+		{
+			$value = (array) $value;
+			$func = $this->filter->make( 'index.price:value', [$this->getContext()->getLocale()->getCurrencyId()] );
+
+			$this->conditions['price-high'] = $this->filter->compare( '<=', $func, sprintf( '%013.2F', end( $value ) ) );
+
+			if( count( $value ) > 1 ) {
+				$this->conditions['price-low'] = $this->filter->compare( '>=', $func, sprintf( '%013.2F', reset( $value ) ) );
+			}
+		}
+
+		return $this;
+	}
+
+
+	/**
 	 * Adds product IDs for filtering
 	 *
 	 * @param array|string $prodIds Product ID or list of IDs

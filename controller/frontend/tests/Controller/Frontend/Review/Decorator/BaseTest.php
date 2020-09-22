@@ -65,6 +65,15 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAggregate()
+	{
+		$this->stub->expects( $this->once() )->method( 'aggregate' )
+			->will( $this->returnValue( map() ) );
+
+		$this->assertEquals( [], $this->object->aggregate( 'test' )->toArray() );
+	}
+
+
 	public function testCompare()
 	{
 		$this->assertSame( $this->object, $this->object->compare( '==', 'supplier.status', 1 ) );

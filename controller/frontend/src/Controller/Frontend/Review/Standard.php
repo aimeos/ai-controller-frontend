@@ -36,7 +36,7 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'review' );
-		$this->filter = $this->manager->filter();
+		$this->filter = $this->manager->filter( true );
 	}
 
 
@@ -46,6 +46,25 @@ class Standard
 	public function __clone()
 	{
 		$this->filter = clone $this->filter;
+	}
+
+
+	/**
+	 * Returns the aggregated count of products for the given key.
+	 *
+	 * @param string $key Search key to aggregate for, e.g. "review.rating"
+	 * @param string|null $value Search key for aggregating the value column
+	 * @param string|null $type Type of the aggregation, empty string for count or "sum"
+	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
+	 * @since 2020.10
+	 */
+	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
+	{
+		$filter = clone $this->filter;
+		$cond = $filter->is( 'review.status', '>', 0 );
+
+		$this->filter->setConditions( $this->filter->combine( '&&', array_merge( $this->conditions, [$cond] ) ) );
+		return $this->manager->aggregate( $this->filter, $key, $value, $type );
 	}
 
 

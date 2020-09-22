@@ -39,6 +39,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAggregate()
+	{
+		$list = $this->object->domain( 'product' )->aggregate( 'review.rating' );
+
+		$this->assertEquals( 1, count( $list ) );
+		$this->assertEquals( 1, $list[4] );
+	}
+
+
 	public function testCompare()
 	{
 		$this->assertCount( 1, $this->object->compare( '==', 'review.domain', 'customer' )->search() );

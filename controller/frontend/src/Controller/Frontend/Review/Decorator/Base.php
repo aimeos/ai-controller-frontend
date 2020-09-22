@@ -63,6 +63,21 @@ abstract class Base
 
 
 	/**
+	 * Returns the aggregated count of products for the given key.
+	 *
+	 * @param string $key Search key to aggregate for, e.g. "review.rating"
+	 * @param string|null $value Search key for aggregating the value column
+	 * @param string|null $type Type of the aggregation, empty string for count or "sum"
+	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
+	 * @since 2020.10
+	 */
+	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
+	{
+		return $this->controller->aggregate( $key, $value, $type );
+	}
+
+
+	/**
 	 * Adds generic condition for filtering
 	 *
 	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="

@@ -44,7 +44,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductNoCategory()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'ABCD' );
+		$item = $manager->findItem( 'IJKL' );
 
 		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
 		$this->object->addProduct( $item );

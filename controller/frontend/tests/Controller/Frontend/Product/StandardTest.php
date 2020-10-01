@@ -151,7 +151,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPriceBoth()
 	{
-		$this->assertEquals( 3, count( $this->object->price( [15, 20] )->search() ) );
+		$this->assertEquals( 4, count( $this->object->price( [15, 20] )->search() ) );
 	}
 
 
@@ -219,7 +219,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortCode()
 	{
 		$result = $this->object->sort( 'code' )->search();
-		$this->assertEquals( 'CNC', $result->first()->getCode() );
+		$this->assertEquals( 'ABCD', $result->first()->getCode() );
 	}
 
 
@@ -252,7 +252,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortNameDesc()
 	{
 		$result = $this->object->uses( ['text'] )->sort( '-name' )->search();
-		$this->assertEquals( 'Unterproduct 3', $result->first()->getName() );
+		$this->assertEquals( 'Unterproduct 1', $result->first()->getName() );
 	}
 
 

@@ -80,7 +80,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testFor()
 	{
 		$refId = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNE' )->getId();
-		$result = $this->object->for( 'product', $refId );
+		$result = $this->object->for( 'product', [$refId] );
 
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Review\Iface::class, $result );
 		$this->assertCount( 1, $result->search() );

@@ -226,6 +226,21 @@ class Standard
 			'review.id' => $item->getId()
 		] );
 
+		/** controller/frontend/review/status
+		 * Default status for new reviews
+		 *
+		 * By default, new reviews are stored with the status "in review" so they
+		 * need to be approved by an admin or editor. Possible status values are:
+		 *
+		 * * 1 : enabled
+		 * * 0 : disabled
+		 * * -1 : in review
+		 *
+		 * @param integer Review status value
+		 * @since 2020.10
+		 */
+		$status = $context->getConfig()->get( 'controller/frontend/review/status', -1 );
+
 		$real = $this->manager->search( $filter->slice( 0, 1 ) )->first( $this->manager->create() );
 
 		$real = $real->setCustomerId( $context->getUserId() )
@@ -234,7 +249,8 @@ class Standard
 			->setComment( $item->getComment() )
 			->setRating( $item->getRating() )
 			->setName( $item->getName() )
-			->setDomain( 'product' );
+			->setDomain( 'product' )
+			->setStatus( $status );
 
 		$item = $this->manager->save( $real );
 
@@ -243,10 +259,12 @@ class Standard
 			'review.refid' => $item->getRefId()
 		] );
 
-		if( $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first() )
+		if( $status > 0 && $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first() )
 		{
 			$rateManager = \Aimeos\MShop::create( $context, $item->getDomain() );
 			$rateManager->rate( $item->getId(), $entry['sum'], $entry['count'] );
+
+			$context->cache()->deleteByTags( [$item->getDomain() . '-' . $item->getId()] );
 		}
 
 		return $item;

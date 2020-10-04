@@ -35,22 +35,29 @@ class Standard
 	{
 		parent::__construct( $context );
 
-		/** controller/frontend/customer/groupids
-		 * List of groups new customers should be assigned to
-		 *
-		 * Newly created customers will be assigned automatically to the groups
-		 * given by their IDs. This is especially useful if those groups limit
-		 * functionality for those users.
-		 *
-		 * @param array List of group IDs
-		 * @since 2017.07
-		 * @category User
-		 * @category Developer
-		 */
-		$groupIds = (array) $context->getConfig()->get( 'controller/frontend/customer/groupids', [] );
-
 		$this->manager = \Aimeos\MShop::create( $context, 'customer' );
-		$this->item = $this->manager->createItem()->setGroups( $groupIds );
+
+		if( ( $userid = $context->getUserId() ) === null )
+		{
+			/** controller/frontend/customer/groupids
+			 * List of groups new customers should be assigned to
+			 *
+			 * Newly created customers will be assigned automatically to the groups
+			 * given by their IDs. This is especially useful if those groups limit
+			 * functionality for those users.
+			 *
+			 * @param array List of group IDs
+			 * @since 2017.07
+			 * @category User
+			 * @category Developer
+			 */
+			$groupIds = (array) $context->getConfig()->get( 'controller/frontend/customer/groupids', [] );
+			$this->item = $this->manager->createItem()->setGroups( $groupIds );
+		}
+		else
+		{
+			$this->item = $this->manager->getItem( $userid, [], true );
+		}
 	}
 
 

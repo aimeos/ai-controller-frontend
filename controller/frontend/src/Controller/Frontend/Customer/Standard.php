@@ -94,7 +94,9 @@ class Standard
 			$item = $item->setCode( $addrItem->getEmail() );
 		}
 
-		$item = $item->setPassword( $values['customer.password'] ?? '' );
+		if( ( $password = $values['customer.password'] ?? '' ) !== '' ) {
+			$item = $item->setPassword( $password );
+		}
 
 		$this->item = $item;
 		return $this;

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aimeos, 2015,2017,2019
+# Aimeos, 2015,2017,2019-2020
 # nsendetzky, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-07 11:14+0200\n"
-"PO-Revision-Date: 2019-04-02 13:32+0000\n"
+"POT-Creation-Date: 2020-10-05 09:23+0200\n"
+"PO-Revision-Date: 2020-10-05 08:15+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: German (http://www.transifex.com/aimeos/aimeos-core/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "%013.2F"
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -58,6 +61,10 @@ msgstr "Der Gutscheincode \"%1$s\" ist ungültig oder nicht mehr verfügbar"
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
 msgstr "Der Gutscheincode \"%1$s\" ist ungültig oder nicht mehr verfügbar"
+
+#, php-format
+msgid "Domain \"%1$s\" is not supported"
+msgstr "Die Domäne \"%1$s\" wird nicht unterstützt"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -186,3 +193,11 @@ msgstr "Produkt \"%1$s\" konnte nicht gefunden werden"
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Die übergebenen Attribute \"%1$s\" konnten nicht zugeordnet werden"
+
+#, php-format
+msgid "You are not allowed to manage groups"
+msgstr "Sie dürfen keine Gruppen verwalten"
+
+#, php-format
+msgid "You can only add a review if you have ordered a product"
+msgstr "Sie können nur eine Bewertung für gekaufte Produkte abgeben"

@@ -7,15 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-07 11:14+0200\n"
-"PO-Revision-Date: 2020-07-31 18:39+0000\n"
-"Last-Translator: iulian iulian <iulian.abc@gmail.com>\n"
+"POT-Creation-Date: 2020-10-05 09:23+0200\n"
+"PO-Revision-Date: 2020-10-05 07:29+0000\n"
+"Last-Translator: Aimeos\n"
 "Language-Team: Romanian (http://www.transifex.com/aimeos/aimeos-core/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+msgid "%013.2F"
+msgstr ""
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -55,6 +58,10 @@ msgstr ""
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
+msgstr ""
+
+#, php-format
+msgid "Domain \"%1$s\" is not supported"
 msgstr ""
 
 #, php-format
@@ -183,4 +190,12 @@ msgstr ""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
+msgstr ""
+
+#, php-format
+msgid "You are not allowed to manage groups"
+msgstr ""
+
+#, php-format
+msgid "You can only add a review if you have ordered a product"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-02 15:46+0200\n"
+"POT-Creation-Date: 2020-10-05 09:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "%013.2F"
+msgstr ""
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -56,6 +59,10 @@ msgstr "Coupon code \"%1$s\" is invalid or not available any more"
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
 msgstr "Coupon for code \"%1$s\" is not available any more"
+
+#, php-format
+msgid "Domain \"%1$s\" is not supported"
+msgstr ""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -184,3 +191,11 @@ msgstr ""
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Unknown attributes \"%1$s\""
+
+#, php-format
+msgid "You are not allowed to manage groups"
+msgstr ""
+
+#, php-format
+msgid "You can only add a review if you have ordered a product"
+msgstr ""

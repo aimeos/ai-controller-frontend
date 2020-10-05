@@ -9,15 +9,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-07 11:14+0200\n"
-"PO-Revision-Date: 2019-04-30 15:41+0000\n"
-"Last-Translator: Вячеслав Васильев <uverst@gmail.com>\n"
+"POT-Creation-Date: 2020-10-05 09:23+0200\n"
+"PO-Revision-Date: 2020-10-05 07:29+0000\n"
+"Last-Translator: Aimeos\n"
 "Language-Team: Russian (http://www.transifex.com/aimeos/aimeos-core/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+msgid "%013.2F"
+msgstr ""
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -58,6 +61,10 @@ msgstr "Код купона \"%1$s\" неверный или более не д�
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
 msgstr "Купон с кодом \"%1$s\" более недоступен"
+
+#, php-format
+msgid "Domain \"%1$s\" is not supported"
+msgstr ""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -186,3 +193,11 @@ msgstr ""
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Неизвестные атрибуты \"%1$s\""
+
+#, php-format
+msgid "You are not allowed to manage groups"
+msgstr ""
+
+#, php-format
+msgid "You can only add a review if you have ordered a product"
+msgstr ""

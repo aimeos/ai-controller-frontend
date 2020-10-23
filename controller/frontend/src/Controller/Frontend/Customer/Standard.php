@@ -390,7 +390,7 @@ class Standard
 		];
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
-		$this->manager->searchItems( $search, [], $total );
+		$this->manager->search( $search, [], $total );
 
 		if( $total >= $count ) {
 			throw new \Aimeos\Controller\Frontend\Customer\Exception( sprintf( 'Temporary limit reached' ) );

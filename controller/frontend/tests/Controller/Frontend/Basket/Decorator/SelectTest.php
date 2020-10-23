@@ -67,7 +67,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'attribute.code', array( 'xs', 'white' ) ) );
 
-		$attrIds = $manager->searchItems( $search )->keys();
+		$attrIds = $manager->search( $search )->keys();
 
 		if( $attrIds->isEmpty() ) {
 			throw new \RuntimeException( 'Attributes not found' );

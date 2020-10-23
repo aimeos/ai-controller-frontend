@@ -206,7 +206,7 @@ class Standard
 		$expr = array_merge( $this->conditions, [$this->filter->compare( '==', 'attribute.domain', $this->domain )] );
 		$this->filter->setConditions( $this->filter->combine( '&&', $expr ) );
 
-		return $this->manager->searchItems( $this->filter, $this->domains, $total );
+		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
 
 

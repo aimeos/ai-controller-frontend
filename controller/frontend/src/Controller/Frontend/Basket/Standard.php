@@ -168,7 +168,7 @@ class Standard
 		];
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
-		$this->manager->searchItems( $search, [], $total );
+		$this->manager->search( $search, [], $total );
 
 		if( $total >= $count )
 		{

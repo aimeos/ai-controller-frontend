@@ -374,7 +374,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSlice( 0, count( $attributeIds ) );
 
-		$attrItems = $attributeManager->searchItems( $search, $domains );
+		$attrItems = $attributeManager->search( $search, $domains );
 
 		if( $attrItems->count() !== count( $attributeIds ) )
 		{
@@ -419,7 +419,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		}
 
 		$search->setConditions( $search->combine( '||', $expr ) );
-		return $attributeManager->searchItems( $search, array( 'price' ) );
+		return $attributeManager->search( $search, array( 'price' ) );
 	}
 
 

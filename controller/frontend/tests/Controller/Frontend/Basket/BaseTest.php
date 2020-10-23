@@ -267,7 +267,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$search = $baseManager->createSearch();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '53.50' ) );
 
-		if( ( $basket = $baseManager->searchItems( $search, ['order/base/product'] )->first() ) === null ) {
+		if( ( $basket = $baseManager->search( $search, ['order/base/product'] )->first() ) === null ) {
 			throw new \Exception( sprintf( 'No order base item found for price "%1$s"', '53,50' ) );
 		}
 
@@ -319,7 +319,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'customer.address.company', $company ) );
 
-		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
+		if( ( $item = $manager->search( $search )->first() ) === null ) {
 			throw new \RuntimeException( sprintf( 'No address item with company "%1$s" found', $company ) );
 		}
 

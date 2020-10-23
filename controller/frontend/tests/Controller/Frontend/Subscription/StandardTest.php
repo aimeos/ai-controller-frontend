@@ -148,7 +148,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$search = $manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'order.base.customerid', $this->context->getUserId() ) );
 
-		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
+		if( ( $item = $manager->search( $search )->first() ) === null ) {
 			throw new \RuntimeException( 'No subscription item found' );
 		}
 

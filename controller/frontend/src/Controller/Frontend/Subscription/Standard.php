@@ -100,7 +100,7 @@ class Standard
 		];
 		$filter->setConditions( $filter->combine( '&&', $expr ) );
 
-		if( ( $item = $this->manager->searchItems( $filter )->first() ) === null )
+		if( ( $item = $this->manager->search( $filter )->first() ) === null )
 		{
 			$msg = 'Invalid subscription ID "%1$s" for customer ID "%2$s"';
 			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $context->getUserId() ) );
@@ -130,7 +130,7 @@ class Standard
 
 		$list = [];
 
-		foreach( $manager->searchItems( $search, ['text'] ) as $attrItem ) {
+		foreach( $manager->search( $search, ['text'] ) as $attrItem ) {
 			$list[$attrItem->getCode()] = $attrItem;
 		}
 
@@ -176,7 +176,7 @@ class Standard
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
-		return $this->manager->searchItems( $this->filter, [], $total );
+		return $this->manager->search( $this->filter, [], $total );
 	}
 
 

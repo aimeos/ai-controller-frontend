@@ -39,7 +39,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$expected = \Aimeos\MShop\Locale\Item\Iface::class;
 
 		$manager = \Aimeos\MShop::create( $this->context, 'locale' );
-		$id = $manager->searchItems( $manager->createSearch( true ) )->first()->getId();
+		$id = $manager->search( $manager->createSearch( true ) )->first()->getId();
 
 		$this->assertInstanceOf( $expected, $this->object->get( $id ) );
 	}

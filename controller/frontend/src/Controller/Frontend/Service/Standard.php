@@ -125,7 +125,7 @@ class Standard
 		$list = [];
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 
-		foreach( $this->manager->searchItems( $this->filter, $this->domains ) as $id => $item ) {
+		foreach( $this->manager->search( $this->filter, $this->domains ) as $id => $item ) {
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
 		}
 
@@ -183,7 +183,7 @@ class Standard
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
-		return $this->manager->searchItems( $this->filter, $this->domains, $total );
+		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
 
 

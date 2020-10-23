@@ -140,7 +140,7 @@ class Standard
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
-		return $this->manager->searchItems( $this->filter, $this->domains, $total );
+		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
 
 
@@ -270,7 +270,7 @@ class Standard
 		] ) );
 
 		$total = 0;
-		$this->manager->searchItems( $search, [], $total );
+		$this->manager->search( $search, [], $total );
 
 		if( $total >= $count ) {
 			throw new \Aimeos\Controller\Frontend\Order\Exception( sprintf( 'The order has already been created' ) );

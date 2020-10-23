@@ -324,7 +324,7 @@ class Standard
 		$search = $this->manager->createSearch()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'index.text:url()', $name ) );
 
-		if( ( $item = $this->manager->searchItems( $search, $this->domains )->first() ) === null )
+		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{
 			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Unable to find product "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ) );
@@ -346,7 +346,7 @@ class Standard
 		$this->filter->setSortations( $this->sort );
 		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
 
-		return $this->manager->searchItems( $this->filter, $this->domains, $total );
+		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
 
 

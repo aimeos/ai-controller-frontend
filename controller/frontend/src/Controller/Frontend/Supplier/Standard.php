@@ -102,7 +102,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Supplier\Item\Iface
 	{
-		return $this->manager->getItem( $id, $this->domains, true );
+		return $this->manager->get( $id, $this->domains, true );
 	}
 
 

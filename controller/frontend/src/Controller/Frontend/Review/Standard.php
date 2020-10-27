@@ -155,7 +155,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Review\Item\Iface
 	{
-		return $this->manager->getItem( $id, [], true );
+		return $this->manager->get( $id, [], true );
 	}
 
 

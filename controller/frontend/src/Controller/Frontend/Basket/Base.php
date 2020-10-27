@@ -260,7 +260,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 				}
 
-				$item = $manager->getItem( $product->getProductId(), $domains );
+				$item = $manager->get( $product->getProductId(), $domains );
 
 				$this->getObject()->addProduct(
 					$item, $product->getQuantity(), $variantIds, $configIds, $customIds,
@@ -307,7 +307,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 						$attributes[$attrItem->getCode()] = $attrItem->getValue();
 					}
 
-					$service = $manager->getItem( $item->getServiceId(), ['media', 'price', 'text'] );
+					$service = $manager->get( $item->getServiceId(), ['media', 'price', 'text'] );
 					$this->getObject()->addService( $service, $attributes );
 					$basket->deleteService( $type );
 				}

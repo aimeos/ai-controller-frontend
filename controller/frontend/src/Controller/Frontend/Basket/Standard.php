@@ -206,7 +206,7 @@ class Standard
 			return $this->manager->load( $id, $ref, false, $default );
 		}
 
-		return $this->manager->getItem( $id, $ref, $default );
+		return $this->manager->get( $id, $ref, $default );
 	}
 
 

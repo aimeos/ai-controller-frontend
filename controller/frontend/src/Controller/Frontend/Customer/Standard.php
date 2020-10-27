@@ -56,7 +56,7 @@ class Standard
 		}
 		else
 		{
-			$this->item = $this->manager->getItem( $userid, [], true );
+			$this->item = $this->manager->get( $userid, [], true );
 		}
 	}
 
@@ -330,7 +330,7 @@ class Standard
 		$this->domains = $domains;
 
 		if( ( $id = $this->getContext()->getUserId() ) !== null ) {
-			$this->item = $this->manager->getItem( $id, $domains, true );
+			$this->item = $this->manager->get( $id, $domains, true );
 		}
 
 		return $this;

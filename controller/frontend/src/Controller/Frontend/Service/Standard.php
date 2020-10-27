@@ -98,7 +98,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Service\Item\Iface
 	{
-		return $this->manager->getItem( $id, $this->domains, true );
+		return $this->manager->get( $id, $this->domains, true );
 	}
 
 
@@ -110,7 +110,7 @@ class Standard
 	 */
 	public function getProvider( string $serviceId ) : \Aimeos\MShop\Service\Provider\Iface
 	{
-		$item = $this->manager->getItem( $serviceId, $this->domains, true );
+		$item = $this->manager->get( $serviceId, $this->domains, true );
 		return $this->manager->getProvider( $item, $item->getType() );
 	}
 
@@ -164,7 +164,7 @@ class Standard
 	public function process( \Aimeos\MShop\Order\Item\Iface $orderItem,
 		string $serviceId, array $urls, array $params ) : ?\Aimeos\MShop\Common\Helper\Form\Iface
 	{
-		$item = $this->manager->getItem( $serviceId, [], true );
+		$item = $this->manager->get( $serviceId, [], true );
 
 		$provider = $this->manager->getProvider( $item, $item->getType() );
 		$provider->injectGlobalConfigBE( $urls );
@@ -281,7 +281,7 @@ class Standard
 	public function updateSync( ServerRequestInterface $request,
 		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
-		$orderItem = \Aimeos\MShop::create( $this->getContext(), 'order' )->getItem( $orderid );
+		$orderItem = \Aimeos\MShop::create( $this->getContext(), 'order' )->get( $orderid );
 		$serviceItem = $this->manager->findItem( $code );
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );

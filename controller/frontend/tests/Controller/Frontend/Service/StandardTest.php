@@ -200,7 +200,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$orderManager = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
-			->setMethods( ['getItem'] )
+			->setMethods( ['get'] )
 			->getMock();
 
 		$serviceManager = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Manager\\Standard' )
@@ -212,7 +212,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::inject( 'service', $serviceManager );
 
 
-		$orderManager->expects( $this->once() )->method( 'getItem' )->will( $this->returnValue( $item ) );
+		$orderManager->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $item ) );
 		$serviceManager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
 		$provider->expects( $this->once() )->method( 'updateSync' )->will( $this->returnValue( $item ) );
 		$provider->expects( $this->once() )->method( 'isImplemented' )->will( $this->returnValue( true ) );

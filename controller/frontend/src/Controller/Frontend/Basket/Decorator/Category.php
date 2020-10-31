@@ -43,7 +43,7 @@ class Category
 		$manager = \Aimeos\MShop::create( $context, 'catalog' );
 
 		$expr = [];
-		$search = $manager->createSearch( true )->setSlice( 0, 1 );
+		$search = $manager->filter( true )->setSlice( 0, 1 );
 
 		$func = $search->createFunction( 'catalog:has', ['product', ['default', 'promotion'], $product->getId()] );
 		$expr[] = $search->compare( '!=', $func, null );

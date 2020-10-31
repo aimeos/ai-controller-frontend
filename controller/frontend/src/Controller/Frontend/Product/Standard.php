@@ -38,7 +38,7 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'index' );
-		$this->filter = $this->manager->createSearch( true );
+		$this->filter = $this->manager->filter( true );
 		$this->conditions[] = $this->filter->compare( '!=', 'index.catalog.id', null );
 		$this->conditions[] = $this->filter->getConditions();
 	}
@@ -321,7 +321,7 @@ class Standard
 	 */
 	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		$search = $this->manager->createSearch()->setSlice( 0, 1 );
+		$search = $this->manager->filter()->setSlice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'index.text:url()', $name ) );
 
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )

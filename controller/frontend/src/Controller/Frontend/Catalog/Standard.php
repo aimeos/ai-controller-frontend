@@ -39,7 +39,7 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'catalog' );
-		$this->filter = $this->manager->createSearch( true );
+		$this->filter = $this->manager->filter( true );
 		$this->conditions[] = $this->filter->getConditions();
 	}
 

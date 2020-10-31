@@ -264,7 +264,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$baseManager = \Aimeos\MShop::create( $this->context, 'order/base' );
 
-		$search = $baseManager->createSearch();
+		$search = $baseManager->filter();
 		$search->setConditions( $search->compare( '==', 'order.base.price', '53.50' ) );
 
 		if( ( $basket = $baseManager->search( $search, ['order/base/product'] )->first() ) === null ) {
@@ -316,7 +316,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'customer/address' );
 
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$search->setConditions( $search->compare( '==', 'customer.address.company', $company ) );
 
 		if( ( $item = $manager->search( $search )->first() ) === null ) {

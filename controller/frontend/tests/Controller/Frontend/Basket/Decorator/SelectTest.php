@@ -64,7 +64,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'attribute' );
 
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$search->setConditions( $search->compare( '==', 'attribute.code', array( 'xs', 'white' ) ) );
 
 		$attrIds = $manager->search( $search )->keys();

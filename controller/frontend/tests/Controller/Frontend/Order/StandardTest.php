@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'order' );
-		$items = $manager->search( $manager->createSearch()->setSlice( 0, 1 ) );
+		$items = $manager->search( $manager->filter()->setSlice( 0, 1 ) );
 
 		if( ( $item = $items->first() ) === null ) {
 			throw new \RuntimeException( 'No order item found' );

@@ -366,7 +366,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
 
-		$search = $attributeManager->createSearch( true );
+		$search = $attributeManager->filter( true );
 		$expr = array(
 			$search->compare( '==', 'attribute.id', $attributeIds ),
 			$search->getConditions(),
@@ -403,7 +403,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		}
 
 		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
-		$search = $attributeManager->createSearch( true );
+		$search = $attributeManager->filter( true );
 		$expr = [];
 
 		foreach( $orderAttributes as $item )

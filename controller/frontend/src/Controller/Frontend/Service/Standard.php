@@ -41,7 +41,7 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'service' );
-		$this->filter = $this->manager->createSearch( true );
+		$this->filter = $this->manager->filter( true );
 		$this->conditions[] = $this->filter->getConditions();
 		$this->filter->setSortations( [$this->filter->sort( '+', 'service.position' )] );
 	}

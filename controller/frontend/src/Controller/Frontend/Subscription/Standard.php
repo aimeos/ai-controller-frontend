@@ -36,7 +36,7 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'subscription' );
-		$this->filter = $this->manager->createSearch();
+		$this->filter = $this->manager->filter();
 		$this->conditions[] = $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() );
 	}
 
@@ -92,7 +92,7 @@ class Standard
 	{
 		$context = $this->getContext();
 
-		$filter = $this->manager->createSearch( true );
+		$filter = $this->manager->filter( true );
 		$expr = [
 			$filter->compare( '==', 'subscription.id', $id ),
 			$filter->compare( '==', 'order.base.customerid', $context->getUserId() ),
@@ -119,7 +119,7 @@ class Standard
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
 
-		$search = $manager->createSearch( true );
+		$search = $manager->filter( true );
 		$expr = array(
 			$search->compare( '==', 'attribute.domain', 'product' ),
 			$search->compare( '==', 'attribute.type', 'interval' ),

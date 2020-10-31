@@ -535,7 +535,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$customer = \Aimeos\MShop\Customer\Manager\Factory::create( \TestHelperFrontend::getContext(), 'Standard' );
 		$addressManager = $customer->getSubManager( 'address', 'Standard' );
 
-		$search = $addressManager->createSearch();
+		$search = $addressManager->filter();
 		$search->setConditions( $search->compare( '==', 'customer.address.company', $company ) );
 
 		if( ( $item = $addressManager->search( $search )->first() ) === null ) {

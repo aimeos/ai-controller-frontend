@@ -41,7 +41,7 @@ class Standard
 		$this->manager = \Aimeos\MShop::create( $context, 'order' );
 		$this->item = $this->manager->createItem();
 
-		$this->filter = $this->manager->createSearch( true );
+		$this->filter = $this->manager->filter( true );
 		$this->conditions[] = $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() );
 		$this->conditions[] = $this->filter->getConditions();
 	}
@@ -263,7 +263,7 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/order/limit-seconds', 900 );
 
-		$search = $this->manager->createSearch()->setSlice( 0, 0 );
+		$search = $this->manager->filter()->setSlice( 0, 0 );
 		$search->setConditions( $search->combine( '&&', [
 			$search->compare( '==', 'order.baseid', $baseId ),
 			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),

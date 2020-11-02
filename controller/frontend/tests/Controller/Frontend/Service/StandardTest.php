@@ -103,7 +103,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$form = new \Aimeos\MShop\Common\Helper\Form\Standard();
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
-		$serviceId = \Aimeos\MShop::create( $this->context, 'service' )->findItem( 'unitpaymentcode' )->getId();
+		$serviceId = \Aimeos\MShop::create( $this->context, 'service' )->find( 'unitpaymentcode' )->getId();
 
 		$provider = $this->getMockBuilder( \Aimeos\MShop\Service\Provider\Payment\PostPay::class )
 			->disableOriginalConstructor()
@@ -236,6 +236,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getServiceItem()
 	{
 		$manager = \Aimeos\MShop\Service\Manager\Factory::create( \TestHelperFrontend::getContext() );
-		return $manager->findItem( 'unitcode' );
+		return $manager->find( 'unitcode' );
 	}
 }

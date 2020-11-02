@@ -83,7 +83,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearch()
 	{
-		$userId = \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
+		$userId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 		$this->context->setUserId( $userId );
 
 		$total = 0;

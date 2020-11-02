@@ -35,7 +35,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductWithCategory()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'CNE', ['price'] );
+		$item = $manager->find( 'CNE', ['price'] );
 
 		$this->assertSame( $this->object, $this->object->addProduct( $item ) );
 	}
@@ -44,7 +44,7 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductNoCategory()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'IJKL' );
+		$item = $manager->find( 'IJKL' );
 
 		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
 		$this->object->addProduct( $item );

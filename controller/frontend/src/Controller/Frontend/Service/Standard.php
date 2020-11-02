@@ -72,7 +72,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Service\Item\Iface
 	{
-		return $this->manager->findItem( $code, $this->domains, null, null, true );
+		return $this->manager->find( $code, $this->domains, null, null, true );
 	}
 
 
@@ -263,7 +263,7 @@ class Standard
 	public function updatePush( ServerRequestInterface $request, ResponseInterface $response,
 		string $code ) : \Psr\Http\Message\ResponseInterface
 	{
-		$item = $this->manager->findItem( $code );
+		$item = $this->manager->find( $code );
 		$provider = $this->manager->getProvider( $item, $item->getType() );
 
 		return $provider->updatePush( $request, $response );
@@ -282,7 +282,7 @@ class Standard
 		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$orderItem = \Aimeos\MShop::create( $this->getContext(), 'order' )->get( $orderid );
-		$serviceItem = $this->manager->findItem( $code );
+		$serviceItem = $this->manager->find( $code );
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );
 

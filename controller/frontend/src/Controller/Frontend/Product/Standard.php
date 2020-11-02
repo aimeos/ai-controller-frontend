@@ -152,7 +152,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		return $this->manager->findItem( $code, $this->domains, 'product', null, true );
+		return $this->manager->find( $code, $this->domains, 'product', null, true );
 	}
 
 

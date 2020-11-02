@@ -52,7 +52,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->findItem( 'unitCode001' );
+		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitCode001' );
 		$item = $this->object->uses( ['product'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );
@@ -63,7 +63,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testHas()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$prodId = $manager->findItem( 'CNE' )->getId();
+		$prodId = $manager->find( 'CNE' )->getId();
 
 		$this->assertEquals( 1, count( $this->object->has( 'product', 'default', $prodId )->search() ) );
 	}

@@ -39,8 +39,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
-		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
-		$width = $manager->findItem( '29', [], 'product', 'width' )->getId();
+		$length = $manager->find( '30', [], 'product', 'length' )->getId();
+		$width = $manager->find( '29', [], 'product', 'width' )->getId();
 
 		$this->assertEquals( 1, count( $this->object->allOf( [$length, $width] )->search() ) );
 	}
@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testCategory()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
-		$catId = $manager->findItem( 'cafe' )->getId();
+		$catId = $manager->find( 'cafe' )->getId();
 
 		$this->assertEquals( 2, count( $this->object->category( $catId, 'promotion' )->search() ) );
 	}
@@ -59,8 +59,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
 
-		$catId = $manager->findItem( 'categories' )->getId();
-		$grpId = $manager->findItem( 'group' )->getId();
+		$catId = $manager->find( 'categories' )->getId();
+		$grpId = $manager->find( 'group' )->getId();
 
 		$this->object->category( [$catId, $grpId], 'promotion', \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE );
 		$this->assertEquals( 3, count( $this->object->search() ) );
@@ -91,7 +91,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'U:BUNDLE' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'U:BUNDLE' );
 		$item = $this->object->uses( ['product'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $item );
@@ -102,7 +102,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testHas()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
-		$attrId = $manager->findItem( '30', [], 'product', 'length' )->getId();
+		$attrId = $manager->find( '30', [], 'product', 'length' )->getId();
 
 		$this->assertEquals( 1, count( $this->object->has( 'attribute', 'variant', $attrId )->search() ) );
 	}
@@ -112,8 +112,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
-		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
-		$width = $manager->findItem( '30', [], 'product', 'width' )->getId();
+		$length = $manager->find( '30', [], 'product', 'length' )->getId();
+		$width = $manager->find( '30', [], 'product', 'width' )->getId();
 
 		$this->assertEquals( 2, count( $this->object->oneOf( [$length, $width] )->search() ) );
 	}
@@ -123,8 +123,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
-		$length = $manager->findItem( '30', [], 'product', 'length' )->getId();
-		$width = $manager->findItem( '30', [], 'product', 'width' )->getId();
+		$length = $manager->find( '30', [], 'product', 'length' )->getId();
+		$width = $manager->find( '30', [], 'product', 'width' )->getId();
 
 		$this->assertEquals( 1, count( $this->object->oneOf( [[$length], [$width]] )->search() ) );
 	}
@@ -159,8 +159,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 
-		$cncId = $manager->findItem( 'CNC' )->getId();
-		$cneId = $manager->findItem( 'CNE' )->getId();
+		$cncId = $manager->find( 'CNC' )->getId();
+		$cneId = $manager->find( 'CNE' )->getId();
 
 		$this->assertEquals( 2, count( $this->object->product( [$cncId, $cneId] )->search() ) );
 	}
@@ -277,7 +277,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortRelevanceCategory()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
-		$catId = $manager->findItem( 'new' )->getId();
+		$catId = $manager->find( 'new' )->getId();
 
 		$result = $this->object->category( $catId )->sort( 'relevance' )->search();
 
@@ -290,7 +290,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortRelevanceSupplier()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->findItem( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitCode001' )->getId();
 
 		$result = $this->object->supplier( $supId )->sort( 'relevance' )->search();
 
@@ -303,7 +303,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSupplier()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->findItem( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitCode001' )->getId();
 
 		$this->assertEquals( 2, count( $this->object->supplier( $supId )->search() ) );
 	}

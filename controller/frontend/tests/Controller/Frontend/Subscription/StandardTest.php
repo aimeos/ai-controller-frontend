@@ -137,7 +137,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getCustomerId()
 	{
-		return \Aimeos\MShop::create( $this->context, 'customer' )->findItem( 'test@example.com' )->getId();
+		return \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
 	}
 
 

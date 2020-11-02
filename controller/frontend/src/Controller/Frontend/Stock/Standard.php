@@ -93,7 +93,7 @@ class Standard
 	 */
 	public function find( string $code, string $type ) : \Aimeos\MShop\Stock\Item\Iface
 	{
-		return $this->manager->findItem( $code, [], 'product', $type, true );
+		return $this->manager->find( $code, [], 'product', $type, true );
 	}
 
 

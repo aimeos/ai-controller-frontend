@@ -54,7 +54,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->findItem( 'cafe' );
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->find( 'cafe' );
 		$item = $this->object->uses( ['product'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $item );
@@ -64,7 +64,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetPath()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->findItem( 'cafe', [] );
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->find( 'cafe', [] );
 		$items = $this->object->uses( ['product'] )->getPath( $item->getId() );
 
 		$this->assertEquals( 3, count( $items ) );
@@ -100,8 +100,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
 
-		$root = $manager->findItem( 'categories' );
-		$item = $manager->findItem( 'cafe' );
+		$root = $manager->find( 'categories' );
+		$item = $manager->find( 'cafe' );
 
 		$this->assertEquals( 2, count( $this->object->root( $root->getId() )->getPath( $item->getId() ) ) );
 	}
@@ -139,8 +139,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
 
-		$root = $manager->findItem( 'root' );
-		$item = $manager->findItem( 'cafe' );
+		$root = $manager->find( 'root' );
+		$item = $manager->find( 'cafe' );
 		$catIds = $manager->getPath( $item->getId() )->keys()->toArray();
 
 		$result = $this->object->root( $root->getId() )->visible( $catIds )->getTree();

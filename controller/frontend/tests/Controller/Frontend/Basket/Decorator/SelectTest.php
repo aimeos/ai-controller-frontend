@@ -21,7 +21,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelperFrontend::getContext();
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$this->testItem = $manager->findItem( 'U:TESTP', ['attribute', 'media', 'price', 'product', 'text'] );
+		$this->testItem = $manager->find( 'U:TESTP', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 		$this->object = new \Aimeos\Controller\Frontend\Basket\Decorator\Select( $object, $this->context );
@@ -51,7 +51,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductNoSelection()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$this->assertSame( $this->object, $this->object->addProduct( $item ) );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
@@ -75,7 +75,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$result = $this->object->addProduct( $item, 1, $attrIds->toArray(), [], [], 'default', 'unitsupplier' );
 
@@ -89,10 +89,10 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductVariantIncomplete()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( '30', [], 'product', 'length' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->find( '30', [], 'product', 'length' )->getId();
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'U:TEST', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'U:TEST', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$this->assertSame( $this->object, $this->object->addProduct( $item, 1, [$id] ) );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
@@ -103,10 +103,10 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductVariantNonUnique()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( '30', [], 'product', 'width' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->find( '30', [], 'product', 'width' )->getId();
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'U:TEST', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'U:TEST', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item, 1, [$id] );
@@ -116,7 +116,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductVariantNotRequired()
 	{
 		$this->context->getConfig()->set( 'controller/frontend/basket/require-variant', false );
-		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'xs', [], 'product', 'size' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'xs', [], 'product', 'size' )->getId();
 
 		$this->object->addProduct( $this->testItem, 1, [$id] );
 
@@ -128,7 +128,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductEmptySelectionException()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'U:noSel', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'U:noSel', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addProduct( $item );
@@ -144,7 +144,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductConfigAttribute()
 	{
-		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'xs', [], 'product', 'size' )->getId();
+		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'xs', [], 'product', 'size' )->getId();
 
 		$result = $this->object->addProduct( $this->testItem, 1, [], [$id => 1] );
 		$basket = $this->object->get();

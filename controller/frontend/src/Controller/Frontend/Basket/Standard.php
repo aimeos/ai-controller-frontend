@@ -294,7 +294,7 @@ class Standard
 		}
 
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
-		$product = $manager->findItem( $orderProduct->getProductCode(), array( 'price', 'text' ), true );
+		$product = $manager->find( $orderProduct->getProductCode(), array( 'price', 'text' ), true );
 
 		$quantity = $this->checkQuantity( $product, $quantity );
 		$price = $this->calcPrice( $orderProduct, $product->getRefItems( 'price', 'default' ), $quantity );

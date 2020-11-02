@@ -32,8 +32,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'attribute' );
 
-		$blueId = $manager->findItem( 'blue', [], 'product', 'color' )->getId();
-		$whiteId = $manager->findItem( 'white', [], 'product', 'color' )->getId();
+		$blueId = $manager->find( 'blue', [], 'product', 'color' )->getId();
+		$whiteId = $manager->find( 'white', [], 'product', 'color' )->getId();
 
 		$this->assertEquals( 2, count( $this->object->attribute( [$blueId, $whiteId] )->search() ) );
 	}
@@ -69,7 +69,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'white', [], 'product', 'color' );
+		$item = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'white', [], 'product', 'color' );
 		$item = $this->object->uses( ['text'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Attribute\Item\Iface::class, $item );

@@ -35,7 +35,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductBundle()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'U:BUNDLE', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'U:BUNDLE', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$this->assertSame( $this->object, $this->object->addProduct( $item, 1 ) );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
@@ -47,7 +47,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductNoBundle()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$this->assertSame( $this->object, $this->object->addProduct( $item, 1 ) );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );

@@ -23,7 +23,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelperFrontend::getContext();
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$this->testItem = $manager->findItem( 'U:TESTP', ['attribute', 'media', 'price', 'product', 'text'] );
+		$this->testItem = $manager->find( 'U:TESTP', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$this->object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 	}
@@ -153,7 +153,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$basket = $this->object->get();
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
 
 		$result1 = $this->object->addProduct( $item, 2, [], [], [], 'default', 'unitsupplier' );
 		$item2 = $this->object->get()->getProduct( 0 );
@@ -171,7 +171,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductFractionalQuantity()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->findItem( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
 		$item->setConfig( ['quantity-step' => '0.1'] );
 
 		$this->object->addProduct( $item, 2.31 );
@@ -181,7 +181,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductCustomAttribute()
 	{
-		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'date' );
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'custom', [], 'product', 'date' );
 		$attrValues = [$attrItem->getId() => '2000-01-01'];
 
 		$result = $this->object->addProduct( $this->testItem, 1, [], [], $attrValues );
@@ -195,7 +195,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductCustomPrice()
 	{
-		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'price' );
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'custom', [], 'product', 'price' );
 		$attrValues = [$attrItem->getId() => '0.01'];
 
 		$result = $this->object->addProduct( $this->testItem, 1, [], [], $attrValues );
@@ -209,7 +209,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductCustomPriceException()
 	{
-		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'custom', [], 'product', 'price' );
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'custom', [], 'product', 'price' );
 		$attrValues = [$attrItem->getId() => ','];
 
 		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
@@ -219,7 +219,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductAttributePrice()
 	{
-		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( 'xs', [], 'product', 'size' );
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'xs', [], 'product', 'size' );
 
 		$result = $this->object->addProduct( $this->testItem, 1, [], [$attrItem->getId() => 2] );
 
@@ -230,7 +230,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductAttributeNotAssigned()
 	{
-		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->findItem( '30', [], 'product', 'width' );
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->find( '30', [], 'product', 'width' );
 		$ids = [$attrItem->getId()];
 
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
@@ -247,7 +247,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductNoPriceException()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'MNOP' );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'MNOP' );
 
 		$this->expectException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item );
@@ -263,7 +263,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductLowQuantityPriceException()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL', ['attribute', 'price'] );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['attribute', 'price'] );
 
 		$this->expectException( '\\Aimeos\\MShop\\Price\\Exception' );
 		$this->object->addProduct( $item );
@@ -272,7 +272,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductHigherQuantities()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL', ['price'] );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
 
 		$result = $this->object->addProduct( $item, 2, [], [], [], 'unit_type3' );
 
@@ -284,7 +284,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductOptionalParameters()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->findItem( 'IJKL', ['price'] );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
 
 		$product = $this->object->addProduct( $item, 2, [], [], [], 'unit_type3', 'supplier', 123 )->get()->getProduct( 0 );
 
@@ -426,7 +426,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddServicePayment()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$service = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
+		$service = $manager->find( 'unitpaymentcode', [], 'service', 'payment' );
 
 		$this->object->addService( $service );
 		$item = $this->object->get()->getService( 'payment', 0 )->getCode();
@@ -440,7 +440,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddServiceDelivery()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
+		$service = $manager->find( 'unitcode', [], 'service', 'delivery' );
 
 		$this->object->addService( $service );
 		$item = $this->object->get()->getService( 'delivery', 0 );
@@ -454,7 +454,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteServices()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
+		$service = $manager->find( 'unitcode', [], 'service', 'delivery' );
 
 		$this->assertSame( $this->object, $this->object->addService( $service ) );
 		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
@@ -467,7 +467,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteServicePosition()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$service = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
+		$service = $manager->find( 'unitcode', [], 'service', 'delivery' );
 
 		$this->assertSame( $this->object, $this->object->addService( $service ) );
 		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
@@ -480,8 +480,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testCheckLocale()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$payment = $manager->findItem( 'unitpaymentcode', [], 'service', 'payment' );
-		$delivery = $manager->findItem( 'unitcode', [], 'service', 'delivery' );
+		$payment = $manager->find( 'unitpaymentcode', [], 'service', 'payment' );
+		$delivery = $manager->find( 'unitcode', [], 'service', 'delivery' );
 
 		$this->object->addProduct( $this->testItem, 2 );
 		$this->object->addCoupon( 'OPQR' );

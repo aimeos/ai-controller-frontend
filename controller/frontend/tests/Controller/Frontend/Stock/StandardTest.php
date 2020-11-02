@@ -50,7 +50,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
-		$item = \Aimeos\MShop::create( $this->context, 'stock' )->findItem( 'CNC', [], 'product', 'default' );
+		$item = \Aimeos\MShop::create( $this->context, 'stock' )->find( 'CNC', [], 'product', 'default' );
 
 		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
 	}

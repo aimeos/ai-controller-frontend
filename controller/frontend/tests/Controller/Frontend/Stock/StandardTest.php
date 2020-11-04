@@ -28,9 +28,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCode()
+	public function testProduct()
 	{
-		$this->assertEquals( 2, count( $this->object->code( ['CNC', 'CNE'] )->search() ) );
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' );
+		$this->assertEquals( 1, count( $this->object->product( $item->getId() )->search() ) );
 	}
 
 
@@ -40,17 +41,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testFind()
-	{
-		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
-		$this->assertInstanceOf( $iface, $this->object->find( 'CNC', 'default' ) );
-	}
-
-
 	public function testGet()
 	{
 		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
-		$item = \Aimeos\MShop::create( $this->context, 'stock' )->find( 'CNC', [], 'product', 'default' );
+		$manager = \Aimeos\MShop::create( $this->context, 'stock' );
+		$item = $manager->search( $manager->filter()->slice( 0, 1) )->first();
 
 		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
 	}
@@ -98,14 +93,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortStock()
 	{
 		$result = $this->object->sort( 'stock' )->search();
-		$this->assertStringStartsWith( 'U:TEST', $result->first()->getProductCode() );
+		$this->assertStringStartsWith( 100, $result->first()->getStocklevel() );
 	}
 
 
 	public function testSortStockDesc()
 	{
 		$result = $this->object->sort( '-stock' )->search();
-		$this->assertStringStartsWith( 'U:TEST', $result->last()->getProductCode() );
+		$this->assertStringStartsWith( 100, $result->last()->getStocklevel() );
 	}
 
 

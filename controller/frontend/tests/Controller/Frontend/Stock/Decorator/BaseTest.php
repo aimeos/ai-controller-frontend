@@ -65,27 +65,15 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testCode()
+	public function testProduct()
 	{
-		$this->assertSame( $this->object, $this->object->code( ['CNC', 'CNE'] ) );
+		$this->assertSame( $this->object, $this->object->product( ['123', '456'] ) );
 	}
 
 
 	public function testCompare()
 	{
 		$this->assertSame( $this->object, $this->object->compare( '==', 'stock.dateback', '2000-01-01 00:00:00' ) );
-	}
-
-
-	public function testFind()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'stock' )->createItem();
-		$expected = \Aimeos\MShop\Stock\Item\Iface::class;
-
-		$this->stub->expects( $this->once() )->method( 'find' )
-			->will( $this->returnValue( $item ) );
-
-		$this->assertInstanceOf( $expected, $this->object->find( 'test', 'default' ) );
 	}
 
 

@@ -51,16 +51,16 @@ class Standard
 
 
 	/**
-	 * Adds the SKUs of the products for filtering
+	 * Adds the IDs of the products for filtering
 	 *
-	 * @param array|string $codes Codes of the products
+	 * @param array|string $ids Codes of the products
 	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
-	 * @since 2019.04
+	 * @since 2021.01
 	 */
-	public function code( $codes ) : Iface
+	public function product( $ids ) : Iface
 	{
-		if( !empty( $codes ) ) {
-			$this->conditions[] = $this->filter->compare( '==', 'stock.productcode', $codes );
+		if( !empty( $ids ) ) {
+			$this->conditions[] = $this->filter->compare( '==', 'stock.productid', $ids );
 		}
 
 		return $this;
@@ -80,20 +80,6 @@ class Standard
 	{
 		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
 		return $this;
-	}
-
-
-	/**
-	 * Returns the stock item for the given SKU and type
-	 *
-	 * @param string $code Unique stock code
-	 * @param string $type Type assigned to the stock item
-	 * @return \Aimeos\MShop\Stock\Item\Iface Stock item
-	 * @since 2019.04
-	 */
-	public function find( string $code, string $type ) : \Aimeos\MShop\Stock\Item\Iface
-	{
-		return $this->manager->find( $code, [], 'product', $type, true );
 	}
 
 

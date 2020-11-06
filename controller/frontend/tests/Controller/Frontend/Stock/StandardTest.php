@@ -45,7 +45,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
 		$manager = \Aimeos\MShop::create( $this->context, 'stock' );
-		$item = $manager->search( $manager->filter()->slice( 0, 1) )->first();
+		$item = $manager->search( $manager->filter()->slice( 0, 1 ) )->first();
 
 		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
 	}

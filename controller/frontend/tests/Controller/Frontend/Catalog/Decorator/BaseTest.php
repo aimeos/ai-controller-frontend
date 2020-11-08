@@ -73,7 +73,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->create();
 		$expected = \Aimeos\MShop\Catalog\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'find' )
@@ -95,7 +95,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->create();
 		$expected = \Aimeos\MShop\Catalog\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'get' )
@@ -122,7 +122,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetTree()
 	{
-		$catItem = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
+		$catItem = \Aimeos\MShop::create( $this->context, 'catalog' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'getTree' )
 			->will( $this->returnValue( $catItem ) );
@@ -140,7 +140,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( map( [$item] ) ) );

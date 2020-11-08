@@ -52,7 +52,7 @@ class Standard
 			 * @category Developer
 			 */
 			$groupIds = (array) $context->getConfig()->get( 'controller/frontend/customer/groupids', [] );
-			$this->item = $this->manager->createItem()->setGroups( $groupIds );
+			$this->item = $this->manager->create()->setGroups( $groupIds );
 		}
 		else
 		{

@@ -335,7 +335,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			{
 				$interval = is_array( $interval ) ? reset( $interval ) : $interval;
 
-				$item = $manager->createItem()->setInterval( $interval )
+				$item = $manager->create()->setInterval( $interval )
 					->setProductId( $orderProduct->getProductId() )
 					->setOrderProductId( $orderProduct->getId() )
 					->setOrderBaseId( $basket->getId() );
@@ -442,7 +442,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 			foreach( $this->getAttributes( $ids ) as $id => $attrItem )
 			{
-				$list[] = $manager->createItem()->copyFrom( $attrItem )->setType( $type )
+				$list[] = $manager->create()->copyFrom( $attrItem )->setType( $type )
 					->setValue( isset( $values[$id] ) ? $values[$id] : $attrItem->getCode() )
 					->setQuantity( isset( $quantities[$id] ) ? $quantities[$id] : 1 );
 			}

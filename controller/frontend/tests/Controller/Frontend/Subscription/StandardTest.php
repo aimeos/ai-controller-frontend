@@ -43,7 +43,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testCancel()
 	{
 		$expected = \Aimeos\MShop\Subscription\Item\Iface::class;
-		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->create();
 
 		$this->manager->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
@@ -87,7 +87,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSave()
 	{
-		$item = $this->manager->createItem();
+		$item = $this->manager->create();
 		$expected = \Aimeos\MShop\Subscription\Item\Iface::class;
 
 		$this->manager->expects( $this->once() )->method( 'saveItem' )

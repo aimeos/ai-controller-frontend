@@ -73,7 +73,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'locale' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'locale' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -90,7 +90,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearch()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'locale' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'locale' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( map( [$item] ) ) );

@@ -67,7 +67,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCancel()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'cancel' )
 			->will( $this->returnValue( $item ) );
@@ -84,7 +84,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -110,7 +110,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSave()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
@@ -121,7 +121,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearch()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( map( [$item] ) ) );

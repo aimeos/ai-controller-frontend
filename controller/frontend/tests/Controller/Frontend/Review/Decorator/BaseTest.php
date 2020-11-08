@@ -109,7 +109,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'review' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -120,7 +120,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testList()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'review' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'list' )
 			->will( $this->returnValue( map( [$item] ) ) );
@@ -137,7 +137,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSave()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'review' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
@@ -148,7 +148,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearch()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'review' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( map( [$item] ) ) );

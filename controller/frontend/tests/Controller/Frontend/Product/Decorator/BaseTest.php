@@ -95,7 +95,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->create();
 		$expected = \Aimeos\MShop\Product\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'find' )
@@ -117,7 +117,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->create();
 		$expected = \Aimeos\MShop\Product\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'get' )
@@ -165,7 +165,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testResolve()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'resolve' )
 			->will( $this->returnValue( $item ) );
@@ -177,7 +177,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'product' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( map( [$item] ) ) );

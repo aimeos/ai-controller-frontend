@@ -72,7 +72,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\MShop::inject( 'order', $manager );
 
-		$item = $manager->createItem();
+		$item = $manager->create();
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
 
 		$manager->expects( $this->once() )->method( 'saveItem' )->will( $this->returnArgument( 0 ) );
@@ -130,7 +130,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
 		$object->add( -1 );
 
-		$item = $manager->createItem()->setBaseId( -1 );
+		$item = $manager->create()->setBaseId( -1 );
 
 		$manager->expects( $this->once() )->method( 'saveItem' )->will( $this->returnValue( $item ) );
 		$stub->expects( $this->once() )->method( 'block' )->will( $this->returnValue( $item ) );

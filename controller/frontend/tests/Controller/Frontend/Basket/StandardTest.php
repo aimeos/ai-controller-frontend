@@ -98,7 +98,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::inject( 'order/base', $stub );
 
 		$stub->expects( $this->once() )->method( 'load' )
-			->will( $this->returnValue( $stub->createItem() ) );
+			->will( $this->returnValue( $stub->create() ) );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
@@ -118,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
 
 		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
-			->setConstructorArgs( [$priceManager->createItem(), $this->context->getLocale()] )
+			->setConstructorArgs( [$priceManager->create(), $this->context->getLocale()] )
 			->setMethods( ['check'] )
 			->getMock();
 

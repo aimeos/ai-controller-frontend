@@ -37,21 +37,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddAddressItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->create();
 		$this->assertSame( $this->object, $this->object->addAddressItem( $item ) );
 	}
 
 
 	public function testAddListItem()
 	{
-		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 		$this->assertSame( $this->object, $this->object->addListItem( 'customer', $listItem ) );
 	}
 
 
 	public function testAddListItemGroup()
 	{
-		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
 		$this->expectException( \Aimeos\Controller\Frontend\Customer\Exception::class );
 		$this->object->addListItem( 'customer/group', $listItem );
@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddPropertyItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->create();
 		$this->assertSame( $this->object, $this->object->addPropertyItem( $item ) );
 	}
 
@@ -85,21 +85,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteAddressItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->create();
 		$this->assertSame( $this->object, $this->object->deleteAddressItem( $item ) );
 	}
 
 
 	public function testDeleteListItem()
 	{
-		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 		$this->assertSame( $this->object, $this->object->deleteListItem( 'customer', $listItem ) );
 	}
 
 
 	public function testDeleteListItemGroup()
 	{
-		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
 		$this->expectException( \Aimeos\Controller\Frontend\Customer\Exception::class );
 		$this->object->deleteListItem( 'customer/group', $listItem );
@@ -108,7 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeletePropertyItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->create();
 		$this->assertSame( $this->object, $this->object->deletePropertyItem( $item ) );
 	}
 

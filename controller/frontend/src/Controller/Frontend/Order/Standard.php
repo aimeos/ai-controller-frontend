@@ -39,7 +39,7 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'order' );
-		$this->item = $this->manager->createItem();
+		$this->item = $this->manager->create();
 
 		$this->filter = $this->manager->filter( true );
 		$this->conditions[] = $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() );

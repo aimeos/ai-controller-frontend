@@ -61,7 +61,7 @@ class Standard
 	 */
 	public function clear() : Iface
 	{
-		$this->baskets[$this->type] = $this->manager->createItem();
+		$this->baskets[$this->type] = $this->manager->create();
 		$this->manager->setSession( $this->baskets[$this->type], $this->type );
 
 		return $this;
@@ -239,7 +239,7 @@ class Standard
 		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem()
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create()
 			->copyFrom( $product )->setQuantity( $quantity )->setStockType( $stocktype )->setSupplierCode( $supplier )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
@@ -377,7 +377,7 @@ class Standard
 		}
 
 		$context = $this->getContext();
-		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->createItem()->fromArray( $values );
+		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->create()->fromArray( $values );
 
 		$this->baskets[$this->type] = $this->get()->addAddress( $address, $type, $position );
 		return $this->save();
@@ -433,7 +433,7 @@ class Standard
 
 		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/base/service' );
 
-		$orderServiceItem = $orderBaseServiceManager->createItem()->copyFrom( $service )->setPrice( $price );
+		$orderServiceItem = $orderBaseServiceManager->create()->copyFrom( $service )->setPrice( $price );
 		$orderServiceItem = $provider->setConfigFE( $orderServiceItem, $config );
 
 		$this->baskets[$this->type] = $this->get()->addService( $orderServiceItem, $service->getType(), $position );

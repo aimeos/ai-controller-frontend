@@ -56,7 +56,7 @@ class Bundle
 		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem();
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create();
 
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
@@ -92,7 +92,7 @@ class Bundle
 
 		foreach( $product->getRefItems( 'product', null, 'default' ) as $item )
 		{
-			$orderProduct = $orderProductManager->createItem()->copyFrom( $item );
+			$orderProduct = $orderProductManager->create()->copyFrom( $item );
 			$prices = $item->getRefItems( 'price', 'default', 'default' );
 
 			$orderProducts[] = $orderProduct->setStockType( $stocktype )->setSupplierCode( $supplier )

@@ -46,7 +46,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyAddresses()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$address = $this->getAddress( 'Example company' );
 		$ordBaseItem->addAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
@@ -73,7 +73,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyAddressesException()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$address = $this->getAddress( 'Example company' );
 		$ordBaseItem->addAddress( $address, \Aimeos\MShop\Order\Item\Base\Address\Base::TYPE_PAYMENT );
@@ -96,11 +96,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyCoupon()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC', ['price'] );
 		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product )->setStockType( 'default' );
+		$ordProdItem = $ordProdManager->create()->copyFrom( $product )->setStockType( 'default' );
 
 		$ordProdItem->setPrice( $product->getRefItems( 'price' )->first() );
 
@@ -127,7 +127,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyCouponException()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$ordBaseItem->addCoupon( '90AB', [] );
 
@@ -149,11 +149,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyProduct()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' );
 		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product )->setStockType( 'default' );
+		$ordProdItem = $ordProdManager->create()->copyFrom( $product )->setStockType( 'default' );
 		$ordBaseItem->addProduct( $ordProdItem );
 
 
@@ -176,11 +176,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyProductException()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' );
 		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
-		$ordProdItem = $ordProdManager->createItem()->copyFrom( $product )->setStockType( 'default' );
+		$ordProdItem = $ordProdManager->create()->copyFrom( $product )->setStockType( 'default' );
 		$ordBaseItem->addProduct( $ordProdItem );
 
 
@@ -201,13 +201,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyServices()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$serviceManager = \Aimeos\MShop::create( $this->context, 'service' );
 		$ordServManager = \Aimeos\MShop::create( $this->context, 'order/base/service' );
 
 		$serviceItem = $serviceManager->find( 'unitcode', [], 'service', 'delivery' );
-		$ordServItem = $ordServManager->createItem()->copyFrom( $serviceItem );
+		$ordServItem = $ordServManager->create()->copyFrom( $serviceItem );
 
 		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
 
@@ -236,13 +236,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCopyServicesException()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
-		$ordBaseItem = $manager->createItem();
+		$ordBaseItem = $manager->create();
 
 		$serviceManager = \Aimeos\MShop::create( $this->context, 'service' );
 		$ordServManager = \Aimeos\MShop::create( $this->context, 'order/base/service' );
 
 		$serviceItem = $serviceManager->find( 'unitcode', [], 'service', 'delivery' );
-		$ordServItem = $ordServManager->createItem()->copyFrom( $serviceItem );
+		$ordServItem = $ordServManager->create()->copyFrom( $serviceItem );
 
 		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
 
@@ -291,7 +291,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetOrderProductAttributes()
 	{
-		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->createItem()
+		$attrItem = \Aimeos\MShop::create( $this->context, 'attribute' )->create()
 			->setCode( 'special_instructions' )->setCode( 'test' )->setType( 'test' )->setId( '-1' );
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
@@ -324,7 +324,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		}
 
 		$ordAddrManager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base/address' );
-		$ordAddrItem = $ordAddrManager->createItem()->copyFrom( $item );
+		$ordAddrItem = $ordAddrManager->create()->copyFrom( $item );
 
 		return $ordAddrItem;
 	}

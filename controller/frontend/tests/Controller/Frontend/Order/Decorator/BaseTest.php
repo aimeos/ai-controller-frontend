@@ -80,7 +80,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 		$expected = \Aimeos\MShop\Order\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $item ) );
@@ -97,7 +97,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testSave()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 		$expected = \Aimeos\MShop\Order\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'save' )->will( $this->returnArgument( 0 ) );
@@ -109,7 +109,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( map( [$item] ) ) );
@@ -132,7 +132,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testStore()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $item ) );
 

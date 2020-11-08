@@ -168,7 +168,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSaveException()
 	{
 		$this->expectException( \Aimeos\Controller\Frontend\Review\Exception::class );
-		$this->object->save( $this->manager->createItem() );
+		$this->object->save( $this->manager->create() );
 	}
 
 

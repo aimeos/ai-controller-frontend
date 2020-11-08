@@ -73,7 +73,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'service' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'service' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'find' )
 			->will( $this->returnValue( $item ) );
@@ -94,7 +94,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'service' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'service' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -132,7 +132,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testProcess()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'process' )
 			->will( $this->returnValue( new \Aimeos\MShop\Common\Helper\Form\Standard() ) );
@@ -144,7 +144,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$item = \Aimeos\MShop::create( $this->context, 'service' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'service' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
 			->will( $this->returnValue( map( [$item] ) ) );
@@ -180,7 +180,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testUpdateSync()
 	{
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'updateSync' )
 			->will( $this->returnValue( $item ) );

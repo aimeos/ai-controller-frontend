@@ -30,7 +30,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$orderManager = \Aimeos\MShop\Order\Manager\Factory::create( \TestHelperFrontend::getContext() );
 		$orderBaseMgr = $orderManager->getSubManager( 'base' );
-		self::$basket = $orderBaseMgr->createItem();
+		self::$basket = $orderBaseMgr->create();
 	}
 
 
@@ -102,7 +102,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testProcess()
 	{
 		$form = new \Aimeos\MShop\Common\Helper\Form\Standard();
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 		$serviceId = \Aimeos\MShop::create( $this->context, 'service' )->find( 'unitpaymentcode' )->getId();
 
 		$provider = $this->getMockBuilder( \Aimeos\MShop\Service\Provider\Payment\PostPay::class )
@@ -190,7 +190,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdateSync()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )

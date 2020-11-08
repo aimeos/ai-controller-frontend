@@ -74,7 +74,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddAddressItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'addAddressItem' );
 		$this->assertSame( $this->object, $this->object->addAddressItem( $item ) );
@@ -83,7 +83,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddListItem()
 	{
-		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'addListItem' );
 		$this->assertSame( $this->object, $this->object->addListItem( 'customer', $listItem ) );
@@ -92,7 +92,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddPropertyItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'addPropertyItem' );
 		$this->assertSame( $this->object, $this->object->addPropertyItem( $item ) );
@@ -101,7 +101,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateAddressItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'createAddressItem' )->will( $this->returnValue( $item ) );
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Address\Iface::class, $this->object->createAddressItem() );
@@ -110,7 +110,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateListItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'createListItem' )->will( $this->returnValue( $item ) );
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $this->object->createListItem() );
@@ -119,7 +119,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreatePropertyItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'createPropertyItem' )->will( $this->returnValue( $item ) );
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Property\Iface::class, $this->object->createPropertyItem() );
@@ -135,7 +135,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteAddressItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'deleteAddressItem' );
 		$this->assertSame( $this->object, $this->object->deleteAddressItem( $item ) );
@@ -144,7 +144,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteListItem()
 	{
-		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->createItem();
+		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'deleteListItem' );
 		$this->assertSame( $this->object, $this->object->deleteListItem( 'customer', $listItem ) );
@@ -153,7 +153,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeletePropertyItem()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'deletePropertyItem' );
 		$this->assertSame( $this->object, $this->object->deletePropertyItem( $item ) );
@@ -162,7 +162,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'find' )
 			->will( $this->returnValue( $item ) );
@@ -173,7 +173,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'customer' )->createItem();
+		$item = \Aimeos\MShop::create( $this->context, 'customer' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $item ) );

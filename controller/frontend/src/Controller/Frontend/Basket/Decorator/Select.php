@@ -50,7 +50,7 @@ class Select
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->createItem();
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create();
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product );
 
 		$productItem = $this->getArticle( $product, $variant );
@@ -73,7 +73,7 @@ class Select
 		$attributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
 		foreach( $this->getAttributes( $attributes->keys()->toArray(), ['text'] ) as $attrItem ) {
-			$attr[] = $orderProductAttrManager->createItem()->copyFrom( $attrItem )->setType( 'variant' );
+			$attr[] = $orderProductAttrManager->create()->copyFrom( $attrItem )->setType( 'variant' );
 		}
 
 		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );

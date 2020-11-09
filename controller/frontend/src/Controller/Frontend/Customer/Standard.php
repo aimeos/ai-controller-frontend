@@ -208,7 +208,7 @@ class Standard
 	public function delete() : Iface
 	{
 		if( $this->item && $this->item->getId() ) {
-			\Aimeos\MShop::create( $this->getContext(), 'customer' )->deleteItem( $this->item->getId() );
+			\Aimeos\MShop::create( $this->getContext(), 'customer' )->delete( $this->item->getId() );
 		}
 
 		return $this;

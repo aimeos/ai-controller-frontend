@@ -39,25 +39,48 @@ class Category
 		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
 		string $stocktype = 'default', string $supplier = '', string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
-		$context = $this->getContext();
-		$manager = \Aimeos\MShop::create( $context, 'catalog' );
-
-		$expr = [];
-		$search = $manager->filter( true )->setSlice( 0, 1 );
-
-		$func = $search->createFunction( 'catalog:has', ['product', ['default', 'promotion'], $product->getId()] );
-		$expr[] = $search->compare( '!=', $func, null );
-
-		$search->setConditions( $search->combine( '&&', [$search->getConditions(), $search->combine( '||', $expr )] ) );
-
-		if( $manager->search( $search )->isEmpty() )
+		if( !$this->checkCategory( $product->getId() ) )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $product->getId() ) );
+			$context = $this->getContext();
+			$manager = \Aimeos\MShop::create( $context, 'product' );
+
+			$filter = $manager->filter( true );
+			$func = $filter->make( 'product:has', ['product', 'default', $product->getId()] );
+			$filter->add( $filter->is( $func, '!=', null ) );
+
+			$prodIds = [$product->getId()];
+			foreach( $manager->search( $filter ) as $item ) {
+				$prodIds[] = $item->getId();
+			}
+
+			if( !$this->checkCategory( $prodIds ) )
+			{
+				$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
+				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, print_r( $prodIds, true ) ) );
+			}
 		}
 
 		$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier, $siteid );
 
 		return $this;
+	}
+
+
+	/**
+	 * Checks if the given product IDs are assigned to a category
+	 *
+	 * @param array|string $prodIds Unique product IDs to check for
+	 * @return bool True if at least one product ID is assigned to a category, false if not
+	 */
+	protected function checkCategory( $prodIds ) : bool
+	{
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, 'catalog' );
+
+		$filter = $manager->filter( true )->setSlice( 0, 1 );
+		$func = $filter->make( 'catalog:has', ['product', ['default', 'promotion'], $prodIds] );
+		$filter->add( $filter->is( $func, '!=', null ) );
+
+		return !$manager->search( $filter )->isEmpty();
 	}
 }

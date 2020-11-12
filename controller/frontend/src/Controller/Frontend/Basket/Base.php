@@ -344,7 +344,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					$item = $item->setDateEnd( $end );
 				}
 
-				$manager->saveItem( $item, false );
+				$manager->save( $item, false );
 			}
 		}
 	}

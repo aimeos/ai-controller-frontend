@@ -127,7 +127,7 @@ class Standard
 	 */
 	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem ) : \Aimeos\MShop\Order\Item\Iface
 	{
-		return $this->manager->saveItem( $orderItem );
+		return $this->manager->save( $orderItem );
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Standard
 		$this->checkLimit( $this->item->getBaseId() );
 
 		$cntl = \Aimeos\Controller\Common\Order\Factory::create( $this->getContext() );
-		$this->item = $this->manager->saveItem( $this->item );
+		$this->item = $this->manager->save( $this->item );
 
 		return $cntl->block( $this->item );
 	}

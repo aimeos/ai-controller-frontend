@@ -278,12 +278,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Subscription\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['saveItem'] )
+			->setMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( 'subscription', $stub );
 
-		$stub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
+		$stub->expects( $this->exactly( 2 ) )->method( 'save' );
 
 		$this->access( 'createSubscriptions' )->invokeArgs( $object, [$basket] );
 	}

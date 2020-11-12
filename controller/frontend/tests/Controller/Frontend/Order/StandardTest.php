@@ -67,7 +67,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['saveItem'] )
+			->setMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( 'order', $manager );
@@ -75,7 +75,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $manager->create();
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
 
-		$manager->expects( $this->once() )->method( 'saveItem' )->will( $this->returnArgument( 0 ) );
+		$manager->expects( $this->once() )->method( 'save' )->will( $this->returnArgument( 0 ) );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->save( $item ) );
 	}
@@ -117,7 +117,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['saveItem'] )
+			->setMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( 'order', $manager );
@@ -132,7 +132,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$item = $manager->create()->setBaseId( -1 );
 
-		$manager->expects( $this->once() )->method( 'saveItem' )->will( $this->returnValue( $item ) );
+		$manager->expects( $this->once() )->method( 'save' )->will( $this->returnValue( $item ) );
 		$stub->expects( $this->once() )->method( 'block' )->will( $this->returnValue( $item ) );
 
 		\Aimeos\Controller\Common\Order\Factory::inject( $class, $stub );

@@ -313,7 +313,7 @@ class Standard
 			$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
 		}
 
-		$this->item = $this->manager->saveItem( $this->item );
+		$this->item = $this->manager->save( $this->item );
 		return $this;
 	}
 

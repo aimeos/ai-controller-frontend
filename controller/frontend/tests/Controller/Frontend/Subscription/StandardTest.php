@@ -23,7 +23,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Subscription\\Manager\\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['saveItem'] )
+			->setMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::cache( true );
@@ -45,7 +45,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$expected = \Aimeos\MShop\Subscription\Item\Iface::class;
 		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->create();
 
-		$this->manager->expects( $this->once() )->method( 'saveItem' )
+		$this->manager->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 
 		$this->assertInstanceOf( $expected, $this->object->cancel( $this->getSubscriptionId() ) );
@@ -90,7 +90,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->manager->create();
 		$expected = \Aimeos\MShop\Subscription\Item\Iface::class;
 
-		$this->manager->expects( $this->once() )->method( 'saveItem' )
+		$this->manager->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 
 		$this->assertInstanceOf( $expected, $this->object->save( $item ) );

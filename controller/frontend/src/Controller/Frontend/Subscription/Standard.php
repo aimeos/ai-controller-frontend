@@ -62,7 +62,7 @@ class Standard
 		$item = $item->setDateEnd( $item->getDateNext() )
 			->setReason( \Aimeos\MShop\Subscription\Item\Iface::REASON_CANCEL );
 
-		return $this->manager->saveItem( $item );
+		return $this->manager->save( $item );
 	}
 
 
@@ -163,7 +163,7 @@ class Standard
 	 */
 	public function save( \Aimeos\MShop\Subscription\Item\Iface $item ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
-		return $this->manager->saveItem( $item );
+		return $this->manager->save( $item );
 	}
 
 	/**

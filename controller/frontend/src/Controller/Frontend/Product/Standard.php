@@ -78,7 +78,7 @@ class Standard
 	 */
 	public function allOf( $attrIds ) : Iface
 	{
-		if( !empty( $attrIds ) && ( $ids = array_unique( $this->validateIds( (array) $attrIds ) ) ) !== [] )
+		if( !empty( $attrIds ) && ( $ids = $this->validateIds( (array) $attrIds ) ) !== [] )
 		{
 			$func = $this->filter->createFunction( 'index.attribute:allof', [$ids] );
 			$this->conditions[] = $this->filter->compare( '!=', $func, null );
@@ -218,7 +218,7 @@ class Standard
 
 		foreach( $attrIds as $key => $entry )
 		{
-			if( is_array( $entry ) && ( $ids = array_unique( $this->validateIds( $entry ) ) ) !== [] )
+			if( is_array( $entry ) && ( $ids = $this->validateIds( $entry ) ) !== [] )
 			{
 				$func = $this->filter->createFunction( 'index.attribute:oneof', [$ids] );
 				$this->conditions[] = $this->filter->compare( '!=', $func, null );
@@ -226,7 +226,7 @@ class Standard
 			}
 		}
 
-		if( ( $ids = array_unique( $this->validateIds( $attrIds ) ) ) !== [] )
+		if( ( $ids = $this->validateIds( $attrIds ) ) !== [] )
 		{
 			$func = $this->filter->createFunction( 'index.attribute:oneof', [$ids] );
 			$this->conditions[] = $this->filter->compare( '!=', $func, null );
@@ -521,7 +521,9 @@ class Standard
 
 		foreach( $ids as $id )
 		{
-			if( $id != '' && preg_match( '/^[A-Za-z0-9\-\_]+$/', $id ) === 1 ) {
+			if( is_array( $id ) ) {
+				$list[] = $this->validateIds( $id );
+			} elseif( $id != '' && preg_match( '/^[A-Za-z0-9\-\_]+$/', $id ) === 1 ) {
 				$list[] = (string) $id;
 			}
 		}

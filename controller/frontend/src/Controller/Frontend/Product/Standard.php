@@ -321,7 +321,7 @@ class Standard
 	 */
 	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		$search = $this->manager->filter()->setSlice( 0, 1 );
+		$search = $this->manager->filter()->slice( 0, 1 );
 		$search->setConditions( $search->compare( '==', 'index.text:url()', $name ) );
 
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
@@ -360,7 +360,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$this->filter->setSlice( $start, $limit );
+		$this->filter->slice( $start, $limit );
 		return $this;
 	}
 

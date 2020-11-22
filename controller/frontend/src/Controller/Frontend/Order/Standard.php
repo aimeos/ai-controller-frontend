@@ -154,7 +154,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$this->filter->setSlice( $start, $limit );
+		$this->filter->slice( $start, $limit );
 		return $this;
 	}
 
@@ -263,7 +263,7 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/order/limit-seconds', 900 );
 
-		$search = $this->manager->filter()->setSlice( 0, 0 );
+		$search = $this->manager->filter()->slice( 0, 0 );
 		$search->setConditions( $search->combine( '&&', [
 			$search->compare( '==', 'order.baseid', $baseId ),
 			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),

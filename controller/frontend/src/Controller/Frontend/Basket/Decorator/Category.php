@@ -77,7 +77,7 @@ class Category
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, 'catalog' );
 
-		$filter = $manager->filter( true )->setSlice( 0, 1 );
+		$filter = $manager->filter( true )->slice( 0, 1 );
 		$func = $filter->make( 'catalog:has', ['product', ['default', 'promotion'], $prodIds] );
 		$filter->add( $filter->is( $func, '!=', null ) );
 

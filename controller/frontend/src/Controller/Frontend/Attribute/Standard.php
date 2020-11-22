@@ -220,7 +220,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$this->filter->setSlice( $start, $limit );
+		$this->filter->slice( $start, $limit );
 		return $this;
 	}
 

@@ -245,7 +245,7 @@ class Standard
 	 */
 	public function parse( array $conditions ) : Iface
 	{
-		if( ( $cond = $this->filter->toConditions( $conditions ) ) !== null ) {
+		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
 			$this->conditions[] = $cond;
 		}
 

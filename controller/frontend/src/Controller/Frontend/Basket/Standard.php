@@ -316,7 +316,7 @@ class Standard
 	{
 		$context = $this->getContext();
 
-		/** controller/frontend/basket/standard/coupon/allowed
+		/** controller/frontend/basket/coupon/allowed
 		 * Number of coupon codes a customer is allowed to enter
 		 *
 		 * This configuration option enables shop owners to limit the number of coupon
@@ -332,7 +332,7 @@ class Standard
 		 * @category User
 		 * @category Developer
 		 */
-		$allowed = $context->getConfig()->get( 'controller/frontend/basket/standard/coupon/allowed', 1 );
+		$allowed = $context->getConfig()->get( 'controller/frontend/basket/coupon/allowed', 1 );
 
 		if( $allowed <= count( $this->get()->getCoupons() ) )
 		{

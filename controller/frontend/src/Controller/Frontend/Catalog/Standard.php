@@ -91,7 +91,7 @@ class Standard
 	 */
 	public function function( string $name, array $params ) : string
 	{
-		return $this->filter->createFunction( $name, $params );
+		return $this->filter->make( $name, $params );
 	}
 
 

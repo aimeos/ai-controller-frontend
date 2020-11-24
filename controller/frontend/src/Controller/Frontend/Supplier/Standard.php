@@ -89,7 +89,7 @@ class Standard
 	 */
 	public function function( string $name, array $params ) : string
 	{
-		return $this->filter->createFunction( $name, $params );
+		return $this->filter->make( $name, $params );
 	}
 
 
@@ -121,7 +121,7 @@ class Standard
 		!$type ?: $params[] = $type;
 		!$refId ?: $params[] = $refId;
 
-		$func = $this->filter->createFunction( 'supplier:has', $params );
+		$func = $this->filter->make( 'supplier:has', $params );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		return $this;
 	}

@@ -122,7 +122,7 @@ class Standard
 	 */
 	public function function( string $name, array $params ) : string
 	{
-		return $this->filter->createFunction( $name, $params );
+		return $this->filter->make( $name, $params );
 	}
 
 
@@ -154,7 +154,7 @@ class Standard
 		!$type ?: $params[] = $type;
 		!$refId ?: $params[] = $refId;
 
-		$func = $this->filter->createFunction( 'attribute:has', $params );
+		$func = $this->filter->make( 'attribute:has', $params );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		return $this;
 	}
@@ -188,7 +188,7 @@ class Standard
 	 */
 	public function property( string $type, string $value = null, string $langId = null ) : Iface
 	{
-		$func = $this->filter->createFunction( 'attribute:prop', [$type, $langId, $value] );
+		$func = $this->filter->make( 'attribute:prop', [$type, $langId, $value] );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		return $this;
 	}

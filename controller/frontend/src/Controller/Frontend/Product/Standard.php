@@ -80,7 +80,7 @@ class Standard
 	{
 		if( !empty( $attrIds ) && ( $ids = $this->validateIds( (array) $attrIds ) ) !== [] )
 		{
-			$func = $this->filter->createFunction( 'index.attribute:allof', [$ids] );
+			$func = $this->filter->make( 'index.attribute:allof', [$ids] );
 			$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		}
 
@@ -113,12 +113,12 @@ class Standard
 				$ids = $this->validateIds( $list->keys()->toArray() );
 			}
 
-			$func = $this->filter->createFunction( 'index.catalog:position', [$listtype, $ids] );
+			$func = $this->filter->make( 'index.catalog:position', [$listtype, $ids] );
 
 			$this->conditions[] = $this->filter->compare( '==', 'index.catalog.id', $ids );
 			$this->conditions[] = $this->filter->compare( '>=', $func, 0 );
 
-			$func = $this->filter->createFunction( 'sort:index.catalog:position', [$listtype, $ids] );
+			$func = $this->filter->make( 'sort:index.catalog:position', [$listtype, $ids] );
 			$this->sort[] = $this->filter->sort( '+', $func );
 			$this->sort[] = $this->filter->sort( '+', 'product.id' ); // prevent flaky order if products have same position
 		}
@@ -165,7 +165,7 @@ class Standard
 	 */
 	public function function( string $name, array $params ) : string
 	{
-		return $this->filter->createFunction( $name, $params );
+		return $this->filter->make( $name, $params );
 	}
 
 
@@ -197,7 +197,7 @@ class Standard
 		!$type ?: $params[] = $type;
 		!$refId ?: $params[] = $refId;
 
-		$func = $this->filter->createFunction( 'product:has', $params );
+		$func = $this->filter->make( 'product:has', $params );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		return $this;
 	}
@@ -220,7 +220,7 @@ class Standard
 		{
 			if( is_array( $entry ) && ( $ids = $this->validateIds( $entry ) ) !== [] )
 			{
-				$func = $this->filter->createFunction( 'index.attribute:oneof', [$ids] );
+				$func = $this->filter->make( 'index.attribute:oneof', [$ids] );
 				$this->conditions[] = $this->filter->compare( '!=', $func, null );
 				unset( $attrIds[$key] );
 			}
@@ -228,7 +228,7 @@ class Standard
 
 		if( ( $ids = $this->validateIds( $attrIds ) ) !== [] )
 		{
-			$func = $this->filter->createFunction( 'index.attribute:oneof', [$ids] );
+			$func = $this->filter->make( 'index.attribute:oneof', [$ids] );
 			$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		}
 
@@ -306,7 +306,7 @@ class Standard
 	 */
 	public function property( string $type, string $value = null, string $langid = null ) : Iface
 	{
-		$func = $this->filter->createFunction( 'product:prop', [$type, $langid, $value] );
+		$func = $this->filter->make( 'product:prop', [$type, $langid, $value] );
 		$this->conditions[] = $this->filter->compare( '!=', $func, null );
 		return $this;
 	}
@@ -398,10 +398,10 @@ class Standard
 				case 'name':
 					$langid = $this->getContext()->getLocale()->getLanguageId();
 
-					$cmpfunc = $this->filter->createFunction( 'index.text:name', [$langid] );
+					$cmpfunc = $this->filter->make( 'index.text:name', [$langid] );
 					$this->conditions[] = $this->filter->compare( '!=', $cmpfunc, null );
 
-					$sortfunc = $this->filter->createFunction( 'sort:index.text:name', [$langid] );
+					$sortfunc = $this->filter->make( 'sort:index.text:name', [$langid] );
 					$this->sort[] = $this->filter->sort( $direction, $sortfunc );
 					break;
 
@@ -437,12 +437,12 @@ class Standard
 	{
 		if( !empty( $supIds ) && ( $ids = array_unique( $this->validateIds( (array) $supIds ) ) ) !== [] )
 		{
-			$func = $this->filter->createFunction( 'index.supplier:position', [$listtype, $ids] );
+			$func = $this->filter->make( 'index.supplier:position', [$listtype, $ids] );
 
 			$this->conditions[] = $this->filter->compare( '==', 'index.supplier.id', $ids );
 			$this->conditions[] = $this->filter->compare( '>=', $func, 0 );
 
-			$func = $this->filter->createFunction( 'sort:index.supplier:position', [$listtype, $ids] );
+			$func = $this->filter->make( 'sort:index.supplier:position', [$listtype, $ids] );
 			$this->sort[] = $this->filter->sort( '+', $func );
 		}
 
@@ -462,8 +462,8 @@ class Standard
 		if( !empty( $text ) )
 		{
 			$langid = $this->getContext()->getLocale()->getLanguageId();
-			$func = $this->filter->createFunction( 'index.text:relevance', [$langid, $text] );
-			$sortfunc = $this->filter->createFunction( 'sort:index.text:relevance', [$langid, $text] );
+			$func = $this->filter->make( 'index.text:relevance', [$langid, $text] );
+			$sortfunc = $this->filter->make( 'sort:index.text:relevance', [$langid, $text] );
 
 			$this->conditions[] = $this->filter->compare( '>', $func, 0 );
 			$this->sort[] = $this->filter->sort( '-', $sortfunc );

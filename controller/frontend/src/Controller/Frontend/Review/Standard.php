@@ -262,7 +262,7 @@ class Standard
 		if( $status > 0 && $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first() )
 		{
 			$rateManager = \Aimeos\MShop::create( $context, $item->getDomain() );
-			$rateManager->rate( $item->getRefId(), $entry['sum'], $entry['count'] );
+			$rateManager->rate( $item->getRefId(), $entry['sum'] / $entry['count'], $entry['count'] );
 
 			$context->cache()->deleteByTags( [$item->getDomain() . '-' . $item->getRefId()] );
 		}

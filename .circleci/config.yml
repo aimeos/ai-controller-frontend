@@ -99,7 +99,7 @@ jobs:
       - run: ./vendor/bin/phing -Ddir=ext/ai-controller-frontend setup coverageext checkext
       - run: ls -la ext/ai-controller-frontend/
       - run: ls -la ext/ai-controller-frontend/controller/frontend/tests/
-      - run: ./vendor/bin/php-coveralls -o ext/ai-controller-frontend/coveralls.json -x ext/ai-controller-frontend/controller/frontend/tests/coverage.xml -vvv
+      - run: ./vendor/bin/php-coveralls -x ext/ai-controller-frontend/controller/frontend/tests/coverage.xml -vvv
 
 workflows:
   version: 2

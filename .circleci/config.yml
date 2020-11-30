@@ -89,7 +89,7 @@ jobs:
       - run: git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core
       - run: ls -la ..
       - run: pwd
-      - run: cd ../aimeos-core && mv ../ai-controller-frontend ext/
+      - run: cd ../aimeos-core && mv ../project ext/ai-controller-frontend
       - restore_cache:
           keys:
             - php74-{{ checksum "composer.json" }}

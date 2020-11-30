@@ -15,7 +15,7 @@ jobs:
       - run: sudo docker-php-ext-configure gd --with-jpeg-dir=/usr/include/
       - run: sudo docker-php-ext-install -j$(nproc) gd zip pdo_mysql
       - run: git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core
-      - run: cd ../aimeos-core && mv ../ai-controller-frontend ext/
+      - run: cd .. && mv project aimeos-core/ext/ai-controller-frontend && mv aimeos-core project && cd project
       - restore_cache:
           keys:
             - php71-{{ checksum "composer.json" }}
@@ -40,7 +40,7 @@ jobs:
       - checkout
       - run: sudo apt-get update && sudo apt-get install -y mysql-client php7.2-gd php7.2-intl php7.2-mysql
       - run: git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core
-      - run: cd ../aimeos-core && mv ../ai-controller-frontend ext/
+      - run: cd .. && mv project aimeos-core/ext/ai-controller-frontend && mv aimeos-core project && cd project
       - restore_cache:
           keys:
             - php72-{{ checksum "composer.json" }}
@@ -63,7 +63,7 @@ jobs:
       - checkout
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client php7.3-gd php7.3-intl php7.3-pgsql
       - run: git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core
-      - run: cd ../aimeos-core && mv ../ai-controller-frontend ext/
+      - run: cd .. && mv project aimeos-core/ext/ai-controller-frontend && mv aimeos-core project && cd project
       - restore_cache:
           keys:
             - php73-{{ checksum "composer.json" }}
@@ -97,7 +97,7 @@ jobs:
           paths: [./vendor]
       - run: echo "<?php return array( 'db' => array( 'adapter' => 'mysql', 'host' => '127.0.0.1', 'port' => 3306, 'database' => 'aimeos', 'username' => 'aimeos', 'password' => 'aimeos', 'limit' => 2, 'opt-persistent' => false, 'stmt' => array( \"SET SESSIOn sort_buffer_size=2097144; SET NAMES 'utf8'; SET SESSION sql_mode='ANSI'\" ) ), 'fs' => array( 'adapter' => 'Standard', 'basedir' => '.' ), 'mq' => array( 'adapter' => 'Standard', 'db' => 'db' ) );" > config/resource.php
       - run: ./vendor/bin/phing -Ddir=ext/ai-controller-frontend setup coverageext checkext
-      - run: ./vendor/bin/php-coveralls -c ext/ai-controller-frontend/.coveralls.yml
+      - run: ./vendor/bin/php-coveralls -o ext/ai-controller-frontend/coveralls.json -x ext/ai-controller-frontend/controller/frontend/tests/coverage.xml
 
 workflows:
   version: 2

@@ -97,13 +97,15 @@ jobs:
           paths: [./vendor]
       - run: echo "<?php return array( 'db' => array( 'adapter' => 'mysql', 'host' => '127.0.0.1', 'port' => 3306, 'database' => 'aimeos', 'username' => 'aimeos', 'password' => 'aimeos', 'limit' => 2, 'opt-persistent' => false, 'stmt' => array( \"SET SESSIOn sort_buffer_size=2097144; SET NAMES 'utf8'; SET SESSION sql_mode='ANSI'\" ) ), 'fs' => array( 'adapter' => 'Standard', 'basedir' => '.' ), 'mq' => array( 'adapter' => 'Standard', 'db' => 'db' ) );" > config/resource.php
       - run: ./vendor/bin/phing -Ddir=ext/ai-controller-frontend setup coverageext checkext
-      - run: ./vendor/bin/php-coveralls -o ext/ai-controller-frontend/coveralls.json -x ext/ai-controller-frontend/controller/frontend/tests/coverage.xml
+      - run: ls -la ext/ai-controller-frontend/
+      - run: ls -la ext/ai-controller-frontend/controller/frontend/tests/
+      - run: ./vendor/bin/php-coveralls -o ext/ai-controller-frontend/coveralls.json -x ext/ai-controller-frontend/controller/frontend/tests/coverage.xml -vvv
 
 workflows:
   version: 2
   unittest:
     jobs:
-      - "php-7.1 / mariadb-10"
-      - "php-7.2 / mysql-5.7"
-      - "php-7.3 / pgsql-13"
+#      - "php-7.1 / mariadb-10"
+#      - "php-7.2 / mysql-5.7"
+#      - "php-7.3 / pgsql-13"
       - "php-7.4 / mysql-8.0"

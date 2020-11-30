@@ -77,18 +77,20 @@ jobs:
   "php-7.4 / mysql-8.0":
     docker:
       - image: cimg/php:7.4
-      - image: circleci/mysql:8.0
-        environment:
-          MYSQL_ROOT_PASSWORD: rootpw
-          MYSQL_DATABASE: aimeos
-          MYSQL_USER: aimeos
-          MYSQL_PASSWORD: aimeos
+#      - image: circleci/mysql:8.0
+#        environment:
+#          MYSQL_ROOT_PASSWORD: rootpw
+#          MYSQL_DATABASE: aimeos
+#          MYSQL_USER: aimeos
+#          MYSQL_PASSWORD: aimeos
     steps:
       - checkout
-      - run: sudo apt-get update && sudo apt-get install -y mysql-client php7.4-gd php7.4-intl php7.4-mysql php7.4-xdebug
+ #     - run: sudo apt-get update && sudo apt-get install -y mysql-client php7.4-gd php7.4-intl php7.4-mysql php7.4-xdebug
       - run: git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core
       - run: cd ../aimeos-core && mv ../project ext/ai-controller-frontend
       - run: mv ../aimeos-core ../project
+      - run: ls -la
+      - run: ls -la ..
       - restore_cache:
           keys:
             - php74-{{ checksum "composer.json" }}
@@ -96,9 +98,9 @@ jobs:
       - save_cache:
           key: php74-{{ checksum "composer.json" }}
           paths: [./vendor]
-      - run: echo "<?php return array( 'db' => array( 'adapter' => 'mysql', 'host' => '127.0.0.1', 'port' => 3306, 'database' => 'aimeos', 'username' => 'aimeos', 'password' => 'aimeos', 'limit' => 2, 'opt-persistent' => false, 'stmt' => array( \"SET SESSIOn sort_buffer_size=2097144; SET NAMES 'utf8'; SET SESSION sql_mode='ANSI'\" ) ), 'fs' => array( 'adapter' => 'Standard', 'basedir' => '.' ), 'mq' => array( 'adapter' => 'Standard', 'db' => 'db' ) );" > config/resource.php
-      - run: ./vendor/bin/phing -Ddir=ext/ai-controller-frontend setup coverageext checkext
-      - run: ./vendor/bin/coveralls -c ext/ai-controller-frontend/.coveralls.yml
+#      - run: echo "<?php return array( 'db' => array( 'adapter' => 'mysql', 'host' => '127.0.0.1', 'port' => 3306, 'database' => 'aimeos', 'username' => 'aimeos', 'password' => 'aimeos', 'limit' => 2, 'opt-persistent' => false, 'stmt' => array( \"SET SESSIOn sort_buffer_size=2097144; SET NAMES 'utf8'; SET SESSION sql_mode='ANSI'\" ) ), 'fs' => array( 'adapter' => 'Standard', 'basedir' => '.' ), 'mq' => array( 'adapter' => 'Standard', 'db' => 'db' ) );" > config/resource.php
+#      - run: ./vendor/bin/phing -Ddir=ext/ai-controller-frontend setup coverageext checkext
+#      - run: ./vendor/bin/coveralls -c ext/ai-controller-frontend/.coveralls.yml
 
 workflows:
   version: 2

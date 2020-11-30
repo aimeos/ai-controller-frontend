@@ -87,8 +87,8 @@ jobs:
       - checkout
  #     - run: sudo apt-get update && sudo apt-get install -y mysql-client php7.4-gd php7.4-intl php7.4-mysql php7.4-xdebug
       - run: git clone --depth=50 --branch=master git://github.com/aimeos/aimeos-core.git ../aimeos-core
-      - run: cd ../aimeos-core && mv ../project ext/ai-controller-frontend
-      - run: mv ../aimeos-core ../project
+      - run: cd .. && mv project aimeos-core/ext/ai-controller-frontend && mv aimeos-core project && cd project
+      - run: pwd
       - run: ls -la
       - run: ls -la ..
       - restore_cache:

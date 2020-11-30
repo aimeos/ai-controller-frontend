@@ -1,3 +1,0 @@
-src_dir: ext/ai-controller-frontend
-json_path: ext/ai-controller-frontend/coveralls.json
-coverage_clover: ext/ai-controller-frontend/controller/frontend/tests/coverage.xml

@@ -434,10 +434,13 @@ class Standard
 	 */
 	public function stock( $minvalue )
 	{
-		$this->conditions['stock'] = $this->filter->or( [
-			$this->filter->is( 'stock.stocklevel', '>=', $minvalue ),
-			$this->filter->is( 'stock.stocklevel', '==', null )
-		] );
+		if( is_scalar( $minvalue ) && $minvalue !== '' )
+		{
+			$this->conditions['stock'] = $this->filter->or( [
+				$this->filter->is( 'stock.stocklevel', '>=', $minvalue ),
+				$this->filter->is( 'stock.stocklevel', '==', null )
+			] );
+		}
 
 		return $this;
 	}

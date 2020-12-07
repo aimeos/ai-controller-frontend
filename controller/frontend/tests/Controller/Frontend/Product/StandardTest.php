@@ -302,6 +302,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testStock()
 	{
+		$this->assertEquals( 8, count( $this->object->stock( '' )->search() ) );
 		$this->assertEquals( 6, count( $this->object->stock( 0 )->search() ) );
 		$this->assertEquals( 6, count( $this->object->stock( '1' )->search() ) );
 		$this->assertEquals( 6, count( $this->object->stock( 1.5 )->search() ) );

@@ -306,20 +306,6 @@ abstract class Base
 
 
 	/**
-	 * Adds minimum stock level for filtering
-	 *
-	 * @param string|int|float|null Minimum stock level
-	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
-	 * @since 2021.01
-	 */
-	public function stock( $minvalue )
-	{
-		$this->controller->stock( $minvalue );
-		return $this;
-	}
-
-
-	/**
 	 * Adds supplier IDs for filtering
 	 *
 	 * @param array|string $supIds Supplier ID or list of IDs

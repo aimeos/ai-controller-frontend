@@ -198,6 +198,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testStock()
+	{
+		$this->assertSame( $this->object, $this->object->stock( 123 ) );
+	}
+
+
 	public function testSupplier()
 	{
 		$this->assertSame( $this->object, $this->object->supplier( [1], 'default' ) );

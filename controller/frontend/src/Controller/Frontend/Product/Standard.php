@@ -426,6 +426,24 @@ class Standard
 
 
 	/**
+	 * Adds minimum stock level for filtering
+	 *
+	 * @param string|int|float|null Minimum stock level
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2021.01
+	 */
+	public function stock( $minvalue )
+	{
+		$this->conditions['stock'] = $this->filter->or( [
+			$this->filter->is( 'stock.stocklevel', '>=', $minvalue ),
+			$this->filter->is( 'stock.stocklevel', '==', null )
+		] );
+
+		return $this;
+	}
+
+
+	/**
 	 * Adds supplier IDs for filtering
 	 *
 	 * @param array|string $supIds Supplier ID or list of IDs

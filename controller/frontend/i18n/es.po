@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Daniel Vega <danielvega131990@gmail.com>, 2015
+# Lara Merlotto <lara@vg7.it>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-02 15:52+0100\n"
-"PO-Revision-Date: 2020-10-05 07:29+0000\n"
-"Last-Translator: Aimeos\n"
+"PO-Revision-Date: 2020-12-04 14:19+0000\n"
+"Last-Translator: Lara Merlotto <lara@vg7.it>\n"
 "Language-Team: Spanish (http://www.transifex.com/aimeos/aimeos-core/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -63,7 +64,7 @@ msgstr "El código de cupón \"%1$s\" ya no se encuentra disponible"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Dominio \"%1$s\" non es compatible"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -71,7 +72,7 @@ msgstr "Referencias \"%1$s\" no válidas para el producto con la ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Referencias \"%1$s\"no válidas para el producto con ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
@@ -83,7 +84,7 @@ msgstr "Caracteres no válidos en el nombre de clase \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Caracteres no válidos en el controlador del nombre \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -99,7 +100,7 @@ msgstr "Constructor \"%1$s\" no válido "
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Valor del precio no válido \"%1$s\""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -115,11 +116,11 @@ msgstr "No se han encontrado artículos para los atributos seleccionados y la ID
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "No se han encontrado clientes en la lista del dominio"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "No se han encontrado clientes en la lista tipo código"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
@@ -127,11 +128,11 @@ msgstr "No se ha encontrado ningún elemento para \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "No se ha encontrado ningún artículo como pedido para el ID \"%1$s\""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "No hay ningún stock disponible para el producto ID \"%1$s\" y tipo \"%2$s\""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
@@ -139,7 +140,7 @@ msgstr "No se ha encontrado un artículo único para los atributos seleccionados
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "No se permite acceder a los datos del cliente para la identificación ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -147,7 +148,7 @@ msgstr "El número de códigos de cupones excede el límite"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Artículo producto con ID \"%1$s\" no encontrado"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
@@ -159,15 +160,15 @@ msgstr "No se ha encontrado artículo de servicio para el tipo \"%1$s\" e ID \"%
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Límite temporal alcanzado"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Límite temporal del pedido alcanzado"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "El pedido ya ha sido creado"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
@@ -187,7 +188,7 @@ msgstr "No se pudo crear el proveedor \"%1$s\" para el servicio con la ID \"%2$s
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "No se puede encontrar el producto \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
@@ -195,8 +196,8 @@ msgstr "Atributos desconocidos \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "No le está permitido gestionar grupos"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Solo puede agregar un comentario si ha pedido un producto"

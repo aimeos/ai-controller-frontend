@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-02 15:52+0100\n"
-"PO-Revision-Date: 2020-11-19 20:54+0000\n"
+"PO-Revision-Date: 2020-12-09 14:43+0000\n"
 "Last-Translator: Goran Sabo <by.typo3@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/aimeos/aimeos-core/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,180 +23,180 @@ msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Adding product with ID \"%1$s\" is not allowed"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Basket item at position \"%1$d\" cannot be changed"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Basket item at position \"%1$d\" cannot be deleted manually"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr ""
+msgstr "Class \"%1$s\" does not implement interface \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
-msgstr ""
+msgstr "Class \"%1$s\" not available"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Controller path is empty"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Coupon code \"%1$s\" is invalid"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Coupon code \"%1$s\" is invalid or not available any more"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Coupon for code \"%1$s\" is not available any more"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Domain \"%1$s\" is not supported"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Invalid \"%1$s\" references for product with ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Invalid \"%1$s\" references for product with ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Invalid address properties, please check your input"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr ""
+msgstr "Invalid characters in class name \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Invalid characters in controller name \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr ""
+msgstr "Invalid domain \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "Invalid factory \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Invalid price value \"%1$s\""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Invalid value for address type \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "List type for domain \"%1$s\" and code \"%2$s\" not found"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "No article found for selected attributes and product ID \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "No customer lists domain"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "No customer lists type code"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "No item for \"%1$s\" (%2$s) found"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "No order item for ID \"%1$s\" found"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "No stock for product ID \"%1$s\" and type \"%2$s\" available"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "No unique article found for selected attributes and product ID \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Not allowed to access customer data for ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Number of coupon codes exceeds the limit"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Product item with ID \"%1$s\" not found"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Requirements for coupon code \"%1$s\" aren't met"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Temporary limit reached"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Temporary order limit reached"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "The order has already been created"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "There are not enough products \"%1$s\" in stock"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr ""
+msgstr "Unable to call method \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Unable to call method \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Unable to find product \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Unknown attributes \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr "Za urejanje te skupine nimate dovoljenja"
+msgstr "You are not allowed to manage groups"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr "Mnenje lahko prispevate le v primeru, da ste že kupili ta izdelek"
+msgstr "You can only add a review if you have ordered a product"

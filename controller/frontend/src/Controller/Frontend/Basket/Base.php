@@ -418,7 +418,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$expr[] = $search->and( $tmp );
 		}
 
-		$search->setConditions( $search->combine( '||', $expr ) );
+		$search->setConditions( $search->or( $expr ) );
 		return $attributeManager->search( $search, array( 'price' ) );
 	}
 

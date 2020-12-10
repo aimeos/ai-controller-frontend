@@ -318,7 +318,7 @@ class Standard
 			$this->conditions[] = $this->filter->compare( '<=', 'catalog.level', $levels );
 		}
 
-		$this->conditions[] = $this->filter->combine( '||', $expr );
+		$this->conditions[] = $this->filter->or( $expr );
 		return $this;
 	}
 }

@@ -98,7 +98,7 @@ class Standard
 			$filter->compare( '==', 'order.base.customerid', $context->getUserId() ),
 			$filter->getConditions(),
 		];
-		$filter->setConditions( $filter->combine( '&&', $expr ) );
+		$filter->setConditions( $filter->and( $expr ) );
 
 		if( ( $item = $this->manager->search( $filter )->first() ) === null )
 		{
@@ -125,7 +125,7 @@ class Standard
 			$search->compare( '==', 'attribute.type', 'interval' ),
 			$search->getConditions(),
 		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setConditions( $search->and( $expr ) );
 		$search->slice( 0, 10000 );
 
 		$list = [];
@@ -175,7 +175,7 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
 		return $this->manager->search( $this->filter, [], $total );
 	}
 

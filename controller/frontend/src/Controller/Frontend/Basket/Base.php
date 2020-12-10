@@ -371,7 +371,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$search->compare( '==', 'attribute.id', $attributeIds ),
 			$search->getConditions(),
 		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setConditions( $search->and( $expr ) );
 		$search->slice( 0, count( $attributeIds ) );
 
 		$attrItems = $attributeManager->search( $search, $domains );
@@ -415,7 +415,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$search->compare( '>', 'attribute.status', 0 ),
 				$search->getConditions(),
 			);
-			$expr[] = $search->combine( '&&', $tmp );
+			$expr[] = $search->and( $tmp );
 		}
 
 		$search->setConditions( $search->combine( '||', $expr ) );

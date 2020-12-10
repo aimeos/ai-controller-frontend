@@ -204,7 +204,7 @@ class Standard
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$expr = array_merge( $this->conditions, [$this->filter->compare( '==', 'attribute.domain', $this->domain )] );
-		$this->filter->setConditions( $this->filter->combine( '&&', $expr ) );
+		$this->filter->setConditions( $this->filter->and( $expr ) );
 
 		return $this->manager->search( $this->filter, $this->domains, $total );
 	}

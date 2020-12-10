@@ -122,7 +122,7 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
 		return $this->manager->search( $this->filter, [], $total );
 	}
 

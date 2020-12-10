@@ -64,7 +64,7 @@ class Standard
 	 */
 	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
 		return $this->manager->aggregate( $this->filter, $key, $value, $type );
 	}
 
@@ -344,7 +344,7 @@ class Standard
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$this->filter->setSortations( $this->sort );
-		$this->filter->setConditions( $this->filter->combine( '&&', $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
 
 		return $this->manager->search( $this->filter, $this->domains, $total );
 	}

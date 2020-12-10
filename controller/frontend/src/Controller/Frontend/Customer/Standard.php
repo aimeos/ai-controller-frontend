@@ -388,7 +388,7 @@ class Standard
 			$search->compare( '==', 'customer.editor', $context->getEditor() ),
 			$search->compare( '>=', 'customer.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
 		];
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setConditions( $search->and( $expr ) );
 
 		$this->manager->search( $search, [], $total );
 

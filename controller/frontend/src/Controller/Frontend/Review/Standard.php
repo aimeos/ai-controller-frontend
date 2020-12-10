@@ -63,7 +63,7 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$this->filter->setConditions( $this->filter->combine( '&&', array_merge( $this->conditions, [$cond] ) ) );
+		$this->filter->setConditions( $this->filter->and( array_merge( $this->conditions, [$cond] ) ) );
 		return $this->manager->aggregate( $this->filter, $key, $value, $type );
 	}
 
@@ -171,7 +171,7 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.customerid', '==', $this->getContext()->getUserId() );
 
-		$filter->setConditions( $filter->combine( '&&', array_merge( $this->conditions, [$cond] ) ) );
+		$filter->setConditions( $filter->and( array_merge( $this->conditions, [$cond] ) ) );
 		return $this->manager->search( $filter, [], $total );
 	}
 
@@ -283,7 +283,7 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$filter->setConditions( $filter->combine( '&&', array_merge( $this->conditions, [$cond] ) ) );
+		$filter->setConditions( $filter->and( array_merge( $this->conditions, [$cond] ) ) );
 		return $this->manager->search( $filter, [], $total );
 	}
 

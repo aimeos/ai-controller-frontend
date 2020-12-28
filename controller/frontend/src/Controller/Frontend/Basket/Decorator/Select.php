@@ -97,6 +97,49 @@ class Select
 
 
 	/**
+	 * Edits the quantity of a product item in the basket.
+	 *
+	 * @param int $position Position number (key) of the order product item
+	 * @param float $quantity New quantiy of the product item
+	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
+	 */
+	public function updateProduct( int $position, float $quantity ) : \Aimeos\Controller\Frontend\Basket\Iface
+	{
+		$orderProduct = $this->get()->getProduct( $position );
+
+		if( $orderProduct->getType() !== 'select' )
+		{
+			$this->getController()->updateProduct( $position, $quantity );
+			return $this;
+		}
+
+		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
+		{
+			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
+		}
+
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+		$product = $manager->find( $orderProduct->getProductCode(), ['price' => ['default']], true );
+		$quantity = $this->checkQuantity( $product, $quantity );
+
+		if( ( $prices = $product->getRefItems( 'price', 'default', 'default' ) )->isEmpty() )
+		{
+			$prices = $manager->get( $orderProduct->getProductId(), ['price' => ['default']], true )
+				->getRefItems( 'price', 'default', 'default' );
+		}
+
+		$price = $this->calcPrice( $orderProduct, $prices, $quantity );
+		$orderProduct = $orderProduct->setQuantity( $quantity )->setPrice( $price );
+
+		$this->getController()->get()->addProduct( $orderProduct, $position );
+		$this->getController()->save();
+
+		return $this;
+	}
+
+
+	/**
 	 * Returns the variant attributes and updates the price list if necessary.
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Product item which is replaced if necessary

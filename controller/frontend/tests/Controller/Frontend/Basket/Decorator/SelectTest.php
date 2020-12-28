@@ -173,4 +173,30 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'hidden', $attributes->first()->getType() );
 		$this->assertEquals( '29', $product->getAttribute( 'width', 'hidden' ) );
 	}
+
+
+	public function testUpdateProduct()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'product' );
+		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$this->object->addProduct( $item );
+
+		$this->assertSame( $this->object, $this->object->updateProduct( 0, 2 ) );
+		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
+		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
+		$this->assertEquals( 'CNC', $this->object->get()->getProduct( 0 )->getProductCode() );
+		$this->assertEquals( '600.00', $this->object->get()->getProduct( 0 )->getPrice()->getValue() );
+	}
+
+
+	public function testUpdateProductSelect()
+	{
+		$this->object->addProduct( $this->testItem, 1 );
+
+		$this->assertSame( $this->object, $this->object->updateProduct( 0, 2 ) );
+		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
+		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
+		$this->assertEquals( 'U:TESTPSUB01', $this->object->get()->getProduct( 0 )->getProductCode() );
+		$this->assertEquals( '18.00', $this->object->get()->getProduct( 0 )->getPrice()->getValue() );
+	}
 }

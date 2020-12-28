@@ -80,7 +80,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testHas()
 	{
-		$this->assertEquals( 2, count( $this->object->has( 'price', 'default' )->search() ) );
+		$this->assertEquals( 3, count( $this->object->has( 'price', 'default' )->search() ) );
 	}
 
 

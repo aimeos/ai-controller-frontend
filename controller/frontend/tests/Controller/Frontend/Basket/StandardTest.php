@@ -274,7 +274,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
 
-		$result = $this->object->addProduct( $item, 2, [], [], [], 'unit_type3' );
+		$result = $this->object->addProduct( $item, 2, [], [], [], 'unitstock' );
 
 		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
 		$this->assertEquals( 'IJKL', $this->object->get()->getProduct( 0 )->getProductCode() );
@@ -286,9 +286,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
 
-		$product = $this->object->addProduct( $item, 2, [], [], [], 'unit_type3', 'supplier', 123 )->get()->getProduct( 0 );
+		$product = $this->object->addProduct( $item, 2, [], [], [], 'unitstock', 'supplier', 123 )->get()->getProduct( 0 );
 
-		$this->assertEquals( 'unit_type3', $product->getStockType() );
+		$this->assertEquals( 'unitstock', $product->getStockType() );
 		$this->assertEquals( 'supplier', $product->getSupplierCode() );
 		$this->assertEquals( 123, $product->getSiteId() );
 	}

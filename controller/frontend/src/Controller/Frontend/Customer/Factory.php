@@ -48,7 +48,7 @@ class Factory
 		 *
 		 * then you have to set the this configuration option:
 		 *
-		 *  controller/jobs/frontend/customer/name = Mycustomer
+		 *  controller/frontend/customer/name = Mycustomer
 		 *
 		 * The value is the last part of your own class name and it's case sensitive,
 		 * so take care that the configuration value is exactly named like the last

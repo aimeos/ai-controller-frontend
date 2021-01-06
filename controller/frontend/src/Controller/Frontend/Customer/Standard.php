@@ -79,6 +79,7 @@ class Standard
 	 */
 	public function add( array $values ) : Iface
 	{
+		$password = $values['customer.password'] ?? '';
 		$item = $this->item->fromArray( $values );
 		$addrItem = $item->getPaymentAddress();
 
@@ -101,7 +102,7 @@ class Standard
 			$item = $item->setCode( $addrItem->getEmail() );
 		}
 
-		if( ( $password = $values['customer.password'] ?? '' ) !== '' ) {
+		if( $password ) {
 			$item = $item->setPassword( $password );
 		}
 

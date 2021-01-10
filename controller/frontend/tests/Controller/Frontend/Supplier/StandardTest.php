@@ -36,7 +36,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = $this->object->uses( ['product'] )->find( 'unitCode001' );
+		$item = $this->object->uses( ['product'] )->find( 'unitSupplier001' );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );
 		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
@@ -52,7 +52,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitCode001' );
+		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' );
 		$item = $this->object->uses( ['product'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );

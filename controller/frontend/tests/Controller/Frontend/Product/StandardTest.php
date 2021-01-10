@@ -290,7 +290,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortRelevanceSupplier()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->find( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitSupplier001' )->getId();
 
 		$result = $this->object->supplier( $supId )->sort( 'relevance' )->search();
 
@@ -303,7 +303,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSupplier()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );
-		$supId = $manager->find( 'unitCode001' )->getId();
+		$supId = $manager->find( 'unitSupplier001' )->getId();
 
 		$this->assertEquals( 2, count( $this->object->supplier( $supId )->search() ) );
 	}

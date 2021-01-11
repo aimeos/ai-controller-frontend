@@ -30,7 +30,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCompare()
 	{
-		$this->assertEquals( 2, count( $this->object->compare( '=~', 'supplier.label', 'unit' )->search() ) );
+		$this->assertEquals( 2, count( $this->object->compare( '=~', 'supplier.label', 'Unit' )->search() ) );
 	}
 
 
@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testParse()
 	{
-		$cond = ['&&' => [['==' => ['supplier.status' => 1]], ['=~' => ['supplier.label' => 'unit']]]];
+		$cond = ['&&' => [['==' => ['supplier.status' => 1]], ['=~' => ['supplier.label' => 'Unit']]]];
 		$this->assertEquals( 2, count( $this->object->parse( $cond )->search() ) );
 	}
 

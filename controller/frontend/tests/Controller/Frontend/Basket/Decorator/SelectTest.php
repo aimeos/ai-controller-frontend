@@ -76,14 +76,15 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$supId = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' )->getId();
 
-		$result = $this->object->addProduct( $item, 1, $attrIds->toArray(), [], [], 'default', 'unitsupplier' );
+		$result = $this->object->addProduct( $item, 1, $attrIds->toArray(), [], [], 'default', $supId );
 
 		$this->assertSame( $this->object, $result );
 		$this->assertEquals( 1, count( $this->object->get()->getProducts() ) );
 		$this->assertEquals( 'CNC', $this->object->get()->getProduct( 0 )->getProductCode() );
 		$this->assertEquals( 'default', $this->object->get()->getProduct( 0 )->getStockType() );
-		$this->assertEquals( 'unitsupplier', $this->object->get()->getProduct( 0 )->getSupplierCode() );
+		$this->assertEquals( $supId, $this->object->get()->getProduct( 0 )->getSupplierId() );
 	}
 
 

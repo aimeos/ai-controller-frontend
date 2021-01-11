@@ -154,15 +154,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$basket = $this->object->get();
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
+		$supplier = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' );
 
-		$result1 = $this->object->addProduct( $item, 2, [], [], [], 'default', 'unitsupplier' );
+		$result1 = $this->object->addProduct( $item, 2, [], [], [], 'default', $supplier->getId() );
 		$item2 = $this->object->get()->getProduct( 0 );
 		$result2 = $this->object->deleteProduct( 0 );
 
 		$this->assertEquals( 0, count( $basket->getProducts() ) );
 		$this->assertEquals( 'CNC', $item2->getProductCode() );
 		$this->assertEquals( 'default', $item2->getStockType() );
-		$this->assertEquals( 'unitsupplier', $item2->getSupplierCode() );
+		$this->assertEquals( 'Test supplier', $item2->getSupplierName() );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result1 );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result2 );
 	}
@@ -285,12 +286,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductOptionalParameters()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
+		$supId = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' )->getId();
 
-		$product = $this->object->addProduct( $item, 2, [], [], [], 'unitstock', 'supplier', 123 )->get()->getProduct( 0 );
+		$product = $this->object->addProduct( $item, 2, [], [], [], 'unitstock', $supId, '123' )->get()->getProduct( 0 );
 
 		$this->assertEquals( 'unitstock', $product->getStockType() );
-		$this->assertEquals( 'supplier', $product->getSupplierCode() );
-		$this->assertEquals( 123, $product->getSiteId() );
+		$this->assertEquals( 'Test supplier', $product->getSupplierName() );
+		$this->assertEquals( $supId, $product->getSupplierId() );
+		$this->assertEquals( '123', $product->getSiteId() );
 	}
 
 

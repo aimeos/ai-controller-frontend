@@ -30,18 +30,18 @@ class Select
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @param string $supplier Unique supplier code the product is from
+	 * @param string|null $supplierid Unique supplier ID the product is from
 	 * @param string|null $siteid Unique site ID the product is from or null for siteid of the product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product,
 		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
-		string $stocktype = 'default', string $supplier = '', string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
+		string $stocktype = 'default', string $supplierid = null, string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		if( $product->getType() !== 'select' )
 		{
-			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier, $siteid );
+			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplierid, $siteid );
 			return $this;
 		}
 
@@ -83,10 +83,16 @@ class Select
 		$orderBaseProductItem = $orderBaseProductItem->setQuantity( $quantity )
 			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) )
 			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) )
-			->setStockType( $stocktype )->setSupplierCode( $supplier );
+			->setStockType( $stocktype );
 
 		if( $siteid ) {
 			$orderBaseProductItem->setSiteId( $siteid );
+		}
+
+		if( $supplierid )
+		{
+			$name = \Aimeos\MShop::create( $this->getContext(), 'supplier' )->get( $supplierid, ['text' => ['name']] )->getName();
+			$orderBaseProductItem->setSupplierId( $supplierid )->setSupplierName( $name );
 		}
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );

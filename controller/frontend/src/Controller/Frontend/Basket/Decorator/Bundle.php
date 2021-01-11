@@ -30,18 +30,18 @@ class Bundle
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @param string $supplier Unique supplier code the product is from
+	 * @param string|null $supplierid Unique supplier ID the product is from
 	 * @param string|null $siteid Unique site ID the product is from or null for siteid of the product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product,
 		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
-		string $stocktype = 'default', string $supplier = '', string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
+		string $stocktype = 'default', string $supplierid = null, string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		if( $product->getType() !== 'bundle' )
 		{
-			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier, $siteid );
+			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplierid, $siteid );
 			return $this;
 		}
 
@@ -57,12 +57,19 @@ class Bundle
 		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
 
 		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create();
+		$name = '';
+
+		if( $supplierid )
+		{
+			$name = \Aimeos\MShop::create( $this->getContext(), 'supplier' )->get( $supplierid, ['text' => ['name']] )->getName();
+			$orderBaseProductItem->setSupplierId( $supplierid )->setSupplierName( $name );
+		}
 
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
-			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype, $supplier ) )
-			->setQuantity( $quantity )->setStockType( $stocktype )->setSupplierCode( $supplier )
-			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
+			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype, $supplierid, $name ) )
+			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) )
+			->setQuantity( $quantity )->setStockType( $stocktype );
 
 		if( $siteid ) {
 			$orderBaseProductItem->setSiteId( $siteid );
@@ -81,11 +88,12 @@ class Bundle
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Bundle product item
 	 * @param float $quantity Amount of products that should by added
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @param string|null $supplier Unique supplier code the product is from
+	 * @param string|null $supplierid Unique supplier ID the product is from
+	 * @param string $suppliername Name of the supplier the product is from
 	 * @return \Aimeos\MShop\Order\Item\Base\Product\Iface[] List of order product item from bundle
 	 */
 	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, float $quantity,
-		string $stocktype, string $supplier = null ) : array
+		string $stocktype, ?string $supplierid, string $suppliername ) : array
 	{
 		$orderProducts = [];
 		$orderProductManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' );
@@ -95,7 +103,8 @@ class Bundle
 			$orderProduct = $orderProductManager->create()->copyFrom( $item );
 			$prices = $item->getRefItems( 'price', 'default', 'default' );
 
-			$orderProducts[] = $orderProduct->setStockType( $stocktype )->setSupplierCode( $supplier )
+			$orderProducts[] = $orderProduct->setStockType( $stocktype )
+				->setSupplierId( $supplierid )->setSupplierName( $suppliername )
 				->setPrice( $this->calcPrice( $orderProduct, $prices, $quantity ) );
 		}
 

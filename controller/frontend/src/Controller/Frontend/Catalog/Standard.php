@@ -105,6 +105,13 @@ class Standard
 	{
 		$list = $this->manager->getPath( $id, $this->domains );
 
+		foreach( $list as $item )
+		{
+			if( !$item->isAvailable() ) {
+				throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Category is not available' ) );
+			}
+		}
+
 		if( $this->root )
 		{
 			foreach( $list as $key => $item )

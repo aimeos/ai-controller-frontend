@@ -283,7 +283,7 @@ class Standard
 	{
 		$langid = $this->getContext()->getLocale()->getLanguageId();
 
-		$search = $this->manager->createSearch();
+		$search = $this->manager->createSearch( true );
 		$func = $search->createFunction( 'index.text:url', [$langid] );
 		$search->setConditions( $search->compare( '==', $func, $name ) );
 

@@ -321,10 +321,9 @@ class Standard
 	 */
 	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		$search = $this->manager->createSearch()->setSlice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'index.text:url()', $name ) );
+		$search = $this->manager->filter( true )->slice( 0, 1 )->add( ['index.text:url()' => $name] );
 
-		if( ( $item = $this->manager->searchItems( $search, $this->domains )->first() ) === null )
+		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{
 			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Unable to find product "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ) );

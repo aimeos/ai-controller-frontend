@@ -170,7 +170,7 @@ class Standard
 	 */
 	public function findItem( $code, array $domains = [] )
 	{
-		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->findItem( $code, $domains, true );
+		return \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer' )->findItem( $code, $domains, null, null, true );
 	}
 
 

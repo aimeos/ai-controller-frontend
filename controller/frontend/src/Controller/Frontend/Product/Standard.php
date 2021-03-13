@@ -26,6 +26,7 @@ class Standard
 	private $sort = [];
 	private $filter;
 	private $manager;
+	private $rules;
 
 
 	/**
@@ -152,7 +153,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		return $this->manager->find( $code, $this->domains, 'product', null, true );
+		return $this->applyRules( $this->manager->find( $code, $this->domains, 'product', null, true ) );
 	}
 
 
@@ -178,7 +179,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		return $this->manager->get( $id, $this->domains, true );
+		return $this->applyRules( $this->manager->get( $id, $this->domains, true ) );
 	}
 
 
@@ -329,7 +330,7 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ) );
 		}
 
-		return $item;
+		return $this->applyRules( $item );
 	}
 
 
@@ -345,7 +346,7 @@ class Standard
 		$this->filter->setSortations( $this->sort );
 		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
 
-		return $this->manager->search( $this->filter, $this->domains, $total );
+		return $this->applyRules( $this->manager->search( $this->filter, $this->domains, $total ) );
 	}
 
 
@@ -486,6 +487,36 @@ class Standard
 	}
 
 
+
+	/**
+	 * Applies the rules for modifying products (prices) dynamically
+	 *
+	 * @param \Aimeos\Map|\Aimeos\MShop\Product\Item\Iface $products Product or list of products
+	 * @return \Aimeos\Map|\Aimeos\MShop\Product\Item\Iface Modified product or list of products
+	 */
+	protected function applyRules( $products )
+	{
+		$rules = $this->getRuleItems();
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'rule' );
+
+		foreach( $rules as $key => $rule )
+		{
+			if( $rule instanceof \Aimeos\MShop\Rule\Item\Iface ) {
+				$rules->set( $key, $rule = $manager->getProvider( $rule, 'catalog' ) );
+			}
+
+			foreach( map( $products ) as $product )
+			{
+				if( $rule->apply( $product ) ) {
+					return $products;
+				}
+			}
+		}
+
+		return $products;
+	}
+
+
 	/**
 	 * Returns the list of catalog IDs for the given catalog tree
 	 *
@@ -505,6 +536,26 @@ class Standard
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * Creates and returns the rule stack for modifying products (prices) dynamically
+	 *
+	 * @return \Aimeos\Map List of rule items implementing \Aimeos\MShop\Rule\Item\Iface
+	 */
+	protected function getRuleItems() : \Aimeos\Map
+	{
+		if( !isset( $this->rules ) )
+		{
+			$manager = \Aimeos\MShop::create( $this->getContext(), 'rule' );
+			$filter = $manager->filter( true )->add( ['rule.type' => 'catalog'] )
+				->order( 'rule.position' )->slice( 0, 10000 );
+
+			$this->rules = $manager->search( $filter );
+		}
+
+		return $this->rules;
 	}
 
 

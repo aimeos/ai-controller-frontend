@@ -21,9 +21,7 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $conditions = [];
 	private $domains = [];
-	private $sort = [];
 	private $filter;
 	private $manager;
 	private $root;
@@ -40,7 +38,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'catalog' );
 		$this->filter = $this->manager->filter( true );
-		$this->conditions[] = $this->filter->getConditions();
+		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -64,7 +62,7 @@ class Standard
 	 */
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
-		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
 		return $this;
 	}
 
@@ -147,7 +145,7 @@ class Standard
 	 */
 	public function getTree( int $level = Iface::TREE ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 		return $this->manager->getTree( $this->root, $this->domains, $level, $this->filter );
 	}
 
@@ -162,7 +160,7 @@ class Standard
 	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
-			$this->conditions[] = $cond;
+			$this->addExpression( $cond );
 		}
 
 		return $this;
@@ -192,7 +190,9 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+		$this->filter->setSortations( $this->getSortations() );
+
 		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
 
@@ -226,10 +226,9 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
-			$this->sort[] = $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) );
+			$this->addExpression( $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) ) );
 		}
 
-		$this->filter->setSortations( $this->sort );
 		return $this;
 	}
 
@@ -319,10 +318,10 @@ class Standard
 		 * @see controller/frontend/catalog/levels-always
 		 */
 		if( ( $levels = $config->get( 'controller/frontend/catalog/levels-only' ) ) != null ) {
-			$this->conditions[] = $this->filter->compare( '<=', 'catalog.level', $levels );
+			$this->addExpression( $this->filter->compare( '<=', 'catalog.level', $levels ) );
 		}
 
-		$this->conditions[] = $this->filter->or( $expr );
+		$this->addExpression( $this->filter->or( $expr ) );
 		return $this;
 	}
 }

@@ -21,9 +21,7 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $conditions = [];
 	private $domains = [];
-	private $sort = [];
 	private $filter;
 	private $manager;
 	private $rules;
@@ -40,8 +38,9 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'index' );
 		$this->filter = $this->manager->filter( true );
-		$this->conditions[] = $this->filter->compare( '!=', 'index.catalog.id', null );
-		$this->conditions[] = $this->filter->getConditions();
+
+		$this->addExpression( $this->filter->compare( '!=', 'index.catalog.id', null ) );
+		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -65,7 +64,9 @@ class Standard
 	 */
 	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+		$this->filter->setSortations( $this->getSortations() );
+
 		return $this->manager->aggregate( $this->filter, $key, $value, $type );
 	}
 
@@ -82,7 +83,7 @@ class Standard
 		if( !empty( $attrIds ) && ( $ids = $this->validateIds( (array) $attrIds ) ) !== [] )
 		{
 			$func = $this->filter->make( 'index.attribute:allof', [$ids] );
-			$this->conditions[] = $this->filter->compare( '!=', $func, null );
+			$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 		}
 
 		return $this;
@@ -116,12 +117,12 @@ class Standard
 
 			$func = $this->filter->make( 'index.catalog:position', [$listtype, $ids] );
 
-			$this->conditions[] = $this->filter->compare( '==', 'index.catalog.id', $ids );
-			$this->conditions[] = $this->filter->compare( '>=', $func, 0 );
+			$this->addExpression( $this->filter->compare( '==', 'index.catalog.id', $ids ) );
+			$this->addExpression( $this->filter->compare( '>=', $func, 0 ) );
 
 			$func = $this->filter->make( 'sort:index.catalog:position', [$listtype, $ids] );
-			$this->sort[] = $this->filter->sort( '+', $func );
-			$this->sort[] = $this->filter->sort( '+', 'product.id' ); // prevent flaky order if products have same position
+			$this->addExpression( $this->filter->sort( '+', $func ) );
+			$this->addExpression( $this->filter->sort( '+', 'product.id' ) ); // prevent flaky order if products have same position
 		}
 
 		return $this;
@@ -139,7 +140,7 @@ class Standard
 	 */
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
-		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
 		return $this;
 	}
 
@@ -199,7 +200,7 @@ class Standard
 		!$refId ?: $params[] = $refId;
 
 		$func = $this->filter->make( 'product:has', $params );
-		$this->conditions[] = $this->filter->compare( '!=', $func, null );
+		$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 		return $this;
 	}
 
@@ -222,7 +223,7 @@ class Standard
 			if( is_array( $entry ) && ( $ids = $this->validateIds( $entry ) ) !== [] )
 			{
 				$func = $this->filter->make( 'index.attribute:oneof', [$ids] );
-				$this->conditions[] = $this->filter->compare( '!=', $func, null );
+				$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 				unset( $attrIds[$key] );
 			}
 		}
@@ -230,7 +231,7 @@ class Standard
 		if( ( $ids = $this->validateIds( $attrIds ) ) !== [] )
 		{
 			$func = $this->filter->make( 'index.attribute:oneof', [$ids] );
-			$this->conditions[] = $this->filter->compare( '!=', $func, null );
+			$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 		}
 
 		return $this;
@@ -247,7 +248,7 @@ class Standard
 	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
-			$this->conditions[] = $cond;
+			$this->addExpression( $cond );
 		}
 
 		return $this;
@@ -268,10 +269,10 @@ class Standard
 			$value = (array) $value;
 			$func = $this->filter->make( 'index.price:value', [$this->getContext()->getLocale()->getCurrencyId()] );
 
-			$this->conditions['price-high'] = $this->filter->compare( '<=', $func, sprintf( '%013.2F', end( $value ) ) );
+			$this->addExpression( $this->filter->compare( '<=', $func, sprintf( '%013.2F', end( $value ) ) ) );
 
 			if( count( $value ) > 1 ) {
-				$this->conditions['price-low'] = $this->filter->compare( '>=', $func, sprintf( '%013.2F', reset( $value ) ) );
+				$this->addExpression( $this->filter->compare( '>=', $func, sprintf( '%013.2F', reset( $value ) ) ) );
 			}
 		}
 
@@ -289,7 +290,7 @@ class Standard
 	public function product( $prodIds ) : Iface
 	{
 		if( !empty( $prodIds ) && ( $ids = array_unique( $this->validateIds( (array) $prodIds ) ) ) !== [] ) {
-			$this->conditions[] = $this->filter->compare( '==', 'product.id', $ids );
+			$this->addExpression( $this->filter->compare( '==', 'product.id', $ids ) );
 		}
 
 		return $this;
@@ -308,7 +309,7 @@ class Standard
 	public function property( string $type, string $value = null, string $langid = null ) : Iface
 	{
 		$func = $this->filter->make( 'product:prop', [$type, $langid, $value] );
-		$this->conditions[] = $this->filter->compare( '!=', $func, null );
+		$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 		return $this;
 	}
 
@@ -343,8 +344,8 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setSortations( $this->sort );
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setSortations( $this->getSortations() );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 
 		return $this->applyRules( $this->manager->search( $this->filter, $this->domains, $total ) );
 	}
@@ -388,21 +389,21 @@ class Standard
 					break;
 
 				case 'code':
-					$this->sort[] = $this->filter->sort( $direction, 'product.code' );
+					$this->addExpression( $this->filter->sort( $direction, 'product.code' ) );
 					break;
 
 				case 'ctime':
-					$this->sort[] = $this->filter->sort( $direction, 'product.ctime' );
+					$this->addExpression( $this->filter->sort( $direction, 'product.ctime' ) );
 					break;
 
 				case 'name':
 					$langid = $this->getContext()->getLocale()->getLanguageId();
 
 					$cmpfunc = $this->filter->make( 'index.text:name', [$langid] );
-					$this->conditions[] = $this->filter->compare( '!=', $cmpfunc, null );
+					$this->addExpression( $this->filter->compare( '!=', $cmpfunc, null ) );
 
 					$sortfunc = $this->filter->make( 'sort:index.text:name', [$langid] );
-					$this->sort[] = $this->filter->sort( $direction, $sortfunc );
+					$this->addExpression( $this->filter->sort( $direction, $sortfunc ) );
 					break;
 
 				case 'price':
@@ -410,17 +411,16 @@ class Standard
 					$sortfunc = $this->filter->make( 'sort:index.price:value', [$currencyid] );
 
 					$cmpfunc = $this->filter->make( 'index.price:value', [$currencyid] );
-					$this->conditions['price-sort'] = $this->filter->compare( '!=', $cmpfunc, null );
+					$this->addExpression( $this->filter->compare( '!=', $cmpfunc, null ) );
 
-					$this->sort[] = $this->filter->sort( $direction, $sortfunc );
+					$this->addExpression( $this->filter->sort( $direction, $sortfunc ) );
 					break;
 
 				default:
-					$this->sort[] = $this->filter->sort( $direction, $sortkey );
+					$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 			}
 		}
 
-		$this->filter->setSortations( $this->sort );
 		return $this;
 	}
 
@@ -439,11 +439,11 @@ class Standard
 		{
 			$func = $this->filter->make( 'index.supplier:position', [$listtype, $ids] );
 
-			$this->conditions[] = $this->filter->compare( '==', 'index.supplier.id', $ids );
-			$this->conditions[] = $this->filter->compare( '>=', $func, 0 );
+			$this->addExpression( $this->filter->compare( '==', 'index.supplier.id', $ids ) );
+			$this->addExpression( $this->filter->compare( '>=', $func, 0 ) );
 
 			$func = $this->filter->make( 'sort:index.supplier:position', [$listtype, $ids] );
-			$this->sort[] = $this->filter->sort( '+', $func );
+			$this->addExpression( $this->filter->sort( '+', $func ) );
 		}
 
 		return $this;
@@ -465,8 +465,8 @@ class Standard
 			$func = $this->filter->make( 'index.text:relevance', [$langid, $text] );
 			$sortfunc = $this->filter->make( 'sort:index.text:relevance', [$langid, $text] );
 
-			$this->conditions[] = $this->filter->compare( '>', $func, 0 );
-			$this->sort[] = $this->filter->sort( '-', $sortfunc );
+			$this->addExpression( $this->filter->compare( '>', $func, 0 ) );
+			$this->addExpression( $this->filter->sort( '-', $sortfunc ) );
 		}
 
 		return $this;

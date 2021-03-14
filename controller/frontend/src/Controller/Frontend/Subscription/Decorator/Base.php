@@ -21,6 +21,9 @@ abstract class Base
 	extends \Aimeos\Controller\Frontend\Base
 	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface, \Aimeos\Controller\Frontend\Subscription\Iface
 {
+	use \Aimeos\Controller\Frontend\Common\Decorator\Traits;
+
+
 	private $controller;
 
 
@@ -201,9 +204,9 @@ abstract class Base
 	/**
 	 * Returns the frontend controller
 	 *
-	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Frontend controller object
+	 * @return \Aimeos\Controller\Frontend\Iface Frontend controller object
 	 */
-	protected function getController() : \Aimeos\Controller\Frontend\Subscription\Iface
+	protected function getController() : \Aimeos\Controller\Frontend\Iface
 	{
 		return $this->controller;
 	}

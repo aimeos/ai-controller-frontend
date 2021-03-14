@@ -21,7 +21,6 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $conditions = [];
 	private $filter;
 	private $manager;
 
@@ -37,7 +36,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'subscription' );
 		$this->filter = $this->manager->filter();
-		$this->conditions[] = $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() );
+		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() ) );
 	}
 
 
@@ -77,7 +76,7 @@ class Standard
 	 */
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
-		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
 		return $this;
 	}
 
@@ -148,7 +147,7 @@ class Standard
 	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
-			$this->conditions[] = $cond;
+			$this->addExpression( $cond );
 		}
 
 		return $this;
@@ -175,7 +174,9 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setSortations( $this->getSortations() );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+
 		return $this->manager->search( $this->filter, [], $total );
 	}
 
@@ -204,7 +205,6 @@ class Standard
 	 */
 	public function sort( string $key = null ) : Iface
 	{
-		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
 
 		foreach( $list as $sortkey )
@@ -215,14 +215,12 @@ class Standard
 			switch( $sortkey )
 			{
 				case 'interval':
-					$sort[] = $this->filter->sort( $direction, 'subscription.interval' );
-					break;
+					$this->addExpression( $this->filter->sort( $direction, 'subscription.interval' ) ); break;
 				default:
-					$sort[] = $this->filter->sort( $direction, $sortkey );
+					$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 			}
 		}
 
-		$this->filter->setSortations( $sort );
 		return $this;
 	}
 }

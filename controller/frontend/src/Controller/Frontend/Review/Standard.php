@@ -21,7 +21,6 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $conditions = [];
 	private $filter;
 	private $manager;
 
@@ -63,8 +62,10 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$this->filter->setConditions( $this->filter->and( array_merge( $this->conditions, [$cond] ) ) );
-		return $this->manager->aggregate( $this->filter, $key, $value, $type );
+		$filter->setSortations( $this->getSortations() );
+		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
+
+		return $this->manager->aggregate( $filter, $key, $value, $type );
 	}
 
 
@@ -79,7 +80,7 @@ class Standard
 	 */
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
-		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
 		return $this;
 	}
 
@@ -122,7 +123,7 @@ class Standard
 	 */
 	public function domain( string $domain ) : Iface
 	{
-		$this->conditions['domain'] = $this->filter->compare( '==', 'review.domain', $domain );
+		$this->addExpression( $this->filter->compare( '==', 'review.domain', $domain ) );
 		return $this;
 	}
 
@@ -137,10 +138,10 @@ class Standard
 	 */
 	public function for( string $domain, $refid ) : Iface
 	{
-		$this->conditions['domain'] = $this->filter->compare( '==', 'review.domain', $domain );
+		$this->addExpression( $this->filter->compare( '==', 'review.domain', $domain ) );
 
 		if( $refid !== null ) {
-			$this->conditions['refid'] = $this->filter->compare( '==', 'review.refid', $refid );
+			$this->addExpression( $this->filter->compare( '==', 'review.refid', $refid ) );
 		}
 
 		return $this;
@@ -171,7 +172,9 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.customerid', '==', $this->getContext()->getUserId() );
 
-		$filter->setConditions( $filter->and( array_merge( $this->conditions, [$cond] ) ) );
+		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
+		$filter->setSortations( $this->getSortations() );
+
 		return $this->manager->search( $filter, [], $total );
 	}
 
@@ -186,7 +189,7 @@ class Standard
 	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
-			$this->conditions[] = $cond;
+			$this->addExpression( $cond );
 		}
 
 		return $this;
@@ -283,7 +286,9 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$filter->setConditions( $filter->and( array_merge( $this->conditions, [$cond] ) ) );
+		$filter->setSortations( $this->getSortations() );
+		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
+
 		return $this->manager->search( $filter, [], $total );
 	}
 
@@ -312,7 +317,6 @@ class Standard
 	 */
 	public function sort( string $key = null ) : Iface
 	{
-		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
 
 		foreach( $list as $sortkey )
@@ -323,17 +327,16 @@ class Standard
 			switch( $sortkey )
 			{
 				case 'ctime':
-					$sort[] = $this->filter->sort( $direction, 'review.ctime' );
+					$this->addExpression( $this->filter->sort( $direction, 'review.ctime' ) );
 					break;
 				case 'rating':
-					$sort[] = $this->filter->sort( $direction, 'review.rating' );
+					$this->addExpression( $this->filter->sort( $direction, 'review.rating' ) );
 					break;
 				default:
-					$sort[] = $this->filter->sort( $direction, $sortkey );
+					$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 			}
 		}
 
-		$this->filter->setSortations( $sort );
 		return $this;
 	}
 }

@@ -25,7 +25,6 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $conditions = [];
 	private $domains = [];
 	private $filter;
 	private $manager;
@@ -42,8 +41,9 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'service' );
 		$this->filter = $this->manager->filter( true );
-		$this->conditions[] = $this->filter->getConditions();
-		$this->filter->setSortations( [$this->filter->sort( '+', 'service.position' )] );
+
+		$this->addExpression( $this->filter->getConditions() );
+		$this->addExpression( $this->filter->sort( '+', 'service.position' ) );
 	}
 
 
@@ -58,7 +58,7 @@ class Standard
 	 */
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
-		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
 		return $this;
 	}
 
@@ -123,7 +123,7 @@ class Standard
 	public function getProviders() : \Aimeos\Map
 	{
 		$list = [];
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 
 		foreach( $this->manager->search( $this->filter, $this->domains ) as $id => $item ) {
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
@@ -143,7 +143,7 @@ class Standard
 	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
-			$this->conditions[] = $cond;
+			$this->addExpression( $cond );
 		}
 
 		return $this;
@@ -182,7 +182,9 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setSortations( $this->getSortations() );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+
 		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
 
@@ -211,7 +213,6 @@ class Standard
 	 */
 	public function sort( string $key = null ) : Iface
 	{
-		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
 
 		foreach( $list as $sortkey )
@@ -222,15 +223,12 @@ class Standard
 			switch( $sortkey )
 			{
 				case 'type':
-					$sort[] = $this->filter->sort( $direction, 'service.type' );
-					break;
-
+					$this->addExpression( $this->filter->sort( $direction, 'service.type' ) ); break;
 				default:
-					$sort[] = $this->filter->sort( $direction, $sortkey );
+					$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 			}
 		}
 
-		$this->filter->setSortations( $sort );
 		return $this;
 	}
 
@@ -245,7 +243,7 @@ class Standard
 	public function type( $code ) : Iface
 	{
 		if( $code ) {
-			$this->conditions[] = $this->filter->compare( '==', 'service.type', $code );
+			$this->addExpression( $this->filter->compare( '==', 'service.type', $code ) );
 		}
 
 		return $this;

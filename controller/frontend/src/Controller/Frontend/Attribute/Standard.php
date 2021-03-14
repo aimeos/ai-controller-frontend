@@ -21,7 +21,6 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $conditions = [];
 	private $domain = 'product';
 	private $domains = [];
 	private $filter;
@@ -39,7 +38,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'attribute' );
 		$this->filter = $this->manager->filter( true );
-		$this->conditions[] = $this->filter->getConditions();
+		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -62,7 +61,7 @@ class Standard
 	public function attribute( $attrIds ) : Iface
 	{
 		if( !empty( $attrIds ) ) {
-			$this->conditions[] = $this->filter->compare( '==', 'attribute.id', $attrIds );
+			$this->addExpression( $this->filter->compare( '==', 'attribute.id', $attrIds ) );
 		}
 
 		return $this;
@@ -80,7 +79,7 @@ class Standard
 	 */
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
-		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
 		return $this;
 	}
 
@@ -155,7 +154,7 @@ class Standard
 		!$refId ?: $params[] = $refId;
 
 		$func = $this->filter->make( 'attribute:has', $params );
-		$this->conditions[] = $this->filter->compare( '!=', $func, null );
+		$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 		return $this;
 	}
 
@@ -170,7 +169,7 @@ class Standard
 	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
-			$this->conditions[] = $cond;
+			$this->addExpression( $cond );
 		}
 
 		return $this;
@@ -189,7 +188,7 @@ class Standard
 	public function property( string $type, string $value = null, string $langId = null ) : Iface
 	{
 		$func = $this->filter->make( 'attribute:prop', [$type, $langId, $value] );
-		$this->conditions[] = $this->filter->compare( '!=', $func, null );
+		$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 		return $this;
 	}
 
@@ -203,8 +202,10 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$expr = array_merge( $this->conditions, [$this->filter->compare( '==', 'attribute.domain', $this->domain )] );
-		$this->filter->setConditions( $this->filter->and( $expr ) );
+		$this->addExpression( $this->filter->compare( '==', 'attribute.domain', $this->domain ) );
+
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+		$this->filter->setSortations( $this->getSortations() );
 
 		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
@@ -234,7 +235,6 @@ class Standard
 	 */
 	public function sort( string $key = null ) : Iface
 	{
-		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
 
 		foreach( $list as $sortkey )
@@ -245,15 +245,14 @@ class Standard
 			switch( $sortkey )
 			{
 				case 'position':
-					$sort[] = $this->filter->sort( $direction, 'attribute.type' );
-					$sort[] = $this->filter->sort( $direction, 'attribute.position' );
+					$this->addExpression( $this->filter->sort( $direction, 'attribute.type' ) );
+					$this->addExpression( $this->filter->sort( $direction, 'attribute.position' ) );
 					break;
 				default:
-					$sort[] = $this->filter->sort( $direction, $sortkey );
+				$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 			}
 		}
 
-		$this->filter->setSortations( $sort );
 		return $this;
 	}
 
@@ -268,7 +267,7 @@ class Standard
 	public function type( $codes ) : Iface
 	{
 		if( !empty( $codes ) ) {
-			$this->conditions[] = $this->filter->compare( '==', 'attribute.type', $codes );
+			$this->addExpression( $this->filter->compare( '==', 'attribute.type', $codes ) );
 		}
 
 		return $this;

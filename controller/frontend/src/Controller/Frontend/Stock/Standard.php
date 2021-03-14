@@ -21,7 +21,6 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
-	private $conditions = [];
 	private $filter;
 	private $manager;
 
@@ -37,7 +36,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'stock' );
 		$this->filter = $this->manager->filter( true );
-		$this->conditions[] = $this->filter->getConditions();
+		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -60,7 +59,7 @@ class Standard
 	public function product( $ids ) : Iface
 	{
 		if( !empty( $ids ) ) {
-			$this->conditions[] = $this->filter->compare( '==', 'stock.productid', $ids );
+			$this->addExpression( $this->filter->compare( '==', 'stock.productid', $ids ) );
 		}
 
 		return $this;
@@ -78,7 +77,7 @@ class Standard
 	 */
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
-		$this->conditions[] = $this->filter->compare( $operator, $key, $value );
+		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
 		return $this;
 	}
 
@@ -106,7 +105,7 @@ class Standard
 	public function parse( array $conditions ) : Iface
 	{
 		if( ( $cond = $this->filter->parse( $conditions ) ) !== null ) {
-			$this->conditions[] = $cond;
+			$this->addExpression( $cond );
 		}
 
 		return $this;
@@ -122,7 +121,9 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->and( $this->conditions ) );
+		$this->filter->setSortations( $this->getSortations() );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+
 		return $this->manager->search( $this->filter, [], $total );
 	}
 
@@ -151,7 +152,6 @@ class Standard
 	 */
 	public function sort( string $key = null ) : Iface
 	{
-		$sort = [];
 		$list = ( $key ? explode( ',', $key ) : [] );
 
 		foreach( $list as $sortkey )
@@ -162,15 +162,14 @@ class Standard
 			switch( $sortkey )
 			{
 				case 'stock':
-					$sort[] = $this->filter->sort( $direction, 'stock.type' );
-					$sort[] = $this->filter->sort( $direction, 'stock.stocklevel' );
+					$this->addExpression( $this->filter->sort( $direction, 'stock.type' ) );
+					$this->addExpression( $this->filter->sort( $direction, 'stock.stocklevel' ) );
 					break;
 				default:
-					$sort[] = $this->filter->sort( $direction, $sortkey );
+					$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 				}
 		}
 
-		$this->filter->setSortations( $sort );
 		return $this;
 	}
 
@@ -185,7 +184,7 @@ class Standard
 	public function type( $types ) : Iface
 	{
 		if( !empty( $types ) ) {
-			$this->conditions[] = $this->filter->compare( '==', 'stock.type', $types );
+			$this->addExpression( $this->filter->compare( '==', 'stock.type', $types ) );
 		}
 
 		return $this;

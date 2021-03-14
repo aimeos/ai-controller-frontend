@@ -20,8 +20,10 @@ namespace Aimeos\Controller\Frontend;
  */
 abstract class Base
 {
-	private $context;
 	private $object;
+	private $context;
+	private $cond = [];
+	private $sort = [];
 
 
 	/**
@@ -45,6 +47,46 @@ abstract class Base
 	public function __call( string $name, array $param )
 	{
 		throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Unable to call method "%1$s"', $name ) );
+	}
+
+
+	/**
+	 * Adds the given compare, combine or sort expression to the list of expressions
+	 *
+	 * @param \Aimeos\MW\Criteria\Expression\Iface $expr Compare, combine or sort expression
+	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 */
+	public function addExpression( \Aimeos\MW\Criteria\Expression\Iface $expr ) : Iface
+	{
+		if( $expr instanceof \Aimeos\MW\Criteria\Expression\Sort\Iface ) {
+			$this->sort[] = $expr;
+		} else {
+			$this->cond[] = $expr;
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Returns the compare and combine expressions added by addExpression()
+	 *
+	 * @return array List of compare and combine expressions
+	 */
+	public function getConditions() : array
+	{
+		return $this->cond;
+	}
+
+
+	/**
+	 * Returns the compare and combine expressions added by addExpression()
+	 *
+	 * @return array List of sort expressions
+	 */
+	public function getSortations() : array
+	{
+		return $this->sort;
 	}
 
 

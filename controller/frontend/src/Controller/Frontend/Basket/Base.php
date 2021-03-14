@@ -311,7 +311,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					$this->getObject()->addService( $service, $attributes );
 					$basket->deleteService( $type );
 				}
-				catch( \Exception $e ) {; } // Don't notify the user as appropriate services can be added automatically
+				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically
 			}
 		}
 

@@ -53,14 +53,14 @@ abstract class Base
 	/**
 	 * Adds the given compare, combine or sort expression to the list of expressions
 	 *
-	 * @param \Aimeos\MW\Criteria\Expression\Iface $expr Compare, combine or sort expression
+	 * @param \Aimeos\MW\Criteria\Expression\Iface|nul $expr Compare, combine or sort expression
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function addExpression( \Aimeos\MW\Criteria\Expression\Iface $expr ) : Iface
+	public function addExpression( \Aimeos\MW\Criteria\Expression\Iface $expr = null ) : Iface
 	{
 		if( $expr instanceof \Aimeos\MW\Criteria\Expression\Sort\Iface ) {
 			$this->sort[] = $expr;
-		} else {
+		} elseif( $expr ) {
 			$this->cond[] = $expr;
 		}
 

@@ -25,7 +25,7 @@ trait Traits
 	 * @param \Aimeos\MW\Criteria\Expression\Iface $expr Compare, combine or sort expression
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function addExpression( \Aimeos\MW\Criteria\Expression\Iface $expr ) : Iface
+	public function addExpression( \Aimeos\MW\Criteria\Expression\Iface $expr ) : Aimeos\Controller\Frontend\Iface
 	{
 		$this->getController()->addExpression( $expr );
 		return $this;

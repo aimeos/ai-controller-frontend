@@ -384,6 +384,7 @@ class Standard
 
 		$context = $this->getContext();
 		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->create()->fromArray( $values );
+		$address->set( 'nostore', ( $values['nostore'] ?? false ) ? true : false );
 
 		$this->baskets[$this->type] = $this->get()->addAddress( $address, $type, $position );
 		return $this->save();

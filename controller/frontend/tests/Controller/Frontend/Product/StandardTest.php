@@ -212,7 +212,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSortMultiple()
 	{
-		$this->assertEquals( 8, count( $this->object->sort( '-product.status,product.id' )->search() ) );
+		$this->assertEquals( 8, count( $this->object->sort( 'sort:index.text:relevance("de","test(\"\")"),product.id' )->search() ) );
 	}
 
 

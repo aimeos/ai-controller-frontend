@@ -139,7 +139,7 @@ abstract class Base
 	{
 		$list = [];
 
-		if( preg_match_all('/(?P<key>[^(,]+(\(("([^"]|\")*")?[^)]*\))?),?/', (string) $keys, $list ) !== false ) {
+		if( preg_match_all( '/(?P<key>[^(,]+(\(("([^"]|\")*")?[^)]*\))?),?/', (string) $keys, $list ) !== false ) {
 			return $list['key'] ?? [];
 		}
 

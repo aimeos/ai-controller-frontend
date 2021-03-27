@@ -85,4 +85,22 @@ abstract class Base
 		$this->object = $object;
 		return $this;
 	}
+
+
+	/**
+	 * Splits search keys by comma
+	 *
+	 * @param string|null $keys Comma separated string of search keys
+	 * @return array List of search keys
+	 */
+	protected function splitKeys( ?string $keys ) : array
+	{
+		$list = [];
+
+		if( preg_match_all('/(?P<key>[^(,]+(\(("([^"]|\")*")?[^)]*\))?),?/', (string) $keys, $list ) !== false ) {
+			return $list['key'] ?? [];
+		}
+
+		return [];
+	}
 }

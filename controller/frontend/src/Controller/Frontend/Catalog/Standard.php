@@ -221,7 +221,8 @@ class Standard
 	 */
 	public function sort( ?string $key = null ) : Iface
 	{
-		$list = ( $key ? explode( ',', $key ) : $this->sort = [] );
+		$key ?: $this->sort = [];
+		$list = $this->splitKeys( $key );
 
 		foreach( $list as $sortkey )
 		{

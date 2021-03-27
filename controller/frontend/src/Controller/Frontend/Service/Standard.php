@@ -212,7 +212,7 @@ class Standard
 	public function sort( string $key = null ) : Iface
 	{
 		$sort = [];
-		$list = ( $key ? explode( ',', $key ) : [] );
+		$list = $this->splitKeys( $key );
 
 		foreach( $list as $sortkey )
 		{

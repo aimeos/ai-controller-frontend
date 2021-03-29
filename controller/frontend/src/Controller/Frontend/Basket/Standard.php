@@ -291,6 +291,7 @@ class Standard
 	 */
 	public function updateProduct( int $position, float $quantity ) : Iface
 	{
+		$context = $this->getContext();
 		$orderProduct = $this->get()->getProduct( $position );
 
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
@@ -299,8 +300,9 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
-		$product = $manager->find( $orderProduct->getProductCode(), array( 'price', 'text' ), true );
+		$manager = \Aimeos\MShop::create( $context, 'product' );
+		$product = $manager->find( $orderProduct->getProductCode(), ['price', 'text'], true );
+		$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
 
 		$quantity = $this->checkQuantity( $product, $quantity );
 		$price = $this->calcPrice( $orderProduct, $product->getRefItems( 'price', 'default' ), $quantity );

@@ -237,8 +237,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function copyProducts( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
 	{
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, 'product' );
+		$ruleManager = \Aimeos\MShop::create( $context, 'rule' );
 		$domains = ['attribute', 'media', 'price', 'product', 'text'];
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 
 		foreach( $basket->getProducts() as $pos => $product )
 		{
@@ -261,6 +263,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				}
 
 				$item = $manager->get( $product->getProductId(), $domains );
+				$item = $ruleManager->apply( $item, 'catalog' );
 
 				$this->getObject()->addProduct(
 					$item, $product->getQuantity(), $variantIds, $configIds, $customIds,

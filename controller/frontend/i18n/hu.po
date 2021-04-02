@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-02 15:52+0100\n"
-"PO-Revision-Date: 2020-12-09 11:09+0000\n"
-"Last-Translator: nzed <nemesreviz@gmail.com>\n"
+"POT-Creation-Date: 2021-04-01 18:35+0200\n"
+"PO-Revision-Date: 2021-04-01 16:36+0000\n"
+"Last-Translator: Aimeos\n"
 "Language-Team: Hungarian (http://www.transifex.com/aimeos/aimeos-core/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,6 +38,10 @@ msgstr "\"%1$d\" pozícióban a kosárba tett termék nem módosítható."
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
 msgstr "\"%1$d\" pozícióban a kosárba tett termék nem törölhető kézzel"
+
+#, php-format
+msgid "Category is not available"
+msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""

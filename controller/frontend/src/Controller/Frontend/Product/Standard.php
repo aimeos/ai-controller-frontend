@@ -359,9 +359,6 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-<<<<<<< HEAD
-		$this->filter->setSlice( $start, $limit );
-=======
 		/** controller/frontend/common/max-size
 		 * Maximum number of items that can be fetched at once
 		 *
@@ -373,7 +370,6 @@ class Standard
 		 */
 		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
->>>>>>> db2adfd... Added hard limit for number of fetched items
 		return $this;
 	}
 

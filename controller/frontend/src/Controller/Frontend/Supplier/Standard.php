@@ -155,12 +155,8 @@ class Standard
 	 */
 	public function slice( $start, $limit )
 	{
-<<<<<<< HEAD
-		$this->filter->setSlice( $start, $limit );
-=======
 		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
->>>>>>> db2adfd... Added hard limit for number of fetched items
 		return $this;
 	}
 

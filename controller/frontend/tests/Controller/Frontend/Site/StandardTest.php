@@ -30,7 +30,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testCompare()
 	{
-		$list = $this->object->compare( '==', 'locale.site.status', 1 )->getTree()->toList();
+		$list = $this->object->compare( '==', 'locale.site.status', 1 )->search();
 		$this->assertGreaterThanOrEqual( 1, count( $list ) );
 	}
 
@@ -67,7 +67,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetTree()
 	{
-		$tree = $this->object->getTree();
+		$item = \Aimeos\MShop::create( $this->context, 'locale/site' )->find( 'unittest' );
+		$tree = $this->object->root( $item->getId() )->getTree();
 
 		foreach( $tree->toList() as $item ) {
 			$this->assertInstanceOf( \Aimeos\MShop\Locale\Item\Site\Iface::class, $item );
@@ -80,7 +81,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testParse()
 	{
 		$cond = ['>' => ['locale.site.status' => 0]];
-		$this->assertGreaterThanOrEqual( 1, count( $this->object->parse( $cond )->getTree()->toList() ) );
+		$this->assertGreaterThanOrEqual( 1, count( $this->object->parse( $cond )->search() ) );
 	}
 
 

@@ -207,7 +207,8 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$this->filter->slice( $start, $limit );
+		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
+		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
 

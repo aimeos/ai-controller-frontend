@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 18:35+0200\n"
-"PO-Revision-Date: 2021-04-01 16:36+0000\n"
+"POT-Creation-Date: 2021-04-06 09:37+0200\n"
+"PO-Revision-Date: 2021-04-06 07:47+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Dutch (http://www.transifex.com/aimeos/aimeos-core/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -165,6 +165,10 @@ msgstr "De voorwaarden voor coupon code \"%1$s\" worden niet voldaan."
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "Service item voor type \"%1$s\" en ID \"%2$s\" niet gevonden"
+
+#, php-format
+msgid "Site is not available"
+msgstr ""
 
 #, php-format
 msgid "Temporary limit reached"

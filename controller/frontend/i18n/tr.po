@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Metal <meteoramic@yahoo.com>, 2015-2020
+# Metal <meteoramic@yahoo.com>, 2015-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 18:35+0200\n"
-"PO-Revision-Date: 2021-04-01 16:36+0000\n"
+"POT-Creation-Date: 2021-04-06 09:37+0200\n"
+"PO-Revision-Date: 2021-04-06 07:47+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Turkish (http://www.transifex.com/aimeos/aimeos-core/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "\"%1$d\" konumundaki sepet öğesi manuel olarak silinemez"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategori mevcut değil"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -160,6 +160,10 @@ msgstr "\"%1$s\" kupon kodu için gereksinimler karşılanmıyor"
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "\"%1$s\" türü ve \"%2$s\" kimlik numarası için hizmet öğesi bulunamadı"
+
+#, php-format
+msgid "Site is not available"
+msgstr ""
 
 #, php-format
 msgid "Temporary limit reached"

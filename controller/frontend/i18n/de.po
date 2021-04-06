@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aimeos, 2015,2017,2019-2020
+# Aimeos, 2015,2017,2019-2021
 # nsendetzky, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 18:35+0200\n"
-"PO-Revision-Date: 2021-04-01 16:36+0000\n"
+"POT-Creation-Date: 2021-04-06 09:37+0200\n"
+"PO-Revision-Date: 2021-04-06 07:47+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: German (http://www.transifex.com/aimeos/aimeos-core/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Das Produkt an Position \"%1$d\" im Warenkorb kann nicht gelöscht werde
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategorie ist nicht verfügbar"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -161,6 +161,10 @@ msgstr "Die Voraussetzungen für den Gutscheincode \"%1$s\" sind nicht erfüllt"
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "Es wurde kein Eintrag für den Service mit der ID \"%2$s\" und dem Typ \"%1$s\" gefunden"
+
+#, php-format
+msgid "Site is not available"
+msgstr ""
 
 #, php-format
 msgid "Temporary limit reached"

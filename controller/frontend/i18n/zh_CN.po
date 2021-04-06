@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 18:35+0200\n"
+"POT-Creation-Date: 2021-04-06 09:37+0200\n"
 "PO-Revision-Date: 2020-10-05 07:29+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/aimeos/aimeos-core/language/zh_CN/)\n"
@@ -160,6 +160,10 @@ msgstr "优惠券（代码为\"%1$s\"）的申请不满足条件"
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "服务项目未找到：针对类型为\"%1$s\"以及ID为\"%2$s\""
+
+#, fuzzy, php-format
+msgid "Site is not available"
+msgstr "不存在可用的类\"%1$s\""
 
 #, php-format
 msgid "Temporary limit reached"

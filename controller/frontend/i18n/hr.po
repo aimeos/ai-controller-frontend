@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 18:35+0200\n"
-"PO-Revision-Date: 2021-04-01 16:36+0000\n"
+"POT-Creation-Date: 2021-04-06 09:37+0200\n"
+"PO-Revision-Date: 2021-04-06 07:47+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Croatian (http://www.transifex.com/aimeos/aimeos-core/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -159,6 +159,10 @@ msgstr ""
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
+msgstr ""
+
+#, php-format
+msgid "Site is not available"
 msgstr ""
 
 #, php-format

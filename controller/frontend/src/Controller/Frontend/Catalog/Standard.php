@@ -196,8 +196,8 @@ class Standard
 	 */
 	public function slice( $start, $limit )
 	{
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
-		$this->filter->slice( $start, min( $limit, $maxsize ) );
+		$maxsize = $this->getContext()->getConfig()->get( 'controller/frontend/common/max-size', 250 );
+		$this->filter->setSlice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
 

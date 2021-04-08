@@ -333,7 +333,7 @@ class Standard
 		 * @param int Number of items
 		 */
 		$maxsize = $this->getContext()->getConfig()->get( 'controller/frontend/common/max-size', 250 );
-		$this->filter->slice( $start, min( $limit, $maxsize ) );
+		$this->filter->setSlice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
 

@@ -39,7 +39,25 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'index' );
 		$this->filter = $this->manager->createSearch( true );
-		$this->conditions[] = $this->filter->compare( '!=', 'index.catalog.id', null );
+
+		/** controller/frontend/product/show-all
+		 * Require products to be assigned to categories
+		 *
+		 * By default, products that are shown in the frontend must be assigned to
+		 * at least one category. When changing this setting to TRUE, also products
+		 * without categories will be shown in the frontend.
+		 *
+		 * Caution: If you have discount products or variant articles in selection
+		 * products, these products/articles will be displayed in the frontend too
+		 * when disabling this setting!
+		 *
+		 * @param bool FALSE if products must be assigned to categories, TRUE if not
+		 * @since 2010.10
+		 */
+		if( $context->getConfig()->get( 'controller/frontend/product/show-all', false ) == false ) {
+			$this->conditions[] = $this->filter->compare( '!=', 'index.catalog.id', null );
+		}
+
 		$this->conditions[] = $this->filter->getConditions();
 	}
 

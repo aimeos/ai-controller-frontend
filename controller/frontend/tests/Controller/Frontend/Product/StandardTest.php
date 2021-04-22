@@ -192,6 +192,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSearchAll()
+	{
+		$total = 0;
+		$this->context->getConfig()->set( 'controller/frontend/product/show-all', true );
+		$object = new \Aimeos\Controller\Frontend\Product\Standard( $this->context );
+
+		$items = $object->search( $total );
+
+		$this->assertEquals( 22, count( $items ) );
+		$this->assertEquals( 22, $total );
+	}
+
+
 	public function testSlice()
 	{
 		$this->assertEquals( 2, count( $this->object->slice( 0, 2 )->search() ) );

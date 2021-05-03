@@ -179,7 +179,7 @@ class Select
 		 */
 		$requireVariant = $context->getConfig()->get( 'controller/frontend/basket/require-variant', true );
 
-		foreach( $productItem->getRefItems( 'product', 'default', 'default' ) as $item )
+		foreach( $productItem->getRefItems( 'product', null, 'default' ) as $item )
 		{
 			foreach( $variant as $id )
 			{

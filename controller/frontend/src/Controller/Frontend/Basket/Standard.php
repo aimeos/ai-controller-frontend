@@ -379,8 +379,8 @@ class Standard
 	{
 		foreach( $values as $key => $value )
 		{
-			if( is_string( $value ) ) {
-				$values[$key] = strip_tags( $value ); // prevent XSS
+			if( is_scalar( $value ) ) {
+				$values[$key] = strip_tags( (string) $value ); // prevent XSS
 			}
 		}
 

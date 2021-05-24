@@ -42,18 +42,32 @@ class Category
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, 'catalog' );
 
-		$expr = [];
 		$search = $manager->createSearch( true )->setSlice( 0, 1 );
-
 		$func = $search->createFunction( 'catalog:has', ['product', ['default', 'promotion'], $product->getId()] );
-		$expr[] = $search->compare( '!=', $func, null );
 
-		$search->setConditions( $search->combine( '&&', [$search->getConditions(), $search->combine( '||', $expr )] ) );
+		$search->setConditions( $search->combine( '&&', [
+			$search->compare( '!=', $func, null ),
+			$search->getConditions()
+		] ) );
 
 		if( $manager->searchItems( $search )->isEmpty() )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $product->getId() ) );
+			$manager = \Aimeos\MShop::create( $context, 'product' );
+
+			$search = $manager->createSearch( true )->setSlice( 0, 1 );
+			$func = $search->createFunction( 'product:has', ['product', 'default', $product->getId()] );
+
+			$search->setConditions( $search->combine( '&&', [
+				$search->compare( '==', 'product.type', 'group' ),
+				$search->compare( '!=', $func, null ),
+				$search->getConditions(),
+			] ) );
+
+			if( $manager->searchItems( $search )->isEmpty() )
+			{
+				$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
+				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $product->getId() ) );
+			}
 		}
 
 		$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplier, $siteid );

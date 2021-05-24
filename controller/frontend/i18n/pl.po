@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-02 15:52+0100\n"
-"PO-Revision-Date: 2020-10-05 07:29+0000\n"
+"POT-Creation-Date: 2021-04-21 11:32+0200\n"
+"PO-Revision-Date: 2021-04-06 07:47+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Polish (http://www.transifex.com/aimeos/aimeos-core/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -37,6 +37,10 @@ msgstr "Nie można zmienić pozycję \"%1$d\" zawartą w koszyku"
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
 msgstr "Nie można usunąć ręcznie pozycji \"%1$d\" z koszyka"
+
+#, php-format
+msgid "Category is not available"
+msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -157,6 +161,10 @@ msgstr "Wymagania kodu kuponu \"%1$s\" nie są spełnione"
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 msgstr "Nie znaleziono usługi typu \"%1$s\" i z ID \"%2$s\""
+
+#, php-format
+msgid "Site is not available"
+msgstr ""
 
 #, php-format
 msgid "Temporary limit reached"

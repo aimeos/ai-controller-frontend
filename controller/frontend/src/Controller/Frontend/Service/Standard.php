@@ -123,7 +123,7 @@ class Standard
 	public function getProviders() : \Aimeos\Map
 	{
 		$list = [];
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) )->order( 'service.position' );
 
 		foreach( $this->manager->search( $this->filter, $this->domains ) as $id => $item ) {
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );

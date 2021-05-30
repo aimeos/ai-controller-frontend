@@ -205,9 +205,11 @@ class Standard
 	 */
 	public function save( \Aimeos\MShop\Review\Item\Iface $item ) : \Aimeos\MShop\Review\Item\Iface
 	{
-		if( !in_array( $item->getDomain(), ['product'] ) )
+		$domain = $item->getDomain();
+
+		if( !in_array( $domain, ['product'] ) )
 		{
-			$msg = sprintf( 'Domain "%1$s" is not supported', $item->getDomain() );
+			$msg = sprintf( 'Domain "%1$s" is not supported', $domain );
 			throw new \Aimeos\Controller\Frontend\Review\Exception( $msg );
 		}
 
@@ -258,16 +260,18 @@ class Standard
 		$item = $this->manager->save( $real );
 
 		$filter = $this->manager->filter( true )->add( [
-			'review.domain' => $item->getDomain(),
-			'review.refid' => $item->getRefId()
+			'review.refid' => $item->getRefId(),
+			'review.domain' => $domain,
 		] );
 
-		if( $status > 0 && $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first() )
-		{
-			$rateManager = \Aimeos\MShop::create( $context, $item->getDomain() );
-			$rateManager->rate( $item->getRefId(), $entry['sum'] / $entry['count'], $entry['count'] );
+		if( $status > 0
+			&& ( $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first( [] ) ) !== []
+			&& !empty( $cnt = current( $entry ) )
+		) {
+			$rateManager = \Aimeos\MShop::create( $context, $domain );
+			$rateManager->rate( $item->getRefId(), key( $entry ) / $cnt, $cnt );
 
-			$context->cache()->deleteByTags( [$item->getDomain() . '-' . $item->getRefId()] );
+			$context->cache()->deleteByTags( [$domain, $domain . '-' . $item->getRefId()] );
 		}
 
 		return $item;

@@ -363,10 +363,24 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->filter->setSortations( $this->getSortations() );
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+		$filter = clone $this->filter;
 
-		$items = $this->manager->search( $this->filter, $this->domains, $total );
+		/** controller/frontend/common/max-size
+		 * Maximum number of items that can be fetched at once
+		 *
+		 * This setting limits the number of items that is returned to the frontend.
+		 * The frontend can request any number of items up to that hard limit to
+		 * prevent denial of service attacks by requesting large amount of data.
+		 *
+		 * @param int Number of items
+		 */
+		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
+		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
+
+		$filter->setSortations( $this->getSortations() );
+		$filter->setConditions( $filter->and( $this->getConditions() ) );
+
+		$items = $this->manager->search( $filter, $this->domains, $total );
 		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $items, 'catalog' );
 	}
 
@@ -381,17 +395,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		/** controller/frontend/common/max-size
-		 * Maximum number of items that can be fetched at once
-		 *
-		 * This setting limits the number of items that is returned to the frontend.
-		 * The frontend can request any number of items up to that hard limit to
-		 * prevent denial of service attacks by requesting large amount of data.
-		 *
-		 * @param int Number of items
-		 */
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
-		$this->filter->slice( $start, min( $limit, $maxsize ) );
+		$this->filter->slice( $start, $limit );
 		return $this;
 	}
 

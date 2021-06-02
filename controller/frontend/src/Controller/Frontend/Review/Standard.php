@@ -290,6 +290,9 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
+		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
+		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
+
 		$filter->setSortations( $this->getSortations() );
 		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
 
@@ -307,8 +310,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
-		$this->filter->slice( $start, min( $limit, $maxsize ) );
+		$this->filter->slice( $start, $limit );
 		return $this;
 	}
 

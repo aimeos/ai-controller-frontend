@@ -137,6 +137,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testVisible()
 	{
+		$this->context->config()->set( 'controller/frontend/catalog/levels-always', null );
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
 
 		$root = $manager->find( 'root' );

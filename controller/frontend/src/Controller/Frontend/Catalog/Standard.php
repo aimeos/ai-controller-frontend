@@ -256,16 +256,14 @@ class Standard
 	 */
 	public function visible( array $catIds ) : Iface
 	{
-		if( empty( $catIds ) ) {
-			return $this;
-		}
-
+		$expr = [];
 		$config = $this->getContext()->getConfig();
 
-		$expr = [
-			$this->filter->compare( '==', 'catalog.parentid', $catIds ),
-			$this->filter->compare( '==', 'catalog.id', $catIds )
-		];
+		if( !empty( $catIds ) )
+		{
+			$expr[] = $this->filter->compare( '==', 'catalog.parentid', $catIds );
+			$expr[] = $this->filter->compare( '==', 'catalog.id', $catIds );
+		}
 
 		/** controller/frontend/catalog/levels-always
 		 * The number of levels in the category tree that should be always displayed

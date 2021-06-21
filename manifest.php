@@ -1,17 +1,17 @@
 <?php
 
-return array(
+return [
 	'name' => 'ai-controller-frontend',
-	'depends' => array(
+	'depends' => [
 		'aimeos-core',
-	),
-	'config' => array(
+	],
+	'config' => [
 		'config',
-	),
-	'include' => array(
+	],
+	'include' => [
 		'controller/frontend/src',
-	),
-	'i18n' => array(
+	],
+	'i18n' => [
 		'controller/frontend' => 'controller/frontend/i18n',
-	),
-);
+	],
+];

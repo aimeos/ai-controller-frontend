@@ -79,6 +79,13 @@ class Standard
 	 */
 	public function add( array $values ) : Iface
 	{
+		foreach( $values as $key => $value )
+		{
+			if( is_scalar( $value ) ) {
+				$values[$key] = strip_tags( (string) $value ); // prevent XSS
+			}
+		}
+
 		$password = $values['customer.password'] ?? '';
 		$item = $this->item->fromArray( $values );
 		$addrItem = $item->getPaymentAddress();

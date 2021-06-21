@@ -72,6 +72,13 @@ class Standard
 	 */
 	public function add( array $values )
 	{
+		foreach( $values as $key => $value )
+		{
+			if( is_scalar( $value ) ) {
+				$values[$key] = strip_tags( (string) $value ); // prevent XSS
+			}
+		}
+
 		$item = $this->item->fromArray( $values );
 		$addrItem = $item->getPaymentAddress();
 

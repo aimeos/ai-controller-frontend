@@ -30,6 +30,13 @@ class Standard
 	 */
 	public function addItem( array $values )
 	{
+		foreach( $values as $key => $value )
+		{
+			if( is_scalar( $value ) ) {
+				$values[$key] = strip_tags( (string) $value ); // prevent XSS
+			}
+		}
+
 		$list = [];
 		$context = $this->getContext();
 		$config = $context->getConfig();

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Oleksandr Kropyvko <akropivko@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-21 11:32+0200\n"
-"PO-Revision-Date: 2021-04-06 07:47+0000\n"
-"Last-Translator: Aimeos\n"
+"PO-Revision-Date: 2021-06-17 10:58+0000\n"
+"Last-Translator: Oleksandr Kropyvko <akropivko@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/aimeos/aimeos-core/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,23 +23,23 @@ msgstr ""
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Додавання товару з ID \"%1$s\" заборонено"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "Доступні ідентифікатори атрибутів \"%1$s\" не відповідають заданим ідентифікаторам атрибутів \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Елемент кошика в позиції \"%1$d\" змінити не можна"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Елемент кошика в позиції \"%1$d\" неможливо видалити вручну"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Категорія недоступна"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -54,15 +55,15 @@ msgstr ""
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Код купона \"%1$s\" недійсний"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Код купона \"%1$s\" недійсний або більше недоступний"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Код купона \"%1$s\" більше недоступний"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
@@ -70,15 +71,15 @@ msgstr ""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Недійсні посилання \"%1$s\" для товару з ідентифікатором \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Недійсні посилання \"%1$s\" для товару з ідентифікатором %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Недійсні властивості адреси, перевірте введені дані, будь ласка"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -102,11 +103,11 @@ msgstr "Неприпустиме підприємство \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Недійсне значення ціни \"%1$s\""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Недійсне значення для типу адреси \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
@@ -114,27 +115,27 @@ msgstr ""
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Не знайдено жодної статті для вибраних атрибутів та ідентифікатора товару \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Немає списку клієнтів домену"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Код типу списку клієнтів відсутній"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Не знайдено жодного елемента для \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Елемента замовлення для ідентифікатора \"%1$s\" не знайдено"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Немає запасу для ідентифікатора товару \"%1$s\" та типу \"%2$s\""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
@@ -150,11 +151,11 @@ msgstr "Кількість кодів купонів перевищила вст
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Товар з ідентифікатором \"%1$s\" не знайдено"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Вимоги до коду купона \"%1$s\" не виконані"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
@@ -162,23 +163,23 @@ msgstr ""
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Сайт недоступний"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Перевищено доступний ліміт. Спробуйте ще раз через 15 хвилин, будь ласка"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Перевищено доступний ліміт замовлень. Спробуйте ще раз через 15 хвилин, будь ласка"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Замовлення вже було створено"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "Не вистачає товарів \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -194,16 +195,16 @@ msgstr ""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Не вдається знайти товар \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Невідомі атрибути \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Вам не дозволено керувати групами"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Ви можете додати відгук, лише якщо ви замовили товар"

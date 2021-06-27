@@ -86,11 +86,17 @@ class Standard
 			}
 		}
 
-		$password = $values['customer.password'] ?? '';
-		$item = $this->item->fromArray( $values );
-		$addrItem = $item->getPaymentAddress();
+		$addrItem = $this->item->getPaymentAddress();
 
-		if( $item->getLabel() === '' )
+		if( $code = $values['customer.code'] ?? null ) {
+			$this->item->setCode( $code );
+		}
+
+		if( $password = $values['customer.password'] ?? null ) {
+			$this->item = $item->setPassword( $password );
+		}
+
+		if( $this->item->getLabel() === '' )
 		{
 			$label = $addrItem->getLastname();
 
@@ -102,18 +108,10 @@ class Standard
 				$label .= ' (' . $company . ')';
 			}
 
-			$item = $item->setLabel( $label );
+			$this->item->setLabel( $label );
 		}
 
-		if( $item->getCode() === '' ) {
-			$item = $item->setCode( $addrItem->getEmail() );
-		}
-
-		if( $password ) {
-			$item = $item->setPassword( $password );
-		}
-
-		$this->item = $item;
+		$this->item->fromArray( $values );
 		return $this;
 	}
 

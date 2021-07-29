@@ -296,7 +296,7 @@ class Standard
 
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
+			$msg = $context->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 

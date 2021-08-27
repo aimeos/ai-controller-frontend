@@ -11,6 +11,8 @@
 namespace Aimeos\Controller\Frontend\Customer;
 
 
+use Illuminate\Support\Facades\Log;
+
 /**
  * Default implementation of the customer frontend controller
  *
@@ -23,6 +25,8 @@ class Standard
 {
 	private $domains = [];
 	private $manager;
+
+	/** @var Iface */
 	private $item;
 
 
@@ -74,7 +78,7 @@ class Standard
 	 * Creates a new customer item object pre-filled with the given values but not yet stored
 	 *
 	 * @param array $values Values added to the customer item (new or existing) like "customer.code"
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function add( array $values ) : Iface
@@ -92,8 +96,16 @@ class Standard
 			$this->item->setCode( $code );
 		}
 
+		if ( $oldPassword = $values['customer.oldpassword'] ?? null) {
+		    $confirmed = $values['customer.newpassword'] === $values['customer.confirmnewpassword'];
+		    $isNew = $values['customer.newpassword'] !== $values['customer.oldpassword'];
+		    if ($this->item->verifyPassword($oldPassword) && $confirmed && $isNew) {
+		        $this->item = $this->item->setPassword($values['customer.newpassword']);
+            }
+        }
+
 		if( $password = $values['customer.password'] ?? null ) {
-			$this->item = $item->setPassword( $password );
+			$this->item = $this->item->setPassword( $password );
 		}
 
 		if( $this->item->getLabel() === '' )
@@ -121,7 +133,7 @@ class Standard
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to add
 	 * @param int|null $idx Key in the list of address items or null to add the item at the end
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : Iface
@@ -137,7 +149,7 @@ class Standard
 	 * @param string $domain Domain name the referenced item belongs to
 	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to add
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to add or null if list item contains refid value
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
@@ -156,7 +168,7 @@ class Standard
 	 * Adds the given property item to the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Property\Iface $item Property item to add
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : Iface
@@ -208,7 +220,7 @@ class Standard
 	/**
 	 * Deletes a customer item that belongs to the current authenticated user
 	 *
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function delete() : Iface
@@ -225,7 +237,7 @@ class Standard
 	 * Removes the given address item from the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to remove
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 */
 	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item ) : Iface
 	{
@@ -240,7 +252,7 @@ class Standard
 	 * @param string $domain Domain name the referenced item belongs to
 	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to remove
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to remove or null if only list item should be removed
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 */
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
 		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
@@ -258,7 +270,7 @@ class Standard
 	 * Removes the given property item from the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Property\Iface $item Property item to remove
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 */
 	public function deletePropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : Iface
 	{
@@ -297,7 +309,7 @@ class Standard
 	/**
 	 * Adds or updates a modified customer item in the storage
 	 *
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function store() : Iface
@@ -328,7 +340,7 @@ class Standard
 	 * Sets the domains that will be used when working with the customer item
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function uses( array $domains ) : Iface

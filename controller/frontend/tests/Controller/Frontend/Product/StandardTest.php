@@ -328,6 +328,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testTextCode()
+	{
+		$this->assertEquals( 1, count( $this->object->text( 'CNE' )->search() ) );
+	}
+
+
 	public function testUses()
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );

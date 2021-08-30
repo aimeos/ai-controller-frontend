@@ -32,7 +32,7 @@ class TestHelperFrontend
 	{
 		if( !isset( self::$aimeos ) )
 		{
-			require_once 'Bootstrap.php';
+			require_once 'vendor/aimeos/aimeos-core/Bootstrap.php';
 			spl_autoload_register( 'Aimeos\\Bootstrap::autoload' );
 
 			$extdir = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );

@@ -11,8 +11,6 @@
 namespace Aimeos\Controller\Frontend\Customer;
 
 
-use Illuminate\Support\Facades\Log;
-
 /**
  * Default implementation of the customer frontend controller
  *
@@ -21,7 +19,7 @@ use Illuminate\Support\Facades\Log;
  */
 class Standard
 	extends \Aimeos\Controller\Frontend\Base
-	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
+	implements \Aimeos\Controller\Frontend\Customer\Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	private $domains = [];
 	private $manager;
@@ -78,10 +76,10 @@ class Standard
 	 * Creates a new customer item object pre-filled with the given values but not yet stored
 	 *
 	 * @param array $values Values added to the customer item (new or existing) like "customer.code"
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function add( array $values ) : Iface
+	public function add( array $values ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		foreach( $values as $key => $value )
 		{
@@ -100,7 +98,7 @@ class Standard
 		    $confirmed = $values['customer.newpassword'] === $values['customer.confirmnewpassword'];
 		    $isNew = $values['customer.newpassword'] !== $values['customer.oldpassword'];
 		    if ($this->item->verifyPassword($oldPassword) && $confirmed && $isNew) {
-		        $this->item = $this->item->setPassword($values['customer.newpassword']);
+		        $this->item = $this->item->setPassword( $values['customer.newpassword'] );
             }
         }
 
@@ -133,10 +131,10 @@ class Standard
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to add
 	 * @param int|null $idx Key in the list of address items or null to add the item at the end
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : Iface
+	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->item = $this->item->addAddressItem( $item, $idx );
 		return $this;
@@ -149,11 +147,11 @@ class Standard
 	 * @param string $domain Domain name the referenced item belongs to
 	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to add
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to add or null if list item contains refid value
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
+		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		if( $domain === 'customer/group' ) {
 			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
@@ -168,10 +166,10 @@ class Standard
 	 * Adds the given property item to the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Property\Iface $item Property item to add
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : Iface
+	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->item = $this->item->addPropertyItem( $item );
 		return $this;
@@ -237,9 +235,9 @@ class Standard
 	 * Removes the given address item from the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to remove
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
-	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item ) : Iface
+	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->item = $this->item->deleteAddressItem( $item );
 		return $this;
@@ -252,10 +250,10 @@ class Standard
 	 * @param string $domain Domain name the referenced item belongs to
 	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to remove
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to remove or null if only list item should be removed
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
+		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		if( $domain === 'customer/group' ) {
 			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
@@ -309,10 +307,10 @@ class Standard
 	/**
 	 * Adds or updates a modified customer item in the storage
 	 *
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function store() : Iface
+	public function store() : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		( $id = $this->item->getId() ) !== null ? $this->checkId( $id ) : $this->checkLimit();
 		$context = $this->getContext();
@@ -340,10 +338,10 @@ class Standard
 	 * Sets the domains that will be used when working with the customer item
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too
-	 * @return Iface Customer controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains ) : Iface
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->domains = $domains;
 

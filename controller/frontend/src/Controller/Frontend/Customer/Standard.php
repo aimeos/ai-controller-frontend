@@ -97,7 +97,9 @@ class Standard
 		if ( $oldPassword = $values['customer.oldpassword'] ?? null) {
 		    $confirmed = $values['customer.newpassword'] === $values['customer.confirmnewpassword'];
 		    $isNew = $values['customer.newpassword'] !== $values['customer.oldpassword'];
-		    if ($this->item->verifyPassword($oldPassword) && $confirmed && $isNew) {
+
+            $passHelper = $this->getContext()->password();
+		    if ($passHelper->verify($oldPassword, $this->item->getPassword()) && $confirmed && $isNew) {
 		        $this->item = $this->item->setPassword( $values['customer.newpassword'] );
             }
         }

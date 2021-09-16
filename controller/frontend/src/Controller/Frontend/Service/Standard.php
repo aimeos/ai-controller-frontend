@@ -288,7 +288,7 @@ class Standard
 
 		if( ( $orderItem = $provider->updateSync( $request, $orderItem ) ) !== null )
 		{
-			if( $orderItem->getStatusPayment() === \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED
+			if( empty( $orderItem->getStatusPayment() )
 				&& $provider->isImplemented( \Aimeos\MShop\Service\Provider\Payment\Base::FEAT_QUERY )
 			) {
 				$provider->query( $orderItem );

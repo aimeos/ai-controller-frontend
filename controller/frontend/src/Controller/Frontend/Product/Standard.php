@@ -499,7 +499,10 @@ class Standard
 			$func = $this->filter->make( 'index.text:relevance', [$langid, $text] );
 			$sortfunc = $this->filter->make( 'sort:index.text:relevance', [$langid, $text] );
 
-			$this->addExpression( $this->filter->compare( '>', $func, 0 ) );
+			$this->addExpression( $this->filter->or( [
+				$this->filter->compare( '>', $func, 0 ),
+				$this->filter->compare( '=~', 'product.code', $text ),
+			] ) );
 			$this->addExpression( $this->filter->sort( '-', $sortfunc ) );
 		}
 

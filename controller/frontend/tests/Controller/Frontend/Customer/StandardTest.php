@@ -35,15 +35,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 	public function testChangePassword()
-    {
-        $oldPassword = $this->object->get()->getPassword();
-        $this->object = $this->object->add([
-            "customer.oldpassword" => "test",
-            "customer.newpassword" => "test1",
-            "customer.confirmnewpassword" => "test1"
-        ]);
-        $this->assertNotSame($this->object->get()->getPassword(), $oldPassword);
-    }
+	{
+		$oldPassword = $this->object->get()->getPassword();
+		$this->object = $this->object->add([
+			"customer.oldpassword" => "test",
+			"customer.newpassword" => "test1",
+			"customer.confirmnewpassword" => "test1"
+		]);
+		$this->assertNotSame($this->object->get()->getPassword(), $oldPassword);
+	}
 
 
 	public function testAddAddressItem()

@@ -102,7 +102,7 @@ class Standard
 			if ($passHelper->verify($oldPassword, $this->item->getPassword()) && $confirmed && $isNew) {
 				$this->item = $this->item->setPassword( $values['customer.newpassword'] );
 			}
-        }
+		}
 
 		if( $password = $values['customer.password'] ?? null ) {
 			$this->item = $this->item->setPassword( $password );

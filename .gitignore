@@ -3,6 +3,3 @@
 *.log
 *.ser
 
-.idea
-vendor
-composer.lock

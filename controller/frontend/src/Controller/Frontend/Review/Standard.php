@@ -268,7 +268,7 @@ class Standard
 			&& ( $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first( [] ) ) !== []
 			&& !empty( $cnt = current( $entry ) )
 		) {
-			$rateManager = \Aimeos\MShop::create( $context, $domain );
+			$rateManager = \Aimeos\MShop::create( $context, $domain === 'product' ? 'index' : $domain );
 			$rateManager->rate( $item->getRefId(), key( $entry ) / $cnt, $cnt );
 
 			$context->cache()->deleteByTags( [$domain, $domain . '-' . $item->getRefId()] );

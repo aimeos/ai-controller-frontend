@@ -43,7 +43,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 			if( preg_match( '/^[0-9]*(\.[0-9]+)?$/', $amount ) !== 1 || ( (double) $amount ) < 0.01 )
 			{
-				$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid price value "%1$s"' );
+				$msg = $context->translate( 'controller/frontend', 'Invalid price value "%1$s"' );
 				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $amount ) );
 			}
 

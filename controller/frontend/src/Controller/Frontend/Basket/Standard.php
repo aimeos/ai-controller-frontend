@@ -172,7 +172,7 @@ class Standard
 
 		if( $total >= $count )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Temporary order limit reached' );
+			$msg = $context->translate( 'controller/frontend', 'Temporary order limit reached' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
@@ -273,7 +273,7 @@ class Standard
 
 		if( $product->getFlags() === \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be deleted manually' );
+			$msg = $this->getContext()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be deleted manually' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
@@ -296,7 +296,7 @@ class Standard
 
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
+			$msg = $context->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
@@ -344,7 +344,7 @@ class Standard
 
 		if( $allowed <= count( $this->get()->getCoupons() ) )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Number of coupon codes exceeds the limit' );
+			$msg = $context->translate( 'controller/frontend', 'Number of coupon codes exceeds the limit' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
 		}
 
@@ -427,13 +427,13 @@ class Standard
 
 		if( count( $unknown ) > 0 )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Unknown service attributes' );
+			$msg = $context->translate( 'controller/frontend', 'Unknown service attributes' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, $unknown );
 		}
 
 		if( count( array_filter( $errors ) ) > 0 )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'Invalid service attributes' );
+			$msg = $context->translate( 'controller/frontend', 'Invalid service attributes' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, array_filter( $errors ) );
 		}
 

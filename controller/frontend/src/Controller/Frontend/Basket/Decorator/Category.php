@@ -55,7 +55,7 @@ class Category
 
 			if( !$this->checkCategory( $prodIds ) )
 			{
-				$msg = $context->getI18n()->dt( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
+				$msg = $context->translate( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
 				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, print_r( $prodIds, true ) ) );
 			}
 		}

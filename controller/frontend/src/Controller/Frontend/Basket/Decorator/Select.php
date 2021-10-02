@@ -121,7 +121,7 @@ class Select
 
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
+			$msg = $this->getContext()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
@@ -193,13 +193,13 @@ class Select
 
 		if( count( $items ) > 1 )
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'No unique article found for selected attributes and product ID "%1$s"' );
+			$msg = $context->translate( 'controller/frontend', 'No unique article found for selected attributes and product ID "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $productItem->getId() ) );
 		}
 
 		if( empty( $items ) && $requireVariant != false ) // count == 0
 		{
-			$msg = $context->getI18n()->dt( 'controller/frontend', 'No article found for selected attributes and product ID "%1$s"' );
+			$msg = $context->translate( 'controller/frontend', 'No article found for selected attributes and product ID "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $productItem->getId() ) );
 		}
 

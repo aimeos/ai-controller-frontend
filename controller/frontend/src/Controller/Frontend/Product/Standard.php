@@ -347,7 +347,7 @@ class Standard
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{
 			$msg = $this->getContext()->getI18n()->dt( 'controller/frontend', 'Unable to find product "%1$s"' );
-			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ) );
+			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ), 404 );
 		}
 
 		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $item, 'catalog' );

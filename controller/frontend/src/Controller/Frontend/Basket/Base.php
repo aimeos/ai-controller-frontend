@@ -11,6 +11,8 @@
 
 namespace Aimeos\Controller\Frontend\Basket;
 
+use \Aimeos\MW\Logger\Base as Log;
+
 
 /**
  * Base class for the basket frontend controller
@@ -185,7 +187,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					$errors['address'][$type] = $e->getMessage();
 
 					$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
-					$logger->log( sprintf( $str, $type, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+					$logger->log( sprintf( $str, $type, $localeKey, $e->getMessage() ), Log::INFO, 'controller/frontend' );
 				}
 			}
 
@@ -219,7 +221,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$errors['coupon'][$code] = $e->getMessage();
 
 				$str = 'Error migrating coupon with code "%1$s" in basket to locale "%2$s": %3$s';
-				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), Log::INFO, 'controller/frontend' );
 			}
 		}
 
@@ -279,7 +281,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$errors['product'][$pos] = $e->getMessage();
 
 				$str = 'Error migrating product with code "%1$s" in basket to locale "%2$s": %3$s';
-				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), \Aimeos\MW\Logger\Base::INFO );
+				$logger->log( sprintf( $str, $code, $localeKey, $e->getMessage() ), Log::INFO, 'controller/frontend' );
 			}
 		}
 

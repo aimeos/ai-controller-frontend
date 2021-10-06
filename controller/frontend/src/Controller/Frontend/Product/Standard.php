@@ -547,6 +547,17 @@ class Standard
 
 
 	/**
+	 * Returns the manager used by the controller
+	 *
+	 * @return \Aimeos\MShop\Common\Manager\Iface Manager object
+	 */
+	protected function getManager() : \Aimeos\MShop\Common\Manager\Iface
+	{
+		return $this->manager;
+	}
+
+
+	/**
 	 * Validates the given IDs as integers
 	 *
 	 * @param array $ids List of IDs to validate

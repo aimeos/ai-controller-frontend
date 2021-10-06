@@ -311,4 +311,15 @@ class Standard
 		$this->domains = $domains;
 		return $this;
 	}
+
+
+	/**
+	 * Returns the manager used by the controller
+	 *
+	 * @return \Aimeos\MShop\Common\Manager\Iface Manager object
+	 */
+	protected function getManager() : \Aimeos\MShop\Common\Manager\Iface
+	{
+		return $this->manager;
+	}
 }

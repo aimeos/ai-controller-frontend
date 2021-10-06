@@ -462,4 +462,15 @@ class Standard
 		$this->baskets[$this->type] = $this->get()->deleteService( $type, $position );
 		return $this->save();
 	}
+
+
+	/**
+	 * Returns the manager used by the controller
+	 *
+	 * @return \Aimeos\MShop\Common\Manager\Iface Manager object
+	 */
+	protected function getManager() : \Aimeos\MShop\Common\Manager\Iface
+	{
+		return $this->manager;
+	}
 }

@@ -287,13 +287,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
 		$supId = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' )->getId();
+		$siteId = $this->context->getLocale()->getSiteId();
 
-		$product = $this->object->addProduct( $item, 2, [], [], [], 'unitstock', $supId, '123' )->get()->getProduct( 0 );
+		$product = $this->object->addProduct( $item, 2, [], [], [], 'unitstock', $supId, $siteId )->get()->getProduct( 0 );
 
 		$this->assertEquals( 'unitstock', $product->getStockType() );
 		$this->assertEquals( 'Test supplier', $product->getSupplierName() );
 		$this->assertEquals( $supId, $product->getSupplierId() );
-		$this->assertEquals( '123', $product->getSiteId() );
+		$this->assertEquals( $siteId, $product->getSiteId() );
 	}
 
 

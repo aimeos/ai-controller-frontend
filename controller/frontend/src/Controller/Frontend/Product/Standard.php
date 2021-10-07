@@ -374,7 +374,7 @@ class Standard
 		 *
 		 * @param int Number of items
 		 */
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
+		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
 		$filter->setSortations( $this->getSortations() );

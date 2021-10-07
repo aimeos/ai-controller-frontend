@@ -290,7 +290,7 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 250 );
+		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
 		$filter->setSortations( $this->getSortations() );

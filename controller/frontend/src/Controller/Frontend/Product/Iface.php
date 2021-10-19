@@ -68,7 +68,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function find( string $code );
+	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface;
 
 	/**
 	 * Creates a search function string for the given name and parameters
@@ -86,7 +86,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function get( string $id );
+	public function get( string $id ) : \Aimeos\MShop\Product\Item\Iface;
 
 	/**
 	 * Adds a filter to return only items containing a reference to the given ID
@@ -144,7 +144,7 @@ interface Iface
 	 * @return \Aimeos\MShop\Product\Item\Iface Product item including the referenced domains items
 	 * @since 2019.04
 	 */
-	public function resolve( string $name );
+	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface;
 
 	/**
 	 * Returns the products filtered by the previously assigned conditions

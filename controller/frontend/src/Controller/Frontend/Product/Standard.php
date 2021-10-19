@@ -171,7 +171,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		$item = $this->manager->find( $code, $this->domains, 'product', null, true );
+		$item = $this->manager->find( $code, $this->domains, 'product', null, null );
 		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $item, 'catalog' );
 	}
 
@@ -198,7 +198,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		$item = $this->manager->get( $id, $this->domains, true );
+		$item = $this->manager->get( $id, $this->domains, null );
 		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $item, 'catalog' );
 	}
 
@@ -342,7 +342,7 @@ class Standard
 	 */
 	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		$search = $this->manager->filter( true )->slice( 0, 1 )->add( ['index.text:url()' => $name] );
+		$search = $this->manager->filter( null )->slice( 0, 1 )->add( ['index.text:url()' => $name] );
 
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{

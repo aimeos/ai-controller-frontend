@@ -228,23 +228,23 @@ class Standard
 		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
 		string $stocktype = 'default', string $supplierid = null, string $siteid = null ) : Iface
 	{
-		$quantity = $this->checkQuantity( $product, $quantity );
-		$this->checkAttributes( [$product], 'custom', array_keys( $custom ) );
-		$this->checkAttributes( [$product], 'config', array_keys( $config ) );
+		$quantity = $this->call( 'checkQuantity', $product, $quantity );
+		$this->call( 'checkAttributes', [$product], 'custom', array_keys( $custom ) );
+		$this->call( 'checkAttributes', [$product], 'config', array_keys( $config ) );
 
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
-		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
-		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
+		$custAttr = $this->call( 'getOrderProductAttributes', 'custom', array_keys( $custom ), $custom );
+		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
+		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
 		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create()
 			->copyFrom( $product )->setQuantity( $quantity )->setStockType( $stocktype )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
 		$orderBaseProductItem = $orderBaseProductItem
-			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) );
+			->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
 
 		if( $siteid ) {
 			$orderBaseProductItem->setSiteId( $siteid );
@@ -304,8 +304,8 @@ class Standard
 		$product = $manager->find( $orderProduct->getProductCode(), ['price', 'text'], true );
 		$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
 
-		$quantity = $this->checkQuantity( $product, $quantity );
-		$price = $this->calcPrice( $orderProduct, $product->getRefItems( 'price', 'default' ), $quantity );
+		$quantity = $this->call( 'checkQuantity', $product, $quantity );
+		$price = $this->call( 'calcPrice', $orderProduct, $product->getRefItems( 'price', 'default' ), $quantity );
 		$orderProduct = $orderProduct->setQuantity( $quantity )->setPrice( $price );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderProduct, $position );

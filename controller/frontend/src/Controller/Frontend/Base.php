@@ -20,6 +20,8 @@ namespace Aimeos\Controller\Frontend;
  */
 abstract class Base
 {
+	private static $methods = [];
+
 	private $object;
 	private $context;
 	private $cond = [];
@@ -38,15 +40,68 @@ abstract class Base
 
 
 	/**
-	 * Catch unknown methods
+	 * Registers a custom method that has access to the class properties if called non-static.
 	 *
-	 * @param string $name Name of the method
-	 * @param array $param List of method parameter
-	 * @throws \Aimeos\Controller\Frontend\Exception If method call failed
+	 * Examples:
+	 *  Provider::method( 'test', function( $name ) {
+	 *      return $this->getConfigValue( $name ) ? true : false;
+	 *  } );
+	 *
+	 * @param string $name Method name
+	 * @param \Closure $function Anonymous method
+	 * @return \Closure|null Registered method
 	 */
-	public function __call( string $name, array $param )
+	public static function method( string $name, \Closure $function = null ) : ?\Closure
 	{
-		throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Unable to call method "%1$s"', $name ) );
+		$self = get_called_class();
+
+		if( $function ) {
+			self::$methods[$self][$name] = $function;
+		}
+
+		foreach( array_merge( [$self], class_parents( static::class ) ) as $class )
+		{
+			if( isset( self::$methods[$class][$name] ) ) {
+				return self::$methods[$class][$name];
+			}
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * Passes unknown method calls to the custom methods
+	 *
+	 * @param string $method Method name
+	 * @param array $args Method arguments
+	 * @return mixed Result or method call
+	 */
+	public function __call( string $method, array $args )
+	{
+		if( $fcn = static::method( $method ) ) {
+			return call_user_func_array( $fcn->bindTo( $this, static::class ), $args );
+		}
+
+		$msg = 'Called unknown method "%1$s" on class "%2$s"';
+		throw new \BadMethodCallException( sprintf( $msg, $method, get_class( $this ) ) );
+	}
+
+
+	/**
+	 * Passes unknown method calls to the custom methods
+	 *
+	 * @param string $method Method name
+	 * @param array $args Method arguments
+	 * @return mixed Result or method call
+	 */
+	public function call( string $method, ...$args )
+	{
+		if( $fcn = static::method( $method ) ) {
+			return call_user_func_array( $fcn->bindTo( $this, static::class ), $args );
+		}
+
+		return $this->$method( ...$args );
 	}
 
 

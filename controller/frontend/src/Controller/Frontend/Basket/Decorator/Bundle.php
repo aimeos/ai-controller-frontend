@@ -45,16 +45,16 @@ class Bundle
 			return $this;
 		}
 
-		$quantity = $this->checkQuantity( $product, $quantity );
-		$this->checkAttributes( [$product], 'custom', array_keys( $custom ) );
-		$this->checkAttributes( [$product], 'config', array_keys( $config ) );
+		$quantity = $this->call( 'checkQuantity', $product, $quantity );
+		$this->call( 'checkAttributes', [$product], 'custom', array_keys( $custom ) );
+		$this->call( 'checkAttributes', [$product], 'config', array_keys( $config ) );
 
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
-		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
-		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
+		$custAttr = $this->call( 'getOrderProductAttributes', 'custom', array_keys( $custom ), $custom );
+		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
+		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
 		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create();
 		$name = '';
@@ -68,7 +68,7 @@ class Bundle
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
 			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype, $supplierid, $name ) )
-			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) )
+			->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) )
 			->setQuantity( $quantity )->setStockType( $stocktype );
 
 		if( $siteid ) {
@@ -105,7 +105,7 @@ class Bundle
 
 			$orderProducts[] = $orderProduct->setStockType( $stocktype )
 				->setSupplierId( $supplierid )->setSupplierName( $suppliername )
-				->setPrice( $this->calcPrice( $orderProduct, $prices, $quantity ) );
+				->setPrice( $this->call( 'calcPrice', $orderProduct, $prices, $quantity ) );
 		}
 
 		return $orderProducts;

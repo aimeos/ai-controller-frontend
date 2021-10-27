@@ -46,7 +46,7 @@ class Select
 		}
 
 		$attr = [];
-		$quantity = $this->checkQuantity( $product, $quantity );
+		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
@@ -56,8 +56,8 @@ class Select
 		$productItem = $this->getArticle( $product, $variant );
 		$orderBaseProductItem->setProductCode( $productItem->getCode() );
 
-		$this->checkAttributes( [$product, $productItem], 'custom', array_keys( $custom ) );
-		$this->checkAttributes( [$product, $productItem], 'config', array_keys( $config ) );
+		$this->call( 'checkAttributes', [$product, $productItem], 'custom', array_keys( $custom ) );
+		$this->call( 'checkAttributes', [$product, $productItem], 'config', array_keys( $config ) );
 
 		if( !( $subprices = $productItem->getRefItems( 'price', 'default', 'default' ) )->isEmpty() ) {
 			$prices = $subprices;
@@ -72,17 +72,17 @@ class Select
 		$orderProductAttrManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
 		$attributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
-		foreach( $this->getAttributes( $attributes->keys()->toArray(), ['text'] ) as $attrItem ) {
+		foreach( $this->call( 'getAttributes', $attributes->keys()->toArray(), ['text'] ) as $attrItem ) {
 			$attr[] = $orderProductAttrManager->create()->copyFrom( $attrItem )->setType( 'variant' );
 		}
 
-		$custAttr = $this->getOrderProductAttributes( 'custom', array_keys( $custom ), $custom );
-		$confAttr = $this->getOrderProductAttributes( 'config', array_keys( $config ), [], $config );
-		$hideAttr = $this->getOrderProductAttributes( 'hidden', $hidden->keys()->toArray() );
+		$custAttr = $this->call( 'getOrderProductAttributes', 'custom', array_keys( $custom ), $custom );
+		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
+		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
 		$orderBaseProductItem = $orderBaseProductItem->setQuantity( $quantity )
 			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) )
-			->setPrice( $this->calcPrice( $orderBaseProductItem, $prices, $quantity ) )
+			->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) )
 			->setStockType( $stocktype );
 
 		if( $siteid ) {
@@ -127,7 +127,7 @@ class Select
 
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
 		$product = $manager->find( $orderProduct->getProductCode(), ['price' => ['default']], true );
-		$quantity = $this->checkQuantity( $product, $quantity );
+		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 
 		if( ( $prices = $product->getRefItems( 'price', 'default', 'default' ) )->isEmpty() )
 		{
@@ -135,7 +135,7 @@ class Select
 				->getRefItems( 'price', 'default', 'default' );
 		}
 
-		$price = $this->calcPrice( $orderProduct, $prices, $quantity );
+		$price = $this->call( 'calcPrice', $orderProduct, $prices, $quantity );
 		$orderProduct = $orderProduct->setQuantity( $quantity )->setPrice( $price );
 
 		$this->getController()->get()->addProduct( $orderProduct, $position );

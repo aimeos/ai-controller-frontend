@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Aimeos, 2016
+# Aimeos, 2016
 # Martin Vyšohlíd <vysohlidm@gmail.com>, 2016
 msgid ""
 msgstr ""

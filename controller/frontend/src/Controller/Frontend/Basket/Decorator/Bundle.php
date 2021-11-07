@@ -100,7 +100,7 @@ class Bundle
 
 		foreach( $product->getRefItems( 'product', null, 'default' ) as $item )
 		{
-			$orderProduct = $orderProductManager->create()->copyFrom( $item );
+			$orderProduct = $orderProductManager->create()->copyFrom( $item )->setParentProductId( $product->getId() );
 			$prices = $item->getRefItems( 'price', 'default', 'default' );
 
 			$orderProducts[] = $orderProduct->setStockType( $stocktype )

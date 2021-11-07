@@ -54,7 +54,9 @@ class Select
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product );
 
 		$productItem = $this->getArticle( $product, $variant );
-		$orderBaseProductItem->setProductCode( $productItem->getCode() );
+		$orderBaseProductItem->setProductCode( $productItem->getCode() )
+			->setParentProductId( $product->getId() )
+			->setProductId( $productItem->getId() );
 
 		$this->call( 'checkAttributes', [$product, $productItem], 'custom', array_keys( $custom ) );
 		$this->call( 'checkAttributes', [$product, $productItem], 'config', array_keys( $config ) );
@@ -126,12 +128,12 @@ class Select
 		}
 
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
-		$product = $manager->find( $orderProduct->getProductCode(), ['price' => ['default']], true );
+		$product = $manager->get( $orderProduct->getProductId(), ['price' => ['default']], true );
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 
 		if( ( $prices = $product->getRefItems( 'price', 'default', 'default' ) )->isEmpty() )
 		{
-			$prices = $manager->get( $orderProduct->getProductId(), ['price' => ['default']], true )
+			$prices = $manager->get( $orderProduct->getParentProductId(), ['price' => ['default']], true )
 				->getRefItems( 'price', 'default', 'default' );
 		}
 

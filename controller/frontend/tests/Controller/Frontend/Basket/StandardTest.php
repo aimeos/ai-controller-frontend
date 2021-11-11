@@ -444,11 +444,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddServiceDelivery()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$service = $manager->find( 'unitcode', [], 'service', 'delivery' );
+		$service = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' );
 
 		$this->object->addService( $service );
 		$item = $this->object->get()->getService( 'delivery', 0 );
-		$this->assertEquals( 'unitcode', $item->getCode() );
+		$this->assertEquals( 'unitdeliverycode', $item->getCode() );
 
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addService( $service, ['fast shipping' => true, 'air shipping' => false] );
@@ -458,10 +458,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteServices()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$service = $manager->find( 'unitcode', [], 'service', 'delivery' );
+		$service = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' );
 
 		$this->assertSame( $this->object, $this->object->addService( $service ) );
-		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
+		$this->assertEquals( 'unitdeliverycode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
 
 		$this->assertSame( $this->object, $this->object->deleteService( 'delivery' ) );
 		$this->assertEquals( 0, count( $this->object->get()->getService( 'delivery' ) ) );
@@ -471,10 +471,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteServicePosition()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
-		$service = $manager->find( 'unitcode', [], 'service', 'delivery' );
+		$service = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' );
 
 		$this->assertSame( $this->object, $this->object->addService( $service ) );
-		$this->assertEquals( 'unitcode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
+		$this->assertEquals( 'unitdeliverycode', $this->object->get()->getService( 'delivery', 0 )->getCode() );
 
 		$this->assertSame( $this->object, $this->object->deleteService( 'delivery', 0 ) );
 		$this->assertEquals( 0, count( $this->object->get()->getService( 'delivery' ) ) );
@@ -485,7 +485,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );
 		$payment = $manager->find( 'unitpaymentcode', [], 'service', 'payment' );
-		$delivery = $manager->find( 'unitcode', [], 'service', 'delivery' );
+		$delivery = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' );
 
 		$this->object->addProduct( $this->testItem, 2 );
 		$this->object->addCoupon( 'OPQR' );

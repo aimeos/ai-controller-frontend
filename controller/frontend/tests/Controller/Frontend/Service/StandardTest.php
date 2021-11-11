@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = $this->object->uses( ['price'] )->find( 'unitcode' );
+		$item = $this->object->uses( ['price'] )->find( 'unitdeliverycode' );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Service\Item\Iface::class, $item );
 		$this->assertEquals( 2, count( $item->getRefItems( 'price' ) ) );
@@ -184,7 +184,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$response->expects( $this->once() )->method( 'withStatus' )->will( $this->returnValue( $response ) );
 
-		$this->assertInstanceOf( \Psr\Http\Message\ResponseInterface::class, $this->object->updatePush( $request, $response, 'unitcode' ) );
+		$this->assertInstanceOf( \Psr\Http\Message\ResponseInterface::class, $this->object->updatePush( $request, $response, 'unitdeliverycode' ) );
 	}
 
 
@@ -220,7 +220,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
-		$object->updateSync( $request, 'unitcode', -1 );
+		$object->updateSync( $request, 'unitdeliverycode', -1 );
 	}
 
 
@@ -236,6 +236,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getServiceItem()
 	{
 		$manager = \Aimeos\MShop\Service\Manager\Factory::create( \TestHelperFrontend::getContext() );
-		return $manager->find( 'unitcode' );
+		return $manager->find( 'unitdeliverycode' );
 	}
 }

@@ -206,7 +206,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$serviceManager = \Aimeos\MShop::create( $this->context, 'service' );
 		$ordServManager = \Aimeos\MShop::create( $this->context, 'order/base/service' );
 
-		$serviceItem = $serviceManager->find( 'unitcode', [], 'service', 'delivery' );
+		$serviceItem = $serviceManager->find( 'unitdeliverycode', [], 'service', 'delivery' );
 		$ordServItem = $ordServManager->create()->copyFrom( $serviceItem );
 
 		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );
@@ -241,7 +241,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$serviceManager = \Aimeos\MShop::create( $this->context, 'service' );
 		$ordServManager = \Aimeos\MShop::create( $this->context, 'order/base/service' );
 
-		$serviceItem = $serviceManager->find( 'unitcode', [], 'service', 'delivery' );
+		$serviceItem = $serviceManager->find( 'unitdeliverycode', [], 'service', 'delivery' );
 		$ordServItem = $ordServManager->create()->copyFrom( $serviceItem );
 
 		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Base\Service\Base::TYPE_DELIVERY );

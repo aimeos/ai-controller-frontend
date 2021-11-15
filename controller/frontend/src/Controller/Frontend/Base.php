@@ -97,7 +97,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Iface Outmost decorator object
 	 */
-	protected function getObject() : Iface
+	protected function object() : Iface
 	{
 		if( $this->object !== null ) {
 			return $this->object;

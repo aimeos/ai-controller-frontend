@@ -152,7 +152,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$this->copyProducts( $basket, $errors, $localeKey );
 			$this->copyCoupons( $basket, $errors, $localeKey );
 
-			$this->getObject()->get()->setCustomerId( $basket->getCustomerId() )
+			$this->object()->get()->setCustomerId( $basket->getCustomerId() )
 				->setCustomerReference( $basket->getCustomerReference() )
 				->setComment( $basket->getComment() );
 
@@ -179,7 +179,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			{
 				try
 				{
-					$this->getObject()->get()->addAddress( $item, $type, $pos );
+					$this->object()->get()->addAddress( $item, $type, $pos );
 				}
 				catch( \Exception $e )
 				{
@@ -212,7 +212,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			try
 			{
-				$this->getObject()->addCoupon( $code );
+				$this->object()->addCoupon( $code );
 				$basket->deleteCoupon( $code, true );
 			}
 			catch( \Exception $e )
@@ -267,7 +267,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$item = $manager->get( $product->getProductId(), $domains );
 				$item = $ruleManager->apply( $item, 'catalog' );
 
-				$this->getObject()->addProduct(
+				$this->object()->addProduct(
 					$item, $product->getQuantity(), $variantIds, $configIds, $customIds,
 					$product->getStockType(), $product->getSupplierId(), $product->getSiteId()
 				);
@@ -313,7 +313,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 
 					$service = $manager->get( $item->getServiceId(), ['media', 'price', 'text'] );
-					$this->getObject()->addService( $service, $attributes );
+					$this->object()->addService( $service, $attributes );
 					$basket->deleteService( $type );
 				}
 				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically

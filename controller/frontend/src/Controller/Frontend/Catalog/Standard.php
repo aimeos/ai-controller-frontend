@@ -207,7 +207,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
+		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -257,7 +257,7 @@ class Standard
 	public function visible( array $catIds ) : Iface
 	{
 		$expr = [];
-		$config = $this->getContext()->getConfig();
+		$config = $this->context()->getConfig();
 
 		if( !empty( $catIds ) )
 		{

@@ -20,7 +20,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		\Aimeos\MShop::cache( true );
 
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$this->testItem = $manager->find( 'U:TESTP', ['attribute', 'media', 'price', 'product', 'text'] );
@@ -536,7 +536,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getAddress( $company )
 	{
-		$customer = \Aimeos\MShop\Customer\Manager\Factory::create( \TestHelperFrontend::getContext(), 'Standard' );
+		$customer = \Aimeos\MShop\Customer\Manager\Factory::create( \TestHelperFrontend::context(), 'Standard' );
 		$addressManager = $customer->getSubManager( 'address', 'Standard' );
 
 		$search = $addressManager->filter();

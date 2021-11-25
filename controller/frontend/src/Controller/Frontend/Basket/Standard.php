@@ -79,7 +79,7 @@ class Standard
 		{
 			$this->baskets[$this->type] = $this->manager->getSession( $this->type );
 			$this->checkLocale( $this->baskets[$this->type]->getLocale(), $this->type );
-			$this->baskets[$this->type]->setCustomerId( (string) $this->getContext()->getUserId() );
+			$this->baskets[$this->type]->setCustomerId( (string) $this->context()->getUserId() );
 		}
 
 		return $this->baskets[$this->type];
@@ -122,7 +122,7 @@ class Standard
 	public function store() : \Aimeos\MShop\Order\Item\Base\Iface
 	{
 		$total = 0;
-		$context = $this->getContext();
+		$context = $this->context();
 		$config = $context->getConfig();
 
 		/** controller/frontend/basket/limit-count
@@ -239,7 +239,7 @@ class Standard
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create()
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )->create()
 			->copyFrom( $product )->setQuantity( $quantity )->setStockType( $stocktype )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
@@ -252,7 +252,7 @@ class Standard
 
 		if( $supplierid )
 		{
-			$name = \Aimeos\MShop::create( $this->getContext(), 'supplier' )->get( $supplierid, ['text'] )->getName();
+			$name = \Aimeos\MShop::create( $this->context(), 'supplier' )->get( $supplierid, ['text'] )->getName();
 			$orderBaseProductItem->setSupplierId( $supplierid )->setSupplierName( $name );
 		}
 
@@ -273,7 +273,7 @@ class Standard
 
 		if( $product->getFlags() === \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = $this->getContext()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be deleted manually' );
+			$msg = $this->context()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be deleted manually' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
@@ -291,7 +291,7 @@ class Standard
 	 */
 	public function updateProduct( int $position, float $quantity ) : Iface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$orderProduct = $this->get()->getProduct( $position );
 
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
@@ -322,7 +322,7 @@ class Standard
 	 */
 	public function addCoupon( string $code ) : Iface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 
 		/** controller/frontend/basket/coupon/allowed
 		 * Number of coupon codes a customer is allowed to enter
@@ -384,7 +384,7 @@ class Standard
 			}
 		}
 
-		$context = $this->getContext();
+		$context = $this->context();
 		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->create()->fromArray( $values );
 		$address->set( 'nostore', ( $values['nostore'] ?? false ) ? true : false );
 
@@ -418,7 +418,7 @@ class Standard
 	 */
 	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], int $position = null ) : Iface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, 'service' );
 
 		$provider = $manager->getProvider( $service, $service->getType() );

@@ -199,7 +199,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
+		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -280,7 +280,7 @@ class Standard
 	public function updateSync( ServerRequestInterface $request,
 		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
-		$orderItem = \Aimeos\MShop::create( $this->getContext(), 'order' )->get( $orderid );
+		$orderItem = \Aimeos\MShop::create( $this->context(), 'order' )->get( $orderid );
 		$serviceItem = $this->manager->find( $code );
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );

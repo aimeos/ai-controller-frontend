@@ -56,12 +56,12 @@ class Bundle
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create();
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )->create();
 		$name = '';
 
 		if( $supplierid )
 		{
-			$name = \Aimeos\MShop::create( $this->getContext(), 'supplier' )->get( $supplierid, ['text' => ['name']] )->getName();
+			$name = \Aimeos\MShop::create( $this->context(), 'supplier' )->get( $supplierid, ['text' => ['name']] )->getName();
 			$orderBaseProductItem->setSupplierId( $supplierid )->setSupplierName( $name );
 		}
 
@@ -96,7 +96,7 @@ class Bundle
 		string $stocktype, ?string $supplierid, string $suppliername ) : array
 	{
 		$orderProducts = [];
-		$orderProductManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' );
+		$orderProductManager = \Aimeos\MShop::create( $this->context(), 'order/base/product' );
 
 		foreach( $product->getRefItems( 'product', null, 'default' ) as $item )
 		{

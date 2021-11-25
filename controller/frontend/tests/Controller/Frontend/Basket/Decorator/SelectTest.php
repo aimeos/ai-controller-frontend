@@ -18,7 +18,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$this->testItem = $manager->find( 'U:TESTP', ['attribute', 'media', 'price', 'product', 'text'] );
@@ -62,7 +62,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductVariant()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'attribute' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'attribute' );
 
 		$search = $manager->filter();
 		$search->setConditions( $search->compare( '==', 'attribute.code', array( 'xs', 'white' ) ) );

@@ -50,7 +50,7 @@ class Select
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->getContext(), 'order/base/product' )->create();
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )->create();
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product );
 
 		$productItem = $this->getArticle( $product, $variant );
@@ -71,7 +71,7 @@ class Select
 
 		$hidden->union( $productItem->getRefItems( 'attribute', null, 'hidden' ) );
 
-		$orderProductAttrManager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
+		$orderProductAttrManager = \Aimeos\MShop::create( $this->context(), 'order/base/product/attribute' );
 		$attributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
 		foreach( $this->call( 'getAttributes', $attributes->keys()->toArray(), ['text'] ) as $attrItem ) {
@@ -93,7 +93,7 @@ class Select
 
 		if( $supplierid )
 		{
-			$name = \Aimeos\MShop::create( $this->getContext(), 'supplier' )->get( $supplierid, ['text' => ['name']] )->getName();
+			$name = \Aimeos\MShop::create( $this->context(), 'supplier' )->get( $supplierid, ['text' => ['name']] )->getName();
 			$orderBaseProductItem->setSupplierId( $supplierid )->setSupplierName( $name );
 		}
 
@@ -123,11 +123,11 @@ class Select
 
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = $this->getContext()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
+			$msg = $this->context()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'product' );
+		$manager = \Aimeos\MShop::create( $this->context(), 'product' );
 		$product = $manager->get( $orderProduct->getProductId(), ['price' => ['default']], true );
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 
@@ -158,7 +158,7 @@ class Select
 	protected function getArticle( \Aimeos\MShop\Product\Item\Iface $productItem, array $variant ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		$items = [];
-		$context = $this->getContext();
+		$context = $this->context();
 
 		/** controller/frontend/basket/require-variant
 		 * A variant of a selection product must be chosen

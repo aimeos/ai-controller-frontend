@@ -41,7 +41,7 @@ class Category
 	{
 		if( !$this->checkCategory( $product->getId() ) )
 		{
-			$context = $this->getContext();
+			$context = $this->context();
 			$manager = \Aimeos\MShop::create( $context, 'product' );
 
 			$filter = $manager->filter( true );
@@ -74,7 +74,7 @@ class Category
 	 */
 	protected function checkCategory( $prodIds ) : bool
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, 'catalog' );
 
 		$filter = $manager->filter( true )->slice( 0, 1 );

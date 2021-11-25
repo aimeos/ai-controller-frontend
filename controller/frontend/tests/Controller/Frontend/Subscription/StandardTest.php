@@ -18,7 +18,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 		$this->context->setUserId( $this->getCustomerId() );
 
 		$this->manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Subscription\\Manager\\Standard' )

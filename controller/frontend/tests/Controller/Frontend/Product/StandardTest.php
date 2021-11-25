@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 		$this->object = new \Aimeos\Controller\Frontend\Product\Standard( $this->context );
 	}
 

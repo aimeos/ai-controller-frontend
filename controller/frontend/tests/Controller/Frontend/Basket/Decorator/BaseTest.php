@@ -18,7 +18,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 
 		$this->stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->disableOriginalConstructor()
@@ -81,7 +81,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$context = \TestHelperFrontend::getContext();
+		$context = \TestHelperFrontend::context();
 		$order = \Aimeos\MShop::create( $context, 'order/base' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $order ) );

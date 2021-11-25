@@ -89,7 +89,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 
 		$filter = $this->manager->filter( true );
 		$expr = [
@@ -116,7 +116,7 @@ class Standard
 	 */
 	public function getIntervals() : \Aimeos\Map
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
+		$manager = \Aimeos\MShop::create( $this->context(), 'attribute' );
 
 		$search = $manager->filter( true );
 		$expr = array(
@@ -191,7 +191,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
+		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}

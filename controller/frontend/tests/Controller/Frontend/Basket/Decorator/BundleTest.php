@@ -17,7 +17,7 @@ class BundleTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 		$this->object = new \Aimeos\Controller\Frontend\Basket\Decorator\Bundle( $object, $this->context );
 	}

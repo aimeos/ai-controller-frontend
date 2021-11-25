@@ -21,14 +21,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		\Aimeos\MShop::cache( true );
 
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 		$this->object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
 	}
 
 
 	public static function setUpBeforeClass() : void
 	{
-		$orderManager = \Aimeos\MShop\Order\Manager\Factory::create( \TestHelperFrontend::getContext() );
+		$orderManager = \Aimeos\MShop\Order\Manager\Factory::create( \TestHelperFrontend::context() );
 		$orderBaseMgr = $orderManager->getSubManager( 'base' );
 		self::$basket = $orderBaseMgr->create();
 	}
@@ -235,7 +235,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getServiceItem()
 	{
-		$manager = \Aimeos\MShop\Service\Manager\Factory::create( \TestHelperFrontend::getContext() );
+		$manager = \Aimeos\MShop\Service\Manager\Factory::create( \TestHelperFrontend::context() );
 		return $manager->find( 'unitdeliverycode' );
 	}
 }

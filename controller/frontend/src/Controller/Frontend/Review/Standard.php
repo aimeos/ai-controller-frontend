@@ -170,7 +170,7 @@ class Standard
 	public function list( int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
-		$cond = $filter->is( 'review.customerid', '==', $this->getContext()->getUserId() );
+		$cond = $filter->is( 'review.customerid', '==', $this->context()->getUserId() );
 
 		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
 		$filter->setSortations( $this->getSortations() );
@@ -213,7 +213,7 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Review\Exception( $msg );
 		}
 
-		$context = $this->getContext();
+		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, 'order/base' );
 
 		$filter = $manager->filter( true )->add( [
@@ -290,7 +290,7 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
+		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
 		$filter->setSortations( $this->getSortations() );

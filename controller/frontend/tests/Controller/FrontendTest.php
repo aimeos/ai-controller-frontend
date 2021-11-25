@@ -13,7 +13,7 @@ class FrontendTest extends \PHPUnit\Framework\TestCase
 {
 	public function testCreateController()
 	{
-		$controller = \Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), 'basket' );
+		$controller = \Aimeos\Controller\Frontend::create( \TestHelperFrontend::context(), 'basket' );
 		$this->assertInstanceOf( '\\Aimeos\\Controller\\Frontend\\Iface', $controller );
 	}
 
@@ -21,34 +21,34 @@ class FrontendTest extends \PHPUnit\Framework\TestCase
 	public function testCreateControllerEmpty()
 	{
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), '' );
+		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::context(), '' );
 	}
 
 
 	public function testCreateControllerInvalidName()
 	{
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), '%^' );
+		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::context(), '%^' );
 	}
 
 
 	public function testCreateControllerNotExisting()
 	{
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), 'notexist' );
+		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::context(), 'notexist' );
 	}
 
 
 	public function testCreateSubControllerNotExisting()
 	{
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Exception' );
-		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::getContext(), 'basket/notexist' );
+		\Aimeos\Controller\Frontend::create( \TestHelperFrontend::context(), 'basket/notexist' );
 	}
 
 
 	public function testCache()
 	{
-		$context = \TestHelperFrontend::getContext();
+		$context = \TestHelperFrontend::context();
 		\Aimeos\Controller\Frontend::cache( true );
 
 		$controller1 = \Aimeos\Controller\Frontend::create( $context, 'basket' );

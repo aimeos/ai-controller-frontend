@@ -33,7 +33,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderProduct,
 		\Aimeos\Map $prices, float $quantity ) : \Aimeos\MShop\Price\Item\Iface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 
 		$priceManager = \Aimeos\MShop::create( $context, 'price' );
 		$price = $priceManager->getLowestPrice( $prices, $quantity );
@@ -108,7 +108,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( $attrIds->intersect( $refIds )->count() !== count( $refIds ) )
 		{
-			$i18n = $this->getContext()->getI18n();
+			$i18n = $this->context()->getI18n();
 			$prodIds = map( $products )->getId()->join( ', ' );
 			$msg = $i18n->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, 'attribute', $prodIds ) );
@@ -125,7 +125,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function checkLocale( \Aimeos\MShop\Locale\Item\Iface $locale, string $type )
 	{
 		$errors = [];
-		$context = $this->getContext();
+		$context = $this->context();
 		$session = $context->getSession();
 
 		$localeStr = $session->get( 'aimeos/basket/locale' );
@@ -183,7 +183,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				}
 				catch( \Exception $e )
 				{
-					$logger = $this->getContext()->getLogger();
+					$logger = $this->context()->getLogger();
 					$errors['address'][$type] = $e->getMessage();
 
 					$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
@@ -217,7 +217,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			}
 			catch( \Exception $e )
 			{
-				$logger = $this->getContext()->getLogger();
+				$logger = $this->context()->getLogger();
 				$errors['coupon'][$code] = $e->getMessage();
 
 				$str = 'Error migrating coupon with code "%1$s" in basket to locale "%2$s": %3$s';
@@ -239,7 +239,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function copyProducts( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, 'product' );
 		$ruleManager = \Aimeos\MShop::create( $context, 'rule' );
 		$domains = ['attribute', 'media', 'price', 'product', 'text'];
@@ -277,7 +277,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			catch( \Exception $e )
 			{
 				$code = $product->getProductCode();
-				$logger = $this->getContext()->getLogger();
+				$logger = $this->context()->getLogger();
 				$errors['product'][$pos] = $e->getMessage();
 
 				$str = 'Error migrating product with code "%1$s" in basket to locale "%2$s": %3$s';
@@ -298,7 +298,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function copyServices( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors ) : array
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->context(), 'service' );
 
 		foreach( $basket->getServices() as $type => $list )
 		{
@@ -332,7 +332,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Base\Iface $basket )
 	{
 		$types = ['config', 'custom', 'hidden', 'variant'];
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'subscription' );
+		$manager = \Aimeos\MShop::create( $this->context(), 'subscription' );
 
 		foreach( $basket->getProducts() as $orderProduct )
 		{
@@ -369,7 +369,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return map();
 		}
 
-		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context(), 'attribute' );
 
 		$search = $attributeManager->filter( true );
 		$expr = array(
@@ -383,7 +383,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( $attrItems->count() !== count( $attributeIds ) )
 		{
-			$i18n = $this->getContext()->getI18n();
+			$i18n = $this->context()->getI18n();
 			$expected = implode( ',', $attributeIds );
 			$actual = $attrItems->keys()->join( ',' );
 			$msg = $i18n->dt( 'controller/frontend', 'Available attribute IDs "%1$s" do not match the given attribute IDs "%2$s"' );
@@ -407,7 +407,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			return map();
 		}
 
-		$attributeManager = \Aimeos\MShop::create( $this->getContext(), 'attribute' );
+		$attributeManager = \Aimeos\MShop::create( $this->context(), 'attribute' );
 		$search = $attributeManager->filter( true );
 		$expr = [];
 
@@ -443,7 +443,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( !empty( $ids ) )
 		{
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base/product/attribute' );
+			$manager = \Aimeos\MShop::create( $this->context(), 'order/base/product/attribute' );
 
 			foreach( $this->getAttributes( $ids ) as $id => $attrItem )
 			{

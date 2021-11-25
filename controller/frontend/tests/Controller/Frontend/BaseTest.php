@@ -16,7 +16,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$context = \TestHelperFrontend::getContext();
+		$context = \TestHelperFrontend::context();
 
 		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Base::class )
 			->setConstructorArgs( [$context] )
@@ -32,7 +32,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetContext()
 	{
-		$result = $this->access( 'getContext' )->invokeArgs( $this->object, [] );
+		$result = $this->access( 'context' )->invokeArgs( $this->object, [] );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Context\Item\Iface::class, $result );
 	}

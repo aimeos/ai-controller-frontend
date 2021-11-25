@@ -15,7 +15,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperFrontend::getContext();
+		$this->context = \TestHelperFrontend::context();
 		\Aimeos\MShop::cache( true );
 	}
 
@@ -45,7 +45,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyAddresses()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$address = $this->getAddress( 'Example company' );
@@ -72,7 +72,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyAddressesException()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$address = $this->getAddress( 'Example company' );
@@ -95,7 +95,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyCoupon()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC', ['price'] );
@@ -126,7 +126,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyCouponException()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$ordBaseItem->addCoupon( '90AB', [] );
@@ -148,7 +148,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyProduct()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' );
@@ -175,7 +175,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyProductException()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$product = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' );
@@ -200,7 +200,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyServices()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$serviceManager = \Aimeos\MShop::create( $this->context, 'service' );
@@ -235,7 +235,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testCopyServicesException()
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base' );
 		$ordBaseItem = $manager->create();
 
 		$serviceManager = \Aimeos\MShop::create( $this->context, 'service' );
@@ -314,7 +314,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getAddress( $company )
 	{
-		$manager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'customer/address' );
+		$manager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'customer/address' );
 
 		$search = $manager->filter();
 		$search->setConditions( $search->compare( '==', 'customer.address.company', $company ) );
@@ -323,7 +323,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			throw new \RuntimeException( sprintf( 'No address item with company "%1$s" found', $company ) );
 		}
 
-		$ordAddrManager = \Aimeos\MShop::create( \TestHelperFrontend::getContext(), 'order/base/address' );
+		$ordAddrManager = \Aimeos\MShop::create( \TestHelperFrontend::context(), 'order/base/address' );
 		$ordAddrItem = $ordAddrManager->create()->copyFrom( $item );
 
 		return $ordAddrItem;

@@ -155,7 +155,7 @@ class Standard
 	 */
 	public function slice( int $start, int $limit ) : Iface
 	{
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
+		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -192,7 +192,7 @@ class Standard
 	{
 		$this->checkLimit( $this->item->getBaseId() );
 
-		$cntl = \Aimeos\Controller\Common\Order\Factory::create( $this->getContext() );
+		$cntl = \Aimeos\Controller\Common\Order\Factory::create( $this->context() );
 		$this->item = $this->manager->save( $this->item );
 
 		return $cntl->block( $this->item );
@@ -222,7 +222,7 @@ class Standard
 	 */
 	protected function checkLimit( string $baseId ) : Iface
 	{
-		$config = $this->getContext()->getConfig();
+		$config = $this->context()->getConfig();
 
 		/** controller/frontend/order/limit-count
 		 * Maximum number of invoices within the time frame

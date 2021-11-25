@@ -214,7 +214,7 @@ class Standard
 	public function delete() : Iface
 	{
 		if( $this->item && $this->item->getId() ) {
-			\Aimeos\MShop::create( $this->getContext(), 'customer' )->delete( $this->item->getId() );
+			\Aimeos\MShop::create( $this->context(), 'customer' )->delete( $this->item->getId() );
 		}
 
 		return $this;
@@ -303,7 +303,7 @@ class Standard
 	public function store() : Iface
 	{
 		( $id = $this->item->getId() ) !== null ? $this->checkId( $id ) : $this->checkLimit();
-		$context = $this->getContext();
+		$context = $this->context();
 
 		if( $id === null )
 		{
@@ -335,7 +335,7 @@ class Standard
 	{
 		$this->domains = $domains;
 
-		if( ( $id = $this->getContext()->getUserId() ) !== null ) {
+		if( ( $id = $this->context()->getUserId() ) !== null ) {
 			$this->item = $this->manager->get( $id, $domains, true );
 		}
 
@@ -351,7 +351,7 @@ class Standard
 	protected function checkLimit()
 	{
 		$total = 0;
-		$context = $this->getContext();
+		$context = $this->context();
 		$config = $context->getConfig();
 
 		/** controller/frontend/customer/limit-count
@@ -413,7 +413,7 @@ class Standard
 	 */
 	protected function checkId( string $id ) : string
 	{
-		if( $id != $this->getContext()->getUserId() )
+		if( $id != $this->context()->getUserId() )
 		{
 			$msg = sprintf( 'Not allowed to access customer data for ID "%1$s"', $id );
 			throw new \Aimeos\Controller\Frontend\Customer\Exception( $msg );

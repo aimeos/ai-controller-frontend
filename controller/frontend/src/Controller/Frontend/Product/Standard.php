@@ -123,7 +123,7 @@ class Standard
 			if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 			{
 				$list = map();
-				$cntl = \Aimeos\Controller\Frontend::create( $this->getContext(), 'catalog' );
+				$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'catalog' );
 
 				foreach( $ids as $catId ) {
 					$list->union( $cntl->root( $catId )->getTree( $level )->toList() );
@@ -172,7 +172,7 @@ class Standard
 	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		$item = $this->manager->find( $code, $this->domains, 'product', null, null );
-		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $item, 'catalog' );
+		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $item, 'catalog' );
 	}
 
 
@@ -199,7 +199,7 @@ class Standard
 	public function get( string $id ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		$item = $this->manager->get( $id, $this->domains, null );
-		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $item, 'catalog' );
+		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $item, 'catalog' );
 	}
 
 
@@ -286,7 +286,7 @@ class Standard
 		if( $value )
 		{
 			$value = (array) $value;
-			$func = $this->filter->make( 'index.price:value', [$this->getContext()->getLocale()->getCurrencyId()] );
+			$func = $this->filter->make( 'index.price:value', [$this->context()->getLocale()->getCurrencyId()] );
 
 			$this->addExpression( $this->filter->compare( '<=', $func, sprintf( '%013.2F', end( $value ) ) ) );
 
@@ -346,11 +346,11 @@ class Standard
 
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{
-			$msg = $this->getContext()->translate( 'controller/frontend', 'Unable to find product "%1$s"' );
+			$msg = $this->context()->translate( 'controller/frontend', 'Unable to find product "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ), 404 );
 		}
 
-		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $item, 'catalog' );
+		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $item, 'catalog' );
 	}
 
 
@@ -374,14 +374,14 @@ class Standard
 		 *
 		 * @param int Number of items
 		 */
-		$maxsize = $this->getContext()->config()->get( 'controller/frontend/common/max-size', 500 );
+		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
 		$filter->setSortations( $this->getSortations() );
 		$filter->setConditions( $filter->and( $this->getConditions() ) );
 
 		$items = $this->manager->search( $filter, $this->domains, $total );
-		return \Aimeos\MShop::create( $this->getContext(), 'rule' )->apply( $items, 'catalog' );
+		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $items, 'catalog' );
 	}
 
 
@@ -431,7 +431,7 @@ class Standard
 					break;
 
 				case 'name':
-					$langid = $this->getContext()->getLocale()->getLanguageId();
+					$langid = $this->context()->getLocale()->getLanguageId();
 
 					$cmpfunc = $this->filter->make( 'index.text:name', [$langid] );
 					$this->addExpression( $this->filter->compare( '!=', $cmpfunc, null ) );
@@ -441,7 +441,7 @@ class Standard
 					break;
 
 				case 'price':
-					$currencyid = $this->getContext()->getLocale()->getCurrencyId();
+					$currencyid = $this->context()->getLocale()->getCurrencyId();
 					$sortfunc = $this->filter->make( 'sort:index.price:value', [$currencyid] );
 
 					$cmpfunc = $this->filter->make( 'index.price:value', [$currencyid] );
@@ -495,7 +495,7 @@ class Standard
 	{
 		if( !empty( $text ) )
 		{
-			$langid = $this->getContext()->getLocale()->getLanguageId();
+			$langid = $this->context()->getLocale()->getLanguageId();
 			$func = $this->filter->make( 'index.text:relevance', [$langid, $text] );
 			$sortfunc = $this->filter->make( 'sort:index.text:relevance', [$langid, $text] );
 

@@ -116,7 +116,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddProductVariantNotRequired()
 	{
-		$this->context->getConfig()->set( 'controller/frontend/basket/require-variant', false );
+		$this->context->config()->set( 'controller/frontend/basket/require-variant', false );
 		$id = \Aimeos\MShop::create( $this->context, 'attribute' )->find( 'xs', [], 'product', 'size' )->getId();
 
 		$this->object->addProduct( $this->testItem, 1, [$id] );

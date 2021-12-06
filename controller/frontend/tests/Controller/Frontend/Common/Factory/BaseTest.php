@@ -18,7 +18,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	protected function setUp() : void
 	{
 		$this->context = \TestHelperFrontend::context();
-		$config = $this->context->getConfig();
+		$config = $this->context->config();
 
 		$config->set( 'controller/frontend/common/decorators/default', [] );
 		$config->set( 'controller/frontend/catalog/decorators/global', [] );

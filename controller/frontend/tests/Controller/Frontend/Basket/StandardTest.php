@@ -138,7 +138,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testStoreLimit()
 	{
 		$this->context->setEditor( 'core:lib/mshoplib' );
-		$config = $this->context->getConfig();
+		$config = $this->context->config();
 		$config->set( 'controller/frontend/basket/limit-count', 0 );
 		$config->set( 'controller/frontend/basket/limit-seconds', 86400 * 365 );
 

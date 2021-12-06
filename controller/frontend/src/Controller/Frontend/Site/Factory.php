@@ -64,7 +64,7 @@ class Factory
 		 * @category Developer
 		 */
 		if( $name === null ) {
-			$name = $context->getConfig()->get( 'controller/frontend/site/name', 'Standard' );
+			$name = $context->config()->get( 'controller/frontend/site/name', 'Standard' );
 		}
 
 		$iface = '\\Aimeos\\Controller\\Frontend\\Site\\Iface';

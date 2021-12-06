@@ -51,7 +51,7 @@ class Standard
 			 * @category User
 			 * @category Developer
 			 */
-			$groupIds = (array) $context->getConfig()->get( 'controller/frontend/customer/groupids', [] );
+			$groupIds = (array) $context->config()->get( 'controller/frontend/customer/groupids', [] );
 			$this->item = $this->manager->create()->setGroups( $groupIds );
 		}
 		else
@@ -352,7 +352,7 @@ class Standard
 	{
 		$total = 0;
 		$context = $this->context();
-		$config = $context->getConfig();
+		$config = $context->config();
 
 		/** controller/frontend/customer/limit-count
 		 * Maximum number of customers within the time frame

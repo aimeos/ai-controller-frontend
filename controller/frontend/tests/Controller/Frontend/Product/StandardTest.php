@@ -195,7 +195,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearchAll()
 	{
 		$total = 0;
-		$this->context->getConfig()->set( 'controller/frontend/product/show-all', true );
+		$this->context->config()->set( 'controller/frontend/product/show-all', true );
 		$object = new \Aimeos\Controller\Frontend\Product\Standard( $this->context );
 
 		$items = $object->search( $total );

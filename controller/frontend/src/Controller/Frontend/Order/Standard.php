@@ -222,7 +222,7 @@ class Standard
 	 */
 	protected function checkLimit( string $baseId ) : Iface
 	{
-		$config = $this->context()->getConfig();
+		$config = $this->context()->config();
 
 		/** controller/frontend/order/limit-count
 		 * Maximum number of invoices within the time frame

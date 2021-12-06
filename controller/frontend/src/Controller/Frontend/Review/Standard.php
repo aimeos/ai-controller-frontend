@@ -244,7 +244,7 @@ class Standard
 		 * @param integer Review status value
 		 * @since 2020.10
 		 */
-		$status = $context->getConfig()->get( 'controller/frontend/review/status', -1 );
+		$status = $context->config()->get( 'controller/frontend/review/status', -1 );
 
 		$real = $this->manager->search( $filter->slice( 0, 1 ) )->first( $this->manager->create() );
 

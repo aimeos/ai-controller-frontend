@@ -179,7 +179,7 @@ class Select
 		 * @category Developer
 		 * @category User
 		 */
-		$requireVariant = $context->getConfig()->get( 'controller/frontend/basket/require-variant', true );
+		$requireVariant = $context->config()->get( 'controller/frontend/basket/require-variant', true );
 
 		foreach( $productItem->getRefItems( 'product', null, 'default' ) as $item )
 		{

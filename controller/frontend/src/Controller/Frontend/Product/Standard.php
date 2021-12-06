@@ -53,7 +53,7 @@ class Standard
 		 * @param bool FALSE if products must be assigned to categories, TRUE if not
 		 * @since 2010.10
 		 */
-		if( $context->getConfig()->get( 'controller/frontend/product/show-all', false ) == false ) {
+		if( $context->config()->get( 'controller/frontend/product/show-all', false ) == false ) {
 			$this->addExpression( $this->filter->compare( '!=', 'index.catalog.id', null ) );
 		}
 

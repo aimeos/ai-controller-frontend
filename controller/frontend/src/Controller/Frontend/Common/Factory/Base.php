@@ -88,7 +88,7 @@ class Base
 		}
 
 		$localClass = str_replace( '/', '\\', ucwords( $domain, '/' ) );
-		$config = $context->getConfig();
+		$config = $context->config();
 
 		/** controller/frontend/common/decorators/default
 		 * Configures the list of decorators applied to all frontend controllers

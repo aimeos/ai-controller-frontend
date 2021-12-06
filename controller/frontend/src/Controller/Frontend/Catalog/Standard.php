@@ -257,7 +257,7 @@ class Standard
 	public function visible( array $catIds ) : Iface
 	{
 		$expr = [];
-		$config = $this->context()->getConfig();
+		$config = $this->context()->config();
 
 		if( !empty( $catIds ) )
 		{

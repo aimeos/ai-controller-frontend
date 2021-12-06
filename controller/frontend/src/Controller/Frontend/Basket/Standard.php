@@ -123,7 +123,7 @@ class Standard
 	{
 		$total = 0;
 		$context = $this->context();
-		$config = $context->getConfig();
+		$config = $context->config();
 
 		/** controller/frontend/basket/limit-count
 		 * Maximum number of orders within the time frame
@@ -340,7 +340,7 @@ class Standard
 		 * @category User
 		 * @category Developer
 		 */
-		$allowed = $context->getConfig()->get( 'controller/frontend/basket/coupon/allowed', 1 );
+		$allowed = $context->config()->get( 'controller/frontend/basket/coupon/allowed', 1 );
 
 		if( $allowed <= count( $this->get()->getCoupons() ) )
 		{

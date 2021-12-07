@@ -39,7 +39,7 @@ class Category
 		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
 		string $stocktype = 'default', string $supplierid = null, string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
-		if( !$this->checkCategory( $product->getId() ) )
+		if( $product->getListItems( 'catalog' )->isEmpty() )
 		{
 			$context = $this->context();
 			$manager = \Aimeos\MShop::create( $context, 'product' );
@@ -48,15 +48,12 @@ class Category
 			$func = $filter->make( 'product:has', ['product', 'default', $product->getId()] );
 			$filter->add( $filter->is( $func, '!=', null ) );
 
-			$prodIds = [$product->getId()];
-			foreach( $manager->search( $filter ) as $item ) {
-				$prodIds[] = $item->getId();
-			}
+			$prodIds = $manager->search( $filter )->keys()->all();
 
-			if( !$this->checkCategory( $prodIds ) )
+			if( empty( $prodIds ) || !$this->checkCategory( $prodIds ) )
 			{
 				$msg = $context->translate( 'controller/frontend', 'Adding product with ID "%1$s" is not allowed' );
-				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, print_r( $prodIds, true ) ) );
+				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $product->getId() ) );
 			}
 		}
 
@@ -69,17 +66,16 @@ class Category
 	/**
 	 * Checks if the given product IDs are assigned to a category
 	 *
-	 * @param array|string $prodIds Unique product IDs to check for
+	 * @param iterable $prodIds Unique product IDs to check for
 	 * @return bool True if at least one product ID is assigned to a category, false if not
 	 */
-	protected function checkCategory( $prodIds ) : bool
+	protected function checkCategory( iterable $prodIds ) : bool
 	{
-		$context = $this->context();
-		$manager = \Aimeos\MShop::create( $context, 'catalog' );
+		$manager = \Aimeos\MShop::create( $this->context(), 'product' );
 
 		$filter = $manager->filter( true )->slice( 0, 1 );
-		$func = $filter->make( 'catalog:has', ['product', ['default', 'promotion'], $prodIds] );
-		$filter->add( $filter->is( $func, '!=', null ) );
+		$func = $filter->make( 'product:has', ['catalog'] );
+		$filter->add( $func, '!=', null )->add( 'product.id', '==', $prodIds );
 
 		return !$manager->search( $filter )->isEmpty();
 	}

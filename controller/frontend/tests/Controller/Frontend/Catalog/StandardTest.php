@@ -38,10 +38,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = $this->object->uses( ['product'] )->find( 'cafe' );
+		$item = $this->object->uses( ['text'] )->find( 'cafe' );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $item );
-		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
+		$this->assertEquals( 1, count( $item->getRefItems( 'text' ) ) );
 	}
 
 
@@ -55,20 +55,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->find( 'cafe' );
-		$item = $this->object->uses( ['product'] )->get( $item->getId() );
+		$item = $this->object->uses( ['text'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $item );
-		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
+		$this->assertEquals( 1, count( $item->getRefItems( 'text' ) ) );
 	}
 
 
 	public function testGetPath()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'catalog' )->find( 'cafe', [] );
-		$items = $this->object->uses( ['product'] )->getPath( $item->getId() );
+		$items = $this->object->uses( ['text'] )->getPath( $item->getId() );
 
 		$this->assertEquals( 3, count( $items ) );
-		$this->assertEquals( 2, count( $items->last()->getRefItems( 'product' ) ) );
+		$this->assertEquals( 1, count( $items->last()->getRefItems( 'text' ) ) );
 
 		foreach( $items as $item ) {
 			$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $item );
@@ -78,14 +78,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetTree()
 	{
-		$tree = $this->object->uses( ['product'] )->getTree();
+		$tree = $this->object->uses( ['text'] )->getTree();
 
 		foreach( $tree->toList() as $item ) {
 			$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $item );
 		}
 
 		$this->assertEquals( 2, count( $tree->getChildren() ) );
-		$this->assertEquals( 4, count( $tree->toList()->last()->getRefItems( 'product' ) ) );
+		$this->assertEquals( 5, count( $tree->toList()->last()->getRefItems( 'text' ) ) );
 	}
 
 
@@ -110,10 +110,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$items = $this->object->uses( ['product'] )->compare( '==', 'catalog.code', 'cafe' )->search( $total );
+		$items = $this->object->uses( ['text'] )->compare( '==', 'catalog.code', 'cafe' )->search( $total );
 
 		$this->assertCount( 1, $items );
-		$this->assertEquals( 2, count( $items->first()->getRefItems( 'product' ) ) );
+		$this->assertEquals( 1, count( $items->first()->getRefItems( 'text' ) ) );
 	}
 
 

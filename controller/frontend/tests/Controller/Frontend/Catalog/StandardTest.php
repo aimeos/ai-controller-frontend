@@ -89,6 +89,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testHas()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'text' );
+		$filter = $manager->filter()->add( ['text.domain' => 'catalog'] )->slice( 0, 1 );
+		$id = $manager->search( $filter )->first()->getId();
+
+		$this->assertEquals( 1, count( $this->object->has( 'text', 'unittype1', $id )->search() ) );
+	}
+
+
 	public function testParse()
 	{
 		$cond = ['>' => ['catalog.status' => 0]];

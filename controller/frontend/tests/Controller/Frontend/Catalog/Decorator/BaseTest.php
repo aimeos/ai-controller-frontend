@@ -105,6 +105,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testHas()
+	{
+		$this->assertSame( $this->object, $this->object->has( 'media', 'default', -1 ) );
+	}
+
+
 	public function testParse()
 	{
 		$this->assertSame( $this->object, $this->object->parse( [] ) );

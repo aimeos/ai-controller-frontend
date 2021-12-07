@@ -80,6 +80,17 @@ interface Iface
 	public function getTree( int $level = Iface::TREE ) : \Aimeos\MShop\Catalog\Item\Iface;
 
 	/**
+	 * Adds a filter to return only items containing a reference to the given ID
+	 *
+	 * @param string $domain Domain name of the referenced item, e.g. "media"
+	 * @param string|null $type Type code of the reference, e.g. "variant" or null for all types
+	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2022.01
+	 */
+	public function has( string $domain, string $type = null, string $refId = null ) : Iface;
+
+	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
 	 * @param array $conditions List of conditions, e.g. ['>' => ['catalog.status' => 0]]

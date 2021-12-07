@@ -151,6 +151,27 @@ class Standard
 
 
 	/**
+	 * Adds a filter to return only items containing a reference to the given ID
+	 *
+	 * @param string $domain Domain name of the referenced item, e.g. "media"
+	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
+	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
+	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @since 2019.10
+	 */
+	public function has( string $domain, string $type = null, string $refId = null ) : Iface
+	{
+		$params = [$domain];
+		!$type ?: $params[] = $type;
+		!$refId ?: $params[] = $refId;
+
+		$func = $this->filter->make( 'catalog:has', $params );
+		$this->addExpression( $this->filter->compare( '!=', $func, null ) );
+		return $this;
+	}
+
+
+	/**
 	 * Parses the given array and adds the conditions to the list of conditions
 	 *
 	 * @param array $conditions List of conditions, e.g. ['>' => ['catalog.status' => 0]]

@@ -36,10 +36,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testFind()
 	{
-		$item = $this->object->uses( ['product'] )->find( 'unitSupplier001' );
+		$item = $this->object->uses( ['text'] )->find( 'unitSupplier001' );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );
-		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
+		$this->assertEquals( 3, count( $item->getRefItems( 'text' ) ) );
 	}
 
 
@@ -53,19 +53,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' );
-		$item = $this->object->uses( ['product'] )->get( $item->getId() );
+		$item = $this->object->uses( ['text'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );
-		$this->assertEquals( 2, count( $item->getRefItems( 'product' ) ) );
+		$this->assertEquals( 3, count( $item->getRefItems( 'text' ) ) );
 	}
 
 
 	public function testHas()
 	{
-		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$prodId = $manager->find( 'CNE' )->getId();
+		$manager = \Aimeos\MShop::create( $this->context, 'text' );
+		$filter = $manager->filter()->add( ['text.domain' => 'supplier'] )->slice( 0, 1 );
+		$id = $manager->search( $filter )->first()->getId();
 
-		$this->assertEquals( 1, count( $this->object->has( 'product', 'default', $prodId )->search() ) );
+		$this->assertEquals( 1, count( $this->object->has( 'text', 'default', $id )->search() ) );
 	}
 
 
@@ -79,12 +80,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$items = $this->object->uses( ['product'] )->compare( '=~', 'supplier.code', 'unit' )
+		$items = $this->object->uses( ['text'] )->compare( '=~', 'supplier.code', 'unit' )
 			->sort( 'supplier.code' )->search( $total );
 
 		$this->assertGreaterThanOrEqual( 2, count( $items ) );
 		$this->assertGreaterThanOrEqual( 2, $total );
-		$this->assertEquals( 2, count( $items->first()->getRefItems( 'product' ) ) );
+		$this->assertEquals( 3, count( $items->first()->getRefItems( 'text' ) ) );
 	}
 
 

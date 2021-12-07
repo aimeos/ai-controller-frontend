@@ -107,7 +107,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testHas()
 	{
-		$this->assertSame( $this->object, $this->object->has( 'product', 'default', -1 ) );
+		$this->assertSame( $this->object, $this->object->has( 'media', 'default', -1 ) );
 	}
 
 

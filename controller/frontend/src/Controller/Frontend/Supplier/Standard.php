@@ -108,7 +108,7 @@ class Standard
 	/**
 	 * Adds a filter to return only items containing a reference to the given ID
 	 *
-	 * @param string $domain Domain name of the referenced item, e.g. "product"
+	 * @param string $domain Domain name of the referenced item, e.g. "media"
 	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
 	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface

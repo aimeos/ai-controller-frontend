@@ -19,9 +19,9 @@ namespace Aimeos\Controller\Frontend;
  * @subpackage Frontend
  */
 abstract class Base
-	implements \Aimeos\MW\Macro\Iface
+	implements \Aimeos\Macro\Iface
 {
-	use \Aimeos\MW\Macro\Traits;
+	use \Aimeos\Macro\Macroable;
 
 
 	private $object;

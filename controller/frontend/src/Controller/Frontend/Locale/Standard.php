@@ -37,7 +37,7 @@ class Standard
 		$this->manager = \Aimeos\MShop::create( $context, 'locale' );
 		$this->filter = $this->manager->filter( true );
 
-		$this->addExpression( $this->filter->compare( '==', 'locale.siteid', $context->getLocale()->getSitePath() ) );
+		$this->addExpression( $this->filter->compare( '==', 'locale.siteid', $context->locale()->getSitePath() ) );
 		$this->addExpression( $this->filter->getConditions() );
 	}
 

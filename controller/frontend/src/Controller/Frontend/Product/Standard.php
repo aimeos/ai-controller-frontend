@@ -286,7 +286,7 @@ class Standard
 		if( $value )
 		{
 			$value = (array) $value;
-			$func = $this->filter->make( 'index.price:value', [$this->context()->getLocale()->getCurrencyId()] );
+			$func = $this->filter->make( 'index.price:value', [$this->context()->locale()->getCurrencyId()] );
 
 			$this->addExpression( $this->filter->compare( '<=', $func, sprintf( '%013.2F', end( $value ) ) ) );
 
@@ -431,7 +431,7 @@ class Standard
 					break;
 
 				case 'name':
-					$langid = $this->context()->getLocale()->getLanguageId();
+					$langid = $this->context()->locale()->getLanguageId();
 
 					$cmpfunc = $this->filter->make( 'index.text:name', [$langid] );
 					$this->addExpression( $this->filter->compare( '!=', $cmpfunc, null ) );
@@ -441,7 +441,7 @@ class Standard
 					break;
 
 				case 'price':
-					$currencyid = $this->context()->getLocale()->getCurrencyId();
+					$currencyid = $this->context()->locale()->getCurrencyId();
 					$sortfunc = $this->filter->make( 'sort:index.price:value', [$currencyid] );
 
 					$cmpfunc = $this->filter->make( 'index.price:value', [$currencyid] );
@@ -495,7 +495,7 @@ class Standard
 	{
 		if( !empty( $text ) )
 		{
-			$langid = $this->context()->getLocale()->getLanguageId();
+			$langid = $this->context()->locale()->getLanguageId();
 			$func = $this->filter->make( 'index.text:relevance', [$langid, $text] );
 			$sortfunc = $this->filter->make( 'sort:index.text:relevance', [$langid, $text] );
 

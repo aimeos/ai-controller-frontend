@@ -118,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
 
 		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
-			->setConstructorArgs( [$priceManager->create(), $this->context->getLocale()] )
+			->setConstructorArgs( [$priceManager->create(), $this->context->locale()] )
 			->setMethods( ['check'] )
 			->getMock();
 
@@ -287,7 +287,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
 		$supId = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' )->getId();
-		$siteId = $this->context->getLocale()->getSiteId();
+		$siteId = $this->context->locale()->getSiteId();
 
 		$product = $this->object->addProduct( $item, 2, [], [], [], 'unitstock', $supId, $siteId )->get()->getProduct( 0 );
 
@@ -504,14 +504,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$basket->getService( 'delivery', 0 )->getPrice()->setCurrencyId( 'CHF' );
 		$basket->getService( 'payment', 0 )->getPrice()->setCurrencyId( 'CHF' );
-		$basket->getLocale()->setCurrencyId( 'CHF' );
+		$basket->locale()->setCurrencyId( 'CHF' );
 		$price->setCurrencyId( 'CHF' );
 
-		$this->context->getLocale()->setCurrencyId( 'CHF' );
+		$this->context->locale()->setCurrencyId( 'CHF' );
 		$this->object->addAddress( 'payment', $this->getAddress( 'Example company' )->toArray() );
 
 		$this->context->getSession()->set( 'aimeos/basket/currency', 'CHF' );
-		$this->context->getLocale()->setCurrencyId( 'EUR' );
+		$this->context->locale()->setCurrencyId( 'EUR' );
 
 		$this->context->getSession()->set( 'aimeos/basket/content-unittest-en-EUR-', null );
 
@@ -526,7 +526,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 'EUR', $basket->getService( 'payment', 0 )->getPrice()->getCurrencyId() );
 		$this->assertEquals( 'EUR', $basket->getService( 'delivery', 0 )->getPrice()->getCurrencyId() );
-		$this->assertEquals( 'EUR', $basket->getLocale()->getCurrencyId() );
+		$this->assertEquals( 'EUR', $basket->locale()->getCurrencyId() );
 		$this->assertEquals( 'EUR', $basket->getPrice()->getCurrencyId() );
 	}
 

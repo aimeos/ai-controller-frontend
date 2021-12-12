@@ -108,7 +108,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( $attrIds->intersect( $refIds )->count() !== count( $refIds ) )
 		{
-			$i18n = $this->context()->getI18n();
+			$i18n = $this->context()->i18n();
 			$prodIds = map( $products )->getId()->join( ', ' );
 			$msg = $i18n->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, 'attribute', $prodIds ) );
@@ -383,7 +383,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( $attrItems->count() !== count( $attributeIds ) )
 		{
-			$i18n = $this->context()->getI18n();
+			$i18n = $this->context()->i18n();
 			$expected = implode( ',', $attributeIds );
 			$actual = $attrItems->keys()->join( ',' );
 			$msg = $i18n->dt( 'controller/frontend', 'Available attribute IDs "%1$s" do not match the given attribute IDs "%2$s"' );

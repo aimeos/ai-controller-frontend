@@ -183,7 +183,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				}
 				catch( \Exception $e )
 				{
-					$logger = $this->context()->getLogger();
+					$logger = $this->context()->logger();
 					$errors['address'][$type] = $e->getMessage();
 
 					$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
@@ -217,7 +217,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			}
 			catch( \Exception $e )
 			{
-				$logger = $this->context()->getLogger();
+				$logger = $this->context()->logger();
 				$errors['coupon'][$code] = $e->getMessage();
 
 				$str = 'Error migrating coupon with code "%1$s" in basket to locale "%2$s": %3$s';
@@ -277,7 +277,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			catch( \Exception $e )
 			{
 				$code = $product->getProductCode();
-				$logger = $this->context()->getLogger();
+				$logger = $this->context()->logger();
 				$errors['product'][$pos] = $e->getMessage();
 
 				$str = 'Error migrating product with code "%1$s" in basket to locale "%2$s": %3$s';

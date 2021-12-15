@@ -70,7 +70,7 @@ class TestHelperFrontend
 		$ctx->setMessageQueueManager( $mq );
 
 
-		$logger = new \Aimeos\MW\Logger\File( 'unittest.log', \Aimeos\MW\Logger\Base::DEBUG );
+		$logger = new \Aimeos\MW\Logger\File( 'unittest.log', \Aimeos\MW\Logger\Iface::DEBUG );
 		$ctx->setLogger( $logger );
 
 

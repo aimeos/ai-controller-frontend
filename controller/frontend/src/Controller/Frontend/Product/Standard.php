@@ -474,7 +474,7 @@ class Standard
 			$func = $this->filter->make( 'index.supplier:position', [$listtype, $ids] );
 
 			$this->addExpression( $this->filter->compare( '==', 'index.supplier.id', $ids ) );
-			$this->addExpression( $this->filter->compare( '>=', $func, 0 ) );
+			$this->addExpression( $this->filter->compare( '!=', $func, null ) );
 
 			$func = $this->filter->make( 'sort:index.supplier:position', [$listtype, $ids] );
 			$this->addExpression( $this->filter->sort( '+', $func ) );

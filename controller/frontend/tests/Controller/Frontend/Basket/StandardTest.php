@@ -34,7 +34,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::cache( false );
 
 		$this->object->clear();
-		$this->context->getSession()->set( 'aimeos', [] );
+		$this->context->session()->set( 'aimeos', [] );
 
 		unset( $this->context, $this->object );
 	}
@@ -510,10 +510,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context->locale()->setCurrencyId( 'CHF' );
 		$this->object->addAddress( 'payment', $this->getAddress( 'Example company' )->toArray() );
 
-		$this->context->getSession()->set( 'aimeos/basket/currency', 'CHF' );
+		$this->context->session()->set( 'aimeos/basket/currency', 'CHF' );
 		$this->context->locale()->setCurrencyId( 'EUR' );
 
-		$this->context->getSession()->set( 'aimeos/basket/content-unittest-en-EUR-', null );
+		$this->context->session()->set( 'aimeos/basket/content-unittest-en-EUR-', null );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 		$basket = $object->get();

@@ -31,7 +31,7 @@ class SelectTest extends \PHPUnit\Framework\TestCase
 	protected function tearDown() : void
 	{
 		$this->object->clear();
-		$this->context->getSession()->set( 'aimeos', [] );
+		$this->context->session()->set( 'aimeos', [] );
 
 		unset( $this->object, $this->testItem, $this->context );
 	}

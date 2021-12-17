@@ -23,7 +23,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
-		$this->context->getSession()->set( 'aimeos', [] );
+		$this->context->session()->set( 'aimeos', [] );
 
 		unset( $this->context );
 	}
@@ -36,10 +36,10 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->setMethods( null )
 			->getMock();
 
-		$this->context->getSession()->set( 'aimeos/basket/locale', 'unittest|en|EUR' );
+		$this->context->session()->set( 'aimeos/basket/locale', 'unittest|en|EUR' );
 		$this->access( 'checkLocale' )->invokeArgs( $object, [$this->context->locale(), 'unittest'] );
 
-		$this->assertEquals( 'unittest|de|EUR', $this->context->getSession()->get( 'aimeos/basket/locale' ) );
+		$this->assertEquals( 'unittest|de|EUR', $this->context->session()->get( 'aimeos/basket/locale' ) );
 	}
 
 

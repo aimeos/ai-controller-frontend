@@ -391,7 +391,7 @@ class Standard
 
 		$search = $this->manager->filter()->slice( 0, 0 );
 		$expr = [
-			$search->compare( '==', 'customer.editor', $context->getEditor() ),
+			$search->compare( '==', 'customer.editor', $context->editor() ),
 			$search->compare( '>=', 'customer.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
 		];
 		$search->setConditions( $search->and( $expr ) );

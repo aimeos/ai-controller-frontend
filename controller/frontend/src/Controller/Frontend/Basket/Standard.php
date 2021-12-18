@@ -163,7 +163,7 @@ class Standard
 
 		$search = $this->manager->filter()->slice( 0, 0 );
 		$expr = [
-			$search->compare( '==', 'order.base.editor', $context->getEditor() ),
+			$search->compare( '==', 'order.base.editor', $context->editor() ),
 			$search->compare( '>=', 'order.base.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
 		];
 		$search->setConditions( $search->and( $expr ) );

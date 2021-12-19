@@ -324,13 +324,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testText()
 	{
-		$this->assertEquals( 2, count( $this->object->text( 'Cafe' )->search() ) );
+		$this->assertEquals( 3, count( $this->object->text( 'Cafe' )->search() ) );
 	}
 
 
 	public function testTextCode()
 	{
-		$this->assertEquals( 1, count( $this->object->text( 'CNE' )->search() ) );
+		$this->assertEquals( 2, count( $this->object->text( 'CNE' )->search() ) );
 	}
 
 

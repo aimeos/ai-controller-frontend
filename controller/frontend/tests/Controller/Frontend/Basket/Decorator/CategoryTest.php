@@ -44,9 +44,9 @@ class CategoryTest extends \PHPUnit\Framework\TestCase
 	public function testAddProductSelection()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->find( 'IJKL', ['price'] );
+		$item = $manager->find( 'U:TESTSUB05', ['price'] );
 
-		$this->assertSame( $this->object, $this->object->addProduct( $item, 2, [], [], [], 'unitstock' ) );
+		$this->assertSame( $this->object, $this->object->addProduct( $item, 2, [], [], [], 'default' ) );
 	}
 
 

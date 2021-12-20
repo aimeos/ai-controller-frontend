@@ -316,7 +316,7 @@ class Standard
 				$this->item->setPassword( $msg['customer.password'] );
 			}
 
-			$context->getMessageQueue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
+			$context->queue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
 		}
 
 		$this->item = $this->manager->save( $this->item );

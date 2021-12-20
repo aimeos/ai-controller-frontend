@@ -41,7 +41,7 @@ class Standard
 		$this->item = $this->manager->create();
 
 		$this->filter = $this->manager->filter( true );
-		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() ) );
+		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->user() ) );
 		$this->addExpression( $this->filter->getConditions() );
 	}
 

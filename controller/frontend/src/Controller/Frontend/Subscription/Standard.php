@@ -36,7 +36,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'subscription' );
 		$this->filter = $this->manager->filter();
-		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->getUserId() ) );
+		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->user() ) );
 	}
 
 
@@ -94,7 +94,7 @@ class Standard
 		$filter = $this->manager->filter( true );
 		$expr = [
 			$filter->compare( '==', 'subscription.id', $id ),
-			$filter->compare( '==', 'order.base.customerid', $context->getUserId() ),
+			$filter->compare( '==', 'order.base.customerid', $context->user() ),
 			$filter->getConditions(),
 		];
 		$filter->setConditions( $filter->and( $expr ) );
@@ -102,7 +102,7 @@ class Standard
 		if( ( $item = $this->manager->search( $filter )->first() ) === null )
 		{
 			$msg = 'Invalid subscription ID "%1$s" for customer ID "%2$s"';
-			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $context->getUserId() ) );
+			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $context->user() ) );
 		}
 
 		return $item;

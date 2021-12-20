@@ -170,7 +170,7 @@ class Standard
 	public function list( int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
-		$cond = $filter->is( 'review.customerid', '==', $this->context()->getUserId() );
+		$cond = $filter->is( 'review.customerid', '==', $this->context()->user() );
 
 		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
 		$filter->setSortations( $this->getSortations() );
@@ -218,7 +218,7 @@ class Standard
 
 		$filter = $manager->filter( true )->add( [
 			'order.base.product.id' => $item->getOrderProductId(),
-			'order.base.customerid' => $context->getUserId()
+			'order.base.customerid' => $context->user()
 		] );
 		$manager->search( $filter->slice( 0, 1 ) )->first( new \Aimeos\Controller\Frontend\Review\Exception(
 			sprintf( 'You can only add a review if you have ordered a product' )
@@ -227,7 +227,7 @@ class Standard
 		$orderProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->get( $item->getOrderProductId() );
 
 		$filter = $this->manager->filter()->add( [
-			'review.customerid' => $context->getUserId(),
+			'review.customerid' => $context->user(),
 			'review.id' => $item->getId()
 		] );
 
@@ -248,7 +248,7 @@ class Standard
 
 		$real = $this->manager->search( $filter->slice( 0, 1 ) )->first( $this->manager->create() );
 
-		$real = $real->setCustomerId( $context->getUserId() )
+		$real = $real->setCustomerId( $context->user() )
 			->setOrderProductId( $orderProductItem->getId() )
 			->setRefId( $orderProductItem->getProductId() )
 			->setComment( $item->getComment() )

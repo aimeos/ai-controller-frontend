@@ -146,7 +146,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
 
 		$search = $manager->filter()->slice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'order.base.customerid', $this->context->getUserId() ) );
+		$search->setConditions( $search->compare( '==', 'order.base.customerid', $this->context->user() ) );
 
 		if( ( $item = $manager->search( $search )->first() ) === null ) {
 			throw new \RuntimeException( 'No subscription item found' );

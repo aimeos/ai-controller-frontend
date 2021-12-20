@@ -79,7 +79,7 @@ class Standard
 		{
 			$this->baskets[$this->type] = $this->manager->getSession( $this->type );
 			$this->checkLocale( $this->baskets[$this->type]->locale(), $this->type );
-			$this->baskets[$this->type]->setCustomerId( (string) $this->context()->getUserId() );
+			$this->baskets[$this->type]->setCustomerId( (string) $this->context()->user() );
 		}
 
 		return $this->baskets[$this->type];
@@ -177,7 +177,7 @@ class Standard
 		}
 
 
-		$basket = $this->get()->setCustomerId( (string) $context->getUserId() )->finish()->check();
+		$basket = $this->get()->setCustomerId( (string) $context->user() )->finish()->check();
 
 		$this->manager->begin();
 		$this->manager->store( $basket );

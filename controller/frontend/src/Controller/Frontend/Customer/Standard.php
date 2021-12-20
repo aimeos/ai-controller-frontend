@@ -37,7 +37,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'customer' );
 
-		if( ( $userid = $context->getUserId() ) === null )
+		if( ( $userid = $context->user() ) === null )
 		{
 			/** controller/frontend/customer/groupids
 			 * List of groups new customers should be assigned to
@@ -335,7 +335,7 @@ class Standard
 	{
 		$this->domains = $domains;
 
-		if( ( $id = $this->context()->getUserId() ) !== null ) {
+		if( ( $id = $this->context()->user() ) !== null ) {
 			$this->item = $this->manager->get( $id, $domains, true );
 		}
 
@@ -413,7 +413,7 @@ class Standard
 	 */
 	protected function checkId( string $id ) : string
 	{
-		if( $id != $this->context()->getUserId() )
+		if( $id != $this->context()->user() )
 		{
 			$msg = sprintf( 'Not allowed to access customer data for ID "%1$s"', $id );
 			throw new \Aimeos\Controller\Frontend\Customer\Exception( $msg );

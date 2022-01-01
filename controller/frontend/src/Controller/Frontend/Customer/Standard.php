@@ -19,10 +19,12 @@ namespace Aimeos\Controller\Frontend\Customer;
  */
 class Standard
 	extends \Aimeos\Controller\Frontend\Base
-	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
+	implements \Aimeos\Controller\Frontend\Customer\Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
 	private $domains = [];
 	private $manager;
+
+	/** @var Iface */
 	private $item;
 
 
@@ -77,7 +79,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function add( array $values ) : Iface
+	public function add( array $values ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		foreach( $values as $key => $value )
 		{
@@ -92,8 +94,18 @@ class Standard
 			$this->item->setCode( $code );
 		}
 
+		if ( $oldPassword = $values['customer.oldpassword'] ?? null) {
+			$confirmed = $values['customer.newpassword'] === $values['customer.confirmnewpassword'];
+			$isNew = $values['customer.newpassword'] !== $values['customer.oldpassword'];
+
+			$passHelper = $this->getContext()->password();
+			if ($passHelper->verify($oldPassword, $this->item->getPassword()) && $confirmed && $isNew) {
+				$this->item = $this->item->setPassword( $values['customer.newpassword'] );
+			}
+		}
+
 		if( $password = $values['customer.password'] ?? null ) {
-			$this->item = $item->setPassword( $password );
+			$this->item = $this->item->setPassword( $password );
 		}
 
 		if( $this->item->getLabel() === '' )
@@ -124,7 +136,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : Iface
+	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->item = $this->item->addAddressItem( $item, $idx );
 		return $this;
@@ -141,7 +153,7 @@ class Standard
 	 * @since 2019.04
 	 */
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
+		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		if( $domain === 'customer/group' ) {
 			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
@@ -159,7 +171,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : Iface
+	public function addPropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->item = $this->item->addPropertyItem( $item );
 		return $this;
@@ -208,7 +220,7 @@ class Standard
 	/**
 	 * Deletes a customer item that belongs to the current authenticated user
 	 *
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function delete() : Iface
@@ -227,7 +239,7 @@ class Standard
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to remove
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
-	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item ) : Iface
+	public function deleteAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->item = $this->item->deleteAddressItem( $item );
 		return $this;
@@ -243,7 +255,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
+		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		if( $domain === 'customer/group' ) {
 			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
@@ -258,7 +270,7 @@ class Standard
 	 * Removes the given property item from the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Property\Iface $item Property item to remove
-	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
+	 * @return Iface Customer controller for fluent interface
 	 */
 	public function deletePropertyItem( \Aimeos\MShop\Common\Item\Property\Iface $item ) : Iface
 	{
@@ -300,7 +312,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function store() : Iface
+	public function store() : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		( $id = $this->item->getId() ) !== null ? $this->checkId( $id ) : $this->checkLimit();
 		$context = $this->context();
@@ -331,7 +343,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function uses( array $domains ) : Iface
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->domains = $domains;
 

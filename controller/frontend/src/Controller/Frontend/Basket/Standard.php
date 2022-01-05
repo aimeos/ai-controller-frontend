@@ -199,13 +199,9 @@ class Standard
 	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including the given parts
 	 * @todo 2021.01 Use array type hint for $ref
 	 */
-	public function load( string $id, $ref = \Aimeos\MShop\Order\Item\Base\Base::PARTS_ALL,
+	public function load( string $id, array $ref = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'],
 		bool $default = true ) : \Aimeos\MShop\Order\Item\Base\Iface
 	{
-		if( is_int( $ref ) ) {
-			return $this->manager->load( $id, $ref, false, $default );
-		}
-
 		return $this->manager->get( $id, $ref, $default );
 	}
 

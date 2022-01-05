@@ -92,12 +92,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['load'] )
+			->setMethods( ['get'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( 'order/base', $stub );
 
-		$stub->expects( $this->once() )->method( 'load' )
+		$stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $stub->create() ) );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );

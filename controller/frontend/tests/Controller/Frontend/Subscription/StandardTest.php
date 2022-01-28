@@ -100,8 +100,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$this->assertGreaterThanOrEqual( 2, count( $this->object->search( $total ) ) );
+		$items = $this->object->uses( ['order/base'] )->search( $total );
+
+		$this->assertGreaterThanOrEqual( 2, count( $items ) );
 		$this->assertGreaterThanOrEqual( 2, $total );
+
+		foreach( $items as $item ) {
+			$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $item->getBaseItem() );
+		}
 	}
 
 
@@ -132,6 +138,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSortMultiple()
 	{
 		$this->assertEquals( 2, count( $this->object->sort( 'subscription.dateend,-subscription.id' )->search() ) );
+	}
+
+
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['order/base'] ) );
 	}
 
 

@@ -98,4 +98,13 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function sort( string $key = null ) : Iface;
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @since 2022.04
+	 */
+	public function uses( array $domains ) : Iface;
 }

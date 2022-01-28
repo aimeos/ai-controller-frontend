@@ -21,6 +21,7 @@ class Standard
 	extends \Aimeos\Controller\Frontend\Base
 	implements Iface, \Aimeos\Controller\Frontend\Common\Iface
 {
+	private $domains = [];
 	private $filter;
 	private $manager;
 
@@ -89,23 +90,17 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
-		$context = $this->context();
+		$userId = $this->context()->user();
 
-		$filter = $this->manager->filter( true );
-		$expr = [
-			$filter->compare( '==', 'subscription.id', $id ),
-			$filter->compare( '==', 'order.base.customerid', $context->user() ),
-			$filter->getConditions(),
-		];
-		$filter->setConditions( $filter->and( $expr ) );
+		$filter = $this->manager->filter( true )->add( [
+			'order.base.customerid' => $userId,
+			'subscription.id' => $id
+		] );
 
-		if( ( $item = $this->manager->search( $filter )->first() ) === null )
-		{
+		return $this->manager->search( $filter, $this->domains )->first( function() use ( $id, $userId ) {
 			$msg = 'Invalid subscription ID "%1$s" for customer ID "%2$s"';
-			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $context->user() ) );
-		}
-
-		return $item;
+			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $userId ) );
+		} );
 	}
 
 
@@ -118,22 +113,12 @@ class Standard
 	{
 		$manager = \Aimeos\MShop::create( $this->context(), 'attribute' );
 
-		$search = $manager->filter( true );
-		$expr = array(
-			$search->compare( '==', 'attribute.domain', 'product' ),
-			$search->compare( '==', 'attribute.type', 'interval' ),
-			$search->getConditions(),
-		);
-		$search->setConditions( $search->and( $expr ) );
-		$search->slice( 0, 10000 );
+		$search = $manager->filter( true )->add( [
+			'attribute.domain' => 'product',
+			'attribute.type' => 'interval'
+		] )->slice( 0, 10000 );
 
-		$list = [];
-
-		foreach( $manager->search( $search, ['text'] ) as $attrItem ) {
-			$list[$attrItem->getCode()] = $attrItem;
-		}
-
-		return map( $list );
+		return $manager->search( $search, ['text'] )->col( null, 'attribute.code' );
 	}
 
 
@@ -177,7 +162,7 @@ class Standard
 		$this->filter->setSortations( $this->getSortations() );
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 
-		return $this->manager->search( $this->filter, [], $total );
+		return $this->manager->search( $this->filter, $this->domains, $total );
 	}
 
 
@@ -222,6 +207,20 @@ class Standard
 			}
 		}
 
+		return $this;
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
+	 * @since 2022.04
+	 */
+	public function uses( array $domains ) : Iface
+	{
+		$this->domains = $domains;
 		return $this;
 	}
 

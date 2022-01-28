@@ -142,6 +142,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUses()
+	{
+		$this->assertSame( $this->object, $this->object->uses( ['order/base'] ) );
+	}
+
+
 	public function testGetController()
 	{
 		$this->assertSame( $this->stub, $this->access( 'getController' )->invokeArgs( $this->object, [] ) );

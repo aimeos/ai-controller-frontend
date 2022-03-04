@@ -1,6 +1,6 @@
 {
 	"name": "aimeos/ai-controller-frontend",
-	"description": "Aimeos ai-controller-frontend extension",
+	"description": "Aimeos business controller logic for frontend",
 	"keywords": ["aimeos", "extension", "controller", "frontend"],
 	"homepage": "https://aimeos.org/",
 	"type": "aimeos-extension",
@@ -22,10 +22,18 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Aimeos\\Controller\\Frontend\\": "controller/frontend/src/Controller/Frontend/"
+			"Aimeos\\": "src"
 		},
 		"classmap": [
-			"controller/frontend/src"
+			"src"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Aimeos\\": "tests"
+		},
+		"classmap": [
+			"tests"
 		]
 	}
 }

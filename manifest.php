@@ -9,9 +9,9 @@ return [
 		'config',
 	],
 	'include' => [
-		'controller/frontend/src',
+		'src',
 	],
 	'i18n' => [
-		'controller/frontend' => 'controller/frontend/i18n',
+		'controller/frontend' => 'i18n',
 	],
 ];

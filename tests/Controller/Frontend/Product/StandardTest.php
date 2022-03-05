@@ -11,6 +11,7 @@ namespace Aimeos\Controller\Frontend\Product;
 
 class StandardTest extends \PHPUnit\Framework\TestCase
 {
+	private $context;
 	private $object;
 
 
@@ -23,7 +24,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function tearDown() : void
 	{
-		unset( $this->object );
+		unset( $this->object, $this->context );
 	}
 
 

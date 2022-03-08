@@ -215,14 +215,11 @@ class Standard
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @param string|null $supplierid Unique supplier ID the product is from
-	 * @param string|null $siteid Unique site ID the product is from or null for siteid of the product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product,
-		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
-		string $stocktype = 'default', string $supplierid = null, string $siteid = null ) : Iface
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default' ) : Iface
 	{
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 		$this->call( 'checkAttributes', [$product], 'custom', array_keys( $custom ) );
@@ -235,22 +232,14 @@ class Standard
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )->create()
-			->copyFrom( $product )->setQuantity( $quantity )->setStockType( $stocktype )
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )
+			->create()
+			->copyFrom( $product )
+			->setQuantity( $quantity )
+			->setStockType( $stocktype )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
-		$orderBaseProductItem = $orderBaseProductItem
-			->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
-
-		if( $siteid ) {
-			$orderBaseProductItem->setSiteId( $siteid );
-		}
-
-		if( $supplierid )
-		{
-			$name = \Aimeos\MShop::create( $this->context(), 'supplier' )->get( $supplierid, ['text'] )->getName();
-			$orderBaseProductItem->setSupplierId( $supplierid )->setSupplierName( $name );
-		}
+		$orderBaseProductItem->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderBaseProductItem );
 		return $this->save();

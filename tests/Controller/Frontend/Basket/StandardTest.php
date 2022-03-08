@@ -153,17 +153,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$basket = $this->object->get();
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
-		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text'] );
-		$supplier = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' );
+		$item = $manager->find( 'CNC', ['attribute', 'media', 'price', 'product', 'text', 'locale/site'] );
 
-		$result1 = $this->object->addProduct( $item, 2, [], [], [], 'default', $supplier->getId() );
+		$result1 = $this->object->addProduct( $item, 2 );
 		$item2 = $this->object->get()->getProduct( 0 );
 		$result2 = $this->object->deleteProduct( 0 );
 
 		$this->assertEquals( 0, count( $basket->getProducts() ) );
 		$this->assertEquals( 'CNC', $item2->getProductCode() );
 		$this->assertEquals( 'default', $item2->getStockType() );
-		$this->assertEquals( 'Test supplier', $item2->getSupplierName() );
+		$this->assertEquals( 'Unit test site', $item2->getVendor() );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result1 );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result2 );
 	}
@@ -280,21 +279,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, $this->object->get()->getProduct( 0 )->getQuantity() );
 		$this->assertEquals( 'IJKL', $this->object->get()->getProduct( 0 )->getProductCode() );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
-	}
-
-
-	public function testAddProductOptionalParameters()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'product' )->find( 'IJKL', ['price'] );
-		$supId = \Aimeos\MShop::create( $this->context, 'supplier' )->find( 'unitSupplier001' )->getId();
-		$siteId = $this->context->locale()->getSiteId();
-
-		$product = $this->object->addProduct( $item, 2, [], [], [], 'unitstock', $supId, $siteId )->get()->getProduct( 0 );
-
-		$this->assertEquals( 'unitstock', $product->getStockType() );
-		$this->assertEquals( 'Test supplier', $product->getSupplierName() );
-		$this->assertEquals( $supId, $product->getSupplierId() );
-		$this->assertEquals( $siteId, $product->getSiteId() );
 	}
 
 

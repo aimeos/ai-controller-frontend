@@ -35,13 +35,13 @@ class Bundle
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
-	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product,
-		float $quantity = 1, array $variant = [], array $config = [], array $custom = [],
-		string $stocktype = 'default', string $supplierid = null, string $siteid = null ) : \Aimeos\Controller\Frontend\Basket\Iface
+	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default'
+	) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		if( $product->getType() !== 'bundle' )
 		{
-			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $supplierid, $siteid );
+			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype );
 			return $this;
 		}
 
@@ -56,24 +56,15 @@ class Bundle
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )->create();
-		$name = '';
-
-		if( $supplierid )
-		{
-			$name = \Aimeos\MShop::create( $this->context(), 'supplier' )->get( $supplierid, ['text' => ['name']] )->getName();
-			$orderBaseProductItem->setSupplierId( $supplierid )->setSupplierName( $name );
-		}
-
-		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product )
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )
+			->create()
+			->copyFrom( $product )
+			->setQuantity( $quantity )
+			->setStockType( $stocktype )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
-			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype, $supplierid, $name ) )
-			->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) )
-			->setQuantity( $quantity )->setStockType( $stocktype );
+			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype ) );
 
-		if( $siteid ) {
-			$orderBaseProductItem->setSiteId( $siteid );
-		}
+		$orderBaseProductItem->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
 
 		$this->getController()->get()->addProduct( $orderBaseProductItem );
 		$this->getController()->save();
@@ -88,12 +79,9 @@ class Bundle
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Bundle product item
 	 * @param float $quantity Amount of products that should by added
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @param string|null $supplierid Unique supplier ID the product is from
-	 * @param string $suppliername Name of the supplier the product is from
 	 * @return \Aimeos\MShop\Order\Item\Base\Product\Iface[] List of order product item from bundle
 	 */
-	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, float $quantity,
-		string $stocktype, ?string $supplierid, string $suppliername ) : array
+	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, float $quantity, string $stocktype ) : array
 	{
 		$orderProducts = [];
 		$orderProductManager = \Aimeos\MShop::create( $this->context(), 'order/base/product' );
@@ -104,7 +92,6 @@ class Bundle
 			$prices = $item->getRefItems( 'price', 'default', 'default' );
 
 			$orderProducts[] = $orderProduct->setStockType( $stocktype )
-				->setSupplierId( $supplierid )->setSupplierName( $suppliername )
 				->setPrice( $this->call( 'calcPrice', $orderProduct, $prices, $quantity ) );
 		}
 

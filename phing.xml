@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="ai-controller-frontend extension - frontend controller" default="all">
+<project name="ai-controller-frontend extension" default="all">
 
 	<target name="test" description="Executes unit tests" depends="clean">
 		<echo msg="Executing unit tests" />

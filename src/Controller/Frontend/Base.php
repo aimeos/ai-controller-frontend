@@ -44,12 +44,12 @@ abstract class Base
 	/**
 	 * Adds the given compare, combine or sort expression to the list of expressions
 	 *
-	 * @param \Aimeos\MW\Criteria\Expression\Iface|null $expr Compare, combine or sort expression
+	 * @param \Aimeos\Base\Criteria\Expression\Iface|null $expr Compare, combine or sort expression
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
 	 */
-	public function addExpression( \Aimeos\MW\Criteria\Expression\Iface $expr = null ) : Iface
+	public function addExpression( \Aimeos\Base\Criteria\Expression\Iface $expr = null ) : Iface
 	{
-		if( $expr instanceof \Aimeos\MW\Criteria\Expression\Sort\Iface ) {
+		if( $expr instanceof \Aimeos\Base\Criteria\Expression\Sort\Iface ) {
 			$this->sort[] = $expr;
 		} elseif( $expr ) {
 			$this->cond[] = $expr;

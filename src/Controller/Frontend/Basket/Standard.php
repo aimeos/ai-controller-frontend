@@ -423,7 +423,7 @@ class Standard
 		}
 
 		// remove service rebate of original price
-		$price = $provider->calcPrice( $this->get() )->setRebate( '0.00' );
+		$price = $provider->calcPrice( $this->get(), $config )->setRebate( '0.00' );
 
 		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/base/service' );
 

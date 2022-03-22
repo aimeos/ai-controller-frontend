@@ -34,7 +34,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$result = $this->access( 'context' )->invokeArgs( $this->object, [] );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Context\Item\Iface::class, $result );
+		$this->assertInstanceOf( \Aimeos\MShop\ContextIface::class, $result );
 	}
 
 

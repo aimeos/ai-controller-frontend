@@ -21,7 +21,7 @@ namespace Aimeos\Controller\Frontend\Common\Decorator;
 class Example
 	implements \Aimeos\Controller\Frontend\Common\Decorator\Iface
 {
-	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context )
+	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\ContextIface $context )
 	{
 	}
 }

@@ -24,11 +24,11 @@ class Factory
 	/**
 	 * Creates a new attribute controller object.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
+	 * @param \Aimeos\MShop\ContextIface $context Context instance with necessary objects
 	 * @param string|null $name Name of the controller implementaton (default: "Standard")
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Controller object
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $name = null ) : \Aimeos\Controller\Frontend\Iface
+	public static function create( \Aimeos\MShop\ContextIface $context, string $name = null ) : \Aimeos\Controller\Frontend\Iface
 	{
 		/** controller/frontend/attribute/name
 		 * Class name of the used attribute frontend controller implementation

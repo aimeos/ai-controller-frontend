@@ -30,10 +30,10 @@ class Standard
 	/**
 	 * Initializes the frontend controller.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Object storing the required instances for manaing databases
+	 * @param \Aimeos\MShop\ContextIface $context Object storing the required instances for manaing databases
 	 *  connections, logger, session, etc.
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context )
+	public function __construct( \Aimeos\MShop\ContextIface $context )
 	{
 		parent::__construct( $context );
 

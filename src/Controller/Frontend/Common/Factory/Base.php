@@ -40,13 +40,13 @@ class Base
 	/**
 	 * Adds the decorators to the controller object.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
+	 * @param \Aimeos\MShop\ContextIface $context Context instance with necessary objects
 	 * @param \Aimeos\Controller\Frontend\Common\Iface $controller Controller object
 	 * @param array $decorators List of decorator names that should be wrapped around the controller object
 	 * @param string $classprefix Decorator class prefix, e.g. "\Aimeos\Controller\Frontend\Basket\Decorator\"
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
-	protected static function addDecorators( \Aimeos\MShop\Context\Item\Iface $context,
+	protected static function addDecorators( \Aimeos\MShop\ContextIface $context,
 		\Aimeos\Controller\Frontend\Iface $controller, array $decorators, string $classprefix ) : \Aimeos\Controller\Frontend\Iface
 	{
 		foreach( $decorators as $name )
@@ -75,12 +75,12 @@ class Base
 	/**
 	 * Adds the decorators to the controller object.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
+	 * @param \Aimeos\MShop\ContextIface $context Context instance with necessary objects
 	 * @param \Aimeos\Controller\Frontend\Common\Iface $controller Controller object
 	 * @param string $domain Domain name in lower case, e.g. "product"
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
-	protected static function addControllerDecorators( \Aimeos\MShop\Context\Item\Iface $context,
+	protected static function addControllerDecorators( \Aimeos\MShop\ContextIface $context,
 		\Aimeos\Controller\Frontend\Iface $controller, string $domain ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( !is_string( $domain ) || $domain === '' ) {
@@ -140,12 +140,12 @@ class Base
 	/**
 	 * Creates a controller object.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
+	 * @param \Aimeos\MShop\ContextIface $context Context instance with necessary objects
 	 * @param string $classname Name of the controller class
 	 * @param string $interface Name of the controller interface
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
-	protected static function createController( \Aimeos\MShop\Context\Item\Iface $context,
+	protected static function createController( \Aimeos\MShop\ContextIface $context,
 		string $classname, string $interface ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {

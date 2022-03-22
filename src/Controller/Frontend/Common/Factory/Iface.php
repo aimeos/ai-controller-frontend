@@ -23,9 +23,9 @@ interface Iface
 	/**
 	 * Creates a new controller based on the name.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
+	 * @param \Aimeos\MShop\ContextIface $context MShop context object
 	 * @param string|null $name Name of the controller implementation (Default if null)
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $name = null ) : \Aimeos\Controller\Frontend\Iface;
+	public static function create( \Aimeos\MShop\ContextIface $context, string $name = null ) : \Aimeos\Controller\Frontend\Iface;
 }

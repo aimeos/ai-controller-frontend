@@ -45,12 +45,12 @@ class Frontend
 	 * a specific implementation, you need to use the factory class of the
 	 * controller to hand over specifc implementation names.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by managers
+	 * @param \Aimeos\MShop\ContextIface $context Context object required by managers
 	 * @param string $path Name of the domain (and sub-managers) separated by slashes, e.g "basket"
 	 * @return \Aimeos\Controller\Frontend\Iface New frontend controller
 	 * @throws \Aimeos\Controller\Frontend\Exception If the given path is invalid or the manager wasn't found
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context, string $path )
+	public static function create( \Aimeos\MShop\ContextIface $context, string $path )
 	{
 		if( empty( $path ) ) {
 			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Controller path is empty' ) );

@@ -33,9 +33,9 @@ abstract class Base
 	/**
 	 * Common initialization for controller classes.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Common MShop context object
+	 * @param \Aimeos\MShop\ContextIface $context Common MShop context object
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context )
+	public function __construct( \Aimeos\MShop\ContextIface $context )
 	{
 		$this->context = $context;
 	}
@@ -84,9 +84,9 @@ abstract class Base
 	/**
 	 * Returns the context object.
 	 *
-	 * @return \Aimeos\MShop\Context\Item\Iface Context object implementing \Aimeos\MShop\Context\Item\Iface
+	 * @return \Aimeos\MShop\ContextIface Context object implementing \Aimeos\MShop\ContextIface
 	 */
-	protected function context() : \Aimeos\MShop\Context\Item\Iface
+	protected function context() : \Aimeos\MShop\ContextIface
 	{
 		return $this->context;
 	}

@@ -24,7 +24,7 @@ interface Iface extends \Aimeos\Controller\Frontend\Iface
 	 * Initializes a new controller decorator object.
 	 *
 	 * @param \Aimeos\Controller\Frontend\Iface $controller Controller object
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
+	 * @param \Aimeos\MShop\ContextIface $context Context object with required objects
 	 */
-	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\Context\Item\Iface $context );
+	public function __construct( \Aimeos\Controller\Frontend\Iface $controller, \Aimeos\MShop\ContextIface $context );
 }

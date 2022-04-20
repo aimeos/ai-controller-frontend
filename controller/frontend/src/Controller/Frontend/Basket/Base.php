@@ -413,14 +413,17 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		foreach( $orderAttributes as $item )
 		{
-			$tmp = array(
-				$search->compare( '==', 'attribute.domain', 'product' ),
-				$search->compare( '==', 'attribute.code', $item->getValue() ),
-				$search->compare( '==', 'attribute.type', $item->getCode() ),
-				$search->compare( '>', 'attribute.status', 0 ),
-				$search->getConditions(),
-			);
-			$expr[] = $search->and( $tmp );
+			if( is_scalar( $item->getValue() ) )
+			{
+				$tmp = array(
+					$search->compare( '==', 'attribute.domain', 'product' ),
+					$search->compare( '==', 'attribute.code', $item->getValue() ),
+					$search->compare( '==', 'attribute.type', $item->getCode() ),
+					$search->compare( '>', 'attribute.status', 0 ),
+					$search->getConditions(),
+				);
+				$expr[] = $search->and( $tmp );
+			}
 		}
 
 		$search->setConditions( $search->or( $expr ) );

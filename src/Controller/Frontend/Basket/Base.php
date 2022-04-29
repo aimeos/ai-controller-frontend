@@ -60,7 +60,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				&& !( $prices = $attrItem->getRefItems( 'price', 'default', 'default' ) )->isEmpty()
 			) {
 				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity() );
-				$price = $price->addItem( $attrPrice, $orderAttrItem->getQuantity() );
+				$price = $price->addItem( clone $attrPrice, $orderAttrItem->getQuantity() );
+				$orderAttrItem->setPrice( $attrPrice->addItem( $attrPrice, $orderAttrItem->getQuantity() - 1 )->getValue() );
 			}
 		}
 
@@ -367,13 +368,9 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		$attributeManager = \Aimeos\MShop::create( $this->context(), 'attribute' );
 
-		$search = $attributeManager->filter( true );
-		$expr = array(
-			$search->compare( '==', 'attribute.id', $attributeIds ),
-			$search->getConditions(),
-		);
-		$search->setConditions( $search->and( $expr ) );
-		$search->slice( 0, count( $attributeIds ) );
+		$search = $attributeManager->filter( true )
+			->add( ['attribute.id' => $attributeIds] )
+			->slice( 0, count( $attributeIds ) );
 
 		$attrItems = $attributeManager->search( $search, $domains );
 
@@ -438,18 +435,30 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function getOrderProductAttributes( string $type, array $ids, array $values = [], array $quantities = [] )
 	{
+		if( empty( $ids ) ) {
+			return [];
+		}
+
 		$list = [];
+		$context = $this->context();
 
-		if( !empty( $ids ) )
+		$priceManager = \Aimeos\MShop::create( $context, 'price' );
+		$manager = \Aimeos\MShop::create( $context, 'order/base/product/attribute' );
+
+		foreach( $this->getAttributes( $ids, ['price', 'text'] ) as $id => $attrItem )
 		{
-			$manager = \Aimeos\MShop::create( $this->context(), 'order/base/product/attribute' );
+			$qty = $quantities[$id] ?? 1;
+			$item = $manager->create()->copyFrom( $attrItem )->setType( $type )
+				->setValue( $values[$id] ?? $attrItem->getCode() )
+				->setQuantity( $qty );
 
-			foreach( $this->getAttributes( $ids ) as $id => $attrItem )
+			if( !( $prices = $attrItem->getRefItems( 'price', 'default', 'default' ) )->isEmpty() )
 			{
-				$list[] = $manager->create()->copyFrom( $attrItem )->setType( $type )
-					->setValue( isset( $values[$id] ) ? $values[$id] : $attrItem->getCode() )
-					->setQuantity( isset( $quantities[$id] ) ? $quantities[$id] : 1 );
+				$attrPrice = $priceManager->getLowestPrice( $prices, $qty );
+				$item->setPrice( $attrPrice->addItem( $attrPrice, $qty - 1 )->getValue() );
 			}
+
+			$list[] = $item;
 		}
 
 		return $list;

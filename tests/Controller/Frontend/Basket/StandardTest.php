@@ -224,6 +224,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = $this->object->addProduct( $this->testItem, 1, [], [$attrItem->getId() => 2] );
 
 		$this->assertEquals( '43.90', $this->object->get()->getPrice()->getValue() );
+		$this->assertEquals( '25.90', $this->object->get()->getProducts()->first()->getAttributeItems()->getPrice()->first() );
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 	}
 

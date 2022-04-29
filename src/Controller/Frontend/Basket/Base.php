@@ -433,7 +433,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param array $quantities Associative list of attribute IDs as keys and their quantities as values
 	 * @return array List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
 	 */
-	protected function getOrderProductAttributes( string $type, array $ids, array $values = [], array $quantities = [] )
+	protected function getOrderProductAttributes( string $type, array $ids, array $values = [], array $quantities = [] ) : array
 	{
 		if( empty( $ids ) ) {
 			return [];

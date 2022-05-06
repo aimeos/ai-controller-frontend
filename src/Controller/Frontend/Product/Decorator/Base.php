@@ -212,7 +212,7 @@ abstract class Base
 	/**
 	 * Adds price restrictions for filtering
 	 *
-	 * @param array|string $value Upper price limit, list of lower and upper price or NULL for no restrictions
+	 * @param array|string|null $value Upper price limit, list of lower and upper price or NULL for no restrictions
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2020.10
 	 */
@@ -249,6 +249,21 @@ abstract class Base
 	public function property( string $type, string $value = null, string $langId = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->property( $type, $value, $langId );
+		return $this;
+	}
+
+
+	/**
+	 * Adds radius restrictions for filtering
+	 *
+	 * @param array $latlon Latitude and longitude value or empty for no restrictions
+	 * @param float|null $dist Distance around latitude/longitude or NULL for no restrictions
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2021.10
+	 */
+	public function radius( array $latlon, float $dist = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	{
+		$this->controller->radius( $latlon, $dist );
 		return $this;
 	}
 

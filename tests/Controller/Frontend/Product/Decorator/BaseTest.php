@@ -163,6 +163,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testRadius()
+	{
+		$this->assertSame( $this->object, $this->object->radius( [] ) );
+	}
+
+
 	public function testResolve()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'product' )->create();

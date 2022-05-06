@@ -334,6 +334,26 @@ class Standard
 
 
 	/**
+	 * Adds radius restrictions for filtering
+	 *
+	 * @param array $latlon Latitude and longitude value or empty for no restrictions
+	 * @param float|null $dist Distance around latitude/longitude or NULL for no restrictions
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2021.10
+	 */
+	public function radius( array $latlon, float $dist = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	{
+		if( $dist && count( $latlon ) === 2 )
+		{
+			$func = $this->filter->make( 'index.supplier:radius', [reset( $latlon ), end( $latlon ), $dist] );
+			$this->addExpression( $this->filter->compare( '!=', $func, null ) );
+		}
+
+		return $this;
+	}
+
+
+	/**
 	 * Returns the product for the given product URL name
 	 *
 	 * @param string $name Product URL name

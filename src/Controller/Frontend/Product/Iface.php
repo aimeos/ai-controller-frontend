@@ -147,6 +147,16 @@ interface Iface
 	public function property( string $type, string $value = null, string $langId = null ) : Iface;
 
 	/**
+	 * Adds radius restrictions for filtering
+	 *
+	 * @param array $latlon Latitude and longitude value or empty for no restrictions
+	 * @param float|null $dist Distance around latitude/longitude or NULL for no restrictions
+	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @since 2021.10
+	 */
+	public function radius( array $latlon, float $dist = null ) : \Aimeos\Controller\Frontend\Product\Iface;
+
+	/**
 	 * Returns the product for the given product URL name
 	 *
 	 * @param string $name Product URL name

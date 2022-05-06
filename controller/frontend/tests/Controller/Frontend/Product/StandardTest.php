@@ -172,6 +172,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testRadius()
+	{
+		$this->assertEquals( 2, count( $this->object->radius( [52.5, 10], 115 )->search() ) );
+	}
+
+
 	public function testResolve()
 	{
 		$item = $this->object->resolve( 'Cafe-Noire-Cappuccino' );

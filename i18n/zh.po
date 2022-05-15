@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Bruce Liu <zcon.bruce@gmail.com>, 2016
+# Hans He, 2022
 # stevechen <steve.stevechen@gmail.com>, 2018
 # stevechen <steve.stevechen@gmail.com>, 2018
 msgid ""
@@ -12,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-05 09:19+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: stevechen <steve.stevechen@gmail.com>, 2018\n"
+"Last-Translator: Hans He, 2022\n"
 "Language-Team: Chinese (http://www.transifex.com/aimeos/aimeos-core/language/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -41,7 +42,7 @@ msgstr "位置為\"%1$d\"的購物車項目無法手動移除"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "分类不可用"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -69,7 +70,7 @@ msgstr "優惠券代碼 \"%1$s\" 已無法使用"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "域 \"%1$s\" 不支持"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -77,7 +78,7 @@ msgstr "產品ID \"%2$s\" 使用了無效的參考 \"%1$s\" "
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "无效的引用 \"%1$s\" 产品 ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
@@ -89,7 +90,7 @@ msgstr "class名稱 \"%1$s\" 包含無效的字符"
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "控制器名称中存在无效字符 \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -121,11 +122,11 @@ msgstr "選定的屬性與商品找不到產品 \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "没有客户列表域"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "没有客户列表类型代码"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
@@ -133,11 +134,11 @@ msgstr "找不到項目 \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "没有找到 ID \"%1$s\" 的订单条目"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "无可用库存，产品ID \"%1$s\"  类型 \"%2$s\" "
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
@@ -145,7 +146,7 @@ msgstr "選定的屬性與商品ID \"%1$s\" 找不到唯一的產品"
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "不允许访问客户数据 ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -153,7 +154,7 @@ msgstr "優惠券數量超過限制"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "产品ID \"%1$s\" 找不到"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
@@ -165,15 +166,15 @@ msgstr "找不到類型為 \"%1$s\" 以及 ID為 \"%2$s\" 的服務項目"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "网站不可用"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "已达到临时限制"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "已达到临时订单限制"
 
 #, php-format
 msgid "The order has already been created"
@@ -197,7 +198,7 @@ msgstr "無法為服務ID \"%2$s\" 創建供應者: %1$s"
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "找不到产品 \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
@@ -205,8 +206,8 @@ msgstr "未知的屬性 \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "您没有权限管理分组"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "您只能评论购买过的产品"

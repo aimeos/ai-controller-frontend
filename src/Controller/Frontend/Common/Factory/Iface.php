@@ -17,6 +17,7 @@ namespace Aimeos\Controller\Frontend\Common\Factory;
  *
  * @package Controller
  * @subpackage Frontend
+ * @deprecated 2023.01
  */
 interface Iface
 {

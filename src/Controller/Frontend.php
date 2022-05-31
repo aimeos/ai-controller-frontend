@@ -47,10 +47,12 @@ class Frontend
 	 *
 	 * @param \Aimeos\MShop\ContextIface $context Context object required by managers
 	 * @param string $path Name of the domain (and sub-managers) separated by slashes, e.g "basket"
+	 * @param string|null $name Name of the controller implementation ("Standard" if null)
 	 * @return \Aimeos\Controller\Frontend\Iface New frontend controller
 	 * @throws \Aimeos\Controller\Frontend\Exception If the given path is invalid or the manager wasn't found
 	 */
-	public static function create( \Aimeos\MShop\ContextIface $context, string $path )
+	public static function create( \Aimeos\MShop\ContextIface $context,
+		string $path, string $name = null ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( empty( $path ) ) {
 			throw new \Aimeos\Controller\Frontend\Exception( 'Controller path is empty', 400 );
@@ -60,8 +62,8 @@ class Frontend
 			$name = $context->config()->get( 'controller/frontend/' . $path . '/name', 'Standard' );
 		}
 
-		$iface = '\\Aimeos\\Controller\\Frontend\\' . ucfirst( $path ) . '\\Iface';
-		$classname = '\\Aimeos\\Controller\\Frontend\\' . ucfirst( $path ) . '\\' . $name;
+		$iface = '\\Aimeos\\Controller\\Frontend\\' . str_replace( '/', '\\', ucwords( $path, '/' ) ) . '\\Iface';
+		$classname = '\\Aimeos\\Controller\\Frontend\\' . str_replace( '/', '\\', ucwords( $path, '/' ) ) . '\\' . $name;
 
 		if( self::$cache === false || !isset( self::$objects[$classname] ) )
 		{

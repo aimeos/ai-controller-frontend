@@ -18,6 +18,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
+		\Aimeos\MShop::cache( true );
+
 		$this->context = \TestHelper::context();
 		$this->context->setUserId( $this->getCustomerId() );
 
@@ -26,8 +28,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['save'] )
 			->getMock();
 
-		\Aimeos\MShop::cache( true );
-		\Aimeos\MShop::inject( 'subscription', $this->manager );
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Subscription\\Manager\\Standard', $this->manager );
 
 		$this->object = new \Aimeos\Controller\Frontend\Subscription\Standard( $this->context );
 	}

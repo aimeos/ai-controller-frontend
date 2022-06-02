@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['setSession'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'order/base', $stub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Standard::class, $stub );
 
 		$stub->expects( $this->exactly( 2 ) )->method( 'setSession' );
 
@@ -95,7 +95,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['get'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'order/base', $stub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Standard::class, $stub );
 
 		$stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $stub->create() ) );
@@ -113,7 +113,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['store'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'order/base', $stub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Standard::class, $stub );
 
 		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
 
@@ -521,16 +521,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getAddress( $company )
 	{
-		$customer = \Aimeos\MShop\Customer\Manager\Factory::create( \TestHelper::context(), 'Standard' );
-		$addressManager = $customer->getSubManager( 'address', 'Standard' );
+		$addressManager = \Aimeos\MShop::create( \TestHelper::context(), 'customer/address' );
+		$search = $addressManager->filter()->add( ['customer.address.company' => $company] );
 
-		$search = $addressManager->filter();
-		$search->setConditions( $search->compare( '==', 'customer.address.company', $company ) );
-
-		if( ( $item = $addressManager->search( $search )->first() ) === null ) {
-			throw new \RuntimeException( sprintf( 'No address item with company "%1$s" found', $company ) );
-		}
-
-		return $item;
+		return $addressManager->search( $search )
+			->first( new \RuntimeException( sprintf( 'No address item with company "%1$s" found', $company ) ) );
 	}
 }

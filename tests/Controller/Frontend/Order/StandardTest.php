@@ -70,7 +70,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['save'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'order', $manager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $manager );
 
 		$item = $manager->create();
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
@@ -120,7 +120,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['save'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'order', $manager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $manager );
 
 		$stub = $this->getMockBuilder( $class )
 			->setConstructorArgs( [$this->context] )

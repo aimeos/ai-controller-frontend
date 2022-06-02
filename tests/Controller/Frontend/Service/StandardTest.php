@@ -17,20 +17,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private static $basket;
 
 
+	public static function setUpBeforeClass() : void
+	{
+		self::$basket = \Aimeos\MShop::create( \TestHelper::context(), 'order/base' )->create();
+	}
+
+
 	protected function setUp() : void
 	{
 		\Aimeos\MShop::cache( true );
 
 		$this->context = \TestHelper::context();
 		$this->object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
-	}
-
-
-	public static function setUpBeforeClass() : void
-	{
-		$orderManager = \Aimeos\MShop\Order\Manager\Factory::create( \TestHelper::context() );
-		$orderBaseMgr = $orderManager->getSubManager( 'base' );
-		self::$basket = $orderBaseMgr->create();
 	}
 
 
@@ -115,7 +113,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['getProvider'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'service', $manager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $manager );
 
 		$manager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
 		$provider->expects( $this->once() )->method( 'process' )->will( $this->returnValue( $form ) );
@@ -198,18 +196,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$orderManager = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Standard' )
+		$orderManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( ['get'] )
 			->getMock();
 
-		$serviceManager = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Manager\\Standard' )
+		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( ['getProvider'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'order', $orderManager );
-		\Aimeos\MShop::inject( 'service', $serviceManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
 
 
 		$orderManager->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $item ) );
@@ -235,7 +233,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function getServiceItem()
 	{
-		$manager = \Aimeos\MShop\Service\Manager\Factory::create( \TestHelper::context() );
-		return $manager->find( 'unitdeliverycode' );
+		return \Aimeos\MShop::create( \TestHelper::context(), 'service' )->find( 'unitdeliverycode' );
 	}
 }

@@ -15,8 +15,8 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelper::context();
 		\Aimeos\MShop::cache( true );
+		$this->context = \TestHelper::context();
 	}
 
 
@@ -281,7 +281,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['save'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( 'subscription', $stub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Subscription\Manager\Standard::class, $stub );
 
 		$stub->expects( $this->exactly( 2 ) )->method( 'save' );
 

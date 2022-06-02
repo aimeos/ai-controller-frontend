@@ -18,6 +18,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
+		\Aimeos\MShop::cache( true );
+
 		$this->context = \TestHelper::context();
 
 		$this->manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Review\\Manager\\Standard' )
@@ -25,8 +27,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['delete', 'save'] )
 			->getMock();
 
-		\Aimeos\MShop::cache( true );
-		\Aimeos\MShop::inject( 'review', $this->manager );
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Review\\Manager\\Standard', $this->manager );
 
 		$this->object = new \Aimeos\Controller\Frontend\Review\Standard( $this->context );
 	}

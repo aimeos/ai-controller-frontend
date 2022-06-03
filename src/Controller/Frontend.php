@@ -65,16 +65,8 @@ class Frontend
 		$iface = '\\Aimeos\\Controller\\Frontend\\' . str_replace( '/', '\\', ucwords( $path, '/' ) ) . '\\Iface';
 		$classname = '\\Aimeos\\Controller\\Frontend\\' . str_replace( '/', '\\', ucwords( $path, '/' ) ) . '\\' . $name;
 
-		if( self::$cache === false || !isset( self::$objects[$classname] ) )
-		{
-			if( class_exists( $classname ) === false ) {
-				throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Class "%1$s" not found', $classname, 404 ) );
-			}
-
-			$cntl = self::createController( $context, $classname, $iface );
-			$cntl = self::addControllerDecorators( $context, $cntl, $path );
-
-			self::$objects[$classname] = $cntl;
+		if( self::$cache === false || !isset( self::$objects[$classname] ) ) {
+			self::$objects[$classname] = self::createController( $context, $classname, $iface, $path );
 		}
 
 		return clone self::$objects[$classname];
@@ -203,10 +195,11 @@ class Frontend
 	 * @param \Aimeos\MShop\ContextIface $context Context instance with necessary objects
 	 * @param string $classname Name of the controller class
 	 * @param string $interface Name of the controller interface
+	 * @param string $path Name of the domain (and sub-managers) separated by slashes, e.g "basket"
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object
 	 */
 	protected static function createController( \Aimeos\MShop\ContextIface $context,
-		string $classname, string $interface ) : \Aimeos\Controller\Frontend\Iface
+		string $classname, string $interface, string $path ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
 			return self::$objects[$classname];
@@ -216,14 +209,14 @@ class Frontend
 			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
 		}
 
-		$controller = new $classname( $context );
+		$cntl = new $classname( $context );
 
-		if( !( $controller instanceof $interface ) )
+		if( !( $cntl instanceof $interface ) )
 		{
 			$msg = sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $interface );
 			throw new \Aimeos\Controller\Frontend\Exception( $msg, 400 );
 		}
 
-		return $controller;
+		return self::addControllerDecorators( $context, $cntl, $path );
 	}
 }

@@ -86,6 +86,6 @@ class TestHelper
 		$ctx->setLocale( $locale );
 
 
-		return $ctx->setEditor( 'ai-controller-frontend:frontend' );
+		return $ctx->setEditor( 'ai-controller-frontend' );
 	}
 }

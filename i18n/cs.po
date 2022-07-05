@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-05 09:19+0200\n"
+"POT-Creation-Date: 2022-07-05 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Martin Vyšohlíd <vysohlidm@gmail.com>, 2016\n"
 "Language-Team: Czech (http://www.transifex.com/aimeos/aimeos-core/language/cs/)\n"
@@ -44,12 +44,20 @@ msgid "Category is not available"
 msgstr ""
 
 #, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "Třída \"%1$s\" neimplementuje \"%2$s\""
+
+#, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
 msgstr "Třída \"%1$s\" neimplementuje rozhraní \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
 msgstr "Třída \"%1$s\" není k dispozici"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "Třída \"%1$s\" nenalezena"
 
 #, php-format
 msgid "Controller path is empty"
@@ -94,6 +102,10 @@ msgstr ""
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 msgstr ""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Chybné jméno třídy \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""

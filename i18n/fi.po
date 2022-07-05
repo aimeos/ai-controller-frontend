@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-05 09:19+0200\n"
+"POT-Creation-Date: 2022-07-05 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Finnish (http://www.transifex.com/aimeos/aimeos-core/language/fi/)\n"
@@ -41,12 +41,20 @@ msgid "Category is not available"
 msgstr ""
 
 #, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "Luokka \"%1$s\" ei toteuta \"%2$s\""
+
+#, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
 msgstr "Luokka \"%1$s\" ei toteuta liitäntää \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
 msgstr "Luokka \"%1$s\" ei saatavilla"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "Luokka \"%1$s\" ei löydy"
 
 #, php-format
 msgid "Controller path is empty"
@@ -91,6 +99,10 @@ msgstr ""
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 msgstr ""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Virheellinen luokkanimi \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""

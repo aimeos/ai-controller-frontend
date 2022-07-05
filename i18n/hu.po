@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-05 09:19+0200\n"
+"POT-Creation-Date: 2022-07-05 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: nzed <nemesreviz@gmail.com>, 2020,2022\n"
 "Language-Team: Hungarian (http://www.transifex.com/aimeos/aimeos-core/language/hu/)\n"
@@ -45,12 +45,20 @@ msgid "Category is not available"
 msgstr "A kategória nem elérhető"
 
 #, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "\"%1$s\" osztályban nincs létrehozva \"%2$s\""
+
+#, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
 msgstr "A(z) \"%1$s\" osztály nem valósítja meg a(z) \"%2$s\" felület osztályt"
 
 #, php-format
 msgid "Class \"%1$s\" not available"
 msgstr "A/Az \"%1$s\" osztály nem elérhető."
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "A következő osztály nem található: \"%1$s\""
 
 #, php-format
 msgid "Controller path is empty"
@@ -95,6 +103,10 @@ msgstr "Érvénytelen karakterek a/az \"%1$s\" vezérlő nevében"
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 msgstr "Érvénytelen karakterek a/az \"%1$s\" vezérlő nevében ebben: \"%2$s\""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Érvénytelen osztálynév: \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""

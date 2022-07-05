@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-05 09:19+0200\n"
+"POT-Creation-Date: 2022-07-05 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Bistra Kumanova <b.kumanova@creato.bg>, 2015\n"
 "Language-Team: Bulgarian (http://www.transifex.com/aimeos/aimeos-core/language/bg/)\n"
@@ -42,11 +42,19 @@ msgid "Category is not available"
 msgstr ""
 
 #, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "Класът \"%1$s\" не се изпълнява \"%2$s\""
+
+#, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
 msgstr "Класът \"%1$s\" не изпълнява интерфейса \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
+msgstr "Класът \"%1$s\" не е намерен"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
 msgstr "Класът \"%1$s\" не е намерен"
 
 #, php-format
@@ -92,6 +100,10 @@ msgstr ""
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 msgstr "Недопустими символи в името на контролера \"%1$s\" в \"%2$s\""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Невалидно име на клас \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""

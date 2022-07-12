@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-05 09:19+0200\n"
+"POT-Creation-Date: 2022-07-05 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Hans He, 2022\n"
 "Language-Team: Chinese (http://www.transifex.com/aimeos/aimeos-core/language/zh/)\n"
@@ -45,12 +45,20 @@ msgid "Category is not available"
 msgstr "分类不可用"
 
 #, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "class \"%1$s\" 沒有實裝 \"%2$s\""
+
+#, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
 msgstr "class \"%1$s\" 沒有實裝界面 \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
 msgstr "class \"%1$s\" 無法使用"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "找不到class \"%1$s\""
 
 #, php-format
 msgid "Controller path is empty"
@@ -95,6 +103,10 @@ msgstr "控制器名称中存在无效字符 \"%1$s\""
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 msgstr "controller名稱 在 \"%2$s\" 中的 \"%1$s\" 包含無效的字符"
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "無效的class名稱\"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""

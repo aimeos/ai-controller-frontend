@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-05 09:19+0200\n"
+"POT-Creation-Date: 2022-07-05 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: jerzys <jerzy.skalski@gmail.com>, 2014\n"
 "Language-Team: Polish (http://www.transifex.com/aimeos/aimeos-core/language/pl/)\n"
@@ -43,12 +43,20 @@ msgid "Category is not available"
 msgstr ""
 
 #, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "W klasie \"%1$s\" nie zaimplementowano \"%2$s\""
+
+#, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
 msgstr "W klasie \"%1$s\" nie zaimplementowano interfejsu \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
 msgstr "Klasa \"%1$s\" jest nie dostępna"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "Nie znaleziono klasy \"%1$s\""
 
 #, php-format
 msgid "Controller path is empty"
@@ -93,6 +101,10 @@ msgstr ""
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 msgstr "Niewłaściwe znaki w nazwie kontrolera \"%1$s\" w \"%2$s\""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Niepoprawna nazwa klasy \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""

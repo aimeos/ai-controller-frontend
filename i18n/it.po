@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-05 09:19+0200\n"
+"POT-Creation-Date: 2022-07-05 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: R M <roberto@proprionoi.it>, 2019\n"
 "Language-Team: Italian (http://www.transifex.com/aimeos/aimeos-core/language/it/)\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "%013.2F"
 msgstr "%013.2F"
@@ -45,12 +45,20 @@ msgid "Category is not available"
 msgstr "Categoria non disponibile"
 
 #, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "La classe \"%1$s\" non implementa \"%2$s\""
+
+#, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
 msgstr "La classe \"%1$s\" non implementa l'interfaccia \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
 msgstr "Classe \"%1$s\" non disponibile"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "Classe \" 1 %1$s\" non trovata"
 
 #, php-format
 msgid "Controller path is empty"
@@ -95,6 +103,10 @@ msgstr "Caratteri non validi nel nome del controller \" 1 %1$s \""
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
 msgstr "Caratteri non validi nel nome del controller \" 1 %1$s \" in \" 2 %2$s \""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "Il nome della classe \" 1 %1$s \" non è valido"
 
 #, php-format
 msgid "Invalid domain \"%1$s\""

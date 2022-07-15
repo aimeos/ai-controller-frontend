@@ -148,7 +148,6 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'catalog' );
 		$this->filter = $this->manager->filter( true );
-		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -255,8 +254,9 @@ class Standard
 	 */
 	public function getTree( int $level = Iface::TREE ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
-		return $this->manager->getTree( $this->root, $this->domains, $level, $this->filter );
+		$filter = $this->manager->filter( null );
+		$filter->add( $filter->and( $this->getConditions() ) );
+		return $this->manager->getTree( $this->root, $this->domains, $level, $filter );
 	}
 
 

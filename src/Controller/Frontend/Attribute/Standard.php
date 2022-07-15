@@ -218,7 +218,7 @@ class Standard
 	 */
 	public function find( string $code, string $type ) : \Aimeos\MShop\Attribute\Item\Iface
 	{
-		return $this->manager->find( $code, $this->domains, $this->domain, $type, true );
+		return $this->manager->find( $code, $this->domains, $this->domain, $type, null );
 	}
 
 
@@ -244,7 +244,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Attribute\Item\Iface
 	{
-		return $this->manager->get( $id, $this->domains, true );
+		return $this->manager->get( $id, $this->domains, null );
 	}
 
 

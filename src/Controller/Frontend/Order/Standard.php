@@ -204,7 +204,7 @@ class Standard
 	 * @return \Aimeos\MShop\Order\Item\Iface Order item object
 	 * @since 2019.04
 	 */
-	public function get( string $id, bool $default = true ) : \Aimeos\MShop\Order\Item\Iface
+	public function get( string $id, bool $default = null ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->manager->get( $id, $this->domains, $default );
 	}

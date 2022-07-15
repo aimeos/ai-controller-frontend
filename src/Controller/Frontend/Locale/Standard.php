@@ -186,7 +186,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Locale\Item\Iface
 	{
-		return $this->manager->get( $id, [], true );
+		return $this->manager->get( $id, [], null );
 	}
 
 

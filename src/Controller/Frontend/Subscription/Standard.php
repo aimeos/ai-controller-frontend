@@ -202,7 +202,7 @@ class Standard
 	{
 		$userId = $this->context()->user();
 
-		$filter = $this->manager->filter( true )->add( [
+		$filter = $this->manager->filter( null )->add( [
 			'order.base.customerid' => $userId,
 			'subscription.id' => $id
 		] );

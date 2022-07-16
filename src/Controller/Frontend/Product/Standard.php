@@ -231,10 +231,10 @@ class Standard
 			if( $level != \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE )
 			{
 				$list = map();
-				$cntl = \Aimeos\Controller\Frontend::create( $this->context(), 'catalog' );
+				$manager = \Aimeos\MShop::create( $this->context(), 'catalog' );
 
 				foreach( $ids as $catId ) {
-					$list->union( $cntl->root( $catId )->getTree( $level )->toList() );
+					$list->union( $manager->getTree( $catId, [], $level )->toList() );
 				}
 
 				$ids = $this->validateIds( $list->keys()->toArray() );

@@ -254,9 +254,10 @@ class Standard
 	 */
 	public function getTree( int $level = Iface::TREE ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
-		$filter = $this->manager->filter( null );
-		$filter->add( $filter->and( $this->getConditions() ) );
-		return $this->manager->getTree( $this->root, $this->domains, $level, $filter );
+		$this->addExpression( $this->filter->getConditions() );
+		$this->filter->add( $this->filter->and( $this->getConditions() ) );
+
+		return $this->manager->getTree( $this->root, $this->domains, $level, $this->filter );
 	}
 
 
@@ -321,6 +322,8 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
+		$this->addExpression( $this->filter->getConditions() );
+
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 		$this->filter->setSortations( $this->getSortations() );
 

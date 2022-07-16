@@ -147,7 +147,6 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'locale/site' );
 		$this->filter = $this->manager->filter( true );
-		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -241,7 +240,9 @@ class Standard
 	 */
 	public function getTree( int $level = Iface::TREE ) : \Aimeos\MShop\Locale\Item\Site\Iface
 	{
+		$this->addExpression( $this->filter->getConditions() );
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+
 		return $this->manager->getTree( $this->root, [], $level, $this->filter );
 	}
 
@@ -286,6 +287,8 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
+		$this->addExpression( $this->filter->getConditions() );
+
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 		$this->filter->setSortations( $this->getSortations() );
 

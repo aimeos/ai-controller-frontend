@@ -166,8 +166,6 @@ class Standard
 		if( $context->config()->get( 'controller/frontend/product/show-all', false ) == false ) {
 			$this->addExpression( $this->filter->compare( '!=', 'index.catalog.id', null ) );
 		}
-
-		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -506,6 +504,8 @@ class Standard
 		 */
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
+
+		$this->addExpression( $this->filter->getConditions() );
 
 		$filter->setSortations( $this->getSortations() );
 		$filter->setConditions( $filter->and( $this->getConditions() ) );

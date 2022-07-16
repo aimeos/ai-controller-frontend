@@ -152,7 +152,6 @@ class Standard
 
 		$this->filter = $this->manager->filter( true );
 		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->user() ) );
-		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -248,6 +247,8 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
+		$this->addExpression( $this->filter->getConditions() );
+
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 		$this->filter->setSortations( $this->getSortations() );
 

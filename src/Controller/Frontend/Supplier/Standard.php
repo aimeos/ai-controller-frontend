@@ -147,7 +147,6 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'supplier' );
 		$this->filter = $this->manager->filter( true );
-		$this->addExpression( $this->filter->getConditions() );
 	}
 
 
@@ -262,6 +261,8 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
+		$this->addExpression( $this->filter->getConditions() );
+
 		$this->filter->setSortations( $this->getSortations() );
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 

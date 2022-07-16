@@ -152,7 +152,6 @@ class Standard
 		$this->manager = \Aimeos\MShop::create( $context, 'service' );
 		$this->filter = $this->manager->filter( true );
 
-		$this->addExpression( $this->filter->getConditions() );
 		$this->addExpression( $this->filter->sort( '+', 'service.position' ) );
 	}
 
@@ -233,6 +232,7 @@ class Standard
 	public function getProviders() : \Aimeos\Map
 	{
 		$list = [];
+		$this->addExpression( $this->filter->getConditions() );
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) )->order( 'service.position' );
 
 		foreach( $this->manager->search( $this->filter, $this->domains ) as $id => $item ) {
@@ -292,6 +292,8 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
+		$this->addExpression( $this->filter->getConditions() );
+
 		$this->filter->setSortations( $this->getSortations() );
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
 

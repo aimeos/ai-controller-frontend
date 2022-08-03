@@ -157,6 +157,16 @@ class Standard
 
 
 	/**
+	 * Clones objects in controller
+	 */
+	public function __clone()
+	{
+		$this->filter = clone $this->filter;
+		parent::__clone();
+	}
+
+
+	/**
 	 * Adds generic condition for filtering services
 	 *
 	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="

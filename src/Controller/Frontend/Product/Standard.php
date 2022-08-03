@@ -172,11 +172,12 @@ class Standard
 
 
 	/**
-	 * Clones objects in controller and resets values
+	 * Clones objects in controller
 	 */
 	public function __clone()
 	{
 		$this->filter = clone $this->filter;
+		parent::__clone();
 	}
 
 

@@ -42,6 +42,27 @@ abstract class Base
 
 
 	/**
+	 * Clones objects in controller
+	 */
+	public function __clone()
+	{
+		foreach( $this->cond as $key => $cond )
+		{
+			if( is_object( $cond ) ) {
+				$this->cond[$key] = clone $cond;
+			}
+		}
+
+		foreach( $this->sort as $key => $sort )
+		{
+			if( is_object( $sort ) ) {
+				$this->sort[$key] = clone $sort;
+			}
+		}
+	}
+
+
+	/**
 	 * Adds the given compare, combine or sort expression to the list of expressions
 	 *
 	 * @param \Aimeos\Base\Criteria\Expression\Iface|null $expr Compare, combine or sort expression

@@ -228,7 +228,7 @@ class Standard
 		$list = $this->manager->getPath( $id, $this->domains );
 
 		if( $list->isAvailable()->search( false ) ) {
-			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Category is not available' ) );
+			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Category is not available' ), 404 );
 		}
 
 		if( $this->root )

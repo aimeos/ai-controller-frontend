@@ -463,4 +463,19 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		return $list;
 	}
+
+
+	/**
+	 * Returns the site ID of the ordered product
+	 *
+	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item
+	 * @return string Site ID for the ordered product
+	 */
+	protected function getSiteId( \Aimeos\MShop\Product\Item\Iface $product ) : string
+	{
+		// if product is inherited, use site ID of current site
+		$siteIds = $this->context()->locale()->getSitePath();
+
+		return  in_array( $product->getSiteId(), $siteIds ) ? end( $siteIds ) : $product->getSiteId();
+	}
 }

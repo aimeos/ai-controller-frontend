@@ -80,7 +80,10 @@ class Select
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem->setQuantity( $quantity )->setStockType( $stocktype )
+		$orderBaseProductItem
+			->setQuantity( $quantity )
+			->setStockType( $stocktype )
+			->setSiteId( $this->call( 'getSiteId', $product ) )
 			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) )
 			->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
 

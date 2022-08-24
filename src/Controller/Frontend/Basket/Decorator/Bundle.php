@@ -61,6 +61,7 @@ class Bundle
 			->copyFrom( $product )
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
+			->setSiteId( $this->call( 'getSiteId', $product ) )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
 			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype ) );
 

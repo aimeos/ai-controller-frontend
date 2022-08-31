@@ -581,6 +581,10 @@ class Standard
 					$this->addExpression( $this->filter->sort( $direction, $sortfunc ) );
 					break;
 
+				case 'rating':
+					$this->addExpression( $this->filter->sort( $direction, 'product.rating' ) );
+					break;
+
 				default:
 					$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 			}

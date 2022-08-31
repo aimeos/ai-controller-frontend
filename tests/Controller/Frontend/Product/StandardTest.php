@@ -294,6 +294,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSortRating()
+	{
+		$result = $this->object->sort( '-rating' )->search();
+		$this->assertEquals( 'CNE', $result->first()->getCode() );
+	}
+
+
 	public function testSortRelevanceCategory()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );

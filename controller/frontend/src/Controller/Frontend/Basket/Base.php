@@ -83,7 +83,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$scale = $product->getScale();
 
 		if( fmod( $quantity, $scale ) >= 0.0005 ) {
-			return ceil( $quantity / $scale ) * $scale;
+			return round( ceil( $quantity / $scale ) * $scale, 4 );
 		}
 
 		return $quantity;

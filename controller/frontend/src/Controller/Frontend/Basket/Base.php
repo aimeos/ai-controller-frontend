@@ -154,7 +154,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 			$this->getObject()->get()->setCustomerId( $basket->getCustomerId() )
 				->setCustomerReference( $basket->getCustomerReference() )
-				->setComment( $basket->getComment() );
+				->setComment( $basket->getComment() )
+				->setLocale( $locale );
 
 			$manager->setSession( $basket, $type );
 		}

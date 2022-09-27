@@ -512,10 +512,24 @@ class Standard
 	 */
 	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], int $position = null ) : Iface
 	{
+		$basket = $this->get();
 		$context = $this->context();
-		$manager = \Aimeos\MShop::create( $context, 'service' );
 
-		$provider = $manager->getProvider( $service, $service->getType() );
+		$type = $service->getType();
+		$code = $service->getCode();
+
+		foreach( $basket->getService( $type ) as $pos => $ordService )
+		{
+			if( $ordService->getCode() === $code )
+			{
+				$msg = sprintf( $context->translate( 'controller/frontend', 'Service "%1$s" already in basket' ), $type );
+				throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1 );
+			}
+		}
+
+		$manager = \Aimeos\MShop::create( $context, 'service' );
+		$provider = $manager->getProvider( $service, $type );
+
 		$errors = $provider->checkConfigFE( $config );
 		$unknown = array_diff_key( $config, $errors );
 
@@ -539,7 +553,7 @@ class Standard
 		$orderServiceItem = $orderBaseServiceManager->create()->copyFrom( $service )->setPrice( $price );
 		$orderServiceItem = $provider->setConfigFE( $orderServiceItem, $config );
 
-		$this->baskets[$this->type] = $this->get()->addService( $orderServiceItem, $service->getType(), $position );
+		$this->baskets[$this->type] = $basket->addService( $orderServiceItem, $type, $position );
 		return $this->save();
 	}
 

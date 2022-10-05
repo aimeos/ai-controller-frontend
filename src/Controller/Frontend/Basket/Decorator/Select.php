@@ -111,20 +111,24 @@ class Select
 			return $this;
 		}
 
+		$context = $this->context();
+
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
 		{
-			$msg = $this->context()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
+			$msg = $context->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
 		}
 
-		$manager = \Aimeos\MShop::create( $this->context(), 'product' );
+		$manager = \Aimeos\MShop::create( $context, 'product' );
 		$product = $manager->get( $orderProduct->getProductId(), ['price' => ['default']], true );
+		$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 
 		if( ( $prices = $product->getRefItems( 'price', 'default', 'default' ) )->isEmpty() )
 		{
-			$prices = $manager->get( $orderProduct->getParentProductId(), ['price' => ['default']], true )
-				->getRefItems( 'price', 'default', 'default' );
+			$product = $manager->get( $orderProduct->getParentProductId(), ['price' => ['default']], true );
+			$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
+			$prices = $product->getRefItems( 'price', 'default', 'default' );
 		}
 
 		$price = $this->call( 'calcPrice', $orderProduct, $prices, $quantity );

@@ -521,10 +521,8 @@ class Standard
 
 		foreach( $basket->getService( $type ) as $pos => $ordService )
 		{
-			if( $ordService->getCode() === $code )
-			{
-				$msg = sprintf( $context->translate( 'controller/frontend', 'Service "%1$s" already in basket' ), $type );
-				throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1 );
+			if( $ordService->getCode() === $code ) {
+				$basket->deleteService( $type, $position );
 			}
 		}
 

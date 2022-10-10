@@ -242,10 +242,12 @@ class Standard
 	public function getProviders() : \Aimeos\Map
 	{
 		$list = [];
-		$this->addExpression( $this->filter->getConditions() );
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) )->order( 'service.position' );
+		$filter = clone $this->filter;
 
-		foreach( $this->manager->search( $this->filter, $this->domains ) as $id => $item ) {
+		$this->addExpression( $filter->getConditions() );
+		$filter->setConditions( $filter->and( $this->getConditions() ) );
+
+		foreach( $this->manager->search( $filter, $this->domains ) as $id => $item ) {
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
 		}
 
@@ -302,12 +304,13 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->addExpression( $this->filter->getConditions() );
+		$filter = clone $this->filter;
+		$this->addExpression( $filter->getConditions() );
 
-		$this->filter->setSortations( $this->getSortations() );
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+		$filter->setSortations( $this->getSortations() );
+		$filter->setConditions( $filter->and( $this->getConditions() ) );
 
-		return $this->manager->search( $this->filter, $this->domains, $total );
+		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
 

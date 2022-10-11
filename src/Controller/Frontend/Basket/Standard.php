@@ -522,7 +522,7 @@ class Standard
 		foreach( $basket->getService( $type ) as $pos => $ordService )
 		{
 			if( $ordService->getCode() === $code ) {
-				$basket->deleteService( $type, $position );
+				$position = $pos;
 			}
 		}
 

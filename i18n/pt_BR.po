@@ -6,6 +6,7 @@
 # b5fdd37cec45d8078af7e530465bb050, 2016
 # Bruno Rodrigues <brunojti@gmail.com>, 2016
 # Ev Ra <evert.ramos@ymail.com>, 2017
+# Keite Clembet, 2022
 # b5fdd37cec45d8078af7e530465bb050, 2016
 msgid ""
 msgstr ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-05 07:41+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: b5fdd37cec45d8078af7e530465bb050, 2016\n"
+"Last-Translator: Keite Clembet, 2022\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/aimeos/aimeos-core/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -42,7 +43,7 @@ msgstr "O item do carrinho na posição \"%1$d\" não pode ser removido manualme
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "A categoria não está disponível"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -78,7 +79,7 @@ msgstr "Cupom para o código \"%1$s\" não estão mais disponível"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "O domínio \"%1$s\" não é suportado"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -98,7 +99,7 @@ msgstr "Caracteres inválidos no nome da classe \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Caracteres inválidos no nome do controlador \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -166,7 +167,7 @@ msgstr "Número de códigos de cupom excede o limite"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Item com ID \"%1$s\" não encontrado"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
@@ -178,7 +179,7 @@ msgstr "Item de serviço do tipo \"%1$s\" e ID \"%2$s\" não encontrado"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "O site não está disponível"
 
 #, php-format
 msgid "Temporary limit reached"
@@ -210,7 +211,7 @@ msgstr "Incapaz de criar provedor \"%1$s\" para o serviço com ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Não foi possível encontrar o produto \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
@@ -218,8 +219,8 @@ msgstr "Atributo desconhecido \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Você não tem permissão para gerenciar grupos"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Você só pode adicionar uma avaliação se tiver comprado o produto"

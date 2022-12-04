@@ -21,16 +21,6 @@ namespace Aimeos\Controller\Frontend\Order;
 interface Iface
 {
 	/**
-	 * Adds the values to the order object (not yet stored)
-	 *
-	 * @param string $baseId ID of the stored basket
-	 * @param array $values Values added to the order item (new or existing) like "order.type"
-	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
-	 * @since 2019.04
-	 */
-	public function add( string $baseId, array $values = [] ) : Iface;
-
-	/**
 	 * Adds generic condition for filtering orders
 	 *
 	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
@@ -96,14 +86,6 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function sort( string $key = null ) : Iface;
-
-	/**
-	 * Saves the modified order item in the storage and blocks the stock and coupon codes
-	 *
-	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
-	 * @since 2019.04
-	 */
-	public function store() : \Aimeos\MShop\Order\Item\Iface;
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items

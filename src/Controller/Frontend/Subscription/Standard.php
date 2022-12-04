@@ -147,7 +147,7 @@ class Standard
 
 		$this->manager = \Aimeos\MShop::create( $context, 'subscription' );
 		$this->filter = $this->manager->filter();
-		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->user() ) );
+		$this->addExpression( $this->filter->compare( '==', 'order.customerid', $context->user() ) );
 	}
 
 
@@ -204,7 +204,7 @@ class Standard
 		$userId = $this->context()->user();
 
 		$filter = $this->manager->filter( null )->add( [
-			'order.base.customerid' => $userId,
+			'order.customerid' => $userId,
 			'subscription.id' => $id
 		] );
 

@@ -146,14 +146,14 @@ class Standard
 	{
 		parent::__construct( $context );
 
-		$this->manager = \Aimeos\MShop::create( $context, 'order/base' );
+		$this->manager = \Aimeos\MShop::create( $context, 'order' );
 	}
 
 
 	/**
 	 * Adds values like comments to the basket
 	 *
-	 * @param array $values Order base values like comment
+	 * @param array $values Order values like comment
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function add( array $values ) : Iface
@@ -180,9 +180,9 @@ class Standard
 	/**
 	 * Returns the basket object.
 	 *
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket holding products, addresses and delivery/payment options
+	 * @return \Aimeos\MShop\Order\Item\Iface Basket holding products, addresses and delivery/payment options
 	 */
-	public function get() : \Aimeos\MShop\Order\Item\Base\Iface
+	public function get() : \Aimeos\MShop\Order\Item\Iface
 	{
 		if( !isset( $this->baskets[$this->type] ) )
 		{
@@ -224,11 +224,11 @@ class Standard
 
 
 	/**
-	 * Creates a new order base object from the current basket
+	 * Creates a new order object from the current basket
 	 *
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including products, addresses and services
+	 * @return \Aimeos\MShop\Order\Item\Iface Order object including products, addresses and services
 	 */
-	public function store() : \Aimeos\MShop\Order\Item\Base\Iface
+	public function store() : \Aimeos\MShop\Order\Item\Iface
 	{
 		$total = 0;
 		$context = $this->context();
@@ -272,8 +272,8 @@ class Standard
 
 		$search = $this->manager->filter()->slice( 0, 0 );
 		$expr = [
-			$search->compare( '==', 'order.base.editor', $context->editor() ),
-			$search->compare( '>=', 'order.base.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
+			$search->compare( '==', 'order.editor', $context->editor() ),
+			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
 		];
 		$search->setConditions( $search->and( $expr ) );
 
@@ -300,16 +300,16 @@ class Standard
 
 
 	/**
-	 * Returns the order base object for the given ID
+	 * Returns the order object for the given ID
 	 *
-	 * @param string $id Unique ID of the order base object
+	 * @param string $id Unique ID of the order object
 	 * @param array $ref References items that should be fetched too
 	 * @param bool $default True to add default criteria (user logged in), false if not
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including the given parts
+	 * @return \Aimeos\MShop\Order\Item\Iface Order object including the given parts
 	 * @todo 2021.01 Use array type hint for $ref
 	 */
-	public function load( string $id, array $ref = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'],
-		bool $default = true ) : \Aimeos\MShop\Order\Item\Base\Iface
+	public function load( string $id, array $ref = ['order/address', 'order/coupon', 'order/product', 'order/service'],
+		bool $default = true ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->manager->get( $id, $ref, $default );
 	}
@@ -341,7 +341,7 @@ class Standard
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
 			->create()
 			->copyFrom( $product )
 			->setQuantity( $quantity )
@@ -366,7 +366,7 @@ class Standard
 	{
 		$product = $this->get()->getProduct( $position );
 
-		if( $product->getFlags() === \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
+		if( $product->getFlags() === \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE )
 		{
 			$msg = $this->context()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be deleted manually' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
@@ -389,7 +389,7 @@ class Standard
 		$context = $this->context();
 		$orderProduct = $this->get()->getProduct( $position );
 
-		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
+		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
@@ -480,7 +480,7 @@ class Standard
 		}
 
 		$context = $this->context();
-		$address = \Aimeos\MShop::create( $context, 'order/base/address' )->create()->fromArray( $values );
+		$address = \Aimeos\MShop::create( $context, 'order/address' )->create()->fromArray( $values );
 		$address->set( 'nostore', ( $values['nostore'] ?? false ) ? true : false );
 
 		$this->baskets[$this->type] = $this->get()->addAddress( $address, $type, $position );
@@ -547,7 +547,7 @@ class Standard
 		// remove service rebate of original price
 		$price = $provider->calcPrice( $this->get(), $config )->setRebate( '0.00' );
 
-		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/base/service' );
+		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/service' );
 
 		$orderServiceItem = $orderBaseServiceManager->create()->copyFrom( $service )->setPrice( $price );
 		$orderServiceItem = $provider->setConfigFE( $orderServiceItem, $config );

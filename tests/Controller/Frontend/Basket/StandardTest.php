@@ -42,7 +42,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testAdd()
 	{
-		$result = $this->object->add( ['order.base.comment' => 'test'] );
+		$result = $this->object->add( ['order.comment' => 'test'] );
 
 		$this->assertInstanceOf( \Aimeos\Controller\Frontend\Basket\Iface::class, $result );
 		$this->assertEquals( 'test', $this->object->get()->getComment() );
@@ -60,18 +60,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $this->object->get() );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->get() );
 	}
 
 
 	public function testSave()
 	{
-		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['setSession'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Standard::class, $stub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
 
 		$stub->expects( $this->exactly( 2 ) )->method( 'setSession' );
 
@@ -90,34 +90,34 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testLoad()
 	{
-		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['get'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Standard::class, $stub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
 
 		$stub->expects( $this->once() )->method( 'get' )
 			->will( $this->returnValue( $stub->create() ) );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->load( -1 ) );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->load( -1 ) );
 	}
 
 
 	public function testStore()
 	{
-		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
 			->setMethods( ['store'] )
 			->getMock();
 
-		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Standard::class, $stub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
 
 		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
 
-		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
+		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Standard::class )
 			->setConstructorArgs( [$priceManager->create(), $this->context->locale()] )
 			->setMethods( ['check'] )
 			->getMock();
@@ -131,7 +131,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnValue( $basket ) );
 		$stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $basket ) );
 
-		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $object->store() );
+		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->store() );
 	}
 
 
@@ -288,7 +288,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->addProduct( $this->testItem, 2 );
 
 		$item = $this->object->get()->getProduct( 0 );
-		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
+		$item->setFlags( \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE );
 
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->deleteProduct( 0 );
@@ -316,7 +316,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->object->addProduct( $this->testItem, 2 );
 
 		$item = $this->object->get()->getProduct( 0 );
-		$item->setFlags( \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE );
+		$item->setFlags( \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE );
 
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->updateProduct( 0, 4 );
@@ -368,24 +368,24 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testAddAddress()
 	{
 		$values = array(
-			'order.base.address.company' => '<p onclick="javascript: alert(\'gotcha\');">Example company</p>',
-			'order.base.address.vatid' => 'DE999999999',
-			'order.base.address.title' => '<br/>Dr.',
-			'order.base.address.salutation' => \Aimeos\MShop\Common\Item\Address\Base::SALUTATION_MR,
-			'order.base.address.firstname' => 'firstunit',
-			'order.base.address.lastname' => 'lastunit',
-			'order.base.address.address1' => 'unit str.',
-			'order.base.address.address2' => ' 166',
-			'order.base.address.address3' => '4.OG',
-			'order.base.address.postal' => '22769',
-			'order.base.address.city' => 'Hamburg',
-			'order.base.address.state' => 'Hamburg',
-			'order.base.address.countryid' => 'de',
-			'order.base.address.languageid' => 'de',
-			'order.base.address.telephone' => '05554433221',
-			'order.base.address.email' => 'test@example.com',
-			'order.base.address.telefax' => '05554433222',
-			'order.base.address.website' => 'www.example.com',
+			'order.address.company' => '<p onclick="javascript: alert(\'gotcha\');">Example company</p>',
+			'order.address.vatid' => 'DE999999999',
+			'order.address.title' => '<br/>Dr.',
+			'order.address.salutation' => \Aimeos\MShop\Common\Item\Address\Base::SALUTATION_MR,
+			'order.address.firstname' => 'firstunit',
+			'order.address.lastname' => 'lastunit',
+			'order.address.address1' => 'unit str.',
+			'order.address.address2' => ' 166',
+			'order.address.address3' => '4.OG',
+			'order.address.postal' => '22769',
+			'order.address.city' => 'Hamburg',
+			'order.address.state' => 'Hamburg',
+			'order.address.countryid' => 'de',
+			'order.address.languageid' => 'de',
+			'order.address.telephone' => '05554433221',
+			'order.address.email' => 'test@example.com',
+			'order.address.telefax' => '05554433222',
+			'order.address.website' => 'www.example.com',
 			'random key from a random manager' => [], // ups, not a string
 		);
 

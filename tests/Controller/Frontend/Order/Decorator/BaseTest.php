@@ -65,13 +65,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAdd()
-	{
-		$this->stub->expects( $this->once() )->method( 'add' );
-		$this->assertSame( $this->object, $this->object->add( -1, [] ) );
-	}
-
-
 	public function testCompare()
 	{
 		$this->assertSame( $this->object, $this->object->compare( '==', 'order.type', 'test' ) );
@@ -130,19 +123,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testStore()
-	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
-
-		$this->stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $item ) );
-
-		$this->assertEquals( $item, $this->object->store() );
-	}
-
-
 	public function testUses()
 	{
-		$this->assertSame( $this->object, $this->object->uses( ['order/base'] ) );
+		$this->assertSame( $this->object, $this->object->uses( ['order'] ) );
 	}
 
 

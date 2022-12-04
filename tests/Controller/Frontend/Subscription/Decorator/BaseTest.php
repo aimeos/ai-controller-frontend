@@ -144,7 +144,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testUses()
 	{
-		$this->assertSame( $this->object, $this->object->uses( ['order/base'] ) );
+		$this->assertSame( $this->object, $this->object->uses( ['order'] ) );
 	}
 
 

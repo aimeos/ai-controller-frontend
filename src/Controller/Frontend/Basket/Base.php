@@ -23,12 +23,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Calculates and returns the current price for the given order product and product prices.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Product\Iface $orderProduct Ordered product item
+	 * @param \Aimeos\MShop\Order\Item\Product\Iface $orderProduct Ordered product item
 	 * @param \Aimeos\Map $prices List of price items implementing \Aimeos\MShop\Price\Item\Iface
 	 * @param float $quantity New product quantity
 	 * @return \Aimeos\MShop\Price\Item\Iface Price item with calculated price
 	 */
-	protected function calcPrice( \Aimeos\MShop\Order\Item\Base\Product\Iface $orderProduct,
+	protected function calcPrice( \Aimeos\MShop\Order\Item\Product\Iface $orderProduct,
 		\Aimeos\Map $prices, float $quantity ) : \Aimeos\MShop\Price\Item\Iface
 	{
 		$context = $this->context();
@@ -143,7 +143,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$context = clone $context;
 			$context->setLocale( $locale );
 
-			$manager = \Aimeos\MShop::create( $context, 'order/base' );
+			$manager = \Aimeos\MShop::create( $context, 'order' );
 			$basket = $manager->getSession( $type )->off();
 
 			$this->copyAddresses( $basket, $errors, $localeKey );
@@ -166,12 +166,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Migrates the addresses from the old basket to the current one.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
 	 * @param array $errors Associative list of previous errors
 	 * @param string $localeKey Unique identifier of the site, language and currency
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyAddresses( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
+	protected function copyAddresses( \Aimeos\MShop\Order\Item\Iface $basket, array $errors, string $localeKey ) : array
 	{
 		foreach( $basket->getAddresses() as $type => $items )
 		{
@@ -201,12 +201,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Migrates the coupons from the old basket to the current one.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
 	 * @param array $errors Associative list of previous errors
 	 * @param string $localeKey Unique identifier of the site, language and currency
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyCoupons( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
+	protected function copyCoupons( \Aimeos\MShop\Order\Item\Iface $basket, array $errors, string $localeKey ) : array
 	{
 		foreach( $basket->getCoupons() as $code => $list )
 		{
@@ -232,12 +232,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Migrates the products from the old basket to the current one.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
 	 * @param array $errors Associative list of previous errors
 	 * @param string $localeKey Unique identifier of the site, language and currency
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyProducts( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors, string $localeKey ) : array
+	protected function copyProducts( \Aimeos\MShop\Order\Item\Iface $basket, array $errors, string $localeKey ) : array
 	{
 		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, 'product' );
@@ -246,7 +246,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		foreach( $basket->getProducts() as $pos => $product )
 		{
-			if( $product->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE ) {
+			if( $product->getFlags() & \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE ) {
 				continue;
 			}
 
@@ -290,11 +290,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Migrates the services from the old basket to the current one.
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
 	 * @param array $errors Associative list of previous errors
 	 * @return array Associative list of errors occured
 	 */
-	protected function copyServices( \Aimeos\MShop\Order\Item\Base\Iface $basket, array $errors ) : array
+	protected function copyServices( \Aimeos\MShop\Order\Item\Iface $basket, array $errors ) : array
 	{
 		$newBasket = $this->object();
 		$manager = \Aimeos\MShop::create( $this->context(), 'service' );
@@ -333,14 +333,14 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Creates the subscription entries for the ordered products with interval attributes
 	 *
-	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @param \Aimeos\MShop\Order\Item\Iface $order Basket object
 	 */
-	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Base\Iface $basket )
+	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Iface $order )
 	{
 		$types = ['config', 'custom', 'hidden', 'variant'];
 		$manager = \Aimeos\MShop::create( $this->context(), 'subscription' );
 
-		foreach( $basket->getProducts() as $orderProduct )
+		foreach( $order->getProducts() as $orderProduct )
 		{
 			if( ( $interval = $orderProduct->getAttribute( 'interval', $types ) ) !== null )
 			{
@@ -349,7 +349,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$item = $manager->create()->setInterval( $interval )
 					->setProductId( $orderProduct->getProductId() )
 					->setOrderProductId( $orderProduct->getId() )
-					->setOrderBaseId( $basket->getId() );
+					->setOrderId( $order->getId() );
 
 				if( ( $end = $orderProduct->getAttribute( 'intervalend', $types ) ) !== null ) {
 					$item = $item->setDateEnd( $end );
@@ -400,7 +400,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Returns the attribute items using the given order attribute items.
 	 *
-	 * @param \Aimeos\Map $orderAttributes List of items implementing \Aimeos\MShop\Order\Item\Base\Product\Attribute\Iface
+	 * @param \Aimeos\Map $orderAttributes List of items implementing \Aimeos\MShop\Order\Item\Product\Attribute\Iface
 	 * @return \Aimeos\Map List of attribute IDs as key and attribute items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 */
 	protected function getAttributeItems( \Aimeos\Map $orderAttributes ) : \Aimeos\Map
@@ -452,7 +452,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$context = $this->context();
 
 		$priceManager = \Aimeos\MShop::create( $context, 'price' );
-		$manager = \Aimeos\MShop::create( $context, 'order/base/product/attribute' );
+		$manager = \Aimeos\MShop::create( $context, 'order/product/attribute' );
 
 		foreach( $this->getAttributes( $ids, ['price', 'text'] ) as $id => $attrItem )
 		{

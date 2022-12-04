@@ -48,7 +48,7 @@ class Select
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )->create();
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )->create();
 		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product );
 
 		$productItem = $this->getArticle( $product, $variant );
@@ -69,7 +69,7 @@ class Select
 
 		$hidden->union( $productItem->getRefItems( 'attribute', null, 'hidden' ) );
 
-		$orderProductAttrManager = \Aimeos\MShop::create( $this->context(), 'order/base/product/attribute' );
+		$orderProductAttrManager = \Aimeos\MShop::create( $this->context(), 'order/product/attribute' );
 		$attributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
 		foreach( $this->call( 'getAttributes', $attributes->keys()->toArray(), ['text'] ) as $attrItem ) {
@@ -113,7 +113,7 @@ class Select
 
 		$context = $this->context();
 
-		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Base\Product\Base::FLAG_IMMUTABLE )
+		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );

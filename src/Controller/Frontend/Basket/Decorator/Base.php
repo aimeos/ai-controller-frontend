@@ -59,7 +59,7 @@ abstract class Base
 	/**
 	 * Adds values like comments to the basket
 	 *
-	 * @param array $values Order base values like comment
+	 * @param array $values Order values like comment
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function add( array $values ) : \Aimeos\Controller\Frontend\Basket\Iface
@@ -84,9 +84,9 @@ abstract class Base
 	/**
 	 * Returns the basket object.
 	 *
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket holding products, addresses and delivery/payment options
+	 * @return \Aimeos\MShop\Order\Item\Iface Basket holding products, addresses and delivery/payment options
 	 */
-	public function get() : \Aimeos\MShop\Order\Item\Base\Iface
+	public function get() : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->controller->get();
 	}
@@ -118,26 +118,26 @@ abstract class Base
 
 
 	/**
-	 * Creates a new order base object from the current basket
+	 * Creates a new order object from the current basket
 	 *
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including products, addresses and services
+	 * @return \Aimeos\MShop\Order\Item\Iface Order object including products, addresses and services
 	 */
-	public function store() : \Aimeos\MShop\Order\Item\Base\Iface
+	public function store() : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->controller->store();
 	}
 
 
 	/**
-	 * Returns the order base object for the given ID
+	 * Returns the order object for the given ID
 	 *
-	 * @param string $id Unique ID of the order base object
+	 * @param string $id Unique ID of the order object
 	 * @param array $ref References items that should be fetched too
 	 * @param bool $default True to add default criteria (user logged in), false if not
-	 * @return \Aimeos\MShop\Order\Item\Base\Iface Order base object including the given parts
+	 * @return \Aimeos\MShop\Order\Item\Iface Order object including the given parts
 	 */
-	public function load( string $id, array $ref = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'],
-		bool $default = true ) : \Aimeos\MShop\Order\Item\Base\Iface
+	public function load( string $id, array $ref = ['order/address', 'order/coupon', 'order/product', 'order/service'],
+		bool $default = true ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->controller->load( $id, $ref, $default );
 	}

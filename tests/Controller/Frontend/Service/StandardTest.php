@@ -19,7 +19,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public static function setUpBeforeClass() : void
 	{
-		self::$basket = \Aimeos\MShop::create( \TestHelper::context(), 'order/base' )->create();
+		self::$basket = \Aimeos\MShop::create( \TestHelper::context(), 'order' )->create();
 	}
 
 

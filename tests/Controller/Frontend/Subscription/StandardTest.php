@@ -101,13 +101,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$items = $this->object->uses( ['order/base'] )->search( $total );
+		$items = $this->object->uses( ['order'] )->search( $total );
 
 		$this->assertGreaterThanOrEqual( 2, count( $items ) );
 		$this->assertGreaterThanOrEqual( 2, $total );
 
 		foreach( $items as $item ) {
-			$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $item->getBaseItem() );
+			$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $item->getOrderItem() );
 		}
 	}
 
@@ -144,7 +144,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testUses()
 	{
-		$this->assertSame( $this->object, $this->object->uses( ['order/base'] ) );
+		$this->assertSame( $this->object, $this->object->uses( ['order'] ) );
 	}
 
 
@@ -157,14 +157,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getSubscriptionId()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
-
 		$search = $manager->filter()->slice( 0, 1 );
-		$search->setConditions( $search->compare( '==', 'order.base.customerid', $this->context->user() ) );
 
-		if( ( $item = $manager->search( $search )->first() ) === null ) {
-			throw new \RuntimeException( 'No subscription item found' );
-		}
-
-		return $item->getId();
+		return $manager->search( $search )->first( new \RuntimeException( 'No subscription item found' ) );
 	}
 }

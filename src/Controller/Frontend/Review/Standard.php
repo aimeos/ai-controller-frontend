@@ -325,17 +325,17 @@ class Standard
 		}
 
 		$context = $this->context();
-		$manager = \Aimeos\MShop::create( $context, 'order/base' );
+		$manager = \Aimeos\MShop::create( $context, 'order' );
 
 		$filter = $manager->filter( true )->add( [
-			'order.base.product.id' => $item->getOrderProductId(),
-			'order.base.customerid' => $context->user()
+			'order.product.id' => $item->getOrderProductId(),
+			'order.customerid' => $context->user()
 		] );
 		$manager->search( $filter->slice( 0, 1 ) )->first( new \Aimeos\Controller\Frontend\Review\Exception(
 			sprintf( 'You can only add a review if you have ordered a product' )
 		) );
 
-		$orderProductItem = \Aimeos\MShop::create( $context, 'order/base/product' )->get( $item->getOrderProductId() );
+		$orderProductItem = \Aimeos\MShop::create( $context, 'order/product' )->get( $item->getOrderProductId() );
 
 		$filter = $this->manager->filter()->add( [
 			'review.customerid' => $context->user(),

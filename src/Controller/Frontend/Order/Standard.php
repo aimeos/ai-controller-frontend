@@ -135,7 +135,6 @@ class Standard
 	private $domains = [];
 	private $manager;
 	private $filter;
-	private $item;
 
 
 	/**
@@ -148,10 +147,8 @@ class Standard
 		parent::__construct( $context );
 
 		$this->manager = \Aimeos\MShop::create( $context, 'order' );
-		$this->item = $this->manager->create();
-
 		$this->filter = $this->manager->filter( true );
-		$this->addExpression( $this->filter->compare( '==', 'order.base.customerid', $context->user() ) );
+		$this->addExpression( $this->filter->compare( '==', 'order.customerid', $context->user() ) );
 	}
 
 
@@ -161,23 +158,7 @@ class Standard
 	public function __clone()
 	{
 		$this->filter = clone $this->filter;
-		$this->item = clone $this->item;
 		parent::__clone();
-	}
-
-
-	/**
-	 * Adds the values to the order object (not yet stored)
-	 *
-	 * @param string $baseId ID of the stored basket
-	 * @param array $values Values added to the order item (new or existing) like "order.type"
-	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
-	 * @since 2019.04
-	 */
-	public function add( string $baseId, array $values = [] ) : Iface
-	{
-		$this->item = $this->item->fromArray( $values )->setBaseId( $baseId );
-		return $this;
 	}
 
 
@@ -296,23 +277,6 @@ class Standard
 
 
 	/**
-	 * Saves the modified order item in the storage and blocks the stock and coupon codes
-	 *
-	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
-	 * @since 2019.04
-	 */
-	public function store() : \Aimeos\MShop\Order\Item\Iface
-	{
-		$this->checkLimit( $this->item->getBaseId() );
-
-		$cntl = \Aimeos\Controller\Common\Order\Factory::create( $this->context() );
-		$this->item = $this->manager->save( $this->item );
-
-		return $cntl->block( $this->item );
-	}
-
-
-	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too
@@ -322,73 +286,6 @@ class Standard
 	public function uses( array $domains ) : Iface
 	{
 		$this->domains = $domains;
-		return $this;
-	}
-
-
-	/**
-	 * Checks if more orders than allowed have been created by the user
-	 *
-	 * @param string $baseId Unique ID of the order base item (basket)
-	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
-	 * @throws \Aimeos\Controller\Frontend\Order\Exception If limit is exceeded
-	 */
-	protected function checkLimit( string $baseId ) : Iface
-	{
-		$config = $this->context()->config();
-
-		/** controller/frontend/order/limit-count
-		 * Maximum number of invoices within the time frame
-		 *
-		 * Creating new invoices is limited to avoid abuse and mitigate denial of
-		 * service attacks. The number of invoices created within the time frame
-		 * configured by "controller/frontend/invoices/limit-seconds" are counted
-		 * before a new invoice of the same user (either logged in or identified
-		 * by the IP address) is created. If the number of invoices is higher than
-		 * the configured value, an error message will be shown to the user
-		 * instead of creating a new invoice.
-		 *
-		 * @param integer Number of orders allowed within the time frame
-		 * @since 2020.10
-		 * @category Developer
-		 * @see controller/frontend/order/limit-seconds
-		 * @see controller/frontend/basket/limit-count
-		 * @see controller/frontend/basket/limit-seconds
-		 */
-		 $count = $config->get( 'controller/frontend/order/limit-count', 3 );
-
-		/** controller/frontend/order/limit-seconds
-		 * Invoice limitation time frame in seconds
-		 *
-		 * Creating new invoices is limited to avoid abuse and mitigate denial of
-		 * service attacks. Within the configured time frame, only one invoice
-		 * item can be created per order base item. All invoices for the order
-		 * base item within the last X seconds are counted.  If there's already
-		 * one available, an error message will be shown to the user instead of
-		 * creating the new order item.
-		 *
-		 * @param integer Number of seconds to check order items within
-		 * @since 2017.05
-		 * @category Developer
-		 * @see controller/frontend/order/limit-count
-		 * @see controller/frontend/basket/limit-count
-		 * @see controller/frontend/basket/limit-seconds
-		 */
-		$seconds = $config->get( 'controller/frontend/order/limit-seconds', 900 );
-
-		$search = $this->manager->filter()->slice( 0, 0 );
-		$search->setConditions( $search->and( [
-			$search->compare( '==', 'order.baseid', $baseId ),
-			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
-		] ) );
-
-		$total = 0;
-		$this->manager->search( $search, [], $total )->all();
-
-		if( $total >= $count ) {
-			throw new \Aimeos\Controller\Frontend\Order\Exception( sprintf( 'The order has already been created' ) );
-		}
-
 		return $this;
 	}
 

@@ -57,21 +57,6 @@ abstract class Base
 
 
 	/**
-	 * Adds the values to the order object (not yet stored)
-	 *
-	 * @param string $baseId ID of the stored basket
-	 * @param array $values Values added to the order item (new or existing) like "order.type"
-	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
-	 * @since 2019.04
-	 */
-	public function add( string $baseId, array $values = [] ) : \Aimeos\Controller\Frontend\Order\Iface
-	{
-		$this->controller->add( $baseId, $values );
-		return $this;
-	}
-
-
-	/**
 	 * Adds generic condition for filtering orders
 	 *
 	 * @param string $operator Comparison operator, e.g. "==", "!=", "<", "<=", ">=", ">", "=~", "~="
@@ -167,18 +152,6 @@ abstract class Base
 	{
 		$this->controller->sort( $key );
 		return $this;
-	}
-
-
-	/**
-	 * Saves the modified order item in the storage and blocks the stock and coupon codes
-	 *
-	 * @return \Aimeos\MShop\Order\Item\Iface New or updated order item object
-	 * @since 2019.04
-	 */
-	public function store() : \Aimeos\MShop\Order\Item\Iface
-	{
-		return $this->controller->store();
 	}
 
 

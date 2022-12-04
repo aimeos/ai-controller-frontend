@@ -32,12 +32,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testAdd()
-	{
-		$this->assertSame( $this->object, $this->object->add( -1, [] ) );
-	}
-
-
 	public function testCompare()
 	{
 		$this->assertSame( $this->object, $this->object->compare( '==', 'order.type', 'test' ) );
@@ -88,14 +82,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$total = 0;
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
-		$items = $object->uses( ['order/base'] )->search( $total );
+		$items = $object->uses( ['order'] )->search( $total );
 
 		$this->assertGreaterThanOrEqual( 4, $items->count() );
 		$this->assertGreaterThanOrEqual( 4, $total );
-
-		foreach( $items as $item ) {
-			$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Base\Iface::class, $item->getBaseItem() );
-		}
 	}
 
 
@@ -111,54 +101,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testStore()
-	{
-		$class = \Aimeos\Controller\Common\Order\Standard::class;
-
-		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
-			->setConstructorArgs( [$this->context] )
-			->setMethods( ['save'] )
-			->getMock();
-
-		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $manager );
-
-		$stub = $this->getMockBuilder( $class )
-			->setConstructorArgs( [$this->context] )
-			->setMethods( ['block'] )
-			->getMock();
-
-		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
-		$object->add( -1 );
-
-		$item = $manager->create()->setBaseId( -1 );
-
-		$manager->expects( $this->once() )->method( 'save' )->will( $this->returnValue( $item ) );
-		$stub->expects( $this->once() )->method( 'block' )->will( $this->returnValue( $item ) );
-
-		\Aimeos\Controller\Common\Order\Factory::inject( $class, $stub );
-		$this->assertEquals( $item, $object->store() );
-		\Aimeos\Controller\Common\Order\Factory::inject( $class, null );
-	}
-
-
-	public function testStoreLimit()
-	{
-		$this->context->config()->set( 'controller/frontend/order/limit-count', 1 );
-		$this->context->config()->set( 'controller/frontend/order/limit-seconds', 86400 * 365 );
-
-		$manager = \Aimeos\MShop::create( $this->context, 'order/base' );
-		$filter = $manager->filter()->add( 'order.base.price', '==', '53.50' );
-		$items = $manager->search( $filter->slice( 0, 1 ) );
-
-		$item = $items->first( new \RuntimeException( 'No order base item found' ) );
-
-		$this->expectException( \Aimeos\Controller\Frontend\Order\Exception::class );
-		$this->object->add( $item->getId() )->store();
-	}
-
-
 	public function testUses()
 	{
-		$this->assertSame( $this->object, $this->object->uses( ['order/base'] ) );
+		$this->assertSame( $this->object, $this->object->uses( ['order'] ) );
 	}
 }

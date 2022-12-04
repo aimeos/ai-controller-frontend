@@ -56,7 +56,7 @@ class Bundle
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/base/product' )
+		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
 			->create()
 			->copyFrom( $product )
 			->setQuantity( $quantity )
@@ -80,12 +80,12 @@ class Bundle
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Bundle product item
 	 * @param float $quantity Amount of products that should by added
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @return \Aimeos\MShop\Order\Item\Base\Product\Iface[] List of order product item from bundle
+	 * @return \Aimeos\MShop\Order\Item\Product\Iface[] List of order product item from bundle
 	 */
 	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, float $quantity, string $stocktype ) : array
 	{
 		$orderProducts = [];
-		$orderProductManager = \Aimeos\MShop::create( $this->context(), 'order/base/product' );
+		$orderProductManager = \Aimeos\MShop::create( $this->context(), 'order/product' );
 
 		foreach( $product->getRefItems( 'product', null, 'default' ) as $item )
 		{

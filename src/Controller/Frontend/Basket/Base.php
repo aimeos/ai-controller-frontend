@@ -213,7 +213,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			try
 			{
 				$this->object()->addCoupon( $code );
-				$basket->deleteCoupon( $code, true );
+				$basket->deleteCoupon( $code );
 			}
 			catch( \Exception $e )
 			{

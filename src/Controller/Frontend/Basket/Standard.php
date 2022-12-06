@@ -289,7 +289,7 @@ class Standard
 		$basket = $this->get()->setCustomerId( (string) $context->user() )->finish()->check();
 
 		$this->manager->begin();
-		$this->manager->store( $basket );
+		$this->manager->save( $basket );
 		$this->manager->commit();
 
 		$this->save(); // for reusing unpaid orders, might have side effects (!)

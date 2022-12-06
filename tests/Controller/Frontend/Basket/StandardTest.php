@@ -110,7 +110,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['store'] )
+			->setMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
@@ -129,7 +129,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $basket ) );
 		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnValue( $basket ) );
-		$stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $basket ) );
+		$stub->expects( $this->once() )->method( 'save' )->will( $this->returnValue( $basket ) );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->store() );
 	}

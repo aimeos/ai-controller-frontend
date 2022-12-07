@@ -405,7 +405,8 @@ class Standard
 	public function updateSync( ServerRequestInterface $request,
 		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
-		$orderItem = \Aimeos\MShop::create( $this->context(), 'order' )->get( $orderid );
+		$ref = $this->context()->config()->get( 'mshop/order/manager/subdomains', [] );
+		$orderItem = \Aimeos\MShop::create( $this->context(), 'order' )->get( $orderid, $ref );
 		$serviceItem = $this->manager->find( $code );
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );

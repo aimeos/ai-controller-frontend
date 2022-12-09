@@ -53,12 +53,30 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$orderAttributes = $orderProduct->getAttributeItems();
 		$attrItems = $this->getAttributeItems( $orderAttributes );
 
+		$siteId = $this->context()->locale()->getSiteId();
+
 		// add prices of (optional) attributes
 		foreach( $orderAttributes as $orderAttrItem )
 		{
-			if( ( $attrItem = $attrItems->get( $orderAttrItem->getAttributeId() ) ) !== null
-				&& !( $prices = $attrItem->getRefItems( 'price', 'default', 'default' ) )->isEmpty()
-			) {
+			if( !( $attrItem = $attrItems->get( $orderAttrItem->getAttributeId() ) ) ) {
+				continue;
+			}
+
+			// use attribute prices from product site only
+			$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $orderProduct ) {
+				return $price->getSiteId() === $orderProduct->getSiteId();
+			} );
+
+			if( $prices->isEmpty() )
+			{
+				// if no prices left, use attribute prices from current site
+				$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $siteId ) {
+					return $price->getSiteId() === $siteId;
+				} );
+			}
+
+			if( !$prices->isEmpty() )
+			{
 				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity() );
 				$price = $price->addItem( clone $attrPrice, $orderAttrItem->getQuantity() );
 				$orderAttrItem->setPrice( $attrPrice->addItem( $attrPrice, $orderAttrItem->getQuantity() - 1 )->getValue() );

@@ -63,14 +63,14 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			}
 
 			// use attribute prices from product site only
-			$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $orderProduct, $siteId ) {
+			$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $orderProduct ) {
 				return $price->getSiteId() === $orderProduct->getSiteId();
 			} );
 
 			if( $prices->isEmpty() )
 			{
 				// if no prices left, use attribute prices from current site
-				$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $orderProduct, $siteId ) {
+				$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $siteId ) {
 					return $price->getSiteId() === $siteId;
 				} );
 			}

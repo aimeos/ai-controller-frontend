@@ -203,7 +203,7 @@ class Standard
 		}
 
 		if( $password = $values['customer.password'] ?? null ) {
-			$this->item = $item->setPassword( $password );
+			$this->item = $this->item->setPassword( $password );
 		}
 
 		if( $this->item->getLabel() === '' )

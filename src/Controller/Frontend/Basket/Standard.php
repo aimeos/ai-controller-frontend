@@ -396,7 +396,7 @@ class Standard
 		}
 
 		$manager = \Aimeos\MShop::create( $context, 'product' );
-		$product = $manager->get( $orderProduct->getProductId(), ['price', 'text'], true );
+		$product = $manager->get( $orderProduct->getProductId(), ['attribute', 'catalog', 'price', 'text'], true );
 		$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
 
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );

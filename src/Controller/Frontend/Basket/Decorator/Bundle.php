@@ -36,12 +36,12 @@ class Bundle
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default'
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', string $siteId = null
 	) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		if( $product->getType() !== 'bundle' )
 		{
-			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype );
+			$this->getController()->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $siteId );
 			return $this;
 		}
 
@@ -61,7 +61,7 @@ class Bundle
 			->copyFrom( $product )
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
-			->setSiteId( $this->call( 'getSiteId', $product ) )
+			->setSiteId( $this->call( 'getSiteId', $product, $siteId ) )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
 			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype ) );
 

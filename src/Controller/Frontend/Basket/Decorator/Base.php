@@ -152,14 +152,15 @@ abstract class Base
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @param string|null $siteId Unique ID of the site the product should be bought from or NULL for site the product is from
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default'
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', string $siteId = null
 	) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
-		$this->controller->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype );
+		$this->controller->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $siteId );
 		return $this;
 	}
 

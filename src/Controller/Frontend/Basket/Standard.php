@@ -324,11 +324,12 @@ class Standard
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
+	 * @param string|null $siteId Unique ID of the site the product should be bought from or NULL for site the product is from
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default' ) : Iface
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', string $siteId = null ) : Iface
 	{
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 		$this->call( 'checkAttributes', [$product], 'custom', array_keys( $custom ) );
@@ -346,7 +347,7 @@ class Standard
 			->copyFrom( $product )
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
-			->setSiteId( $this->call( 'getSiteId', $product ) )
+			->setSiteId( $this->call( 'getSiteId', $product, $siteId ) )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
 		$orderBaseProductItem->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );

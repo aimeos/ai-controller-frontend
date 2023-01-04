@@ -401,7 +401,7 @@ class Standard
 		$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
 
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
-		$price = $this->call( 'calcPrice', $orderProduct, $product->getRefItems( 'price', 'default' ), $quantity );
+		$price = $this->call( 'calcPrice', $orderProduct, $product->getRefItems( 'price', 'default', 'default' ), $quantity );
 		$orderProduct = $orderProduct->setQuantity( $quantity )->setPrice( $price );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderProduct, $position );

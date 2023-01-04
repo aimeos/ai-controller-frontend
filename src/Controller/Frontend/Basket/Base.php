@@ -32,9 +32,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		\Aimeos\Map $prices, float $quantity ) : \Aimeos\MShop\Price\Item\Iface
 	{
 		$context = $this->context();
-
 		$priceManager = \Aimeos\MShop::create( $context, 'price' );
-		$price = $priceManager->getLowestPrice( $prices, $quantity );
+		$price = $priceManager->getLowestPrice( $prices, $quantity, null, $orderProduct->getSiteId() );
 
 		// customers can pay what they would like to pay
 		if( ( $attr = $orderProduct->getAttributeItem( 'price', 'custom' ) ) !== null )
@@ -53,8 +52,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$orderAttributes = $orderProduct->getAttributeItems();
 		$attrItems = $this->getAttributeItems( $orderAttributes );
 
-		$siteId = $this->context()->locale()->getSiteId();
-
 		// add prices of (optional) attributes
 		foreach( $orderAttributes as $orderAttrItem )
 		{
@@ -62,22 +59,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				continue;
 			}
 
-			// use attribute prices from product site only
-			$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $orderProduct ) {
-				return $price->getSiteId() === $orderProduct->getSiteId();
-			} );
-
-			if( $prices->isEmpty() )
-			{
-				// if no prices left, use attribute prices from current site
-				$prices = $attrItem->getRefItems( 'price', 'default', 'default' )->filter( function( $price ) use ( $siteId ) {
-					return $price->getSiteId() === $siteId;
-				} );
-			}
+			$prices = $attrItem->getRefItems( 'price', 'default', 'default' );
 
 			if( !$prices->isEmpty() )
 			{
-				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity() );
+				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity(), null, $orderProduct->getSiteId() );
 				$price = $price->addItem( clone $attrPrice, $orderAttrItem->getQuantity() );
 				$orderAttrItem->setPrice( $attrPrice->addItem( $attrPrice, $orderAttrItem->getQuantity() - 1 )->getValue() );
 			}

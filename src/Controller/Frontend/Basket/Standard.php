@@ -306,7 +306,6 @@ class Standard
 	 * @param array $ref References items that should be fetched too
 	 * @param bool $default True to add default criteria (user logged in), false if not
 	 * @return \Aimeos\MShop\Order\Item\Iface Order object including the given parts
-	 * @todo 2021.01 Use array type hint for $ref
 	 */
 	public function load( string $id, array $ref = ['order/address', 'order/coupon', 'order/product', 'order/service'],
 		bool $default = true ) : \Aimeos\MShop\Order\Item\Iface

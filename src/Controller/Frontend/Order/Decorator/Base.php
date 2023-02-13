@@ -38,7 +38,7 @@ abstract class Base
 		parent::__construct( $context );
 
 		$iface = \Aimeos\Controller\Frontend\Order\Iface::class;
-		$this->controller = \Aimeos\MW\Common\Base::checkClass( $iface, $controller );
+		$this->controller = \Aimeos\Utils::implements( $controller, $iface );
 	}
 
 

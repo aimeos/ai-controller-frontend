@@ -157,32 +157,20 @@ class Frontend
 	 * @param array $decorators List of decorator names that should be wrapped around the controller object
 	 * @param string $classprefix Decorator class prefix, e.g. "\Aimeos\Controller\Frontend\Basket\Decorator\"
 	 * @return \Aimeos\Controller\Frontend\Iface Controller object
+	 * @throws \LogicException If class can't be instantiated
 	 */
 	protected static function addDecorators( \Aimeos\MShop\ContextIface $context, \Aimeos\Controller\Frontend\Iface $controller,
 		array $decorators, string $classprefix ) : \Aimeos\Controller\Frontend\Iface
 	{
+		$interface = \Aimeos\Controller\Frontend\Iface::class;
+
 		foreach( $decorators as $name )
 		{
-			if( ctype_alnum( $name ) === false )
-			{
-				$classname = is_string( $name ) ? $classprefix . $name : '<not a string>';
-				throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Invalid class name "%1$s"', $classname ), 400 );
+			if( ctype_alnum( $name ) === false ) {
+				throw new \LogicException( sprintf( 'Invalid class name "%1$s"', $name ), 400 );
 			}
 
-			$classname = $classprefix . $name;
-
-			if( class_exists( $classname ) === false ) {
-				throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
-			}
-
-			$interface = '\\Aimeos\\Controller\\Frontend\\Common\\Decorator\\Iface';
-			$controller = new $classname( $controller, $context );
-
-			if( !( $controller instanceof $interface ) )
-			{
-				$msg = sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $interface );
-				throw new \Aimeos\Controller\Frontend\Exception( $msg, 400 );
-			}
+			$controller = \Aimeos\Utils::create( $classprefix . $name, [$controller, $context], $interface );
 		}
 
 		return $controller;
@@ -205,17 +193,7 @@ class Frontend
 			return self::$objects[$classname];
 		}
 
-		if( class_exists( $classname ) === false ) {
-			throw new \Aimeos\Controller\Frontend\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
-		}
-
-		$cntl = new $classname( $context );
-
-		if( !( $cntl instanceof $interface ) )
-		{
-			$msg = sprintf( 'Class "%1$s" does not implement "%2$s"', $classname, $interface );
-			throw new \Aimeos\Controller\Frontend\Exception( $msg, 400 );
-		}
+		$cntl = \Aimeos\Utils::create( $classname, [$context], $interface );
 
 		return self::addControllerDecorators( $context, $cntl, $path );
 	}

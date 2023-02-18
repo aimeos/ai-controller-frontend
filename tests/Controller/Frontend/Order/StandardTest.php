@@ -61,7 +61,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['save'] )
+			->onlyMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $manager );

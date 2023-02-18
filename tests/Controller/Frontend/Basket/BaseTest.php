@@ -33,7 +33,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( null )
+			->onlyMethods( [] )
 			->getMock();
 
 		$this->context->session()->set( 'aimeos/basket/locale', 'unittest|en|EUR' );
@@ -54,7 +54,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( null )
+			->onlyMethods( [] )
 			->getMock();
 
 		$result = $this->access( 'copyAddresses' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
@@ -81,7 +81,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['get'] )
+			->onlyMethods( ['get'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'get' )->will( $this->throwException( new \Exception() ) );
@@ -110,7 +110,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( null )
+			->onlyMethods( [] )
 			->getMock();
 
 		$object->addProduct( $product );
@@ -134,7 +134,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['addCoupon'] )
+			->onlyMethods( ['addCoupon'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'addCoupon' )->will( $this->throwException( new \Exception() ) );
@@ -159,7 +159,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( null )
+			->onlyMethods( [] )
 			->getMock();
 
 		$result = $this->access( 'copyProducts' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
@@ -186,7 +186,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['addProduct'] )
+			->onlyMethods( ['addProduct'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'addProduct' )->will( $this->throwException( new \Exception() ) );
@@ -214,7 +214,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( null )
+			->onlyMethods( [] )
 			->getMock();
 
 		$result = $this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
@@ -249,7 +249,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['addService'] )
+			->onlyMethods( ['addService'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'addService' )->will( $this->throwException( new \Exception() ) );
@@ -273,12 +273,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['getAttributes'] )
+			->onlyMethods( ['getAttributes'] )
 			->getMock();
 
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Subscription\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['save'] )
+			->onlyMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Subscription\Manager\Standard::class, $stub );
@@ -296,7 +296,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['getAttributes'] )
+			->onlyMethods( ['getAttributes'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'getAttributes' )

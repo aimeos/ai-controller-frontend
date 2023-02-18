@@ -25,7 +25,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Subscription\\Manager\\Standard' )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['save'] )
+			->onlyMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Subscription\\Manager\\Standard', $this->manager );

@@ -68,7 +68,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['setSession'] )
+			->onlyMethods( ['setSession'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
@@ -92,7 +92,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['get'] )
+			->onlyMethods( ['get'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
@@ -110,7 +110,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['save'] )
+			->onlyMethods( ['save'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
@@ -119,12 +119,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Standard::class )
 			->setConstructorArgs( [$priceManager->create(), $this->context->locale()] )
-			->setMethods( ['check'] )
+			->onlyMethods( ['check'] )
 			->getMock();
 
 		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['get'] )
+			->onlyMethods( ['get'] )
 			->getMock();
 
 		$object->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $basket ) );

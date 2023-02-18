@@ -105,12 +105,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$provider = $this->getMockBuilder( \Aimeos\MShop\Service\Provider\Payment\PostPay::class )
 			->disableOriginalConstructor()
-			->setMethods( ['process'] )
+			->onlyMethods( ['process'] )
 			->getMock();
 
 		$manager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->setMethods( ['getProvider'] )
+			->onlyMethods( ['getProvider'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $manager );
@@ -192,18 +192,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
-			->setMethods( ['updateSync', 'query', 'isImplemented'] )
+			->onlyMethods( ['updateSync', 'query', 'isImplemented'] )
 			->disableOriginalConstructor()
 			->getMock();
 
 		$orderManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( array( $this->context ) )
-			->setMethods( ['get'] )
+			->onlyMethods( ['get'] )
 			->getMock();
 
 		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
 			->setConstructorArgs( array( $this->context ) )
-			->setMethods( ['getProvider'] )
+			->onlyMethods( ['getProvider'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );

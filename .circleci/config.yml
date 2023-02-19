@@ -69,7 +69,7 @@ jobs:
       - restore_cache:
           keys:
             - php82-{{ checksum "composer.json" }}
-      - run: composer update -n --prefer-dist
+      - run: composer update -W -n --prefer-dist
       - save_cache:
           key: php82-{{ checksum "composer.json" }}
           paths: [./vendor]

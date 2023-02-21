@@ -13,5 +13,4 @@
       <directory suffix=".php">Controller/</directory>
     </testsuite>
   </testsuites>
-  <logging/>
 </phpunit>

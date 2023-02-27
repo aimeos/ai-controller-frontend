@@ -24,7 +24,7 @@ abstract class Base
 	use \Aimeos\Controller\Frontend\Common\Decorator\Traits;
 
 
-	private $controller;
+	private \Aimeos\Controller\Frontend\Subscription\Iface $controller;
 
 
 	/**
@@ -37,8 +37,7 @@ abstract class Base
 	{
 		parent::__construct( $context );
 
-		$iface = \Aimeos\Controller\Frontend\Subscription\Iface::class;
-		$this->controller = \Aimeos\Utils::implements( $controller, $iface );
+		$this->controller = $controller;
 	}
 
 

@@ -131,9 +131,9 @@ class Standard
 	 * @see controller/frontend/basket/decorators/global
 	 */
 
-	private $manager;
-	private $baskets = [];
-	private $type = 'default';
+	private \Aimeos\MShop\Common\Manager\Iface $manager;
+	private string $type = 'default';
+	private array $baskets = [];
 
 
 	/**

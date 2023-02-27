@@ -36,18 +36,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testConstructException()
-	{
-		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Iface::class )->getMock();
-
-		$this->expectException( \LogicException::class );
-
-		$this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Decorator\Base::class )
-			->setConstructorArgs( [$stub, $this->context] )
-			->getMockForAbstractClass();
-	}
-
-
 	public function testCall()
 	{
 		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Standard::class )

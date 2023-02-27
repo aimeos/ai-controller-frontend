@@ -21,7 +21,7 @@ namespace Aimeos\Controller\Frontend;
 class Exception
 	extends \Exception
 {
-	private $list;
+	private array $list;
 
 
 	/**

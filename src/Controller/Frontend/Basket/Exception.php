@@ -20,7 +20,7 @@ namespace Aimeos\Controller\Frontend\Basket;
  */
 class Exception extends \Aimeos\Controller\Frontend\Exception
 {
-	private $errors;
+	private array $errors;
 
 
 	/**

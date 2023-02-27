@@ -24,10 +24,10 @@ abstract class Base
 	use \Aimeos\Macro\Macroable;
 
 
-	private $object;
-	private $context;
-	private $cond = [];
-	private $sort = [];
+	private \Aimeos\MShop\ContextIface $context;
+	private ?Iface $object = null;
+	private array $cond = [];
+	private array $sort = [];
 
 
 	/**

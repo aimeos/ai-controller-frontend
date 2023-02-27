@@ -130,9 +130,9 @@ class Standard
 	 * @see controller/frontend/customer/decorators/global
 	 */
 
-	private $domains = [];
-	private $manager;
-	private $item;
+	private array $domains = [];
+	private \Aimeos\MShop\Customer\Item\Iface $item;
+	private \Aimeos\MShop\Common\Manager\Iface $manager;
 
 
 	/**

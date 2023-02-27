@@ -131,9 +131,9 @@ class Standard
 	 */
 
 
-	private $filter;
-	private $manager;
-	private $root;
+	 private \Aimeos\MShop\Common\Manager\Iface $manager;
+	 private \Aimeos\Base\Criteria\Iface $filter;
+	private ?string $root = null;
 
 
 	/**

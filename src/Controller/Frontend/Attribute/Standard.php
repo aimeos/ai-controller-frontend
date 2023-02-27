@@ -131,10 +131,10 @@ class Standard
 	 */
 
 
-	private $domain = 'product';
-	private $domains = [];
-	private $filter;
-	private $manager;
+	private array $domains = [];
+	private string $domain = 'product';
+	private \Aimeos\Base\Criteria\Iface $filter;
+	private \Aimeos\MShop\Common\Manager\Iface $manager;
 
 
 	/**

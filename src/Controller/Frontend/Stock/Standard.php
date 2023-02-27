@@ -131,8 +131,8 @@ class Standard
 	 */
 
 
-	private $filter;
-	private $manager;
+	private \Aimeos\Base\Criteria\Iface $filter;
+	private \Aimeos\MShop\Common\Manager\Iface $manager;
 
 
 	/**

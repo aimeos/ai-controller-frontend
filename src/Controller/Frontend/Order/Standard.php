@@ -132,9 +132,9 @@ class Standard
 	 */
 
 
-	private $domains = [];
-	private $manager;
-	private $filter;
+	private array $domains = [];
+	private \Aimeos\Base\Criteria\Iface $filter;
+	private \Aimeos\MShop\Common\Manager\Iface $manager;
 
 
 	/**

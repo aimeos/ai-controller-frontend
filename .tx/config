@@ -1,7 +1,7 @@
 [main]
 host = https://www.transifex.com
 
-[aimeos-core.controller-frontend]
+[o:aimeos:p:aimeos-core:r:controller-frontend]
 file_filter = i18n/<lang>.po
 source_file = i18n/controller-frontend.pot
 source_lang = en

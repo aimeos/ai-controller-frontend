@@ -46,7 +46,7 @@ msgstr "\"%1$s\" klasy \"%2$s\"-y amala aşyrmaýar"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr ""
+msgstr "\"%1$s\" klasy \"%2$s\" interfeýsi amala aşyrmaýar"
 
 #, php-format
 msgid "Class \"%1$s\" not available"
@@ -90,7 +90,7 @@ msgstr ""
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr ""
+msgstr "\"%1$s\" klass adynda nädogry nyşanlar bar"
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
@@ -102,15 +102,15 @@ msgstr ""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr ""
+msgstr "\"%1$s\" nädogry klass ady"
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr ""
+msgstr "Nädogry domen \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "Nädogry fabrika \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
@@ -158,7 +158,7 @@ msgstr ""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Talon kodlarynyň sany çäkden ýokary"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
@@ -194,7 +194,7 @@ msgstr ""
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr ""
+msgstr "\"%1$s\" metodyny işledip bolmaýar"
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""

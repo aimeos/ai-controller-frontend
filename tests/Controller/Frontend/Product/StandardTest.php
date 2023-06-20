@@ -188,6 +188,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testResolveLanguage()
+	{
+		$this->context->locale()->setLanguageId( 'en' );
+		$item = $this->object->resolve( 'cafe_noire_cappuccino' );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Product\Item\Iface::class, $item );
+		$this->assertEquals( 'Cafe Noire Cappuccino', $item->getLabel() );
+	}
+
+
 	public function testSearch()
 	{
 		$total = 0;

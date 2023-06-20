@@ -470,7 +470,9 @@ class Standard
 	 */
 	public function resolve( string $name ) : \Aimeos\MShop\Product\Item\Iface
 	{
-		$search = $this->manager->filter( null )->slice( 0, 1 )->add( ['index.text:url()' => $name] );
+		$search = $this->manager->filter( null );
+		$func = $search->make( 'index.text:url', [$this->context()->locale()->getLanguageId()] );
+		$search->add( $func, '==', $name )->slice( 0, 1 );
 
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{

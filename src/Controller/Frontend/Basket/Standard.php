@@ -467,7 +467,7 @@ class Standard
 	 *
 	 * @param string $type Address type code like 'payment' or 'delivery'
 	 * @param array $values Associative list of key/value pairs with address details
-	 * @param int|null $position Position number (key) of the order address item
+	 * @param int|null $position Position number (key) of the order address item to replace
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function addAddress( string $type, array $values = [], int $position = null ) : Iface
@@ -492,7 +492,7 @@ class Standard
 	 * Removes the address of the given type and position if available
 	 *
 	 * @param string $type Address type code like 'payment' or 'delivery'
-	 * @param int|null $position Position of the address in the list to overwrite
+	 * @param int|null $position Position of the address in the list to remove
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function deleteAddress( string $type, int $position = null ) : Iface
@@ -507,7 +507,7 @@ class Standard
 	 *
 	 * @param \Aimeos\MShop\Service\Item\Iface $service Service item selected by the customer
 	 * @param array $config Associative list of key/value pairs with the options selected by the customer
-	 * @param int|null $position Position of the address in the list to overwrite
+	 * @param int|null $position Position of the service in the list to replace
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
@@ -521,7 +521,7 @@ class Standard
 
 		foreach( $basket->getService( $type ) as $pos => $ordService )
 		{
-			if( $ordService->getCode() === $code ) {
+			if( !$position && $ordService->getCode() === $code ) {
 				$position = $pos;
 			}
 		}
@@ -561,7 +561,7 @@ class Standard
 	 * Removes the delivery or payment service items from the basket
 	 *
 	 * @param string $type Service type code like 'payment' or 'delivery'
-	 * @param int|null $position Position of the address in the list to overwrite
+	 * @param int|null $position Position of the service in the list to remove
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
 	public function deleteService( string $type, int $position = null ) : Iface

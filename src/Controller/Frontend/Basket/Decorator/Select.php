@@ -49,11 +49,11 @@ class Select
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )->create();
-		$orderBaseProductItem = $orderBaseProductItem->copyFrom( $product );
+		$orderProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )->create();
+		$orderProductItem = $orderProductItem->copyFrom( $product );
 
 		$productItem = $this->getArticle( $product, $variant );
-		$orderBaseProductItem->setProductCode( $productItem->getCode() )
+		$orderProductItem->setProductCode( $productItem->getCode() )
 			->setParentProductId( $product->getId() )
 			->setProductId( $productItem->getId() );
 
@@ -65,7 +65,7 @@ class Select
 		}
 
 		if( $mediaItem = $productItem->getRefItems( 'media', 'default', 'default' )->first() ) {
-			$orderBaseProductItem->setMediaUrl( $mediaItem->getPreview() );
+			$orderProductItem->setMediaUrl( $mediaItem->getPreview() );
 		}
 
 		$hidden->union( $productItem->getRefItems( 'attribute', null, 'hidden' ) );
@@ -81,14 +81,14 @@ class Select
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem
+		$orderProductItem
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
 			->setSiteId( $this->call( 'getSiteId', $product, $siteId ) )
 			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) )
-			->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
+			->setPrice( $this->call( 'calcPrice', $orderProductItem, $prices, $quantity ) );
 
-		$this->getController()->get()->addProduct( $orderBaseProductItem );
+		$this->getController()->get()->addProduct( $orderProductItem );
 		$this->getController()->save();
 
 		return $this;

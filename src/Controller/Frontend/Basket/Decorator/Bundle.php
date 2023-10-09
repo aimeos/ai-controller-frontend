@@ -56,7 +56,7 @@ class Bundle
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
+		$orderProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
 			->create()
 			->copyFrom( $product )
 			->setQuantity( $quantity )
@@ -65,9 +65,9 @@ class Bundle
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
 			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype ) );
 
-		$orderBaseProductItem->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
+		$orderProductItem->setPrice( $this->call( 'calcPrice', $orderProductItem, $prices, $quantity ) );
 
-		$this->getController()->get()->addProduct( $orderBaseProductItem );
+		$this->getController()->get()->addProduct( $orderProductItem );
 		$this->getController()->save();
 
 		return $this;
@@ -89,11 +89,13 @@ class Bundle
 
 		foreach( $product->getRefItems( 'product', null, 'default' ) as $item )
 		{
-			$orderProduct = $orderProductManager->create()->copyFrom( $item )->setParentProductId( $product->getId() );
 			$prices = $item->getRefItems( 'price', 'default', 'default' );
+			$orderProduct = $orderProductManager->create()
+				->copyFrom( $item )
+				->setStockType( $stocktype )
+				->setParentProductId( $product->getId() );
 
-			$orderProducts[] = $orderProduct->setStockType( $stocktype )
-				->setPrice( $this->call( 'calcPrice', $orderProduct, $prices, $quantity ) );
+			$orderProducts[] = $orderProduct->setPrice( $this->call( 'calcPrice', $orderProduct, $prices, $quantity ) );
 		}
 
 		return $orderProducts;

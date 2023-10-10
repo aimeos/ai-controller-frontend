@@ -318,7 +318,7 @@ class Standard
 	{
 		$domain = $item->getDomain();
 
-		if( !in_array( $domain, ['product'] ) )
+		if( !in_array( $domain, ['product', 'locale/site'] ) )
 		{
 			$msg = sprintf( 'Domain "%1$s" is not supported', $domain );
 			throw new \Aimeos\Controller\Frontend\Review\Exception( $msg );
@@ -335,7 +335,7 @@ class Standard
 			sprintf( 'You can only add a review if you have ordered a product' )
 		) );
 
-		$orderProductItem = \Aimeos\MShop::create( $context, 'order/product' )->get( $item->getOrderProductId() );
+		$ordProdItem = \Aimeos\MShop::create( $context, 'order/product' )->get( $item->getOrderProductId() );
 
 		$filter = $this->manager->filter()->add( [
 			'review.customerid' => $context->user(),
@@ -360,8 +360,8 @@ class Standard
 		$real = $this->manager->search( $filter->slice( 0, 1 ) )->first( $this->manager->create() );
 
 		$real = $real->setCustomerId( $context->user() )
-			->setOrderProductId( $orderProductItem->getId() )
-			->setRefId( $orderProductItem->getProductId() )
+			->setRefId( $ordProdItem->getType() === 'select' ? $ordProdItem->getParentProductId() : $ordProdItem->getProductId() )
+			->setOrderProductId( $ordProdItem->getId() )
 			->setComment( $item->getComment() )
 			->setRating( $item->getRating() )
 			->setName( $item->getName() )

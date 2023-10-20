@@ -54,7 +54,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
 		$this->expectException( \Aimeos\Controller\Frontend\Customer\Exception::class );
-		$this->object->addListItem( 'customer/group', $listItem );
+		$this->object->addListItem( 'group', $listItem );
 	}
 
 
@@ -102,7 +102,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$listItem = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
 		$this->expectException( \Aimeos\Controller\Frontend\Customer\Exception::class );
-		$this->object->deleteListItem( 'customer/group', $listItem );
+		$this->object->deleteListItem( 'group', $listItem );
 	}
 
 

@@ -190,8 +190,6 @@ class Standard
 	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
 	{
 		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
-		$this->filter->setSortations( $this->getSortations() );
-
 		return $this->manager->aggregate( $this->filter, $key, $value, $type );
 	}
 

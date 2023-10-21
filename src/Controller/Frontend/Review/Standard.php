@@ -173,9 +173,7 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$filter->setSortations( $this->getSortations() );
 		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
-
 		return $this->manager->aggregate( $filter, $key, $value, $type );
 	}
 

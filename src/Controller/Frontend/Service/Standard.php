@@ -244,8 +244,8 @@ class Standard
 		$list = [];
 		$filter = clone $this->filter;
 
-		$this->addExpression( $filter->getConditions() );
 		$filter->setConditions( $filter->and( $this->getConditions() ) );
+		$filter->setSortations( $this->getSortations() );
 
 		foreach( $this->manager->search( $filter, $this->domains ) as $id => $item ) {
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );

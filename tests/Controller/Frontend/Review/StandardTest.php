@@ -64,7 +64,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId() );
+		$this->context->setUser( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' ) );
 
 		$this->manager->expects( $this->once() )->method( 'delete' );
 
@@ -99,7 +99,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId() );
+		$this->context->setUser( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' ) );
 		$result = $this->object->get( $this->getReviewItem() );
 		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $result );
 	}
@@ -108,7 +108,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testList()
 	{
 		$total = 0;
-		$this->context->setUserId( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId() );
+		$this->context->setUser( \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' ) );
 
 		$this->assertEquals( 3, count( $this->object->slice( 0, 3 )->list( $total ) ) );
 		$this->assertGreaterThanOrEqual( 4, $total );
@@ -127,8 +127,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSave()
 	{
-		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $customerId );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $customer );
 		$item = $this->getReviewItem();
 
 		$this->manager->expects( $this->once() )->method( 'save' )
@@ -140,8 +140,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSaveCreate()
 	{
-		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
-		$this->context->setUserId( $customerId );
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $customer );
 
 		$item = $this->object->create( $this->getReviewItem()->setId( null )->toArray( true ) );
 

@@ -124,7 +124,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$this->context->setUserId( $this->object->find( 'test@example.com' )->getId() );
+		$this->context->setUser( $this->object->find( 'test@example.com' ) );
 		$item = $this->object->uses( ['product'] )->get();
 
 		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $item );

@@ -21,7 +21,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::cache( true );
 
 		$this->context = \TestHelper::context();
-		$this->context->setUserId( $this->getCustomerId() );
+		$this->context->setUser( $this->getCustomer() );
 
 		$this->manager = $this->getMockBuilder( '\\Aimeos\\MShop\\Subscription\\Manager\\Standard' )
 			->setConstructorArgs( [$this->context] )
@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->manager->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 
-		$this->assertInstanceOf( $expected, $this->object->cancel( $this->getSubscriptionId() ) );
+		$this->assertInstanceOf( $expected, $this->object->cancel( $this->getSubscription() ) );
 	}
 
 
@@ -62,7 +62,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$expected = \Aimeos\MShop\Subscription\Item\Iface::class;
-		$this->assertInstanceOf( $expected, $this->object->get( $this->getSubscriptionId() ) );
+		$this->assertInstanceOf( $expected, $this->object->get( $this->getSubscription() ) );
 	}
 
 
@@ -148,13 +148,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function getCustomerId()
+	protected function getCustomer()
 	{
-		return \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		return \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
 	}
 
 
-	protected function getSubscriptionId()
+	protected function getSubscription()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'subscription' );
 		$search = $manager->filter()->slice( 0, 1 );

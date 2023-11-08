@@ -346,6 +346,7 @@ class Standard
 			->copyFrom( $product )
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
+			->setSiteId( $siteId ?: $product->getSiteId() )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
 		$price = $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity );

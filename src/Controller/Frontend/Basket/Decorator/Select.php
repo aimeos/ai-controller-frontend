@@ -53,11 +53,14 @@ class Select
 		$orderProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
 			->create()
 			->copyFrom( $product )
+			->setQuantity( $quantity )
+			->setStockType( $stocktype )
 			->setName( $productItem->getName() )
 			->setScale( $productItem->getScale() )
 			->setProductId( $productItem->getId() )
 			->setParentProductId( $product->getId() )
-			->setProductCode( $productItem->getCode() );
+			->setProductCode( $productItem->getCode() )
+			->setSiteId( $siteId ?: $productItem->getSiteId() );
 
 		$this->call( 'checkAttributes', [$product, $productItem], 'custom', array_keys( $custom ) );
 		$this->call( 'checkAttributes', [$product, $productItem], 'config', array_keys( $config ) );
@@ -83,10 +86,7 @@ class Select
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
-		$orderProductItem
-			->setQuantity( $quantity )
-			->setStockType( $stocktype )
-			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) );
+		$orderProductItem->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) );
 
 		$price = $this->call( 'calcPrice', $orderProductItem, $prices, $quantity );
 		$orderProductItem

@@ -346,10 +346,13 @@ class Standard
 			->copyFrom( $product )
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
-			->setSiteId( $this->call( 'getSiteId', $product, $siteId ) )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
-		$orderBaseProductItem->setPrice( $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity ) );
+		$price = $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity );
+		$orderBaseProductItem
+			->setPrice( $price )
+			->setSiteId( $siteId ?: $price->getSiteId() )
+			->setVendor( $this->getVendor( $siteId ?: $price->getSiteId() ) );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderBaseProductItem );
 		return $this->save();

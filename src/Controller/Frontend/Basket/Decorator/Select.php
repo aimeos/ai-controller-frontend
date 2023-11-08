@@ -49,13 +49,15 @@ class Select
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
-		$orderProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )->create();
-		$orderProductItem = $orderProductItem->copyFrom( $product );
-
 		$productItem = $this->getArticle( $product, $variant );
-		$orderProductItem->setProductCode( $productItem->getCode() )
+		$orderProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
+			->create()
+			->copyFrom( $product )
+			->setName( $productItem->getName() )
+			->setScale( $productItem->getScale() )
+			->setProductId( $productItem->getId() )
 			->setParentProductId( $product->getId() )
-			->setProductId( $productItem->getId() );
+			->setProductCode( $productItem->getCode() );
 
 		$this->call( 'checkAttributes', [$product, $productItem], 'custom', array_keys( $custom ) );
 		$this->call( 'checkAttributes', [$product, $productItem], 'config', array_keys( $config ) );
@@ -84,9 +86,13 @@ class Select
 		$orderProductItem
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
-			->setSiteId( $this->call( 'getSiteId', $product, $siteId ) )
-			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) )
-			->setPrice( $this->call( 'calcPrice', $orderProductItem, $prices, $quantity ) );
+			->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) );
+
+		$price = $this->call( 'calcPrice', $orderProductItem, $prices, $quantity );
+		$orderProductItem
+			->setPrice( $price )
+			->setSiteId( $siteId ?: $price->getSiteId() )
+			->setVendor( $this->getVendor( $siteId ?: $price->getSiteId() ) );
 
 		$this->getController()->get()->addProduct( $orderProductItem );
 		$this->getController()->save();

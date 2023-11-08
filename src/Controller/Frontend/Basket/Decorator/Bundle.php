@@ -61,11 +61,14 @@ class Bundle
 			->copyFrom( $product )
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
-			->setSiteId( $this->call( 'getSiteId', $product, $siteId ) )
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
 			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype ) );
 
-		$orderProductItem->setPrice( $this->call( 'calcPrice', $orderProductItem, $prices, $quantity ) );
+		$price = $this->call( 'calcPrice', $orderProductItem, $prices, $quantity );
+		$orderProductItem
+			->setPrice( $price )
+			->setSiteId( $siteId ?: $price->getSiteId() )
+			->setVendor( $this->getVendor( $siteId ?: $price->getSiteId() ) );
 
 		$this->getController()->get()->addProduct( $orderProductItem );
 		$this->getController()->save();

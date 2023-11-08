@@ -487,8 +487,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	protected function getVendor( string $siteId ) : string
 	{
 		$manager = \Aimeos\MShop::create( $this->context(), 'locale/site' );
-		$filter = $manager->filter( true )->add( 'locale.site.siteid', '==', $siteId );
+		$filter = $manager->filter( true )->add( 'locale.site.siteid', '==', $siteId )->slice( 0, 1 );
 
-		return $manager->search( $filter )->first() ?: $this->context()->locale()->getSiteItem()->getLabel();
+		return $manager->search( $filter )->getLabel()->first() ?: $this->context()->locale()->getSiteItem()->getLabel();
 	}
 }

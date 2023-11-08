@@ -45,11 +45,12 @@ class Select
 		}
 
 		$attr = [];
-		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 		$prices = $product->getRefItems( 'price', 'default', 'default' );
 		$hidden = $product->getRefItems( 'attribute', null, 'hidden' );
 
 		$productItem = $this->getArticle( $product, $variant );
+		$quantity = $this->call( 'checkQuantity', $productItem, $quantity );
+
 		$orderBaseProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
 			->create()
 			->copyFrom( $product )

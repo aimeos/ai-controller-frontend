@@ -479,27 +479,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 
 	/**
-	 * Returns the site ID of the ordered product
-	 *
-	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item
-	 * @param string|null $siteId Unique ID of the site the product should be bought from or NULL for site the product is from
-	 * @return string Site ID for the ordered product
-	 * @deprecated 2024.01
-	 */
-	protected function getSiteId( \Aimeos\MShop\Product\Item\Iface $product, string $siteId = null ) : string
-	{
-		if( $siteId ) {
-			return $siteId;
-		}
-
-		// if product is inherited, use site ID of current site
-		$siteIds = $this->context()->locale()->getSitePath();
-
-		return  in_array( $product->getSiteId(), $siteIds ) ? end( $siteIds ) : $product->getSiteId();
-	}
-
-
-	/**
 	 * Returns the vendor for the given site ID
 	 *
 	 * @param string $siteId Unique ID of the site
@@ -510,6 +489,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$manager = \Aimeos\MShop::create( $this->context(), 'locale/site' );
 		$filter = $manager->filter( true )->add( 'locale.site.siteid', '==', $siteId );
 
-		return $manager->search( $filter )->first( $this->context()->locale()->getSiteItem()->getLabel() );
+		return $manager->search( $filter )->first() ?: $this->context()->locale()->getSiteItem()->getLabel();
 	}
 }

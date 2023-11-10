@@ -243,9 +243,7 @@ class Standard
 	{
 		$list = [];
 		$filter = clone $this->filter;
-
-		$filter->setConditions( $filter->and( $this->getConditions() ) );
-		$filter->setSortations( $this->getSortations() );
+		$filter->add( $filter->and( $this->getConditions() ) );
 
 		foreach( $this->manager->search( $filter, $this->domains ) as $id => $item ) {
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
@@ -305,10 +303,8 @@ class Standard
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
-		$this->addExpression( $filter->getConditions() );
-
+		$filter->add( $filter->and( $this->getConditions() ) );
 		$filter->setSortations( $this->getSortations() );
-		$filter->setConditions( $filter->and( $this->getConditions() ) );
 
 		return $this->manager->search( $filter, $this->domains, $total );
 	}

@@ -394,13 +394,15 @@ class Standard
 	{
 		if( $value )
 		{
-			$value = (array) $value;
 			$func = $this->filter->make( 'index.price:value', [$this->context()->locale()->getCurrencyId()] );
+			$prec = (int) $this->context()->config()->get( 'mshop/price/precision', 2 );
+			$format = '%0' . ( $prec > 0 ? 13 : 12 ) . '.' . $prec . 'F';
+			$value = (array) $value;
 
-			$this->addExpression( $this->filter->compare( '<=', $func, sprintf( '%013.2F', end( $value ) ) ) );
+			$this->addExpression( $this->filter->compare( '<=', $func, sprintf( $format, end( $value ) ) ) );
 
 			if( count( $value ) > 1 ) {
-				$this->addExpression( $this->filter->compare( '>=', $func, sprintf( '%013.2F', reset( $value ) ) ) );
+				$this->addExpression( $this->filter->compare( '>=', $func, sprintf( $format, reset( $value ) ) ) );
 			}
 		}
 

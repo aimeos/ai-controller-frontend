@@ -306,6 +306,7 @@ class Standard
 	 * @param string $name category URL name
 	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
 	 * @since 2023.10
+	 * @todo 2024.01 Add to interface
 	 */
 	public function resolve( string $name ) : \Aimeos\MShop\Catalog\Item\Iface
 	{

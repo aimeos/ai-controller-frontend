@@ -301,6 +301,27 @@ class Standard
 
 
 	/**
+	 * Returns the category for the given category URL name
+	 *
+	 * @param string $name category URL name
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
+	 * @since 2023.10
+	 */
+	public function resolve( string $name ) : \Aimeos\MShop\Catalog\Item\Iface
+	{
+		$search = $this->manager->filter( null )->add( 'catalog.url', '==', $name )->slice( 0, 1 );
+
+		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
+		{
+			$msg = $this->context()->translate( 'controller/frontend', 'Unable to find category "%1$s"' );
+			throw new \Aimeos\Controller\Frontend\Catalog\Exception( sprintf( $msg, $name ), 404 );
+		}
+
+		return $item;
+	}
+
+
+	/**
 	 * Sets the catalog ID of node that is used as root node
 	 *
 	 * @param string|null $id Catalog ID

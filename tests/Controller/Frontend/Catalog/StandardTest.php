@@ -106,6 +106,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testResolve()
+	{
+		$item = $this->object->resolve( 'tee' );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Catalog\Item\Iface::class, $item );
+		$this->assertEquals( 'Tee', $item->getLabel() );
+	}
+
+
 	public function testRoot()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );

@@ -243,7 +243,7 @@ class Standard
 	{
 		$list = [];
 		$filter = clone $this->filter;
-		$filter->add( $filter->and( $this->getConditions() ) );
+		$filter->add( $filter->and( $this->getConditions() ) )->order( 'service.position' );
 
 		foreach( $this->manager->search( $filter, $this->domains ) as $id => $item ) {
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );

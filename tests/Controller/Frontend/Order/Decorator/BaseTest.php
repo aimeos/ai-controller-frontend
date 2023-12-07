@@ -111,6 +111,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUpdate()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
+		$this->assertSame( $this->object, $this->object->update( $item ) );
+	}
+
+
 	public function testUses()
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['order'] ) );

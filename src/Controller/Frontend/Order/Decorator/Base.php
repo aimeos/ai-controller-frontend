@@ -155,6 +155,20 @@ abstract class Base
 
 
 	/**
+	 * Updates stock levels and coupons counts
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2024.01
+	 */
+	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem ) : \Aimeos\Controller\Frontend\Order\Iface
+	{
+		$this->controller->update( $orderItem );
+		return $this;
+	}
+
+
+	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too

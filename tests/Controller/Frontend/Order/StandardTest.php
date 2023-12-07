@@ -101,6 +101,23 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUpdate()
+	{
+		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['update'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $manager );
+
+		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
+
+		$manager->expects( $this->once() )->method( 'update' )->will( $this->returnArgument( 0 ) );
+
+		$this->assertSame( $object, $object->update( $manager->create() ) );
+	}
+
+
 	public function testUses()
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['order'] ) );

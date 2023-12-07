@@ -88,6 +88,15 @@ interface Iface
 	public function sort( string $key = null ) : Iface;
 
 	/**
+	 * Updates stock levels and coupons counts
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object
+	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
+	 * @since 2024.01
+	 */
+	public function update( \Aimeos\MShop\Order\Item\Iface $orderItem ) : Iface;
+
+	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too

@@ -150,6 +150,19 @@ abstract class Base
 
 
 	/**
+	 * Returns the supplier item for the given supplier URL name
+	 *
+	 * @param string $name supplier URL name
+	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
+	 * @since 2023.10
+	 */
+	public function resolve( string $name ) : \Aimeos\MShop\Supplier\Item\Iface
+	{
+		return $this->controller->resolve( $name );
+	}
+
+
+	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found suppliers will be stored in

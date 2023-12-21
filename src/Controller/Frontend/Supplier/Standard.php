@@ -254,6 +254,28 @@ class Standard
 
 
 	/**
+	 * Returns the supplier for the given supplier URL name
+	 *
+	 * @param string $name Supplier URL name
+	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
+	 * @since 2023.10
+	 * @todo 2024.01 Add to interface
+	 */
+	public function resolve( string $name ) : \Aimeos\MShop\Supplier\Item\Iface
+	{
+		$search = $this->manager->filter( null )->add( 'supplier.code', '==', $name )->slice( 0, 1 );
+
+		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
+		{
+			$msg = $this->context()->translate( 'controller/frontend', 'Unable to find supplier "%1$s"' );
+			throw new \Aimeos\Controller\Frontend\Supplier\Exception( sprintf( $msg, $name ), 404 );
+		}
+
+		return $item;
+	}
+
+
+	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found suppliers will be stored in

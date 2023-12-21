@@ -77,6 +77,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testResolve()
+	{
+		$item = $this->object->resolve( 'unitSupplier001' );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Supplier\Item\Iface::class, $item );
+		$this->assertEquals( 'Unit Supplier 001', $item->getLabel() );
+	}
+
+
 	public function testSearch()
 	{
 		$total = 0;

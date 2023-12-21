@@ -105,6 +105,17 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testResolve()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->create();
+
+		$this->stub->expects( $this->once() )->method( 'resolve' )
+			->will( $this->returnValue( $item ) );
+
+		$this->assertEquals( $item, $this->object->resolve( 'test' ) );
+	}
+
+
 	public function testSearch()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'supplier' )->create();

@@ -176,6 +176,19 @@ abstract class Base
 
 
 	/**
+	 * Returns the catalog item for the given category URL name
+	 *
+	 * @param string $name Catalog URL name
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
+	 * @since 2023.10
+	 */
+	public function resolve( string $name ) : \Aimeos\MShop\Catalog\Item\Iface
+	{
+		return $this->controller->resolve( $name );
+	}
+
+
+	/**
 	 * Sets the catalog ID of node that is used as root node
 	 *
 	 * @param string|null $id Catalog ID

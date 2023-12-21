@@ -100,6 +100,15 @@ interface Iface
 	public function parse( array $conditions ) : Iface;
 
 	/**
+	 * Returns the category for the given category URL name
+	 *
+	 * @param string $name category URL name
+	 * @return \Aimeos\MShop\Catalog\Item\Iface Catalog item including the referenced domains items
+	 * @since 2023.10
+	 */
+	public function resolve( string $name ) : \Aimeos\MShop\Catalog\Item\Iface;
+
+	/**
 	 * Sets the catalog ID of node that is used as root node
 	 *
 	 * @param string|null $id Catalog ID

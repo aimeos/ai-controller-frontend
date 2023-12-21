@@ -259,7 +259,6 @@ class Standard
 	 * @param string $name Supplier URL name
 	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
 	 * @since 2023.10
-	 * @todo 2024.01 Add to interface
 	 */
 	public function resolve( string $name ) : \Aimeos\MShop\Supplier\Item\Iface
 	{

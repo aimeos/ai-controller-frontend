@@ -80,6 +80,15 @@ interface Iface
 	public function parse( array $conditions ) : Iface;
 
 	/**
+	 * Returns the supplier for the given supplier URL name
+	 *
+	 * @param string $name Supplier URL name
+	 * @return \Aimeos\MShop\Supplier\Item\Iface Supplier item including the referenced domains items
+	 * @since 2023.10
+	 */
+	public function resolve( string $name ) : \Aimeos\MShop\Supplier\Item\Iface;
+
+	/**
 	 * Returns the suppliers filtered by the previously assigned conditions
 	 *
 	 * @param int &$total Parameter where the total number of found suppliers will be stored in

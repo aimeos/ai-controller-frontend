@@ -1,0 +1,221 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: aimeos-core\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-26 15:48+0200\n"
+"PO-Revision-Date: 2015-07-09 20:35+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hebrew (http://app.transifex.com/aimeos/aimeos-core/language/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+
+msgid "%013.2F"
+msgstr ""
+
+#, php-format
+msgid "Adding product with ID \"%1$s\" is not allowed"
+msgstr "אסור להוסיף מוצר עם מזהה \"%1$s\"."
+
+#, php-format
+msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
+msgstr "מזהי המאפיינים הזמינים \"%1$s\" אינם תואמים למזהי המאפיינים הנתונים \"%2$s\""
+
+#, php-format
+msgid "Basket item at position \"%1$d\" cannot be changed"
+msgstr "לא ניתן לשנות את פריט הסל בעמדה \"%1$d\"."
+
+#, php-format
+msgid "Basket item at position \"%1$d\" cannot be deleted manually"
+msgstr "לא ניתן למחוק את פריט הסל בעמדה \"%1$d\" באופן ידני"
+
+#, php-format
+msgid "Category is not available"
+msgstr "קטגוריה אינה זמינה"
+
+#, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "מחלקה \"%1$s\" לא מיישמת \"%2$s\""
+
+#, php-format
+msgid "Class \"%1$s\" does not implement interface \"%2$s\""
+msgstr "מחלקה \"%1$s\" לא מיישמת ממשק \"%2$s\""
+
+#, php-format
+msgid "Class \"%1$s\" not available"
+msgstr "מחלקה \"%1$s\" לא זמינה"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "הכיתה \"%1$s\" לא נמצאה"
+
+#, php-format
+msgid "Controller path is empty"
+msgstr "נתיב הבקר ריק"
+
+#, php-format
+msgid "Coupon code \"%1$s\" is invalid"
+msgstr "קוד הקופון \"%1$s\" אינו חוקי"
+
+#, php-format
+msgid "Coupon code \"%1$s\" is invalid or not available any more"
+msgstr "קוד הקופון \"%1$s\" אינו חוקי או אינו זמין יותר"
+
+#, php-format
+msgid "Coupon for code \"%1$s\" is not available any more"
+msgstr "קופון לקוד \"%1$s\" אינו זמין יותר"
+
+#, php-format
+msgid "Domain \"%1$s\" is not supported"
+msgstr "דומיין \"%1$s\" אינו נתמך"
+
+#, php-format
+msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
+msgstr "הפניות לא חוקיות של \"%1$s\" עבור מוצר עם מזהה \"%2$s\""
+
+#, php-format
+msgid "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr "הפניות לא חוקיות של \"%1$s\" עבור מוצר עם מזהה %2$s"
+
+#, php-format
+msgid "Invalid address properties, please check your input"
+msgstr "מאפייני כתובת לא חוקיים, אנא בדוק את הקלט שלך"
+
+#, php-format
+msgid "Invalid characters in class name \"%1$s\""
+msgstr "תווים לא חוקיים בשם המחלקה \"%1$s\""
+
+#, php-format
+msgid "Invalid characters in controller name \"%1$s\""
+msgstr "תווים לא חוקיים בשם הבקר \"%1$s\""
+
+#, php-format
+msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
+msgstr "תווים לא חוקיים בשם הבקר \"%1$s\" ב\"%2$s\""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "שם מחלקה לא חוקי \"%1$s\""
+
+#, php-format
+msgid "Invalid domain \"%1$s\""
+msgstr "דומיין לא חוקי \"%1$s\""
+
+#, php-format
+msgid "Invalid factory \"%1$s\""
+msgstr "מפעל לא חוקי \"%1$s\""
+
+#, php-format
+msgid "Invalid price value \"%1$s\""
+msgstr "ערך מחיר לא חוקי \"%1$s\""
+
+#, php-format
+msgid "Invalid value for address type \"%1$s\""
+msgstr "ערך לא חוקי עבור סוג הכתובת \"%1$s\""
+
+#, php-format
+msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
+msgstr "סוג רשימה עבור הדומיין \"%1$s\" והקוד \"%2$s\" לא נמצא"
+
+#, php-format
+msgid "No article found for selected attributes and product ID \"%1$s\""
+msgstr "לא נמצא מאמר עבור תכונות נבחרות ומזהה מוצר \"%1$s\""
+
+#, php-format
+msgid "No customer lists domain"
+msgstr "אין תחום רשימות לקוחות"
+
+#, php-format
+msgid "No customer lists type code"
+msgstr "אין קוד סוג רשימות לקוחות"
+
+#, php-format
+msgid "No item for \"%1$s\" (%2$s) found"
+msgstr "לא נמצא פריט עבור \"%1$s\" (%2$s)."
+
+#, php-format
+msgid "No order item for ID \"%1$s\" found"
+msgstr "לא נמצא פריט הזמנה עבור המזהה \"%1$s\"."
+
+#, php-format
+msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
+msgstr "אין מלאי עבור מזהה המוצר \"%1$s\" וסוג \"%2$s\" זמין"
+
+#, php-format
+msgid "No unique article found for selected attributes and product ID \"%1$s\""
+msgstr "לא נמצא מאמר ייחודי עבור מאפיינים נבחרים ומזהה מוצר \"%1$s\""
+
+#, php-format
+msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr "אסור לגשת לנתוני לקוחות עבור מזהה \"%1$s\""
+
+#, php-format
+msgid "Number of coupon codes exceeds the limit"
+msgstr "מספר קודי הקופון חורג מהמגבלה"
+
+#, php-format
+msgid "Product item with ID \"%1$s\" not found"
+msgstr "פריט מוצר עם מזהה \"%1$s\" לא נמצא"
+
+#, php-format
+msgid "Requirements for coupon code \"%1$s\" aren't met"
+msgstr "דרישות עבור קוד קופון \"%1$s\" אינן מתקיימות"
+
+#, php-format
+msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
+msgstr "פריט שירות עבור סוג \"%1$s\" ומזהה \"%2$s\" לא נמצא"
+
+#, php-format
+msgid "Site is not available"
+msgstr "האתר אינו זמין"
+
+#, php-format
+msgid "Temporary limit reached"
+msgstr "הגבלה זמנית"
+
+#, php-format
+msgid "Temporary order limit reached"
+msgstr "הגעת למגבלת ההזמנה הזמנית"
+
+#, php-format
+msgid "The order has already been created"
+msgstr "הסדר כבר נוצר"
+
+#, php-format
+msgid "There are not enough products \"%1$s\" in stock"
+msgstr "אין מספיק מוצרים \"%1$s\" במלאי"
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "לא ניתן לקרוא לשיטה \"%1$s\""
+
+#, php-format
+msgid "Unable to call method \"%1$s::%2$s\""
+msgstr "לא ניתן לקרוא למתודה \"%1$s::%2$s\""
+
+#, php-format
+msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
+msgstr "לא ניתן ליצור ספק \"%1$s\" עבור שירות עם מזהה \"%2$s\""
+
+#, php-format
+msgid "Unable to find product \"%1$s\""
+msgstr "לא ניתן למצוא את המוצר \"%1$s\""
+
+#, php-format
+msgid "Unknown attributes \"%1$s\""
+msgstr "מאפיינים לא ידועים \"%1$s\""
+
+#, php-format
+msgid "You are not allowed to manage groups"
+msgstr "אינך רשאי לנהל קבוצות"
+
+#, php-format
+msgid "You can only add a review if you have ordered a product"
+msgstr "אתה יכול להוסיף ביקורת רק אם הזמנת מוצר"

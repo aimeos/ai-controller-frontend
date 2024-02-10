@@ -196,7 +196,7 @@ class Standard
 
 
 	/**
-	 * Explicitely persists the basket content
+	 * Explicitly persists the basket content
 	 *
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */

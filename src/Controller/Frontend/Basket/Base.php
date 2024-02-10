@@ -268,7 +268,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 				}
 
-				$item = $manager->get( $product->getProductId(), $domains );
+				$item = $manager->get( $product->getParentProductId() ?: $product->getProductId(), $domains );
 				$item = $ruleManager->apply( $item, 'catalog' );
 				$qty = $product->getQuantity();
 

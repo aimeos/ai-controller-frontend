@@ -246,7 +246,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, 'product' );
 		$ruleManager = \Aimeos\MShop::create( $context, 'rule' );
-		$domains = ['attribute', 'media', 'price', 'product', 'text'];
+		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'text', 'locale/site'];
 
 		foreach( $basket->getProducts() as $pos => $product )
 		{

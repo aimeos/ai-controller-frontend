@@ -9,6 +9,11 @@
 namespace Aimeos\Controller\Frontend\Review\Decorator;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
@@ -24,9 +29,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Decorator\Base::class )
-			->setConstructorArgs( [$this->stub, $this->context] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Controller\Frontend\Review\Decorator\Example( $this->stub, $this->context );
 	}
 
 
@@ -43,11 +46,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['__call'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Review\Decorator\Base::class )
-			->setConstructorArgs( [$stub, $this->context] )
-			->getMockForAbstractClass();
+		$object = new \Aimeos\Controller\Frontend\Review\Decorator\Example( $stub, $this->context );
 
-		$stub->expects( $this->once() )->method( '__call' )->will( $this->returnValue( true ) );
+		$stub->expects( $this->once() )->method( '__call' )->willReturn( true );
 
 		$this->assertTrue( $object->invalid() );
 	}
@@ -56,7 +57,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testAggregate()
 	{
 		$this->stub->expects( $this->once() )->method( 'aggregate' )
-			->will( $this->returnValue( map() ) );
+			->willReturn( map() );
 
 		$this->assertEquals( [], $this->object->aggregate( 'test' )->toArray() );
 	}
@@ -100,7 +101,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $this->object->get( -1 ) );
 	}
@@ -111,7 +112,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'list' )
-			->will( $this->returnValue( map( [$item] ) ) );
+			->willReturn( map( [$item] ) );
 
 		$this->assertEquals( [$item], $this->object->list()->toArray() );
 	}
@@ -128,7 +129,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $this->object->save( $item ) );
 	}
@@ -139,7 +140,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'review' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
-			->will( $this->returnValue( map( [$item] ) ) );
+			->willReturn( map( [$item] ) );
 
 		$this->assertEquals( [$item], $this->object->search()->toArray() );
 	}

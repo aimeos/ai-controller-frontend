@@ -9,6 +9,11 @@
 namespace Aimeos\Controller\Frontend\Basket\Decorator;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
@@ -24,9 +29,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Decorator\Base::class )
-			->setConstructorArgs( [$this->stub, $this->context] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Controller\Frontend\Basket\Decorator\Example( $this->stub, $this->context );
 	}
 
 
@@ -43,11 +46,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['__call'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Decorator\Base::class )
-			->setConstructorArgs( [$stub, $this->context] )
-			->getMockForAbstractClass();
+		$object = new \Aimeos\Controller\Frontend\Basket\Decorator\Example( $stub, $this->context );
 
-		$stub->expects( $this->once() )->method( '__call' )->will( $this->returnValue( true ) );
+		$stub->expects( $this->once() )->method( '__call' )->willReturn( true );
 
 		$this->assertTrue( $object->invalid() );
 	}
@@ -72,7 +73,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelper::context();
 		$order = \Aimeos\MShop::create( $context, 'order' )->create();
 
-		$this->stub->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $order ) );
+		$this->stub->expects( $this->once() )->method( 'get' )->willReturn( $order );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->get() );
 	}
@@ -96,7 +97,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$basket = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
-		$this->stub->expects( $this->once() )->method( 'store' )->will( $this->returnValue( $basket ) );
+		$this->stub->expects( $this->once() )->method( 'store' )->willReturn( $basket );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->store() );
 	}
@@ -106,7 +107,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$basket = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
-		$this->stub->expects( $this->once() )->method( 'load' )->will( $this->returnValue( $basket ) );
+		$this->stub->expects( $this->once() )->method( 'load' )->willReturn( $basket );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $this->object->load( -1 ) );
 	}

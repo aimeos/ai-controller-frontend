@@ -47,7 +47,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'subscription' )->create();
 
 		$this->manager->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( $expected, $this->object->cancel( $this->getSubscription() ) );
 	}
@@ -92,7 +92,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$expected = \Aimeos\MShop\Subscription\Item\Iface::class;
 
 		$this->manager->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( $expected, $this->object->save( $item ) );
 	}

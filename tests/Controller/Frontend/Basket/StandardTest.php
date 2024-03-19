@@ -98,7 +98,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
 
 		$stub->expects( $this->once() )->method( 'get' )
-			->will( $this->returnValue( $stub->create() ) );
+			->willReturn( $stub->create() );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
@@ -127,9 +127,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['get'] )
 			->getMock();
 
-		$object->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $basket ) );
-		$basket->expects( $this->once() )->method( 'check' )->will( $this->returnValue( $basket ) );
-		$stub->expects( $this->once() )->method( 'save' )->will( $this->returnValue( $basket ) );
+		$object->expects( $this->once() )->method( 'get' )->willReturn( $basket );
+		$basket->expects( $this->once() )->method( 'check' )->willReturn( $basket );
+		$stub->expects( $this->once() )->method( 'save' )->willReturn( $basket );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->store() );
 	}

@@ -9,6 +9,11 @@
 namespace Aimeos\Controller\Frontend\Customer\Decorator;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
@@ -24,9 +29,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Decorator\Base::class )
-			->setConstructorArgs( [$this->stub, $this->context] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Controller\Frontend\Customer\Decorator\Example( $this->stub, $this->context );
 	}
 
 
@@ -43,11 +46,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['__call'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Customer\Decorator\Base::class )
-			->setConstructorArgs( [$stub, $this->context] )
-			->getMockForAbstractClass();
+		$object = new \Aimeos\Controller\Frontend\Customer\Decorator\Example( $stub, $this->context );
 
-		$stub->expects( $this->once() )->method( '__call' )->will( $this->returnValue( true ) );
+		$stub->expects( $this->once() )->method( '__call' )->willReturn( true );
 
 		$this->assertTrue( $object->invalid() );
 	}
@@ -91,7 +92,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'customer/address' )->create();
 
-		$this->stub->expects( $this->once() )->method( 'createAddressItem' )->will( $this->returnValue( $item ) );
+		$this->stub->expects( $this->once() )->method( 'createAddressItem' )->willReturn( $item );
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Address\Iface::class, $this->object->createAddressItem() );
 	}
 
@@ -100,7 +101,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'customer/lists' )->create();
 
-		$this->stub->expects( $this->once() )->method( 'createListItem' )->will( $this->returnValue( $item ) );
+		$this->stub->expects( $this->once() )->method( 'createListItem' )->willReturn( $item );
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Lists\Iface::class, $this->object->createListItem() );
 	}
 
@@ -109,7 +110,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'customer/property' )->create();
 
-		$this->stub->expects( $this->once() )->method( 'createPropertyItem' )->will( $this->returnValue( $item ) );
+		$this->stub->expects( $this->once() )->method( 'createPropertyItem' )->willReturn( $item );
 		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Property\Iface::class, $this->object->createPropertyItem() );
 	}
 
@@ -153,7 +154,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'customer' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'find' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->find( 'test' ) );
 	}
@@ -164,7 +165,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'customer' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Customer\Item\Iface::class, $this->object->get() );
 	}

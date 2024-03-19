@@ -115,8 +115,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $manager );
 
-		$manager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
-		$provider->expects( $this->once() )->method( 'process' )->will( $this->returnValue( $form ) );
+		$manager->expects( $this->once() )->method( 'getProvider' )->willReturn( $provider );
+		$provider->expects( $this->once() )->method( 'process' )->willReturn( $form );
 
 
 		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
@@ -180,7 +180,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 		$response = $this->getMockBuilder( \Psr\Http\Message\ResponseInterface::class )->getMock();
 
-		$response->expects( $this->once() )->method( 'withStatus' )->will( $this->returnValue( $response ) );
+		$response->expects( $this->once() )->method( 'withStatus' )->willReturn( $response );
 
 		$this->assertInstanceOf( \Psr\Http\Message\ResponseInterface::class, $this->object->updatePush( $request, $response, 'unitdeliverycode' ) );
 	}
@@ -210,10 +210,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
 
 
-		$orderManager->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $item ) );
-		$serviceManager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
-		$provider->expects( $this->once() )->method( 'updateSync' )->will( $this->returnValue( $item ) );
-		$provider->expects( $this->once() )->method( 'isImplemented' )->will( $this->returnValue( true ) );
+		$orderManager->expects( $this->once() )->method( 'get' )->willReturn( $item );
+		$serviceManager->expects( $this->once() )->method( 'getProvider' )->willReturn( $provider );
+		$provider->expects( $this->once() )->method( 'updateSync' )->willReturn( $item );
+		$provider->expects( $this->once() )->method( 'isImplemented' )->willReturn( true );
 		$provider->expects( $this->once() )->method( 'query' );
 
 

@@ -9,6 +9,11 @@
 namespace Aimeos\Controller\Frontend\Attribute\Decorator;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
@@ -24,9 +29,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Attribute\Decorator\Base::class )
-			->setConstructorArgs( [$this->stub, $this->context] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Controller\Frontend\Attribute\Decorator\Example( $this->stub, $this->context );
 	}
 
 
@@ -43,11 +46,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['__call'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Attribute\Decorator\Base::class )
-			->setConstructorArgs( [$stub, $this->context] )
-			->getMockForAbstractClass();
+		$object = new \Aimeos\Controller\Frontend\Attribute\Decorator\Example( $stub, $this->context );
 
-		$stub->expects( $this->once() )->method( '__call' )->will( $this->returnValue( true ) );
+		$stub->expects( $this->once() )->method( '__call' )->willReturn( true );
 
 		$this->assertTrue( $object->invalid() );
 	}
@@ -77,7 +78,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$expected = \Aimeos\MShop\Attribute\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'find' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( $expected, $this->object->find( 'test', 'color' ) );
 	}
@@ -86,7 +87,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testFunction()
 	{
 		$this->stub->expects( $this->once() )->method( 'function' )
-			->will( $this->returnValue( 'attribute:prop("type",null,"value")' ) );
+			->willReturn( 'attribute:prop("type",null,"value")' );
 
 		$str = $this->object->function( 'attribute:prop', ['type', null, 'value'] );
 		$this->assertEquals( 'attribute:prop("type",null,"value")', $str );
@@ -99,7 +100,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$expected = \Aimeos\MShop\Attribute\Item\Iface::class;
 
 		$this->stub->expects( $this->once() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( $expected, $this->object->get( 1 ) );
 	}
@@ -130,7 +131,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$total = 0;
 
 		$this->stub->expects( $this->once() )->method( 'search' )
-			->will( $this->returnValue( map( [$item] ) ) );
+			->willReturn( map( [$item] ) );
 
 		$this->assertEquals( [$item], $this->object->search( $total )->toArray() );
 	}

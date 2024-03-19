@@ -132,7 +132,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->getReviewItem();
 
 		$this->manager->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $this->object->save( $item ) );
 	}
@@ -146,7 +146,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $this->object->create( $this->getReviewItem()->setId( null )->toArray( true ) );
 
 		$this->manager->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( ( clone $item )->setId( 123 ) ) );
+			->willReturn( ( clone $item )->setId( 123 ) );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Review\Item\Iface::class, $this->object->save( $item ) );
 	}

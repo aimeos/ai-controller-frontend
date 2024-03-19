@@ -9,6 +9,11 @@
 namespace Aimeos\Controller\Frontend;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $object;
@@ -17,10 +22,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	protected function setUp() : void
 	{
 		$context = \TestHelper::context();
-
-		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Base::class )
-			->setConstructorArgs( [$context] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Controller\Frontend\Example( $context );
 	}
 
 

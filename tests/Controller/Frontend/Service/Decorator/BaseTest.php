@@ -9,6 +9,11 @@
 namespace Aimeos\Controller\Frontend\Service\Decorator;
 
 
+class Example extends Base
+{
+}
+
+
 class BaseTest extends \PHPUnit\Framework\TestCase
 {
 	private $context;
@@ -24,9 +29,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Decorator\Base::class )
-			->setConstructorArgs( [$this->stub, $this->context] )
-			->getMockForAbstractClass();
+		$this->object = new \Aimeos\Controller\Frontend\Service\Decorator\Example( $this->stub, $this->context );
 	}
 
 
@@ -43,11 +46,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 			->onlyMethods( ['__call'] )
 			->getMock();
 
-		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Service\Decorator\Base::class )
-			->setConstructorArgs( [$stub, $this->context] )
-			->getMockForAbstractClass();
+		$object = new \Aimeos\Controller\Frontend\Service\Decorator\Example( $stub, $this->context );
 
-		$stub->expects( $this->once() )->method( '__call' )->will( $this->returnValue( true ) );
+		$stub->expects( $this->once() )->method( '__call' )->willReturn( true );
 
 		$this->assertTrue( $object->invalid() );
 	}
@@ -64,7 +65,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'service' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'find' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertSame( $item, $this->object->find( 'test' ) );
 	}
@@ -73,7 +74,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testFunction()
 	{
 		$this->stub->expects( $this->once() )->method( 'function' )
-			->will( $this->returnValue( 'service:has("domain","type","refid")' ) );
+			->willReturn( 'service:has("domain","type","refid")' );
 
 		$str = $this->object->function( 'service:has', ['domain', 'type', 'refid'] );
 		$this->assertEquals( 'service:has("domain","type","refid")', $str );
@@ -85,7 +86,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'service' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertSame( $item, $this->object->get( -1 ) );
 	}
@@ -97,7 +98,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$provider = $manager->getProvider( $manager->find( 'unitdeliverycode', [], 'service', 'delivery' ), 'delivery' );
 
 		$this->stub->expects( $this->once() )->method( 'getProvider' )
-			->will( $this->returnValue( $provider ) );
+			->willReturn( $provider );
 
 		$this->assertSame( $provider, $this->object->getProvider( -1 ) );
 	}
@@ -106,7 +107,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testGetProviders()
 	{
 		$this->stub->expects( $this->once() )->method( 'getProviders' )
-			->will( $this->returnValue( map() ) );
+			->willReturn( map() );
 
 		$this->assertEquals( [], $this->object->getProviders( 'payment' )->toArray() );
 	}
@@ -123,7 +124,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'process' )
-			->will( $this->returnValue( new \Aimeos\MShop\Common\Helper\Form\Standard() ) );
+			->willReturn( new \Aimeos\MShop\Common\Helper\Form\Standard() );
 
 		$this->assertInstanceOf( 'Aimeos\MShop\Common\Helper\Form\Iface', $this->object->process( $item, -1, [], [] ) );
 	}
@@ -135,7 +136,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'service' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'search' )
-			->will( $this->returnValue( map( [$item] ) ) );
+			->willReturn( map( [$item] ) );
 
 		$this->assertEquals( [$item], $this->object->search( $total )->toArray() );
 	}
@@ -159,7 +160,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$this->stub->expects( $this->once() )->method( 'updatePush' )
-			->will( $this->returnValue( $response ) );
+			->willReturn( $response );
 
 		$this->assertInstanceOf( \Psr\Http\Message\ResponseInterface::class, $this->object->updatePush( $request, $response, 'test' ) );
 	}
@@ -171,7 +172,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
 
 		$this->stub->expects( $this->once() )->method( 'updateSync' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$this->assertInstanceOf( 'Aimeos\MShop\Order\Item\Iface', $this->object->updateSync( $request, 'test', -1 ) );
 	}

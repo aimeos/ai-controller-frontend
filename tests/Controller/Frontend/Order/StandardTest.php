@@ -69,7 +69,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $manager->create();
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
 
-		$manager->expects( $this->once() )->method( 'save' )->will( $this->returnArgument( 0 ) );
+		$manager->expects( $this->once() )->method( 'save' )->willReturnArgument( 0 );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->save( $item ) );
 	}
@@ -112,7 +112,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Order\Standard( $this->context );
 
-		$manager->expects( $this->once() )->method( 'update' )->will( $this->returnArgument( 0 ) );
+		$manager->expects( $this->once() )->method( 'update' )->willReturnArgument( 0 );
 
 		$this->assertSame( $object, $object->update( $manager->create() ) );
 	}

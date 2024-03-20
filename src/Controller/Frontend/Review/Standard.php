@@ -173,7 +173,7 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
-		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
+		$filter->add( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
 		return $this->manager->aggregate( $filter, $key, $value, $type );
 	}
 
@@ -403,7 +403,7 @@ class Standard
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
 		$filter->setSortations( $this->getSortations() );
-		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
+		$filter->add( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
 
 		return $this->manager->search( $filter, [], $total );
 	}

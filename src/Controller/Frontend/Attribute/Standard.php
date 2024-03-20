@@ -312,13 +312,15 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
+		$filter = clone $this->filter;
+
 		$this->addExpression( $this->filter->compare( '==', 'attribute.domain', $this->domain ) );
 		$this->addExpression( $this->filter->getConditions() );
 
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
-		$this->filter->setSortations( $this->getSortations() );
+		$filter->add( $this->filter->and( $this->getConditions() ) );
+		$filter->setSortations( $this->getSortations() );
 
-		return $this->manager->search( $this->filter, $this->domains, $total );
+		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
 

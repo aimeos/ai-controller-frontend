@@ -189,8 +189,10 @@ class Standard
 	 */
 	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
 	{
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
-		return $this->manager->aggregate( $this->filter, $key, $value, $type );
+		$filter = clone $this->filter;
+		$filter->add( $filter->and( $this->getConditions() ) );
+
+		return $this->manager->aggregate( $filter, $key, $value, $type );
 	}
 
 
@@ -510,7 +512,7 @@ class Standard
 		$this->addExpression( $this->filter->getConditions() );
 
 		$filter->setSortations( $this->getSortations() );
-		$filter->setConditions( $filter->and( $this->getConditions() ) );
+		$filter->add( $filter->and( $this->getConditions() ) );
 
 		$items = $this->manager->search( $filter, $this->domains, $total );
 		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $items, 'catalog' );

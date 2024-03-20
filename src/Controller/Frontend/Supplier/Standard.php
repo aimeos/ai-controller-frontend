@@ -262,12 +262,14 @@ class Standard
 	 */
 	public function search( int &$total = null ) : \Aimeos\Map
 	{
-		$this->addExpression( $this->filter->getConditions() );
+		$filter = clone $this->filter;
 
-		$this->filter->setSortations( $this->getSortations() );
-		$this->filter->setConditions( $this->filter->and( $this->getConditions() ) );
+		$this->addExpression( $filter->getConditions() );
 
-		return $this->manager->search( $this->filter, $this->domains, $total );
+		$filter->setSortations( $this->getSortations() );
+		$filter->add( $filter->and( $this->getConditions() ) );
+
+		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
 

@@ -275,7 +275,7 @@ class Standard
 			$search->compare( '==', 'order.editor', $context->editor() ),
 			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),
 		];
-		$search->setConditions( $search->and( $expr ) );
+		$search->add( $search->and( $expr ) );
 
 		$this->manager->search( $search, [], $total );
 

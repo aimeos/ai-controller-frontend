@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# George Cojocaru, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-26 15:48+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: George Cojocaru, 2024\n"
 "Language-Team: Romanian (http://app.transifex.com/aimeos/aimeos-core/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,27 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Nu este permisă adăugarea unui produs cu ID-ul \"%1$s\""
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "ID-urile de atribut disponibile \"%1$s\" nu se potrivesc cu ID-urile de atribut date \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Articolul din coș în poziția \"%1$d\" nu poate fi modificat"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Articolul din coș în poziția \"%1$d\" nu poate fi șters manual"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Categoria nu este disponibilă"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -62,31 +63,31 @@ msgstr "Calea controller-ului lipsește"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Codul cuponului \"%1$s\" nu este valid"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Codul de cupon \"%1$s\" este invalid sau nu mai este disponibil"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Cuponul pentru codul \"%1$s\" nu mai este disponibil"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Domeniul \"%1$s\" nu este suportat"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Referințe \"%1$s\" nevalide pentru produsul cu ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Referințe \"%1$s\" nevalide pentru produsul cu ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Proprietăți de adresă nevalide, vă rugăm să verificați datele introduse"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +95,11 @@ msgstr "Caracter invalid in numele clasei \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Caractere nevalide în numele controlerului \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Caractere nevalide din numele controlerului \"%1$s\" în \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,83 +115,83 @@ msgstr "Factory incorect \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Valoare de preț nevalidă \"%1$s\""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Valoare nevalidă pentru tipul de adresă \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Tipul de listă pentru domeniul \"%1$s\" și codul \"%2$s\" nu a fost găsit"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Nu s-a găsit niciun articol pentru atributele selectate și ID-ul produsului \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Niciun domeniu de liste de clienți"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Niciun cod de tip de liste de clienți"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Nu a fost găsit niciun articol pentru \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Nu a fost găsit niciun articol de comandă pentru ID-ul \"%1$s\""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Nu există stoc pentru ID-ul produsului \"%1$s\" și tipul \"%2$s\" disponibil"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Nu s-a găsit niciun articol unic pentru atributele selectate și ID-ul produsului \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Nu este permis accesul la datele clientului pentru ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Numărul de coduri de cupon depășește limita"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Articol de produs cu ID \"%1$s\" nu a fost găsit"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Cerințele pentru codul de cupon \"%1$s\" nu sunt îndeplinite"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Articol de serviciu pentru tipul \"%1$s\" și ID \"%2$s\" nu a fost găsit"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Site-ul nu este disponibil"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Limită temporară atinsă"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Limita temporară a comenzii a fost atinsă"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Comanda a fost deja creată"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "Nu sunt suficiente produse \"%1$s\" în stoc"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -198,24 +199,24 @@ msgstr "Imposibil de apelat metoda \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Nu se poate apela metoda \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Imposibil de creat furnizorul \"%1$s\" pentru serviciul cu ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Nu se poate găsi produsul \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Atribute necunoscute \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Nu aveți voie să gestionați grupuri"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Puteți adăuga o recenzie doar dacă ați comandat un produs"

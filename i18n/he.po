@@ -3,220 +3,219 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# George Cojocaru, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-26 15:48+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: George Cojocaru, 2024\n"
-"Language-Team: Romanian (http://app.transifex.com/aimeos/aimeos-core/language/ro/)\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hebrew (http://app.transifex.com/aimeos/aimeos-core/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Language: he\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;\n"
 
 msgid "%013.2F"
-msgstr "%013.2F"
+msgstr ""
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr "Nu este permisă adăugarea unui produs cu ID-ul \"%1$s\""
+msgstr "אסור להוסיף מוצר עם מזהה \"%1$s\"."
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr "ID-urile de atribut disponibile \"%1$s\" nu se potrivesc cu ID-urile de atribut date \"%2$s\""
+msgstr "מזהי המאפיינים הזמינים \"%1$s\" אינם תואמים למזהי המאפיינים הנתונים \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr "Articolul din coș în poziția \"%1$d\" nu poate fi modificat"
+msgstr "לא ניתן לשנות את פריט הסל בעמדה \"%1$d\"."
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr "Articolul din coș în poziția \"%1$d\" nu poate fi șters manual"
+msgstr "לא ניתן למחוק את פריט הסל בעמדה \"%1$d\" באופן ידני"
 
 #, php-format
 msgid "Category is not available"
-msgstr "Categoria nu este disponibilă"
+msgstr "קטגוריה אינה זמינה"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr "Clasa \"%1$s\" nu implementeaza \"%2$s\""
+msgstr "מחלקה \"%1$s\" לא מיישמת \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr "Clasa \"%1$s\" nu implementează interfața \"%2$s\""
+msgstr "מחלקה \"%1$s\" לא מיישמת ממשק \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
-msgstr "Clasa \"%1$s\" nu este disponibila"
+msgstr "מחלקה \"%1$s\" לא זמינה"
 
 #, php-format
 msgid "Class \"%1$s\" not found"
-msgstr "Clasa \"%1$s\" nu a fost găsită"
+msgstr "הכיתה \"%1$s\" לא נמצאה"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr "Calea controller-ului lipsește"
+msgstr "נתיב הבקר ריק"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr "Codul cuponului \"%1$s\" nu este valid"
+msgstr "קוד הקופון \"%1$s\" אינו חוקי"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr "Codul de cupon \"%1$s\" este invalid sau nu mai este disponibil"
+msgstr "קוד הקופון \"%1$s\" אינו חוקי או אינו זמין יותר"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr "Cuponul pentru codul \"%1$s\" nu mai este disponibil"
+msgstr "קופון לקוד \"%1$s\" אינו זמין יותר"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr "Domeniul \"%1$s\" nu este suportat"
+msgstr "דומיין \"%1$s\" אינו נתמך"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr "Referințe \"%1$s\" nevalide pentru produsul cu ID \"%2$s\""
+msgstr "הפניות לא חוקיות של \"%1$s\" עבור מוצר עם מזהה \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr "Referințe \"%1$s\" nevalide pentru produsul cu ID %2$s"
+msgstr "הפניות לא חוקיות של \"%1$s\" עבור מוצר עם מזהה %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr "Proprietăți de adresă nevalide, vă rugăm să verificați datele introduse"
+msgstr "מאפייני כתובת לא חוקיים, אנא בדוק את הקלט שלך"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr "Caracter invalid in numele clasei \"%1$s\""
+msgstr "תווים לא חוקיים בשם המחלקה \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr "Caractere nevalide în numele controlerului \"%1$s\""
+msgstr "תווים לא חוקיים בשם הבקר \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr "Caractere nevalide din numele controlerului \"%1$s\" în \"%2$s\""
+msgstr "תווים לא חוקיים בשם הבקר \"%1$s\" ב\"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr "Nume clasa nevalid \"%1$s\""
+msgstr "שם מחלקה לא חוקי \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr "Domeniu nevalid \"%1$s\""
+msgstr "דומיין לא חוקי \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr "Factory incorect \"%1$s\""
+msgstr "מפעל לא חוקי \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr "Valoare de preț nevalidă \"%1$s\""
+msgstr "ערך מחיר לא חוקי \"%1$s\""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr "Valoare nevalidă pentru tipul de adresă \"%1$s\""
+msgstr "ערך לא חוקי עבור סוג הכתובת \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr "Tipul de listă pentru domeniul \"%1$s\" și codul \"%2$s\" nu a fost găsit"
+msgstr "סוג רשימה עבור הדומיין \"%1$s\" והקוד \"%2$s\" לא נמצא"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr "Nu s-a găsit niciun articol pentru atributele selectate și ID-ul produsului \"%1$s\""
+msgstr "לא נמצא מאמר עבור תכונות נבחרות ומזהה מוצר \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr "Niciun domeniu de liste de clienți"
+msgstr "אין תחום רשימות לקוחות"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr "Niciun cod de tip de liste de clienți"
+msgstr "אין קוד סוג רשימות לקוחות"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr "Nu a fost găsit niciun articol pentru \"%1$s\" (%2$s)"
+msgstr "לא נמצא פריט עבור \"%1$s\" (%2$s)."
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr "Nu a fost găsit niciun articol de comandă pentru ID-ul \"%1$s\""
+msgstr "לא נמצא פריט הזמנה עבור המזהה \"%1$s\"."
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr "Nu există stoc pentru ID-ul produsului \"%1$s\" și tipul \"%2$s\" disponibil"
+msgstr "אין מלאי עבור מזהה המוצר \"%1$s\" וסוג \"%2$s\" זמין"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr "Nu s-a găsit niciun articol unic pentru atributele selectate și ID-ul produsului \"%1$s\""
+msgstr "לא נמצא מאמר ייחודי עבור מאפיינים נבחרים ומזהה מוצר \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr "Nu este permis accesul la datele clientului pentru ID \"%1$s\""
+msgstr "אסור לגשת לנתוני לקוחות עבור מזהה \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr "Numărul de coduri de cupon depășește limita"
+msgstr "מספר קודי הקופון חורג מהמגבלה"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr "Articol de produs cu ID \"%1$s\" nu a fost găsit"
+msgstr "פריט מוצר עם מזהה \"%1$s\" לא נמצא"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr "Cerințele pentru codul de cupon \"%1$s\" nu sunt îndeplinite"
+msgstr "דרישות עבור קוד קופון \"%1$s\" אינן מתקיימות"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr "Articol de serviciu pentru tipul \"%1$s\" și ID \"%2$s\" nu a fost găsit"
+msgstr "פריט שירות עבור סוג \"%1$s\" ומזהה \"%2$s\" לא נמצא"
 
 #, php-format
 msgid "Site is not available"
-msgstr "Site-ul nu este disponibil"
+msgstr "האתר אינו זמין"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr "Limită temporară atinsă"
+msgstr "הגבלה זמנית"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr "Limita temporară a comenzii a fost atinsă"
+msgstr "הגעת למגבלת ההזמנה הזמנית"
 
 #, php-format
 msgid "The order has already been created"
-msgstr "Comanda a fost deja creată"
+msgstr "הסדר כבר נוצר"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr "Nu sunt suficiente produse \"%1$s\" în stoc"
+msgstr "אין מספיק מוצרים \"%1$s\" במלאי"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr "Imposibil de apelat metoda \"%1$s\""
+msgstr "לא ניתן לקרוא לשיטה \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr "Nu se poate apela metoda \"%1$s::%2$s\""
+msgstr "לא ניתן לקרוא למתודה \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr "Imposibil de creat furnizorul \"%1$s\" pentru serviciul cu ID \"%2$s\""
+msgstr "לא ניתן ליצור ספק \"%1$s\" עבור שירות עם מזהה \"%2$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr "Nu se poate găsi produsul \"%1$s\""
+msgstr "לא ניתן למצוא את המוצר \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr "Atribute necunoscute \"%1$s\""
+msgstr "מאפיינים לא ידועים \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr "Nu aveți voie să gestionați grupuri"
+msgstr "אינך רשאי לנהל קבוצות"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr "Puteți adăuga o recenzie doar dacă ați comandat un produs"
+msgstr "אתה יכול להוסיף ביקורת רק אם הזמנת מוצר"

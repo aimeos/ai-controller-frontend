@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Bistra Kumanova <b.kumanova@creato.bg>, 2015
+# Chiarra, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-26 15:48+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: Bistra Kumanova <b.kumanova@creato.bg>, 2015\n"
+"Last-Translator: Chiarra, 2024\n"
 "Language-Team: Bulgarian (http://app.transifex.com/aimeos/aimeos-core/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -39,7 +40,7 @@ msgstr "Елементът от кошницата на позиция \"%1$d\" 
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Категорията не е налична"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -75,7 +76,7 @@ msgstr "Купон с код \"%1$s\" не се предлага повече"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Домейнът \"%1$s\" не се поддържа"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -83,7 +84,7 @@ msgstr "Невалидни \"%1$s\" референции за продукт с 
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Невалидни \"%1$s\" референции за продукт с номер %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
@@ -95,7 +96,7 @@ msgstr "Недопустими символи в името на класа \"%1
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Недопустими символи в името на контролера \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -115,7 +116,7 @@ msgstr "Невалидна фабрика \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Невалидна стойност на цената \"%1$s\""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -131,11 +132,11 @@ msgstr "Не е намерен елемент за избраните атриб
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Няма списък с клиенти на домейна"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Няма код за тип на списък на клиенти."
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
@@ -143,11 +144,11 @@ msgstr "Не са намерени елементи за \"%1$s\" (%2$s) "
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Не е намерен артикул за ID \"%1$s\""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Няма наличност на продукта с номер \"%1$s\" и тип \"%2$s\""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
@@ -155,7 +156,7 @@ msgstr "Не е намерен уникален артикул за избран
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Не е разрешено достъпът до данните на клиента за идентификатор \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -163,7 +164,7 @@ msgstr "Броя на кодовете на купони надвишава ли
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Продуктът с идентификационен номер \"%1$s\" не е намерен."
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
@@ -175,19 +176,19 @@ msgstr "Не е намерен тип на елемент на услуга \"%1
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Сайтът не е достъпен"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Временно ограничение достигнато"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Временното ограничение на поръчките е достигнато."
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Поръчката вече е създадена"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
@@ -207,7 +208,7 @@ msgstr "Невъзможно е създаването на доставчик \
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Не може да бъде намерен продукт \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
@@ -215,8 +216,8 @@ msgstr "Неизвестни атрибути \"%1$s\""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Не ви е разрешено да управлявате групи"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Можете да добавите отзив само ако сте поръчали продукт."

@@ -371,7 +371,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'order.address.company' => '<p onclick="javascript: alert(\'gotcha\');">Example company</p>',
 			'order.address.vatid' => 'DE999999999',
 			'order.address.title' => '<br/>Dr.',
-			'order.address.salutation' => \Aimeos\MShop\Common\Item\Address\Base::SALUTATION_MR,
+			'order.address.salutation' => 'mr',
 			'order.address.firstname' => 'firstunit',
 			'order.address.lastname' => 'lastunit',
 			'order.address.address1' => 'unit str.',

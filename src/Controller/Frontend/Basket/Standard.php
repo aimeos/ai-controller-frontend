@@ -287,6 +287,8 @@ class Standard
 
 
 		$basket = $this->get()->setCustomerId( (string) $context->user() )->finish()->check();
+		$basket->setStatusDelivery( \Aimeos\MShop\Order\Item\Base::STAT_UNFINISHED )->setDateDelivery( null );
+		$basket->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED )->setDatePayment( null );
 
 		$this->manager->begin();
 		$this->manager->save( $basket );

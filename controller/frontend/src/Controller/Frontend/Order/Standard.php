@@ -193,8 +193,8 @@ class Standard
 	{
 		$this->checkLimit( $this->item->getBaseId() );
 
-		$this->item->setStatusDelivery( \Aimeos\MShop\Order\Item\Base::STAT_UNFINISHED )->setDateDelivery( null );
-		$this->item->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED )->setDatePayment( null );
+		$this->item->setDeliveryStatus( \Aimeos\MShop\Order\Item\Base::STAT_UNFINISHED )->setDateDelivery( null );
+		$this->item->setPaymentStatus( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED )->setDatePayment( null );
 
 		$cntl = \Aimeos\Controller\Common\Order\Factory::create( $this->getContext() );
 		$this->item = $this->manager->saveItem( $this->item );

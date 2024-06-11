@@ -107,7 +107,7 @@ class Standard
 	public function delete( $ids ) : Iface
 	{
 		$ids = (array) $ids;
-		$filter = $this->manager->filter()->add( ['review.id' => $ids] );
+		$filter = $this->manager->filter()->add( ['review.id' => $ids, 'review.customerid' => $this->context()->user()] );
 		$this->manager->delete( $this->manager->search( $filter->slice( 0, count( $ids ) ) )->toArray() );
 
 		return $this;

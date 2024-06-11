@@ -169,7 +169,8 @@ class Standard
 	 */
 	public function cancel( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
-		$item = $this->manager->get( $id );
+		$item = $this->object()->get( $id );
+
 		$item = $item->setDateEnd( $item->getDateNext() ?: date( 'Y-m-d' ) )
 			->setReason( \Aimeos\MShop\Subscription\Item\Iface::REASON_CANCEL );
 

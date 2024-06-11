@@ -169,7 +169,8 @@ class Standard
 	 */
 	public function cancel( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
-		$item = $this->manager->get( $id );
+		$item = $this->object()->get( $id );
+
 		$item = $item->setDateEnd( $item->getDateNext() ?: date( 'Y-m-d' ) )
 			->setReason( \Aimeos\MShop\Subscription\Item\Iface::REASON_CANCEL );
 
@@ -201,16 +202,16 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Subscription\Item\Iface
 	{
-		$userId = $this->context()->user();
+		$user = $this->context()->user();
 
 		$filter = $this->manager->filter( null )->add( [
-			'order.customerid' => $userId,
+			'order.customerid' => $user,
 			'subscription.id' => $id
 		] );
 
-		return $this->manager->search( $filter, $this->domains )->first( function() use ( $id, $userId ) {
+		return $this->manager->search( $filter, $this->domains )->first( function() use ( $id, $user ) {
 			$msg = 'Invalid subscription ID "%1$s" for customer ID "%2$s"';
-			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $userId ) );
+			throw new \Aimeos\Controller\Frontend\Subscription\Exception( sprintf( $msg, $id, $user ) );
 		} );
 	}
 

@@ -308,10 +308,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			{
 				try
 				{
+					$position = null;
+
 					foreach( $newBasket->get()->getService( $type ) as $pos => $ordService )
 					{
 						if( $item->getCode() === $ordService->getCode() ) {
-							$newBasket->get()->deleteService( $type, $pos );
+							$position = $pos;
 						}
 					}
 
@@ -322,7 +324,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 
 					$service = $manager->get( $item->getServiceId(), ['media', 'price', 'text'] );
-					$newBasket->addService( $service, $attributes );
+					$newBasket->addService( $service, $attributes, $position );
 					$basket->deleteService( $type );
 				}
 				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically

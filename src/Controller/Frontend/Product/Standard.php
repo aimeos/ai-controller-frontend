@@ -588,6 +588,10 @@ class Standard
 					$this->addExpression( $this->filter->sort( $direction, 'product.rating' ) );
 					break;
 
+				case 'start':
+					$this->addExpression( $this->filter->sort( $direction, 'product.datestart' ) );
+					break;
+
 				default:
 					$this->addExpression( $this->filter->sort( $direction, $sortkey ) );
 			}

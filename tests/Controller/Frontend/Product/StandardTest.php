@@ -337,6 +337,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSortStart()
+	{
+		$this->assertEquals( 8, count( $this->object->sort( 'start' )->search() ) );
+	}
+
+
+	public function testSortCtimeStart()
+	{
+		$this->assertEquals( 8, count( $this->object->sort( '-start' )->search() ) );
+	}
+
+
 	public function testSupplier()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'supplier' );

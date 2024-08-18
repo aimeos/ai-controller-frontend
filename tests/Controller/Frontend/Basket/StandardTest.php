@@ -118,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
 
 		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Standard::class )
-			->setConstructorArgs( [$priceManager->create(), $this->context->locale()] )
+			->setConstructorArgs( ['order.', ['.price' => $priceManager->create(), '.locale' => $this->context->locale()]] )
 			->onlyMethods( ['check'] )
 			->getMock();
 

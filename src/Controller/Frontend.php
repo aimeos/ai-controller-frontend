@@ -99,8 +99,16 @@ class Frontend
 	protected static function addControllerDecorators( \Aimeos\MShop\ContextIface $context,
 		\Aimeos\Controller\Frontend\Iface $controller, string $domain ) : \Aimeos\Controller\Frontend\Iface
 	{
-		$localClass = str_replace( '/', '\\', ucwords( $domain, '/' ) );
 		$config = $context->config();
+		$localClass = str_replace( '/', '\\', ucwords( $domain, '/' ) );
+
+		$classprefix = '\\Aimeos\\Controller\\Frontend\\' . ucfirst( $localClass ) . '\\Decorator\\';
+		$decorators = array_reverse( $config->get( 'controller/frontend/' . $domain . '/decorators/local', [] ) );
+		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
+
+		$classprefix = '\\Aimeos\\Controller\\Frontend\\Common\\Decorator\\';
+		$decorators = array_reverse( $config->get( 'controller/frontend/' . $domain . '/decorators/global', [] ) );
+		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
 
 		/** controller/frontend/common/decorators/default
 		 * Configures the list of decorators applied to all frontend controllers
@@ -124,7 +132,7 @@ class Frontend
 		 * @since 2014.03
 		 * @category Developer
 		 */
-		$decorators = $config->get( 'controller/frontend/common/decorators/default', [] );
+		$decorators = array_reverse( $config->get( 'controller/frontend/common/decorators/default', [] ) );
 		$excludes = $config->get( 'controller/frontend/' . $domain . '/decorators/excludes', [] );
 
 		foreach( $decorators as $key => $name )
@@ -135,14 +143,6 @@ class Frontend
 		}
 
 		$classprefix = '\\Aimeos\\Controller\\Frontend\\Common\\Decorator\\';
-		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
-
-		$classprefix = '\\Aimeos\\Controller\\Frontend\\Common\\Decorator\\';
-		$decorators = $config->get( 'controller/frontend/' . $domain . '/decorators/global', [] );
-		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
-
-		$classprefix = '\\Aimeos\\Controller\\Frontend\\' . ucfirst( $localClass ) . '\\Decorator\\';
-		$decorators = $config->get( 'controller/frontend/' . $domain . '/decorators/local', [] );
 		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
 
 		return $controller->setObject( $controller );

@@ -110,12 +110,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$manager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->onlyMethods( ['getProvider', 'domain'] )
+			->onlyMethods( ['getProvider', 'type'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $manager );
 
-		$manager->method( 'domain' )->willReturn( 'service' );
+		$manager->method( 'type' )->willReturn( ['service'] );
 		$manager->expects( $this->once() )->method( 'getProvider' )->willReturn( $provider );
 		$provider->expects( $this->once() )->method( 'process' )->willReturn( $form );
 
@@ -204,14 +204,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
 			->setConstructorArgs( array( $this->context ) )
-			->onlyMethods( ['getProvider', 'domain'] )
+			->onlyMethods( ['getProvider', 'type'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );
 		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
 
 
-		$serviceManager->method( 'domain' )->willReturn( 'service' );
+		$serviceManager->method( 'type' )->willReturn( ['service'] );
 		$serviceManager->expects( $this->once() )->method( 'getProvider' )->willReturn( $provider );
 		$orderManager->expects( $this->once() )->method( 'get' )->willReturn( $item );
 		$provider->expects( $this->once() )->method( 'updateSync' )->willReturn( $item );

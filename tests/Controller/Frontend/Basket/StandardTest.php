@@ -68,13 +68,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->onlyMethods( ['setSession', 'domain'] )
+			->onlyMethods( ['setSession', 'type'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
 
 		$stub->expects( $this->exactly( 2 ) )->method( 'setSession' );
-		$stub->method( 'domain' )->willReturn( 'order' );
+		$stub->method( 'type' )->willReturn( ['order'] );
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 		$object->addProduct( $this->testItem );
@@ -111,7 +111,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
 			->setConstructorArgs( [$this->context] )
-			->onlyMethods( ['save', 'domain'] )
+			->onlyMethods( ['save', 'type'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
@@ -131,7 +131,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$basket->expects( $this->once() )->method( 'check' )->willReturn( $basket );
 		$object->expects( $this->once() )->method( 'get' )->willReturn( $basket );
 		$stub->expects( $this->once() )->method( 'save' )->willReturn( $basket );
-		$stub->method( 'domain' )->willReturn( 'order' );
+		$stub->method( 'type' )->willReturn( ['order'] );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Iface::class, $object->store() );
 	}

@@ -169,6 +169,20 @@ abstract class Base
 
 
 	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
+	 * @since 2024.10
+	 */
+	public function uses( array $domains ) : \Aimeos\Controller\Frontend\Stock\Iface
+	{
+		$this->controller->uses( $domains );
+		return $this;
+	}
+
+
+	/**
 	 * Injects the reference of the outmost object
 	 *
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator

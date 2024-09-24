@@ -43,11 +43,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGet()
 	{
-		$iface = \Aimeos\MShop\Stock\Item\Iface::class;
 		$manager = \Aimeos\MShop::create( $this->context, 'stock' );
-		$item = $manager->search( $manager->filter()->slice( 0, 1 ) )->first();
+		$item = $manager->search( $manager->filter()->slice( 0, 1 ), ['stock/type'] )->first();
 
-		$this->assertInstanceOf( $iface, $this->object->get( $item->getId() ) );
+		$exp = $this->object->uses( ['stock/type'] )->get( $item->getId() );
+
+		$this->assertInstanceOf( \Aimeos\MShop\Stock\Item\Iface::class, $exp );
+		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Type\Iface::class, $exp->getTypeItem() );
 	}
 
 
@@ -61,7 +63,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testSearch()
 	{
 		$total = 0;
-		$this->assertGreaterThanOrEqual( 15, count( $this->object->search( $total ) ) );
+		$this->assertGreaterThanOrEqual( 15, count( $this->object->uses( ['stock/type'] )->search( $total ) ) );
 		$this->assertGreaterThanOrEqual( 15, $total );
 	}
 

@@ -93,4 +93,13 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function type( $types ) : Iface;
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @since 2024.10
+	 */
+	public function uses( array $domains ) : Iface;
 }

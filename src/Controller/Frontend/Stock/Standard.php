@@ -131,8 +131,9 @@ class Standard
 	 */
 
 
-	private \Aimeos\Base\Criteria\Iface $filter;
-	private \Aimeos\MShop\Common\Manager\Iface $manager;
+	 private \Aimeos\MShop\Common\Manager\Iface $manager;
+	 private \Aimeos\Base\Criteria\Iface $filter;
+	private array $domains = [];
 
 
 	/**
@@ -201,7 +202,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Stock\Item\Iface
 	{
-		return $this->manager->get( $id, [], null );
+		return $this->manager->get( $id, $this->domains, null );
 	}
 
 
@@ -238,7 +239,7 @@ class Standard
 		$filter->setSortations( $this->getSortations() );
 		$filter->add( $filter->and( $this->getConditions() ) );
 
-		return $this->manager->search( $filter, [], $total );
+		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
 
@@ -302,6 +303,20 @@ class Standard
 			$this->addExpression( $this->filter->compare( '==', 'stock.type', $types ) );
 		}
 
+		return $this;
+	}
+
+
+	/**
+	 * Sets the referenced domains that will be fetched too when retrieving items
+	 *
+	 * @param array $domains Domain names of the referenced items that should be fetched too
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @since 2024.10
+	 */
+	public function uses( array $domains ) : Iface
+	{
+		$this->domains = $domains;
 		return $this;
 	}
 

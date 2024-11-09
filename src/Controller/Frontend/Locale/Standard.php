@@ -214,7 +214,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of locale items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 
@@ -250,7 +250,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface
+	public function sort( ?string $key = null ) : Iface
 	{
 		$list = $this->splitKeys( $key );
 

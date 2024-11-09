@@ -300,7 +300,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of service items implementing \Aimeos\MShop\Service\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 		$filter->add( $filter->and( $this->getConditions() ) );
@@ -333,7 +333,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface
+	public function sort( ?string $key = null ) : Iface
 	{
 		$list = $this->splitKeys( $key );
 

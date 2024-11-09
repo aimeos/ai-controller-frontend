@@ -186,7 +186,7 @@ class Standard
 	 * @return \Aimeos\MShop\Order\Item\Iface Order item object
 	 * @since 2019.04
 	 */
-	public function get( string $id, bool $default = null ) : \Aimeos\MShop\Order\Item\Iface
+	public function get( string $id, ?bool $default = null ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		return $this->manager->get( $id, $this->domains, $default );
 	}
@@ -228,7 +228,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of order items implementing \Aimeos\MShop\Order\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 
@@ -264,7 +264,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface
+	public function sort( ?string $key = null ) : Iface
 	{
 		$list = $this->splitKeys( $key );
 

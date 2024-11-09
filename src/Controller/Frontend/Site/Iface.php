@@ -86,7 +86,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Site\Iface Site controller for fluent interface
 	 * @since 2021.04
 	 */
-	public function root( string $id = null ) : Iface;
+	public function root( ?string $id = null ) : Iface;
 
 	/**
 	 * Returns the sites filtered by the previously assigned conditions
@@ -95,7 +95,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Locale\Item\Site\Iface
 	 * @since 2021.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products

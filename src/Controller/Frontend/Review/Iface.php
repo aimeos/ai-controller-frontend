@@ -28,7 +28,7 @@ interface Iface
 	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
 	 * @since 2020.10
 	 */
-	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map;
+	public function aggregate( string $key, ?string $value = null, ?string $type = null ) : \Aimeos\Map;
 
 	/**
 	 * Adds generic condition for filtering
@@ -85,7 +85,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
-	public function list( int &$total = null ) : \Aimeos\Map;
+	public function list( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -111,7 +111,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned review items for slicing the list of found review items
@@ -130,5 +130,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function sort( string $key = null ) : Iface;
+	public function sort( ?string $key = null ) : Iface;
 }

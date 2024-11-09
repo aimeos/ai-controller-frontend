@@ -156,7 +156,7 @@ abstract class Base
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', string $siteId = null
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', ?string $siteId = null
 	) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		$this->controller->addProduct( $product, $quantity, $variant, $config, $custom, $stocktype, $siteId );
@@ -227,7 +227,7 @@ abstract class Base
 	 * @param int|null $position Position number (key) of the order address item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function addAddress( string $type, array $values = [], int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
+	public function addAddress( string $type, array $values = [], ?int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		$this->controller->addAddress( $type, $values, $position );
 		return $this;
@@ -240,7 +240,7 @@ abstract class Base
 	 * @param int|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteAddress( string $type, int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
+	public function deleteAddress( string $type, ?int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		$this->controller->deleteAddress( $type, $position );
 		return $this;
@@ -256,7 +256,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
-	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
+	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], ?int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		$this->controller->addService( $service, $config, $position );
 		return $this;
@@ -270,7 +270,7 @@ abstract class Base
 	 * @param int|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteService( string $type, int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
+	public function deleteService( string $type, ?int $position = null ) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		$this->controller->deleteService( $type, $position );
 		return $this;

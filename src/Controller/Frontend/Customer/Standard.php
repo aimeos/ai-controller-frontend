@@ -234,7 +234,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : Iface
+	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, ?int $idx = null ) : Iface
 	{
 		$this->item = $this->item->addAddressItem( $item, $idx );
 		return $this;
@@ -251,7 +251,7 @@ class Standard
 	 * @since 2019.04
 	 */
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
+		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
 		if( $domain === 'customer/group' ) {
 			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
@@ -353,7 +353,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
+		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
 		if( $domain === 'customer/group' ) {
 			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );

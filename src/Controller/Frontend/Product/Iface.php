@@ -28,7 +28,7 @@ interface Iface
 	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
 	 * @since 2019.04
 	 */
-	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map;
+	public function aggregate( string $key, ?string $value = null, ?string $type = null ) : \Aimeos\Map;
 
 	/**
 	 * Adds attribute IDs for filtering where products must reference all IDs
@@ -97,7 +97,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( string $domain, string $type = null, string $refId = null ) : Iface;
+	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface;
 
 	/**
 	 * Adds attribute IDs for filtering where products must reference at least one ID
@@ -144,7 +144,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( string $type, string $value = null, string $langId = null ) : Iface;
+	public function property( string $type, ?string $value = null, ?string $langId = null ) : Iface;
 
 	/**
 	 * Adds radius restrictions for filtering
@@ -154,7 +154,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2021.10
 	 */
-	public function radius( array $latlon, float $dist = null ) : \Aimeos\Controller\Frontend\Product\Iface;
+	public function radius( array $latlon, ?float $dist = null ) : \Aimeos\Controller\Frontend\Product\Iface;
 
 	/**
 	 * Returns the product for the given product URL name
@@ -172,7 +172,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products
@@ -191,7 +191,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface;
+	public function sort( ?string $key = null ) : Iface;
 
 	/**
 	 * Adds supplier IDs for filtering
@@ -210,7 +210,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( string $text = null ) : Iface;
+	public function text( ?string $text = null ) : Iface;
 
 	/**
 	 * Sets the referenced domains that will be fetched too when retrieving items

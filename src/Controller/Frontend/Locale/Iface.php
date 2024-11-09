@@ -55,7 +55,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned locale items for slicing the list of found locale items
@@ -74,5 +74,5 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface;
+	public function sort( ?string $key = null ) : Iface;
 }

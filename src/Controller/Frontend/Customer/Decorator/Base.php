@@ -78,7 +78,7 @@ abstract class Base
 	 * @since 2019.04
 	 */
 	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item,
-		int $position = null ) : \Aimeos\Controller\Frontend\Customer\Iface
+		?int $position = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->controller->addAddressItem( $item, $position );
 		return $this;
@@ -95,7 +95,7 @@ abstract class Base
 	 * @since 2019.04
 	 */
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
+		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->controller->addListItem( $domain, $item, $refItem );
 		return $this;
@@ -191,7 +191,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
+		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : \Aimeos\Controller\Frontend\Customer\Iface
 	{
 		$this->controller->deleteListItem( $domain, $listItem, $refItem );
 		return $this;

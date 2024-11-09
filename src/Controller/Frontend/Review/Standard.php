@@ -168,7 +168,7 @@ class Standard
 	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
 	 * @since 2020.10
 	 */
-	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
+	public function aggregate( string $key, ?string $value = null, ?string $type = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
@@ -276,7 +276,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
-	public function list( int &$total = null ) : \Aimeos\Map
+	public function list( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.customerid', '==', $this->context()->user() );
@@ -394,7 +394,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
@@ -431,7 +431,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function sort( string $key = null ) : Iface
+	public function sort( ?string $key = null ) : Iface
 	{
 		$list = $this->splitKeys( $key );
 

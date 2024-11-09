@@ -106,7 +106,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Service\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned services for slicing the list of found services
@@ -125,7 +125,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Service\Iface;
+	public function sort( ?string $key = null ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
 	 * Adds attribute types for filtering

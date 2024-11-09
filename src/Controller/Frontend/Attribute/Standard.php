@@ -257,7 +257,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( string $domain, string $type = null, string $refId = null ) : Iface
+	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface
 	{
 		$params = [$domain];
 		!$type ?: $params[] = $type;
@@ -295,7 +295,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( string $type, string $value = null, string $langId = null ) : Iface
+	public function property( string $type, ?string $value = null, ?string $langId = null ) : Iface
 	{
 		$func = $this->filter->make( 'attribute:prop', [$type, $langId, $value] );
 		$this->addExpression( $this->filter->compare( '!=', $func, null ) );
@@ -310,7 +310,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of attribute items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 
@@ -347,7 +347,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface
+	public function sort( ?string $key = null ) : Iface
 	{
 		$list = $this->splitKeys( $key );
 

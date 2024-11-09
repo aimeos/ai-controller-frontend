@@ -114,7 +114,7 @@ abstract class Base
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		return $this->controller->search( $total );
 	}
@@ -142,7 +142,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Locale\Iface Locale controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Locale\Iface
+	public function sort( ?string $key = null ) : \Aimeos\Controller\Frontend\Locale\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;

@@ -153,7 +153,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Site\Iface Site controller for fluent interface
 	 * @since 2021.04
 	 */
-	public function root( string $id = null ) : \Aimeos\Controller\Frontend\Site\Iface
+	public function root( ?string $id = null ) : \Aimeos\Controller\Frontend\Site\Iface
 	{
 		$this->controller->root( $id );
 		return $this;
@@ -166,7 +166,7 @@ abstract class Base
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Locale\Item\Site\Iface
 	 * @since 2021.04
 	 */
-	 public function search( int &$total = null ) : \Aimeos\Map
+	 public function search( ?int &$total = null ) : \Aimeos\Map
 	 {
 		return $this->controller->search( $total );
 	 }

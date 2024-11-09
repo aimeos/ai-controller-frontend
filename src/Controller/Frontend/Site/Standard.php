@@ -274,7 +274,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Site\Iface Site controller for fluent interface
 	 * @since 2021.04
 	 */
-	public function root( string $id = null ) : Iface
+	public function root( ?string $id = null ) : Iface
 	{
 		$this->root = ( $id ? $id : null );
 		return $this;
@@ -288,7 +288,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of site items implementing \Aimeos\MShop\Locale\Item\Site\Iface
 	 * @since 2021.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 

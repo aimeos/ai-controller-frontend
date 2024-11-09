@@ -85,7 +85,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( string $domain, string $type = null, string $refId = null ) : Iface;
+	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -105,7 +105,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( string $type, string $value = null, string $langId = null ) : Iface;
+	public function property( string $type, ?string $value = null, ?string $langId = null ) : Iface;
 
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions
@@ -114,7 +114,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned attributes for slicing the list of found attributes
@@ -133,7 +133,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface;
+	public function sort( ?string $key = null ) : Iface;
 
 	/**
 	 * Adds attribute types for filtering

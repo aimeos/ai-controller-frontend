@@ -31,7 +31,7 @@ class Exception extends \Aimeos\Controller\Frontend\Exception
 	 * @param \Exception|null $previous Previously thrown exception
 	 * @param array $errors List of error codes for error handling
 	 */
-	public function __construct( string $message = '', int $code = 0, \Exception $previous = null, array $errors = [] )
+	public function __construct( string $message = '', int $code = 0, ?\Exception $previous = null, array $errors = [] )
 	{
 		parent::__construct( $message, $code, $previous );
 

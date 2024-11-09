@@ -88,7 +88,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2022.01
 	 */
-	public function has( string $domain, string $type = null, string $refId = null ) : Iface;
+	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface;
 
 	/**
 	 * Parses the given array and adds the conditions to the list of conditions
@@ -115,7 +115,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function root( string $id = null ) : Iface;
+	public function root( ?string $id = null ) : Iface;
 
 	/**
 	 * Returns the categories filtered by the previously assigned conditions
@@ -124,7 +124,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Catalog\Item\Iface
 	 * @since 2019.10
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned products for slicing the list of found products

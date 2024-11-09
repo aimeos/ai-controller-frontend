@@ -35,7 +35,7 @@ class Select
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', string $siteId = null
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', ?string $siteId = null
 	) : \Aimeos\Controller\Frontend\Basket\Iface
 	{
 		if( $product->getType() !== 'select' )

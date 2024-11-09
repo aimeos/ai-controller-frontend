@@ -73,7 +73,7 @@ abstract class Base
 	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
 	 * @since 2019.04
 	 */
-	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
+	public function aggregate( string $key, ?string $value = null, ?string $type = null ) : \Aimeos\Map
 	{
 		return $this->controller->aggregate( $key, $value, $type );
 	}
@@ -173,7 +173,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function has( string $domain, string $type = null, string $refId = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	public function has( string $domain, ?string $type = null, ?string $refId = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->has( $domain, $type, $refId );
 		return $this;
@@ -245,7 +245,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function property( string $type, string $value = null, string $langId = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	public function property( string $type, ?string $value = null, ?string $langId = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->property( $type, $value, $langId );
 		return $this;
@@ -260,7 +260,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2021.10
 	 */
-	public function radius( array $latlon, float $dist = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	public function radius( array $latlon, ?float $dist = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->radius( $latlon, $dist );
 		return $this;
@@ -287,7 +287,7 @@ abstract class Base
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		return $this->controller->search( $total );
 	}
@@ -315,7 +315,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	public function sort( ?string $key = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;
@@ -344,7 +344,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function text( string $text = null ) : \Aimeos\Controller\Frontend\Product\Iface
+	public function text( ?string $text = null ) : \Aimeos\Controller\Frontend\Product\Iface
 	{
 		$this->controller->text( $text );
 		return $this;

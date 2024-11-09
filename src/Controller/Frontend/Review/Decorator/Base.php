@@ -73,7 +73,7 @@ abstract class Base
 	 * @return \Aimeos\Map Associative list of key values as key and the product count for this key as value
 	 * @since 2020.10
 	 */
-	public function aggregate( string $key, string $value = null, string $type = null ) : \Aimeos\Map
+	public function aggregate( string $key, ?string $value = null, ?string $type = null ) : \Aimeos\Map
 	{
 		return $this->controller->aggregate( $key, $value, $type );
 	}
@@ -170,7 +170,7 @@ abstract class Base
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
-	public function list( int &$total = null ) : \Aimeos\Map
+	public function list( ?int &$total = null ) : \Aimeos\Map
 	{
 		return $this->controller->list( $total );
 	}
@@ -209,7 +209,7 @@ abstract class Base
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		return $this->controller->search( $total );
 	}
@@ -237,7 +237,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Review\Iface
+	public function sort( ?string $key = null ) : \Aimeos\Controller\Frontend\Review\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;

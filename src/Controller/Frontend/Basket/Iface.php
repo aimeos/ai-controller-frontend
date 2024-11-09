@@ -89,7 +89,7 @@ interface Iface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', string $siteId = null ) : Iface;
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', ?string $siteId = null ) : Iface;
 
 	/**
 	 * Deletes a product item from the basket.
@@ -134,7 +134,7 @@ interface Iface
 	 * @param int|null $position Position number (key) of the order address item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function addAddress( string $type, array $values = [], int $position = null ) : Iface;
+	public function addAddress( string $type, array $values = [], ?int $position = null ) : Iface;
 
 	/**
 	 * Removes the address of the given type and position if available
@@ -143,7 +143,7 @@ interface Iface
 	 * @param int|null $position Position of the address in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteAddress( string $type, int $position = null ) : Iface;
+	public function deleteAddress( string $type, ?int $position = null ) : Iface;
 
 	/**
 	 * Adds the delivery/payment service including the given configuration
@@ -154,7 +154,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
-	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], int $position = null ) : Iface;
+	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], ?int $position = null ) : Iface;
 
 	/**
 	 * Removes the delivery or payment service items from the basket
@@ -163,5 +163,5 @@ interface Iface
 	 * @param int|null $position Position of the service in the list to overwrite
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteService( string $type, int $position = null ) : Iface;
+	public function deleteService( string $type, ?int $position = null ) : Iface;
 }

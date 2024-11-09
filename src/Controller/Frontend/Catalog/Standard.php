@@ -271,7 +271,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
 	 * @since 2019.10
 	 */
-	public function has( string $domain, string $type = null, string $refId = null ) : Iface
+	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface
 	{
 		$params = [$domain];
 		!$type ?: $params[] = $type;
@@ -328,7 +328,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function root( string $id = null ) : Iface
+	public function root( ?string $id = null ) : Iface
 	{
 		$this->root = ( $id ? $id : null );
 		return $this;
@@ -342,7 +342,7 @@ class Standard
 	 * @return \Aimeos\Map Ordered list of catalog items implementing \Aimeos\MShop\Catalog\Item\Iface
 	 * @since 2019.10
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
 

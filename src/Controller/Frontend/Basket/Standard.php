@@ -330,7 +330,7 @@ class Standard
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
 	public function addProduct( \Aimeos\MShop\Product\Item\Iface $product, float $quantity = 1,
-		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', string $siteId = null ) : Iface
+		array $variant = [], array $config = [], array $custom = [], string $stocktype = 'default', ?string $siteId = null ) : Iface
 	{
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 		$this->call( 'checkAttributes', [$product], 'custom', array_keys( $custom ) );
@@ -476,7 +476,7 @@ class Standard
 	 * @param int|null $position Position number (key) of the order address item to replace
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function addAddress( string $type, array $values = [], int $position = null ) : Iface
+	public function addAddress( string $type, array $values = [], ?int $position = null ) : Iface
 	{
 		foreach( $values as $key => $value )
 		{
@@ -501,7 +501,7 @@ class Standard
 	 * @param int|null $position Position of the address in the list to remove
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteAddress( string $type, int $position = null ) : Iface
+	public function deleteAddress( string $type, ?int $position = null ) : Iface
 	{
 		$this->baskets[$this->type] = $this->get()->deleteAddress( $type, $position );
 		return $this->save();
@@ -517,7 +517,7 @@ class Standard
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
-	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], int $position = null ) : Iface
+	public function addService( \Aimeos\MShop\Service\Item\Iface $service, array $config = [], ?int $position = null ) : Iface
 	{
 		$basket = $this->get();
 		$context = $this->context();
@@ -570,7 +570,7 @@ class Standard
 	 * @param int|null $position Position of the service in the list to remove
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 */
-	public function deleteService( string $type, int $position = null ) : Iface
+	public function deleteService( string $type, ?int $position = null ) : Iface
 	{
 		$this->baskets[$this->type] = $this->get()->deleteService( $type, $position );
 		return $this->save();

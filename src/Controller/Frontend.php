@@ -52,7 +52,7 @@ class Frontend
 	 * @throws \Aimeos\Controller\Frontend\Exception If the given path is invalid or the manager wasn't found
 	 */
 	public static function create( \Aimeos\MShop\ContextIface $context,
-		string $path, string $name = null ) : \Aimeos\Controller\Frontend\Iface
+		string $path, ?string $name = null ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( empty( $path ) ) {
 			throw new \Aimeos\Controller\Frontend\Exception( 'Controller path is empty', 400 );
@@ -82,7 +82,7 @@ class Frontend
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Controller\Frontend\Iface|null $object Frontend controller object for the given name or null to clear
 	 */
-	public static function inject( string $classname, \Aimeos\Controller\Frontend\Iface $object = null )
+	public static function inject( string $classname, ?\Aimeos\Controller\Frontend\Iface $object = null )
 	{
 		self::$objects['\\' . ltrim( $classname, '\\' )] = $object;
 	}

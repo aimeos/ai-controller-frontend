@@ -149,7 +149,7 @@ abstract class Base
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Subscription\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map
+	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		return $this->controller->search( $total );
 	}
@@ -177,7 +177,7 @@ abstract class Base
 	 * @return \Aimeos\Controller\Frontend\Subscription\Iface Subscription controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : \Aimeos\Controller\Frontend\Subscription\Iface
+	public function sort( ?string $key = null ) : \Aimeos\Controller\Frontend\Subscription\Iface
 	{
 		$this->controller->sort( $key );
 		return $this;

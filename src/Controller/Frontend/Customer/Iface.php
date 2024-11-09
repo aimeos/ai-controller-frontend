@@ -36,7 +36,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, int $idx = null ) : Iface;
+	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, ?int $idx = null ) : Iface;
 
 	/**
 	 * Adds the given list item to the customer object (not yet stored)
@@ -48,7 +48,7 @@ interface Iface
 	 * @since 2019.04
 	 */
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface;
+		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface;
 
 	/**
 	 * Adds the given property item to the customer object (not yet stored)
@@ -111,7 +111,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
-		\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface;
+		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface;
 
 	/**
 	 * Removes the given property item from the customer object (not yet stored)

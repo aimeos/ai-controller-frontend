@@ -66,7 +66,7 @@ interface Iface
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Order\Item\Iface
 	 * @since 2019.04
 	 */
-	public function search( int &$total = null ) : \Aimeos\Map;
+	public function search( ?int &$total = null ) : \Aimeos\Map;
 
 	/**
 	 * Sets the start value and the number of returned orders for slicing the list of found orders
@@ -85,7 +85,7 @@ interface Iface
 	 * @return \Aimeos\Controller\Frontend\Order\Iface Order controller for fluent interface
 	 * @since 2019.04
 	 */
-	public function sort( string $key = null ) : Iface;
+	public function sort( ?string $key = null ) : Iface;
 
 	/**
 	 * Updates stock levels and coupons counts

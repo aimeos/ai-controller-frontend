@@ -188,7 +188,6 @@ class Standard
 		{
 			$this->baskets[$this->type] = $this->manager->getSession( $this->type );
 			$this->checkLocale( $this->baskets[$this->type]->locale(), $this->type );
-			$this->baskets[$this->type]->setCustomerId( (string) $this->context()->user() );
 		}
 
 		return $this->baskets[$this->type];
@@ -202,7 +201,9 @@ class Standard
 	 */
 	public function save() : Iface
 	{
-		if( isset( $this->baskets[$this->type] ) && $this->baskets[$this->type]->isModified() ) {
+		if( isset( $this->baskets[$this->type] ) && $this->baskets[$this->type]->isModified() )
+		{
+			$this->baskets[$this->type]->setCustomerId( (string) $this->context()->user() );
 			$this->manager->setSession( $this->baskets[$this->type], $this->type );
 		}
 

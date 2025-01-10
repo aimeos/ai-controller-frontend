@@ -49,7 +49,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$exp = $this->object->uses( ['stock/type'] )->get( $item->getId() );
 
 		$this->assertInstanceOf( \Aimeos\MShop\Stock\Item\Iface::class, $exp );
-		$this->assertInstanceOf( \Aimeos\MShop\Common\Item\Type\Iface::class, $exp->getTypeItem() );
+		$this->assertInstanceOf( \Aimeos\MShop\Type\Item\Iface::class, $exp->getTypeItem() );
 	}
 
 

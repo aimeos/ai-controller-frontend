@@ -3,44 +3,38 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# CROB Support <support@crob.nl>, 2018
-# Jeroen Maas <ictpanel@gmail.com>, 2020
-# Klaas Runia <info@sennik.nl>, 2015
-# Maurice Lourens <mlourens@gmail.com>, 2015
-# Sten Pelzer <pelzersten@gmail.com>, 2015
-# Yves Vermeulen <tmastar@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-19 18:14+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: Yves Vermeulen <tmastar@gmail.com>, 2015\n"
-"Language-Team: Dutch (http://app.transifex.com/aimeos/aimeos-core/language/nl/)\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Korean (http://app.transifex.com/aimeos/aimeos-core/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%013.2F"
-msgstr "%013.2F"
+msgstr ""
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr "Product ID  \"%1$s\"  toevoegen is niet toegestaan"
+msgstr ""
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr "Beschikbaar attribuut IDs \"%1$s\" is niet hetzelfd als het ingegeven attribuut IDs \"%2$s\""
+msgstr ""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr "Winkelmand item op positie \"%1$d\" kan niet worden gewijzigd"
+msgstr ""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr "Winkelmand item op positie \"%1$d\" kan niet handmatig worden gewist"
+msgstr ""
 
 #, php-format
 msgid "Category is not available"
@@ -48,138 +42,138 @@ msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr "\"%2$s\" wordt niet geïmplementeerd door Class \"%1$s\" "
+msgstr "\"%1$s\" 클래스가 \"%2$s\"를 구현하지 않습니다."
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr "Interface \"%2$s\" voor klasse \"%1$s\" kon niet worden geïmplementeerd"
+msgstr "\"%1$s\" 클래스가 \"%2$s\" 인터페이스를 구현하지 않습니다."
 
 #, php-format
 msgid "Class \"%1$s\" not available"
-msgstr "Class \"%1$s\" niet beschikbaar"
+msgstr "\"%1$s\" 클래스를 사용할 수 없습니다."
 
 #, php-format
 msgid "Class \"%1$s\" not found"
-msgstr "Class \"%1$s\" niet gevonden"
+msgstr "\"%1$s\" 클래스를 찾을 수 없습니다."
 
 #, php-format
 msgid "Controller path is empty"
-msgstr "Controller pad is leeg"
+msgstr ""
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr "Coupon code \"%1$s\" is ongeldig"
+msgstr ""
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr "Coupon code \"%1$s\" is ongeldig of niet langer beschikbaar"
+msgstr ""
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr "Coupon code \"%1$s\" is niet langer beschikbaar"
+msgstr ""
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr "Domein \"%1$s\" is niet ondersteund"
+msgstr ""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr "Ongeldige \"%1$s\" referentie van product met ID \"%2$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr "Ongeldige \"%1$s\" referenties voor product met ID %2$s "
+msgstr ""
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr "Ongeldige adres gegevens, controleer aub uw invoer"
+msgstr ""
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr "Ongeldige karakters in class naam \"%1$s\""
+msgstr "클래스 이름 \"%1$s\"에 잘못된 문자가 있습니다."
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr "Ongeldige karakters in controller naam \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr "Ongeldige karakters in controller naam \"%1$s\" in \"%2$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr "Niet toegestane class naam \"%1$s\""
+msgstr "잘못된 클래스 이름 \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr "Ongeldig domein \"%1$s\""
+msgstr "잘못된 도메인 \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr "Ongeldige Factory \"%1$s\""
+msgstr "잘못된 공장 \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr "Ongeldige prijswaarde \"%1$s\""
+msgstr ""
 
 msgid "Invalid service attributes"
 msgstr ""
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr "Ongeldige waarde voor adres type \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr "List type voor domein \"%1$s\" en code \"%2$s\" niet gevonden"
+msgstr ""
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr "Geen artikelen gevonden voor de geselecteerde opties en product ID \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr "Geen klantlijstdomein"
+msgstr ""
 
 #, php-format
 msgid "No customer lists type code"
-msgstr "Geen code klantlijsttype"
+msgstr ""
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr "Geen item voor \"%1$s\" (%2$s) gevonden"
+msgstr ""
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr "Geen order item voor ID \"%1$s\" gevonden"
+msgstr ""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr "Geen voorraad voor product ID \"%1$s\" en type \"%2$s\" beschikbaar"
+msgstr ""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr "Geen uniek artikel gevonden met de geselecteerde opties en product ID \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr "Toegang tot klantdata voor ID \"%1$s\" niet toegestaan."
+msgstr ""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr "Aantal coupons overschrijdt de limiet"
+msgstr ""
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr "Productitem met ID \"%1$s\" niet gevonden"
+msgstr ""
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr "De voorwaarden voor coupon code \"%1$s\" worden niet voldaan."
+msgstr ""
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr "Service item voor type \"%1$s\" en ID \"%2$s\" niet gevonden"
+msgstr ""
 
 #, php-format
 msgid "Site is not available"
@@ -187,31 +181,31 @@ msgstr ""
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr "Tijdelijke limiet bereikt"
+msgstr ""
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr "Tijdelijke orderlimiet bereikt"
+msgstr ""
 
 #, php-format
 msgid "The order has already been created"
-msgstr "De order is reeds aangemaakt"
+msgstr ""
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr "Er zijn niet genoeg producten \"%1$s\" op voorraad"
+msgstr ""
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr "Call method \"%1$s\" kon niet worden aangeroepen"
+msgstr "\"%1$s\" 메서드를 호출할 수 없습니다."
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr "Methode \"%1$s::%2$s\" kon niet worden aangeroepen"
+msgstr ""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr "Provider \"%1$s\" voor service met ID \"%2$s\" kon niet worden aangeroepen"
+msgstr ""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
@@ -219,7 +213,7 @@ msgstr ""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr "Product \"%1$s\" niet gevonden"
+msgstr ""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
@@ -227,15 +221,15 @@ msgstr ""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr "Onbekende attributen \"%1$s\""
+msgstr ""
 
 msgid "Unknown service attributes"
 msgstr ""
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr "U mag geen groepen beheren"
+msgstr ""
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr "U kunt alleen een recensie toevoegen als u een product heeft besteld"
+msgstr ""

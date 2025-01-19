@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 19:54+0100\n"
+"POT-Creation-Date: 2025-01-19 18:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,6 +116,9 @@ msgstr "Invalid factory \"%1$s\""
 msgid "Invalid price value \"%1$s\""
 msgstr ""
 
+msgid "Invalid service attributes"
+msgstr ""
+
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Invalid value for address type \"%1$s\""
@@ -205,12 +208,23 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
+msgstr ""
+
+#, php-format
+msgid "Unable to find supplier \"%1$s\""
 msgstr ""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Unknown attributes \"%1$s\""
+
+msgid "Unknown service attributes"
+msgstr ""
 
 #, php-format
 msgid "You are not allowed to manage groups"

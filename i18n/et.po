@@ -1,20 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 17:47+0100\n"
+"POT-Creation-Date: 2025-01-19 18:14+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Estonian (http://app.transifex.com/aimeos/aimeos-core/language/et/)\n"
-"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%013.2F"
@@ -42,7 +42,7 @@ msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr ""
+msgstr "Klass \"%1$s\" ei rakenda klassi \"%2$s\"."
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -54,7 +54,7 @@ msgstr "Klass \"%1$s\" ei ole saadaval"
 
 #, php-format
 msgid "Class \"%1$s\" not found"
-msgstr ""
+msgstr "Klassi \"%1$s\" ei leitud"
 
 #, php-format
 msgid "Controller path is empty"
@@ -102,11 +102,11 @@ msgstr ""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr ""
+msgstr "Vale klassi nimi \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr ""
+msgstr "Vale domeen \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
@@ -114,6 +114,9 @@ msgstr "factory \"%1$s\" on vigane"
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
+msgstr ""
+
+msgid "Invalid service attributes"
 msgstr ""
 
 #, php-format
@@ -205,11 +208,22 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr ""
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
 msgstr ""
 
 #, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unknown attributes \"%1$s\""
+msgstr ""
+
+msgid "Unknown service attributes"
 msgstr ""
 
 #, php-format

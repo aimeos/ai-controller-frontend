@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
+# محمد مسعودزاده, 2021
 # محمد مسعودزاده, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 17:47+0100\n"
+"POT-Creation-Date: 2025-01-19 18:14+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: محمد مسعودزاده, 2021\n"
 "Language-Team: Persian (http://app.transifex.com/aimeos/aimeos-core/language/fa/)\n"
-"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fa\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "%013.2F"
@@ -117,6 +118,9 @@ msgstr "کارخانه‌ی \"%1$s\" معتبر نمی‌باشد"
 msgid "Invalid price value \"%1$s\""
 msgstr "مقدار قیمت نامعتبر \"%1$s\""
 
+msgid "Invalid service attributes"
+msgstr ""
+
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "مقدار نامعتبر برای نوع آدرس \"%1$s\""
@@ -206,12 +210,23 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "ایجاد ارائه دهنده \"%1$s\" برای سرویس با شناسه \"%2$s\" ممکن نیست"
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
 msgstr "محصول \"%1$s\" یافت نشد"
 
 #, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "ویژگی های ناشناخته \"%1$s\""
+
+msgid "Unknown service attributes"
+msgstr ""
 
 #, php-format
 msgid "You are not allowed to manage groups"

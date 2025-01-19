@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
+# George Cojocaru, 2024
 # George Cojocaru, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 17:47+0100\n"
+"POT-Creation-Date: 2025-01-19 18:14+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: George Cojocaru, 2024\n"
 "Language-Team: Romanian (http://app.transifex.com/aimeos/aimeos-core/language/ro/)\n"
-"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 msgid "%013.2F"
@@ -117,6 +118,9 @@ msgstr "Factory incorect \"%1$s\""
 msgid "Invalid price value \"%1$s\""
 msgstr "Valoare de preț nevalidă \"%1$s\""
 
+msgid "Invalid service attributes"
+msgstr ""
+
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Valoare nevalidă pentru tipul de adresă \"%1$s\""
@@ -206,12 +210,23 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "Imposibil de creat furnizorul \"%1$s\" pentru serviciul cu ID \"%2$s\""
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
 msgstr "Nu se poate găsi produsul \"%1$s\""
 
 #, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Atribute necunoscute \"%1$s\""
+
+msgid "Unknown service attributes"
+msgstr ""
 
 #, php-format
 msgid "You are not allowed to manage groups"

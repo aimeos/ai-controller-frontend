@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # alessandro massarelli <alessandro@botteega.com>, 2017
 # Fabio Barbon <fabio.barbon@gmail.com>, 2021
@@ -11,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 17:47+0100\n"
+"POT-Creation-Date: 2025-01-19 18:14+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: R M <roberto@proprionoi.it>, 2019\n"
 "Language-Team: Italian (http://app.transifex.com/aimeos/aimeos-core/language/it/)\n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "%013.2F"
@@ -120,6 +120,9 @@ msgstr "Fattore \" 1 %1$s \" non valido"
 msgid "Invalid price value \"%1$s\""
 msgstr "Il prezzo \"%1$s\" non è valido"
 
+msgid "Invalid service attributes"
+msgstr ""
+
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "L'indirizzo \"%1$s\" non è valido"
@@ -209,12 +212,23 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "Impossibile creare il provider \" 1 %1$s \" per il servizio con ID \" 2 %2$s \""
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
 msgstr "Impossibile trovare il prodotto \" 1 %1$s \""
 
 #, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Attributo \" 1 %1$s \" sconosciuto"
+
+msgid "Unknown service attributes"
+msgstr ""
 
 #, php-format
 msgid "You are not allowed to manage groups"

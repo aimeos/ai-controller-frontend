@@ -487,7 +487,7 @@ class Standard
 		}
 
 		$context = $this->context();
-		$address = \Aimeos\MShop::create( $context, 'order/address' )->create()->fromArray( $values );
+		$address = \Aimeos\MShop::create( $context, 'order' )->createAddress()->fromArray( $values );
 		$address->set( 'nostore', ( $values['nostore'] ?? false ) ? true : false );
 
 		$this->baskets[$this->type] = $this->get()->addAddress( $address, $type, $position );
@@ -554,9 +554,9 @@ class Standard
 		// remove service rebate of original price
 		$price = $provider->calcPrice( $this->get(), $config )->setRebate( '0.00' );
 
-		$orderBaseServiceManager = \Aimeos\MShop::create( $context, 'order/service' );
+		$orderManager = \Aimeos\MShop::create( $context, 'order' );
 
-		$orderServiceItem = $orderBaseServiceManager->create()->copyFrom( $service )->setPrice( $price );
+		$orderServiceItem = $orderManager->createService()->copyFrom( $service )->setPrice( $price );
 		$orderServiceItem = $provider->setConfigFE( $orderServiceItem, $config );
 
 		$this->baskets[$this->type] = $basket->addService( $orderServiceItem, $type, $position );

@@ -458,12 +458,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$context = $this->context();
 
 		$priceManager = \Aimeos\MShop::create( $context, 'price' );
-		$manager = \Aimeos\MShop::create( $context, 'order/product/attribute' );
+		$manager = \Aimeos\MShop::create( $context, 'order' );
 
 		foreach( $this->getAttributes( $ids, ['price', 'text'] ) as $id => $attrItem )
 		{
 			$qty = $quantities[$id] ?? 1;
-			$item = $manager->create()->copyFrom( $attrItem )->setType( $type )
+			$item = $manager->createProductAttribute()->copyFrom( $attrItem )->setType( $type )
 				->setValue( $values[$id] ?? $attrItem->getCode() )
 				->setQuantity( $qty );
 

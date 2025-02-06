@@ -51,8 +51,8 @@ class Select
 		$productItem = $this->getArticle( $product, $variant );
 		$quantity = $this->call( 'checkQuantity', $productItem, $quantity );
 
-		$orderProductItem = \Aimeos\MShop::create( $this->context(), 'order/product' )
-			->create()
+		$orderProductItem = \Aimeos\MShop::create( $this->context(), 'order' )
+			->createProduct()
 			->copyFrom( $product )
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
@@ -76,11 +76,11 @@ class Select
 
 		$hidden->union( $productItem->getRefItems( 'attribute', null, 'hidden' ) );
 
-		$orderProductAttrManager = \Aimeos\MShop::create( $this->context(), 'order/product/attribute' );
+		$orderManager = \Aimeos\MShop::create( $this->context(), 'order' );
 		$attributes = $productItem->getRefItems( 'attribute', null, 'variant' );
 
 		foreach( $this->call( 'getAttributes', $attributes->keys()->toArray(), ['text'] ) as $attrItem ) {
-			$attr[] = $orderProductAttrManager->create()->copyFrom( $attrItem )->setType( 'variant' );
+			$attr[] = $orderManager->createProductAttribute()->copyFrom( $attrItem )->setType( 'variant' );
 		}
 
 		$custAttr = $this->call( 'getOrderProductAttributes', 'custom', array_keys( $custom ), $custom );

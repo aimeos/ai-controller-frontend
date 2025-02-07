@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Greek (http://app.transifex.com/aimeos/aimeos-core/language/el/)\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Δεν επιτρέπεται η προσθήκη προϊόντος με αναγνωριστικό \"%1$s\""
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "Τα διαθέσιμα αναγνωριστικά χαρακτηριστικών \"%1$s\" δεν ταιριάζουν με τα συγκεκριμένα αναγνωριστικά χαρακτηριστικών \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Το στοιχείο καλαθιού στη θέση \"%1$d\" δεν μπορεί να αλλάξει"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Το στοιχείο καλαθιού στη θέση \"%1$d\" δεν μπορεί να διαγραφεί με μη αυτόματο τρόπο"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Η κατηγορία δεν είναι διαθέσιμη"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr ""
+msgstr "Η κλάση \"%1$s\" δεν υλοποιεί την \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -58,35 +58,35 @@ msgstr "Η κλάση \"%1$s\" δεν βρέθηκε"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Η διαδρομή του ελεγκτή είναι κενή"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Ο κωδικός κουπονιού \"%1$s\" είναι άκυρος"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Ο κωδικός κουπονιού \"%1$s\" είναι άκυρος ή δεν είναι πλέον διαθέσιμος"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Το κουπόνι για τον κωδικό \"%1$s\" δεν είναι πλέον διαθέσιμο"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Ο τομέας \"%1$s\" δεν υποστηρίζεται"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Μη έγκυρες αναφορές \"%1$s\" για προϊόν με αναγνωριστικό \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Μη έγκυρες αναφορές \"%1$s\" για προϊόν με αναγνωριστικό %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Μη έγκυρες ιδιότητες διεύθυνσης, παρακαλούμε ελέγξτε την εισαγωγή σας"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +94,11 @@ msgstr "Μη έγκυροι χαρακτήρες στο όνομα της κλά
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Μη έγκυροι χαρακτήρες στο όνομα ελεγκτή \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Μη έγκυροι χαρακτήρες στο όνομα ελεγκτή \"%1$s\" στο \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,86 +114,86 @@ msgstr "Μη έγκυρο εργοστάσιο \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Μη έγκυρη τιμή τιμής \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Μη έγκυρα χαρακτηριστικά υπηρεσίας"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Μη έγκυρη τιμή για τον τύπο διεύθυνσης \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Ο τύπος λίστας για τον τομέα \"%1$s\" και τον κωδικό \"%2$s\" δεν βρέθηκε"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Δεν βρέθηκε κανένα άρθρο για τα επιλεγμένα χαρακτηριστικά και το αναγνωριστικό προϊόντος \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Κανένας τομέας λιστών πελατών"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Δεν υπάρχουν λίστες πελατών κωδικός τύπου"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Δεν βρέθηκε στοιχείο για το \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Δεν βρέθηκε στοιχείο παραγγελίας για το αναγνωριστικό \"%1$s\""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Δεν υπάρχει διαθέσιμο απόθεμα για το προϊόν ID \"%1$s\" και τον τύπο \"%2$s\""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Δεν βρέθηκε μοναδικό άρθρο για τα επιλεγμένα χαρακτηριστικά και το αναγνωριστικό προϊόντος \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Δεν επιτρέπεται η πρόσβαση σε δεδομένα πελατών για το αναγνωριστικό \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Ο αριθμός των κωδικών κουπονιών υπερβαίνει το όριο"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Το στοιχείο προϊόντος με αναγνωριστικό \"%1$s\" δεν βρέθηκε"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Οι απαιτήσεις για τον κωδικό κουπονιού \"%1$s\" δεν πληρούνται"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Δεν βρέθηκε στοιχείο υπηρεσίας για τύπο \"%1$s\" και αναγνωριστικό \"%2$s\""
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Ο ιστότοπος δεν είναι διαθέσιμος"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Επίτευξη προσωρινού ορίου"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Επίτευξη του προσωρινού ορίου παραγγελίας"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Η παραγγελία έχει ήδη δημιουργηθεί"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "Δεν υπάρχουν αρκετά προϊόντα \"%1$s\" σε απόθεμα"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +201,35 @@ msgstr "Αδυναμία κλήσης της μεθόδου \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Αδυναμία κλήσης της μεθόδου \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Αδυναμία δημιουργίας παρόχου \"%1$s\" για υπηρεσία με αναγνωριστικό \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Αδυναμία εύρεσης της κατηγορίας \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Αδυναμία εύρεσης του προϊόντος \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Αδυναμία εύρεσης προμηθευτή \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Άγνωστα χαρακτηριστικά \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Άγνωστα χαρακτηριστικά υπηρεσίας"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Δεν επιτρέπεται να διαχειρίζεστε ομάδες"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Μπορείτε να προσθέσετε μια κριτική μόνο αν έχετε παραγγείλει ένα προϊόν."

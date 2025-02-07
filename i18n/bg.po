@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Chiarra, 2024\n"
 "Language-Team: Bulgarian (http://app.transifex.com/aimeos/aimeos-core/language/bg/)\n"
@@ -120,7 +120,7 @@ msgid "Invalid price value \"%1$s\""
 msgstr "Невалидна стойност на цената \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Невалидни атрибути на услугата"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -212,7 +212,7 @@ msgstr "Невъзможно е създаването на доставчик \
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Невъзможно е да се намери категория \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
@@ -220,14 +220,14 @@ msgstr "Не може да бъде намерен продукт \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Невъзможно е да се намери доставчик \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Неизвестни атрибути \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Неизвестни атрибути на услугата"
 
 #, php-format
 msgid "You are not allowed to manage groups"

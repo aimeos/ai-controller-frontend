@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Estonian (http://app.transifex.com/aimeos/aimeos-core/language/et/)\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Toote lisamine ID-ga \"%1$s\" ei ole lubatud."
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "Olemasolevad atribuudi ID-d \"%1$s\" ei vasta antud atribuudi ID-dele \"%2$s\"."
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Korvi elementi positsioonis \"%1$d\" ei saa muuta."
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Korvi elementi positsioonil \"%1$d\" ei saa käsitsi kustutada."
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategooria ei ole saadaval"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -58,35 +58,35 @@ msgstr "Klassi \"%1$s\" ei leitud"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Kontrolleri tee on tühi"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Kupongi kood \"%1$s\" on kehtetu."
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Kupongi kood \"%1$s\" on kehtetu või ei ole enam saadaval."
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Kupong koodile \"%1$s\" ei ole enam saadaval."
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Domeen \"%1$s\" ei ole toetatud"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Invaliidne \"%1$s\" viide tootele, mille ID on \"%2$s\"."
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Invaliidne \"%1$s\" viide tootele, mille ID on %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Väärad aadressi omadused, palun kontrollige oma sisestust"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +94,11 @@ msgstr "Lubamatud tähemärgid klassi nimes \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Väärad tähemärgid kontrolleri nimes \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Väärad tähemärgid kontrolleri \"%1$s\" nimes \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,50 +114,50 @@ msgstr "factory \"%1$s\" on vigane"
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Vale hinnaväärtus \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Teenuse kehtetud atribuudid"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Aadressitüübi \"%1$s\" väärtus on vale."
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Domeeni \"%1$s\" ja koodi \"%2$s\" loenditüüpi ei leitud."
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Valitud atribuutide ja toote ID \"%1$s\" jaoks ei leitud artiklit."
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Klientide nimekirjade domeen puudub"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Klientide nimekirjade tüübikood puudub"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Punkti \"%1$s\" (%2$s) jaoks ei leitud ühtegi toodet."
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "ID \"%1$s\" jaoks ei leitud tellimusartiklit."
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Tootetunnuse \"%1$s\" ja tüübi \"%2$s\" varud puuduvad."
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Valitud atribuutide ja toote ID \"%1$s\" jaoks ei leitud unikaalset artiklit."
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "ID \"%1$s\" kliendiandmetele ei ole lubatud ligi pääseda."
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -165,35 +165,35 @@ msgstr "Allahindluskoodide arv ületab lubatud piiri"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Tooteartiklit ID \"%1$s\" ei leitud."
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Kupongi \"%1$s\" nõuded ei ole täidetud."
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Tüübi \"%1$s\" ja ID \"%2$s\" teenuseelementi ei leitud."
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Sait ei ole saadaval"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Ajutine piir on saavutatud"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Ajutine tellimuse piir on saavutatud"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Tellimus on juba loodud"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "Laos ei ole piisavalt tooteid \"%1$s\"."
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +201,35 @@ msgstr "Meetodit \"%1$s\" ei ole võimalik välja kutsuda."
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Meetodit \"%1$s::%2$s\" ei ole võimalik välja kutsuda."
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Teenuse \"%1$s\" teenusepakkuja \"%2$s\" jaoks ei ole võimalik luua."
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Kategooriat \"%1$s\" ei ole võimalik leida."
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Toodet \"%1$s\" ei ole võimalik leida."
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Tarnijat \"%1$s\" ei ole võimalik leida."
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Teadmata atribuudid \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Teadmata teenuse atribuudid"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Teil ei ole lubatud hallata gruppe"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Saate lisada arvustuse ainult siis, kui olete tellinud toote."

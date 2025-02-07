@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Goran Sabo <info@noaset.pro>, 2020\n"
 "Language-Team: Slovenian (http://app.transifex.com/aimeos/aimeos-core/language/sl/)\n"
@@ -40,7 +40,7 @@ msgstr "Basket item at position \"%1$d\" cannot be deleted manually"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategorija ni na voljo"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -119,7 +119,7 @@ msgid "Invalid price value \"%1$s\""
 msgstr "Invalid price value \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Neveljavni atributi storitve"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -179,7 +179,7 @@ msgstr "Service item for type \"%1$s\" and ID \"%2$s\" not found"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Stran ni na voljo"
 
 #, php-format
 msgid "Temporary limit reached"
@@ -211,7 +211,7 @@ msgstr "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Ni mogoče najti kategorije \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
@@ -219,14 +219,14 @@ msgstr "Unable to find product \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Ni mogoče najti dobavitelja \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Unknown attributes \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Neznani atributi storitev"
 
 #, php-format
 msgid "You are not allowed to manage groups"

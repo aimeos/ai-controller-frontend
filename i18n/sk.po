@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Tomas G <tomas.gmitro@gmail.com>, 2016\n"
 "Language-Team: Slovak (http://app.transifex.com/aimeos/aimeos-core/language/sk/)\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -39,7 +39,7 @@ msgstr "Položka v košíku na pozícií  \"%1$d\" nemôŽe byť ručne zmazaná
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategória nie je k dispozícii"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -75,7 +75,7 @@ msgstr "Kód kupónu \"%1$s\" už nie je dostupný"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Doména \"%1$s\" nie je podporovaná"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -83,7 +83,7 @@ msgstr "Neplatné \"%1$s\" referencuje produkt s ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Neplatné odkazy \"%1$s\" pre produkt s ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
@@ -95,7 +95,7 @@ msgstr "Neplatné znaky v triede  \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Neplatné znaky v názve kontroléra \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -115,10 +115,10 @@ msgstr "Neplatná továreň \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Neplatná hodnota ceny \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Neplatné atribúty služby"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -134,11 +134,11 @@ msgstr "Nebol nájdený žiaden artikel pre zvolené kritéria a ID produktu \"%
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Žiadna doména zoznamov zákazníkov"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Žiadny kód typu zoznamov zákazníkov"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
@@ -146,11 +146,11 @@ msgstr "Žiadná položka nebola nájdená pre \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Nenašla sa žiadna položka objednávky pre ID \"%1$s\""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Nie sú k dispozícii žiadne skladové zásoby pre ID výrobku \"%1$s\" a typ \"%2$s\""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
@@ -158,15 +158,15 @@ msgstr "Žiaden unikátny artikel sa nenašiel pre zvolené kritéria a ID produ
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Nie je povolený prístup k údajom zákazníka pre ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Počet kódov kupónov prekračuje limit"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Položka produktu s ID \"%1$s\" nebola nájdená"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
@@ -178,19 +178,19 @@ msgstr "Položka služby pre typ \"%1$s\" a ID \"%2$s\" nebol nájdený"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Stránka nie je k dispozícii"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Dočasný limit dosiahnutý"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Dočasný limit objednávky dosiahnutý"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Objednávka už bola vytvorená"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
@@ -210,27 +210,27 @@ msgstr "Nepodarilo sa vytvoriť poskytovateľa \"%1$s\" pre službu s ID \"%2$s\
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Nie je možné nájsť kategóriu \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Nie je možné nájsť produkt \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Nie je možné nájsť dodávateľa \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Neznáme atribúty \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Neznáme atribúty služby"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Nie je povolené spravovať skupiny"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Recenziu môžete pridať len vtedy, ak ste si produkt objednali"

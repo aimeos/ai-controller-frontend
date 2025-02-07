@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Lithuanian (http://app.transifex.com/aimeos/aimeos-core/language/lt/)\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Neleidžiama pridėti gaminio su ID \"%1$s\""
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "Turimi atributų ID \"%1$s\" neatitinka pateiktų atributų ID \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Krepšelio elemento pozicijoje \"%1$d\" negalima keisti"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Krepšelio elemento, esančio pozicijoje \"%1$d\", negalima ištrinti rankiniu būdu"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategorija nėra prieinama"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -58,35 +58,35 @@ msgstr "Klasė \"%1$s\" nerasta"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Valdiklio kelias yra tuščias"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Kupono kodas \"%1$s\" negalioja"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Kupono kodas \"%1$s\" negalioja arba nebėra prieinamas"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Kodo \"%1$s\" kuponas nebėra prieinamas"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Domenas \"%1$s\" nepalaikomas"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Negaliojančios \"%1$s\" nuorodos produktui su ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Negaliojančios \"%1$s\" nuorodos produktui su ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Neteisingos adreso savybės, patikrinkite įvestį"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +94,11 @@ msgstr "Netinkami simboliai klasės pavadinime \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Valdiklio pavadinime \"%1$s\" įrašyti neteisingi simboliai"
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Netinkami simboliai valdiklio pavadinime \"%1$s\" in \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,86 +114,86 @@ msgstr "Netinkama gamykla \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Netinkama kainos reikšmė \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Netinkami paslaugos atributai"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Netinkama adreso tipo \"%1$s\" reikšmė"
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Nerastas domeno \"%1$s\" ir kodo \"%2$s\" sąrašo tipas"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Nerastas joks straipsnis pagal pasirinktus atributus ir gaminio ID \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Nėra klientų sąrašų domeno"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Nėra klientų sąrašų tipo kodo"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Nerastas elementas \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Nerastas ID \"%1$s\" užsakymo elementas"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Prekės ID \"%1$s\" ir tipo \"%2$s\" atsargų nėra"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Nerastas unikalus pasirinktų atributų ir produkto ID \"%1$s\" straipsnis"
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Neleidžiama pasiekti ID \"%1$s\" kliento duomenų"
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Kuponų kodų skaičius viršija limitą"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Nerastas produkto elementas su ID \"%1$s\""
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Nesilaikoma kupono kodo \"%1$s\" reikalavimų"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Tipo \"%1$s\" ir ID \"%2$s\" paslaugos elementas nerastas"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Svetainė neprieinama"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Pasiekta laikina riba"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Pasiektas laikinas užsakymo limitas"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Užsakymas jau sukurtas"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "Sandėlyje nėra pakankamai produktų \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +201,35 @@ msgstr "Nepavyksta iškviesti metodo \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Nepavyksta iškviesti metodo \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Nepavyksta sukurti paslaugų teikėjo \"%1$s\" paslaugai su ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Nepavyko rasti kategorijos \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Nepavyko rasti produkto \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Nepavyksta rasti tiekėjo \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Nežinomi atributai \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Nežinomi paslaugos atributai"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Jums neleidžiama valdyti grupių"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Apžvalgą galite pridėti tik tada, jei užsisakėte produktą."

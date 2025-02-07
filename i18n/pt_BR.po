@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: b5fdd37cec45d8078af7e530465bb050, 2016\n"
+"Last-Translator: Keite Clembet, 2022\n"
 "Language-Team: Portuguese (Brazil) (http://app.transifex.com/aimeos/aimeos-core/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,7 +123,7 @@ msgid "Invalid price value \"%1$s\""
 msgstr "Valor do preço inválido \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Atributos de serviço inválidos"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -215,7 +215,7 @@ msgstr "Incapaz de criar provedor \"%1$s\" para o serviço com ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Não foi possível localizar a categoria \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
@@ -223,14 +223,14 @@ msgstr "Não foi possível encontrar o produto \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Não foi possível encontrar o fornecedor \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Atributo desconhecido \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Atributos de serviço desconhecidos"
 
 #, php-format
 msgid "You are not allowed to manage groups"

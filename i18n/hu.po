@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Péter Kozma <kopegrafika@gmail.com>, 2016\n"
 "Language-Team: Hungarian (http://app.transifex.com/aimeos/aimeos-core/language/hu/)\n"
@@ -121,7 +121,7 @@ msgid "Invalid price value \"%1$s\""
 msgstr "Érvénytelen árérték: \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Érvénytelen szolgáltatási attribútumok"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -213,7 +213,7 @@ msgstr "Nem lehet létrehozni \"%1$s\" szolgátatót \"%2$s\" szolgáltatásazon
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Nem sikerült megtalálni a \"%1$s\" kategóriát."
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
@@ -221,14 +221,14 @@ msgstr "\"%1$s\" termék nem található"
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Nem sikerült megtalálni a \"%1$s\" szállítót."
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Ismeretlen jellemzők: \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Ismeretlen szolgáltatási attribútumok"
 
 #, php-format
 msgid "You are not allowed to manage groups"

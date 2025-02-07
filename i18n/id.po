@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Ranu Yulianto <vanarif@gmail.com>, 2018\n"
 "Language-Team: Indonesian (http://app.transifex.com/aimeos/aimeos-core/language/id/)\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Menambahkan produk dengan ID \"%1$s\" tidak diperbolehkan"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "ID atribut yang tersedia \"%1$s\" tidak sesuai dengan ID atribut yang diberikan \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Item keranjang pada posisi \"%1$d\" tidak dapat diubah"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Item keranjang pada posisi \"%1$d\" tidak dapat dihapus secara manual"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategori tidak tersedia"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr ""
+msgstr "Kelas \"%1$s\" tidak mengimplementasikan \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
@@ -59,35 +59,35 @@ msgstr "Kelas \"%1$s\" tidak ditemukan"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Jalur pengontrol kosong"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Kode kupon \"%1$s\" tidak valid"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Kode kupon \"%1$s\" tidak valid atau tidak tersedia lagi"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Kupon untuk kode \"%1$s\" tidak tersedia lagi"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Domain \"%1$s\" tidak didukung"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Referensi \"%1$s\" tidak valid untuk produk dengan ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Referensi \"%1$s\" tidak valid untuk produk dengan ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Properti alamat tidak valid, harap periksa masukan Anda"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -95,11 +95,11 @@ msgstr "Karakter tidak valid dalam nama kelas \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Karakter tidak valid dalam nama pengontrol \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Karakter yang tidak valid dalam nama pengontrol \"%1$s\" dalam \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -115,30 +115,30 @@ msgstr "Pabrik tidak valid \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Nilai harga tidak valid \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Atribut layanan tidak valid"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Nilai tidak valid untuk tipe alamat \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Jenis daftar untuk domain \"%1$s\" dan kode \"%2$s\" tidak ditemukan"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Tidak ada artikel yang ditemukan untuk atribut yang dipilih dan ID produk \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Tidak ada domain daftar pelanggan"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Tidak ada pelanggan yang mencantumkan kode jenis"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
@@ -146,39 +146,39 @@ msgstr "Item \"%1$s\" (%2$s) tidak ditemukan"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Tidak ada item pesanan untuk ID \"%1$s\" yang ditemukan"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Tidak ada stok untuk ID produk \"%1$s\" dan tipe \"%2$s\" yang tersedia"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Tidak ditemukan artikel unik untuk atribut yang dipilih dan ID produk \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Tidak diizinkan mengakses data pelanggan untuk ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Jumlah kode kupon melebihi batas"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Item produk dengan ID \"%1$s\" tidak ditemukan"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Persyaratan untuk kode kupon \"%1$s\" tidak terpenuhi"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Item layanan untuk tipe \"%1$s\" dan ID \"%2$s\" tidak ditemukan"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Situs tidak tersedia"
 
 #, php-format
 msgid "Temporary limit reached"
@@ -206,31 +206,31 @@ msgstr "Tidak bisa memanggil method \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Tidak dapat membuat penyedia \"%1$s\" untuk layanan dengan ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Tidak dapat menemukan kategori \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Tidak dapat menemukan produk \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Tidak dapat menemukan pemasok \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Atribut \"%1$s\" tidak diketahui"
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Atribut layanan yang tidak diketahui"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Anda tidak diizinkan untuk mengelola grup"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Anda hanya dapat menambahkan ulasan jika Anda telah memesan produk"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Korean (http://app.transifex.com/aimeos/aimeos-core/language/ko/)\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "ID \"%1$s\"로 제품을 추가할 수 없습니다."
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "사용 가능한 특성 ID \"%1$s\"가 지정된 특성 ID \"%2$s\"와 일치하지 않습니다."
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "\"%1$d\" 위치의 바구니 항목을 변경할 수 없습니다."
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "\"%1$d\" 위치에 있는 바구니 항목을 수동으로 삭제할 수 없습니다."
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "카테고리를 사용할 수 없습니다."
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -58,35 +58,35 @@ msgstr "\"%1$s\" 클래스를 찾을 수 없습니다."
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "컨트롤러 경로가 비어 있습니다."
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "쿠폰 코드 \"%1$s\"가 잘못되었습니다."
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "쿠폰 코드 \"%1$s\"가 유효하지 않거나 더 이상 사용할 수 없습니다."
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "\"%1$s\" 코드에 대한 쿠폰을 더 이상 사용할 수 없습니다."
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "도메인 \"%1$s\"는 지원되지 않습니다."
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "ID가 \"%2$s\"인 제품에 대한 잘못된 \"%1$s\" 참조입니다."
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "ID가 %2$s인 제품에 대한 잘못된 \"%1$s\" 참조입니다."
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "잘못된 주소 속성, 입력 내용을 확인해 주세요."
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +94,11 @@ msgstr "클래스 이름 \"%1$s\"에 잘못된 문자가 있습니다."
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "컨트롤러 이름 \"%1$s\"에 잘못된 문자가 있습니다."
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "\"%2$s\"의 컨트롤러 이름 \"%1$s\"에 잘못된 문자가 있습니다."
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,86 +114,86 @@ msgstr "잘못된 공장 \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "잘못된 가격 값 \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "잘못된 서비스 속성"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "주소 유형 \"%1$s\"에 대한 잘못된 값입니다."
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "도메인 \"%1$s\" 및 코드 \"%2$s\"의 목록 유형을 찾을 수 없습니다."
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "선택한 속성 및 제품 ID \"%1$s\"에 대한 문서를 찾을 수 없습니다."
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "고객이 도메인을 나열하지 않음"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "고객이 유형 코드를 나열하지 않음"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "\"%1$s\"(%2$s)에 대한 항목을 찾을 수 없습니다."
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "ID \"%1$s\"에 대한 주문 항목을 찾을 수 없습니다."
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "제품 ID \"%1$s\" 및 유형 \"%2$s\"에 대한 재고가 없습니다."
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "선택한 속성 및 제품 ID \"%1$s\"에 대한 고유 문서를 찾을 수 없습니다."
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "ID \"%1$s\"에 대한 고객 데이터에 액세스할 수 없습니다."
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "쿠폰 코드 개수가 한도를 초과했습니다."
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "ID가 \"%1$s\"인 제품 항목을 찾을 수 없습니다."
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "쿠폰 코드 \"%1$s\"에 대한 요구 사항이 충족되지 않습니다."
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "\"%1$s\" 유형 및 ID \"%2$s\"에 대한 서비스 항목을 찾을 수 없습니다."
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "사이트를 사용할 수 없습니다."
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "임시 한도에 도달했습니다."
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "임시 주문 한도에 도달했습니다."
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "주문이 이미 생성되었습니다."
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "재고가 \"%1$s\" 제품이 부족합니다."
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +201,35 @@ msgstr "\"%1$s\" 메서드를 호출할 수 없습니다."
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "\"%1$s::%2$s\" 메서드를 호출할 수 없습니다."
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "ID가 \"%2$s\"인 서비스에 대해 공급자 \"%1$s\"를 만들 수 없습니다."
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "\"%1$s\" 범주를 찾을 수 없습니다."
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "\"%1$s\" 제품을 찾을 수 없습니다."
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "공급업체 \"%1$s\"를 찾을 수 없습니다."
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "알 수 없는 속성 \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "알 수 없는 서비스 속성"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "그룹을 관리할 수 없습니다."
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "제품을 주문한 경우에만 리뷰를 추가할 수 있습니다."

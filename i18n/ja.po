@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Aimeos, 2025
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Aimeos, 2025\n"
 "Language-Team: Japanese (http://app.transifex.com/aimeos/aimeos-core/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,27 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "ID \"%1$s\" を持つ製品を追加することはできません。"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "使用可能な属性 ID \"%1$s\" は、指定された属性 ID \"%2$s\" と一致しません。"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "位置 \"%1$d\" のバスケット項目は変更できません。"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "位置 \"%1$d\" のバスケット項目を手動で削除できません。"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "カテゴリーがありません"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -58,35 +59,35 @@ msgstr "クラス \"1 %1$s\"が見つかりません"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "コントローラのパスが空"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "クーポンコード「%1$s」が無効です。"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "クーポンコード「%1$s」は無効です。"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "コード「%1$s」のクーポンは利用できなくなりました。"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "ドメイン \"%1$s\" はサポートされていません。"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "ID \"%2$s\" を持つ製品の \"%1$s\" 参照が無効です。"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "ID %2$s を持つ製品の \"%1$s\" 参照が無効です。"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "アドレスプロパティが無効です。"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +95,11 @@ msgstr "クラス名 \"1%1$s\"に無効な文字があります"
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "コントローラ名 \"%1$s\" に無効な文字があります。"
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "コントローラ名 \"%1$s\" の \"%2$s\" に無効な文字があります。"
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,50 +115,50 @@ msgstr "無効なファクトリ \"1%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "無効な価格値 \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "無効なサービス属性"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "アドレス・タイプ \"%1$s\" の値が無効です。"
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "ドメイン \"%1$s\" およびコード \"%2$s\" のリスト・タイプが見つかりません。"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "選択された属性と製品ID \"%1$s\" に該当する記事が見つかりません。"
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "顧客リスト・ドメインなし"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "顧客リストタイプコードなし"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "\"%1$s\" (%2$s) に該当する項目が見つかりません。"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "ID \"%1$s\" の注文項目が見つかりません。"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "製品 ID \"%1$s\"、タイプ \"%2$s\" の在庫がありません。"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "選択された属性と製品ID \"%1$s\" に固有の記事が見つかりません。"
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "ID \"%1$s\" の顧客データへのアクセスが許可されていません。"
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -165,35 +166,35 @@ msgstr "クーポンコードの数が上限を超えています"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "ID \"%1$s\" を持つ商品アイテムが見つかりません。"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "クーポンコード「%1$s」の条件を満たしていません。"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "タイプ \"%1$s\" および ID \"%2$s\" のサービス項目が見つかりません。"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "サイトが利用できません"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "一時的な制限に達した"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "一時的な注文の上限に達した"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "注文はすでに作成されています。"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "\"%1$s\" 在庫が十分ではありません。"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +202,35 @@ msgstr "メソッド \"1%1$s\"を呼び出すことができません"
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "メソッド \"%1$s::%2$s\" を呼び出すことができません。"
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "ID \"%2$s\" を持つサービスのプロバイダ \"%1$s\" を作成できません。"
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "カテゴリ \"%1$s\" が見つかりません。"
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "製品 \"%1$s\" が見つかりません。"
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "サプライヤ \"%1$s\" が見つかりません。"
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "不明な属性 \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "不明なサービス属性"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "あなたはグループを管理することはできません"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "レビューを追加できるのは、商品を注文した場合のみです。"

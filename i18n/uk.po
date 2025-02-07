@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Oleksandr Kropyvko <akropivko@gmail.com>, 2021\n"
 "Language-Team: Ukrainian (http://app.transifex.com/aimeos/aimeos-core/language/uk/)\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -59,7 +59,7 @@ msgstr "Клас \"%1$s\" не знайдено"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Шлях до контролера порожній"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
@@ -75,7 +75,7 @@ msgstr "Код купона \"%1$s\" більше недоступний"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Домен \"%1$s\" не підтримується"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -95,11 +95,11 @@ msgstr "Недопустимі символы в назві класу \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Неприпустимі символи в імені контролера \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Неприпустимі символи в імені контролера \"%1$s\" у \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -118,7 +118,7 @@ msgid "Invalid price value \"%1$s\""
 msgstr "Недійсне значення ціни \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Неправильні атрибути сервісу"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -126,7 +126,7 @@ msgstr "Недійсне значення для типу адреси \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Тип списку для домену \"%1$s\" і коду \"%2$s\" не знайдено"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
@@ -154,11 +154,11 @@ msgstr "Немає запасу для ідентифікатора товару
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Не знайдено жодного унікального товару для вибраних атрибутів та ідентифікатора товару \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Заборонено доступ до даних клієнта для ідентифікатора \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -174,7 +174,7 @@ msgstr "Вимоги до коду купона \"%1$s\" не виконані"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Елемент обслуговування для типу \"%1$s\" та ідентифікатора \"%2$s\" не знайдено"
 
 #, php-format
 msgid "Site is not available"
@@ -202,15 +202,15 @@ msgstr "Неможливо викликати метод \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Не вдається викликати метод \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Не вдається створити провайдера \"%1$s\" для послуги з ідентифікатором \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Не вдалося знайти категорію \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
@@ -218,14 +218,14 @@ msgstr "Не вдається знайти товар \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Не вдалося знайти постачальника \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Невідомі атрибути \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Невідомі атрибути служби"
 
 #, php-format
 msgid "You are not allowed to manage groups"

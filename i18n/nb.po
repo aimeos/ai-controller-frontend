@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 18:14+0100\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Norwegian Bokmål (http://app.transifex.com/aimeos/aimeos-core/language/nb/)\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Det er ikke tillatt å legge til produkt med ID \"%1$s\""
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "Tilgjengelige attributt-ID-er \"%1$s\" samsvarer ikke med de angitte attributt-ID-ene \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Kurvelementet på posisjon \"%1$d\" kan ikke endres"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Kurvelementet på posisjon \"%1$d\" kan ikke slettes manuelt"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategorien er ikke tilgjengelig"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -58,35 +58,35 @@ msgstr "Klassen \"%1$s\" ble ikke funnet"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Kontrollerstien er tom"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Kupongkoden \"%1$s\" er ugyldig"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Kupongkoden \"%1$s\" er ugyldig eller ikke lenger tilgjengelig"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Kupongen for koden \"%1$s\" er ikke lenger tilgjengelig"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Domenet \"%1$s\" støttes ikke"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Ugyldige \"%1$s\"-referanser for produkt med ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Ugyldige \"%1$s\"-referanser for produkt med ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Ugyldige adresseegenskaper, vennligst sjekk inndataene dine"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +94,11 @@ msgstr "Ugyldige tegn i klassenavnet \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Ugyldige tegn i kontrollernavnet \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Ugyldige tegn i kontrollernavnet \"%1$s\" i \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,86 +114,86 @@ msgstr "Ugyldig fabrikk \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Ugyldig prisverdi \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Ugyldige tjenesteattributter"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Ugyldig verdi for adressetypen \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Listetype for domene \"%1$s\" og kode \"%2$s\" ble ikke funnet"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Ingen artikkel funnet for valgte attributter og produkt-ID \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Ingen kundelister domene"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Ingen typekode for kundelister"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Ingen element for \"%1$s\" (%2$s) funnet"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Ingen ordrevare for ID \"%1$s\" funnet"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Ingen lagerbeholdning for produkt-ID \"%1$s\" og type \"%2$s\" tilgjengelig"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Ingen unik artikkel funnet for valgte attributter og produkt-ID \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Ikke tillatt å få tilgang til kundedata for ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Antall kupongkoder overskrider grensen"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Produktelement med ID \"%1$s\" ble ikke funnet"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Kravene for kupongkoden \"%1$s\" er ikke oppfylt"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Tjenesteelement for type \"%1$s\" og ID \"%2$s\" ble ikke funnet"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Nettstedet er ikke tilgjengelig"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Midlertidig grense nådd"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Midlertidig ordregrense nådd"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Bestillingen er allerede opprettet"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "Det er ikke nok produkter \"%1$s\" på lager"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +201,35 @@ msgstr "Kunne ikke anrope metoden \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Kunne ikke anrope metoden \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Kunne ikke opprette leverandør \"%1$s\" for tjeneste med ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Kunne ikke finne kategorien \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Kunne ikke finne produktet \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Kunne ikke finne leverandør \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Ukjente attributter \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Ukjente tjenesteattributter"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Du har ikke lov til å administrere grupper"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Du kan bare legge til en anmeldelse hvis du har bestilt et produkt"

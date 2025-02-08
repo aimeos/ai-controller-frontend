@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 15:48+0200\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Dimitri <doleiynyk@metaways.de>, 2013\n"
 "Language-Team: Russian (http://app.transifex.com/aimeos/aimeos-core/language/ru/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -40,7 +40,7 @@ msgstr "Невозможно вручную удалить элемент кор
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Категория недоступна"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -76,7 +76,7 @@ msgstr "Купон с кодом \"%1$s\" более недоступен"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Домен \"%1$s\" не поддерживается"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
@@ -84,7 +84,7 @@ msgstr "Недопустимые ссылки \"%1$s\" для продукта �
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Недопустимые ссылки \"%1$s\" для продукта с идентификатором %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
@@ -96,7 +96,7 @@ msgstr "Недопустимые символы в названии класса
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Недопустимые символы в имени контроллера \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
@@ -116,7 +116,10 @@ msgstr "Неверная фабрика \"%1$s\" "
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Недопустимое значение цены \"%1$s\""
+
+msgid "Invalid service attributes"
+msgstr "Недопустимые атрибуты сервиса"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
@@ -132,11 +135,11 @@ msgstr "Элементов для выбранных атрибутов и но�
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Нет домена со списками клиентов"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Код типа \"Нет списков клиентов"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
@@ -144,11 +147,11 @@ msgstr "Не найдено элементов для \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Не найдено ни одного элемента заказа для идентификатора \"%1$s\""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Нет в наличии товара с идентификатором \"%1$s\" и типом \"%2$s\""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
@@ -156,7 +159,7 @@ msgstr "По выбранным атрибутам и номеру товара 
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Не разрешен доступ к данным клиента для идентификатора \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -164,7 +167,7 @@ msgstr "Количество купонов на скидку превышает
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Элемент продукта с идентификатором \"%1$s\" не найден"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
@@ -176,19 +179,19 @@ msgstr "Не найден элемент службы для типа \"%1$s\" �
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Сайт недоступен"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Временной лимит достигнут"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Достигнут временный лимит заказа"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Заказ уже создан"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
@@ -207,17 +210,28 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "Невозможно создать поставщика \"%1$s\" для сервиса с номером \"%2$s\""
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr "Невозможно найти категорию \"%1$s\""
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Невозможно найти продукт \"%1$s\""
+
+#, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr "Невозможно найти поставщика \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Неизвестные атрибуты \"%1$s\""
 
+msgid "Unknown service attributes"
+msgstr "Неизвестные атрибуты сервиса"
+
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Вам не разрешено управлять группами"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Вы можете добавить отзыв, только если вы заказали товар"

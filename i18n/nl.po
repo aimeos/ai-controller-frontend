@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 15:48+0200\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Yves Vermeulen <tmastar@gmail.com>, 2015\n"
 "Language-Team: Dutch (http://app.transifex.com/aimeos/aimeos-core/language/nl/)\n"
@@ -44,7 +44,7 @@ msgstr "Winkelmand item op positie \"%1$d\" kan niet handmatig worden gewist"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Categorie is niet beschikbaar"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -122,6 +122,9 @@ msgstr "Ongeldige Factory \"%1$s\""
 msgid "Invalid price value \"%1$s\""
 msgstr "Ongeldige prijswaarde \"%1$s\""
 
+msgid "Invalid service attributes"
+msgstr "Ongeldige serviceattributen"
+
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Ongeldige waarde voor adres type \"%1$s\""
@@ -180,7 +183,7 @@ msgstr "Service item voor type \"%1$s\" en ID \"%2$s\" niet gevonden"
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Site is niet beschikbaar"
 
 #, php-format
 msgid "Temporary limit reached"
@@ -211,12 +214,23 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "Provider \"%1$s\" voor service met ID \"%2$s\" kon niet worden aangeroepen"
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr "Kan categorie \"%1$s\" niet vinden"
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
 msgstr "Product \"%1$s\" niet gevonden"
 
 #, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr "Kan leverancier \"%1$s\" niet vinden"
+
+#, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Onbekende attributen \"%1$s\""
+
+msgid "Unknown service attributes"
+msgstr "Onbekende serviceattributen"
 
 #, php-format
 msgid "You are not allowed to manage groups"

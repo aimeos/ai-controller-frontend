@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 15:48+0200\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: Martin Vyšohlíd <vysohlidm@gmail.com>, 2016\n"
 "Language-Team: Czech (http://app.transifex.com/aimeos/aimeos-core/language/cs/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
@@ -41,7 +41,7 @@ msgstr "Položku v košíku na pozici \"%1$d\" nelze smazat ručně"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Kategorie není k dispozici"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -65,31 +65,31 @@ msgstr "Není nastavena cesta kontroléru"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Kód kupónu \"%1$s\" je neplatný"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Kód kupónu \"%1$s\" je neplatný nebo již není k dispozici"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Kupón s kódem \"%1$s\" již není k dispozici"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Doména \"%1$s\" není podporována"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Neplatné odkazy \"%1$s\" pro produkt s ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Neplatné odkazy \"%1$s\" pro produkt s ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Neplatné vlastnosti adresy, zkontrolujte prosím zadání."
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -97,11 +97,11 @@ msgstr "Zakázané znaky ve jméně třídy \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Neplatné znaky v názvu řadiče \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Neplatné znaky v názvu řadiče \"%1$s\" v \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -117,47 +117,50 @@ msgstr "Neplatná továrna \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Neplatná hodnota ceny \"%1$s\""
+
+msgid "Invalid service attributes"
+msgstr "Neplatné atributy služby"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Neplatná hodnota pro typ adresy \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Typ seznamu pro doménu \"%1$s\" a kód \"%2$s\" nenalezen"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Pro vybrané atributy a ID produktu \"%1$s\" nebyl nalezen žádný článek."
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Žádná doména se seznamy zákazníků"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Žádný kód typu seznamů zákazníků"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Nebyla nalezena žádná položka pro \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Nebyla nalezena žádná položka objednávky pro ID \"%1$s\"."
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "ID produktu \"%1$s\" a typ \"%2$s\" nejsou k dispozici na skladě."
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Pro vybrané atributy a ID produktu \"%1$s\" nebyl nalezen žádný jedinečný článek."
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Není povolen přístup k údajům zákazníka pro ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
@@ -165,31 +168,31 @@ msgstr "Počet kupónových kódů překročil limit"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Položka produktu s ID \"%1$s\" nebyla nalezena"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Nejsou splněny požadavky na kód kupónu \"%1$s\"."
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Položka služby pro typ \"%1$s\" a ID \"%2$s\" nebyla nalezena."
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Stránka není k dispozici"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Dočasný limit dosažen"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Dosažení dočasného limitu objednávek"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Objednávka již byla vytvořena"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
@@ -201,24 +204,35 @@ msgstr "Nelze nazvat metodu \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Nelze zavolat metodu \"%1$s::%2$s\"."
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Nelze vytvořit poskytovatele \"%1$s\" pro službu s ID \"%2$s\"."
+
+#, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr "Nelze najít kategorii \"%1$s\"."
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Nelze najít produkt \"%1$s\"."
+
+#, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr "Nelze najít dodavatele \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Neznámé atributy \"%1$s\""
+
+msgid "Unknown service attributes"
+msgstr "Neznámé atributy služby"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Nejste oprávněni spravovat skupiny"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Recenzi můžete přidat pouze v případě, že jste si produkt objednali."

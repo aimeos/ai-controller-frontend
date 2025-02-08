@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aimeos, 2015,2017,2019-2021
+# Aimeos, 2015,2017,2019-2021,2025
 # nsendetzky, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 15:48+0200\n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: nsendetzky, 2013\n"
 "Language-Team: German (http://app.transifex.com/aimeos/aimeos-core/language/de/)\n"
@@ -118,6 +118,9 @@ msgstr "Ungültige Factory \"%1$s\""
 msgid "Invalid price value \"%1$s\""
 msgstr "Ungültiger Preis \"%1$s\""
 
+msgid "Invalid service attributes"
+msgstr "Ungültige Dienstmerkmale"
+
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "Es wurde kein gültiger Wert für den Adresstyp \"%1$s\" übergeben"
@@ -207,12 +210,23 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "Es konnte kein Service \"%1$s\" mit der ID \"%2$s\" erstellt werden"
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr "Kategorie \"%1$s\" kann nicht gefunden werden"
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
 msgstr "Produkt \"%1$s\" konnte nicht gefunden werden"
 
 #, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr "Anbieter \"%1$s\" kann nicht gefunden werden"
+
+#, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "Die übergebenen Attribute \"%1$s\" konnten nicht zugeordnet werden"
+
+msgid "Unknown service attributes"
+msgstr "Unbekannte Dienstmerkmale"
 
 #, php-format
 msgid "You are not allowed to manage groups"

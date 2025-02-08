@@ -3,235 +3,233 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Goran Sabo <info@noaset.pro>, 2020
-# Goran Sabo <info@noaset.pro>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-06 13:15+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
-"Last-Translator: Goran Sabo <info@noaset.pro>, 2020\n"
-"Language-Team: Slovenian (http://app.transifex.com/aimeos/aimeos-core/language/sl/)\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Latvian (http://app.transifex.com/aimeos/aimeos-core/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Language: lv\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
 msgid "%013.2F"
 msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr "Adding product with ID \"%1$s\" is not allowed"
+msgstr "Preces ar ID \"%1$s\" pievienošana nav atļauta"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
+msgstr "Pieejamie atribūtu ID \"%1$s\" neatbilst dotajiem atribūtu ID \"%2$s\"."
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr "Basket item at position \"%1$d\" cannot be changed"
+msgstr "Grozā pozīcijā \"%1$d\" esošo grozu elementu nevar mainīt"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr "Basket item at position \"%1$d\" cannot be deleted manually"
+msgstr "Grozā pozīcijā \"%1$d\" esošo vienumu nevar dzēst manuāli"
 
 #, php-format
 msgid "Category is not available"
-msgstr "Kategorija ni na voljo"
+msgstr "Kategorija nav pieejama"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "Klase \"%1$s\" neimplementē \"%2$s\"."
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr "Class \"%1$s\" does not implement interface \"%2$s\""
+msgstr "Klase \"%1$s\" neimplementē saskarni \"%2$s\"."
 
 #, php-format
 msgid "Class \"%1$s\" not available"
-msgstr "Class \"%1$s\" not available"
+msgstr "Klase \"%1$s\" nav pieejama"
 
 #, php-format
 msgid "Class \"%1$s\" not found"
-msgstr "Class \"%1$s\" not found"
+msgstr "Klase \"%1$s\" nav atrasta"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr "Controller path is empty"
+msgstr "Kontroliera ceļš ir tukšs"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr "Coupon code \"%1$s\" is invalid"
+msgstr "Kupona kods \"%1$s\" ir nederīgs"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr "Coupon code \"%1$s\" is invalid or not available any more"
+msgstr "Kupona kods \"%1$s\" ir nederīgs vai vairs nav pieejams"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr "Coupon for code \"%1$s\" is not available any more"
+msgstr "Kupons ar kodu \"%1$s\" vairs nav pieejams"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr "Domain \"%1$s\" is not supported"
+msgstr "Domēns \"%1$s\" nav atbalstīts"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr "Invalid \"%1$s\" references for product with ID \"%2$s\""
+msgstr "Nederīgas \"%1$s\" atsauces uz produktu ar ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr "Nederīgas \"%1$s\" atsauces uz produktu ar ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr "Invalid address properties, please check your input"
+msgstr "Nederīgas adreses īpašības, lūdzu, pārbaudiet ievades datus."
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
-msgstr "Invalid characters in class name \"%1$s\""
+msgstr "Nepareizas rakstzīmes klases nosaukumā \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr "Invalid characters in controller name \"%1$s\""
+msgstr "Kontroliera nosaukumā \"%1$s\" ir nederīgas rakstzīmes."
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr "Invalid characters in controller name \"%1$s\" in \"%2$s\""
+msgstr "Nepareizas rakstzīmes kontroliera nosaukumā \"%1$s\" sadaļā \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr "Invalid class name \"%1$s\""
+msgstr "Nederīgs klases nosaukums \"%1$s\""
 
 #, php-format
 msgid "Invalid domain \"%1$s\""
-msgstr "Invalid domain \"%1$s\""
+msgstr "Nederīgs domēns \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr "Invalid factory \"%1$s\""
+msgstr "Nederīga rūpnīca \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr "Invalid price value \"%1$s\""
+msgstr "Nederīga cenas vērtība \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr "Neveljavni atributi storitve"
+msgstr "Nederīgi pakalpojumu atribūti"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr "Invalid value for address type \"%1$s\""
+msgstr "Nederīga vērtība adreses tipam \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr "List type for domain \"%1$s\" and code \"%2$s\" not found"
+msgstr "Saraksta tips domēnam \"%1$s\" un kods \"%2$s\" nav atrasts"
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr "No article found for selected attributes and product ID \"%1$s\""
+msgstr "Izvēlētajiem atribūtiem un produkta ID \"%1$s\" nav atrasts neviens raksts."
 
 #, php-format
 msgid "No customer lists domain"
-msgstr "No customer lists domain"
+msgstr "Nav klientu sarakstu domēna"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr "No customer lists type code"
+msgstr "Nav klientu sarakstu tipa koda"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr "No item for \"%1$s\" (%2$s) found"
+msgstr "Nav atrasts neviens \"%1$s\" (%2$s) vienums"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr "No order item for ID \"%1$s\" found"
+msgstr "Nav atrasta neviena ID \"%1$s\" pasūtījuma vienība"
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr "No stock for product ID \"%1$s\" and type \"%2$s\" available"
+msgstr "Preces ID \"%1$s\" un tipa \"%2$s\" krājumu nav pieejams"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr "No unique article found for selected attributes and product ID \"%1$s\""
+msgstr "Nav atrasts unikāls izstrādājums izvēlētajiem atribūtiem un produkta ID \"%1$s\"."
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr "Not allowed to access customer data for ID \"%1$s\""
+msgstr "Nav atļauts piekļūt klienta datiem ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr "Number of coupon codes exceeds the limit"
+msgstr "Kuponu kodu skaits pārsniedz ierobežojumu"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr "Product item with ID \"%1$s\" not found"
+msgstr "Prece ar ID \"%1$s\" nav atrasta"
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr "Requirements for coupon code \"%1$s\" aren't met"
+msgstr "Nav izpildītas kupona koda \"%1$s\" prasības"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr "Service item for type \"%1$s\" and ID \"%2$s\" not found"
+msgstr "Nav atrasts pakalpojuma vienums tipam \"%1$s\" un ID \"%2$s\"."
 
 #, php-format
 msgid "Site is not available"
-msgstr "Stran ni na voljo"
+msgstr "Vietne nav pieejama"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr "Temporary limit reached"
+msgstr "Sasniegts pagaidu limits"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr "Temporary order limit reached"
+msgstr "Sasniegts pagaidu pasūtījuma limits"
 
 #, php-format
 msgid "The order has already been created"
-msgstr "The order has already been created"
+msgstr "Pasūtījums jau ir izveidots"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr "There are not enough products \"%1$s\" in stock"
+msgstr "Noliktavā nav pietiekami daudz produktu \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr "Unable to call method \"%1$s\""
+msgstr "Nevar izsaukt metodi \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr "Unable to call method \"%1$s::%2$s\""
+msgstr "Nav iespējams izsaukt metodi \"%1$s::%2$s\"."
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
+msgstr "Nav iespējams izveidot pakalpojumu sniedzēju \"%1$s\" pakalpojumam ar ID \"%2$s\"."
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr "Ni mogoče najti kategorije \"%1$s\""
+msgstr "Neizdodas atrast kategoriju \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr "Unable to find product \"%1$s\""
+msgstr "Nav iespējams atrast produktu \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr "Ni mogoče najti dobavitelja \"%1$s\""
+msgstr "Nav iespējams atrast piegādātāju \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr "Unknown attributes \"%1$s\""
+msgstr "Nezināmi atribūti \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr "Neznani atributi storitev"
+msgstr "Nezināmi pakalpojumu atribūti"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr "You are not allowed to manage groups"
+msgstr "Jums nav atļauts pārvaldīt grupas"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr "You can only add a review if you have ordered a product"
+msgstr "Jūs varat pievienot atsauksmi tikai tad, ja esat pasūtījis produktu."

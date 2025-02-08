@@ -1,0 +1,235 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: aimeos-core\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-06 13:15+0100\n"
+"PO-Revision-Date: 2015-07-09 20:35+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Arabic (http://app.transifex.com/aimeos/aimeos-core/language/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+msgid "%013.2F"
+msgstr "%013.2F"
+
+#, php-format
+msgid "Adding product with ID \"%1$s\" is not allowed"
+msgstr "إضافة منتج بمعرف \"%1$s\" غير مسموح به"
+
+#, php-format
+msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
+msgstr "معرّفات السمات المتوفرة \"%1$s\" لا تتطابق مع معرّفات السمات المحددة \"%2$s\""
+
+#, php-format
+msgid "Basket item at position \"%1$d\" cannot be changed"
+msgstr "عنصر السلة في الموضع \"%1$d\" لا يمكن تغييره"
+
+#, php-format
+msgid "Basket item at position \"%1$d\" cannot be deleted manually"
+msgstr "يتعذر حذف عنصر السلة في الموضع \"%1$d\" يدوياً"
+
+#, php-format
+msgid "Category is not available"
+msgstr "الفئة غير متوفرة"
+
+#, php-format
+msgid "Class \"%1$s\" does not implement \"%2$s\""
+msgstr "الفئة \"%1$s\" لا تنفذ \"%2$s\""
+
+#, php-format
+msgid "Class \"%1$s\" does not implement interface \"%2$s\""
+msgstr "لا تقوم الفئة \"%1$s\" بتنفيذ الواجهة \"%2$s\""
+
+#, php-format
+msgid "Class \"%1$s\" not available"
+msgstr "الفئة \"%1$s\" غير متوفرة"
+
+#, php-format
+msgid "Class \"%1$s\" not found"
+msgstr "الفئة \"%1$s\" غير موجودة"
+
+#, php-format
+msgid "Controller path is empty"
+msgstr "مسار وحدة التحكم فارغ"
+
+#, php-format
+msgid "Coupon code \"%1$s\" is invalid"
+msgstr "رمز القسيمة \"%1$s\" غير صالح"
+
+#, php-format
+msgid "Coupon code \"%1$s\" is invalid or not available any more"
+msgstr "رمز القسيمة \"%1$s\" غير صالح أو غير متوفر بعد الآن"
+
+#, php-format
+msgid "Coupon for code \"%1$s\" is not available any more"
+msgstr "الكوبون الخاص بالرمز \"%1$s\" غير متوفر بعد الآن"
+
+#, php-format
+msgid "Domain \"%1$s\" is not supported"
+msgstr "المجال \"%1$s\" غير معتمد"
+
+#, php-format
+msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
+msgstr "مراجع \"%1$s\" غير صالحة للمنتج ذي المعرف \"%2$s\""
+
+#, php-format
+msgid "Invalid \"%1$s\" references for product with ID %2$s"
+msgstr "مراجع \"%1$s\" غير صالحة للمنتج ذي المعرف %2$s"
+
+#, php-format
+msgid "Invalid address properties, please check your input"
+msgstr "خصائص العنوان غير صالحة، يرجى التحقق من الإدخال"
+
+#, php-format
+msgid "Invalid characters in class name \"%1$s\""
+msgstr "الأحرف غير صالحة في اسم الفئة \"%1$s\""
+
+#, php-format
+msgid "Invalid characters in controller name \"%1$s\""
+msgstr "الأحرف غير صالحة في اسم وحدة التحكم \"%1$s\""
+
+#, php-format
+msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
+msgstr "الأحرف غير صحيحة في اسم وحدة التحكم \"%1$s\" في \"%2$s\""
+
+#, php-format
+msgid "Invalid class name \"%1$s\""
+msgstr "اسم الفئة غير صحيح \"%1$s\""
+
+#, php-format
+msgid "Invalid domain \"%1$s\""
+msgstr "المجال غير صالح \"%1$s\""
+
+#, php-format
+msgid "Invalid factory \"%1$s\""
+msgstr "المصنع غير صالح \"%1$s\""
+
+#, php-format
+msgid "Invalid price value \"%1$s\""
+msgstr "قيمة السعر غير صحيحة \"%1$s\""
+
+msgid "Invalid service attributes"
+msgstr "سمات الخدمة غير صالحة"
+
+#, php-format
+msgid "Invalid value for address type \"%1$s\""
+msgstr "قيمة غير صالحة لنوع العنوان \"%1$s\""
+
+#, php-format
+msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
+msgstr "لم يتم العثور على نوع القائمة للنطاق \"%1$s\" والرمز \"%2$s\""
+
+#, php-format
+msgid "No article found for selected attributes and product ID \"%1$s\""
+msgstr "لم يتم العثور على أي مقالة للسمات المحددة ومعرف المنتج \"%1$s\""
+
+#, php-format
+msgid "No customer lists domain"
+msgstr "لا يوجد مجال لقوائم العملاء"
+
+#, php-format
+msgid "No customer lists type code"
+msgstr "لا يوجد رمز نوع قوائم العملاء"
+
+#, php-format
+msgid "No item for \"%1$s\" (%2$s) found"
+msgstr "لم يتم العثور على عنصر ل \"%1$s\" (%2$s)"
+
+#, php-format
+msgid "No order item for ID \"%1$s\" found"
+msgstr "لم يتم العثور على أي عنصر طلب للمعرف \"%1$s\""
+
+#, php-format
+msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
+msgstr "لا يتوفر مخزون لمعرف المنتج \"%1$s\" والنوع \"%2$s\""
+
+#, php-format
+msgid "No unique article found for selected attributes and product ID \"%1$s\""
+msgstr "لم يتم العثور على مقالة فريدة من نوعها للسمات المحددة ومعرف المنتج \"%1$s\""
+
+#, php-format
+msgid "Not allowed to access customer data for ID \"%1$s\""
+msgstr "غير مسموح بالوصول إلى بيانات العميل للمعرف \"%1$s\""
+
+#, php-format
+msgid "Number of coupon codes exceeds the limit"
+msgstr "عدد رموز القسائم يتجاوز الحد المسموح به"
+
+#, php-format
+msgid "Product item with ID \"%1$s\" not found"
+msgstr "عنصر المنتج ذو المعرف \"%1$s\" غير موجود"
+
+#, php-format
+msgid "Requirements for coupon code \"%1$s\" aren't met"
+msgstr "لم يتم استيفاء متطلبات رمز القسيمة \"%1$s\""
+
+#, php-format
+msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
+msgstr "عنصر الخدمة للنوع \"%1$s\" والمعرف \"%2$s\" غير موجود"
+
+#, php-format
+msgid "Site is not available"
+msgstr "الموقع غير متاح"
+
+#, php-format
+msgid "Temporary limit reached"
+msgstr "تم الوصول إلى الحد المؤقت"
+
+#, php-format
+msgid "Temporary order limit reached"
+msgstr "تم الوصول إلى حد الطلب المؤقت"
+
+#, php-format
+msgid "The order has already been created"
+msgstr "تم إنشاء الطلب بالفعل"
+
+#, php-format
+msgid "There are not enough products \"%1$s\" in stock"
+msgstr "لا يوجد ما يكفي من المنتجات \"%1$s\" في المخزون"
+
+#, php-format
+msgid "Unable to call method \"%1$s\""
+msgstr "غير قادر على استدعاء الأسلوب \"%1$s\""
+
+#, php-format
+msgid "Unable to call method \"%1$s::%2$s\""
+msgstr "تعذر استدعاء الأسلوب \"%1$s::%2$s\""
+
+#, php-format
+msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
+msgstr "تعذر إنشاء الموفر \"%1$s\" للخدمة ذات المعرف \"%2$s\""
+
+#, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr "تعذر العثور على الفئة \"%1$s\""
+
+#, php-format
+msgid "Unable to find product \"%1$s\""
+msgstr "تعذر العثور على المنتج \"%1$s\""
+
+#, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr "غير قادر على العثور على المورد \"%1$s\""
+
+#, php-format
+msgid "Unknown attributes \"%1$s\""
+msgstr "سمات غير معروفة \"%1$s\""
+
+msgid "Unknown service attributes"
+msgstr "سمات خدمة غير معروفة"
+
+#, php-format
+msgid "You are not allowed to manage groups"
+msgstr "لا يُسمح لك بإدارة المجموعات"
+
+#, php-format
+msgid "You can only add a review if you have ordered a product"
+msgstr "لا يمكنك إضافة مراجعة إلا إذا كنت قد طلبت منتجًا"

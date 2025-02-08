@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-26 15:48+0200\n"
+"POT-Creation-Date: 2025-01-19 18:14+0100\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hebrew (http://app.transifex.com/aimeos/aimeos-core/language/he/)\n"
@@ -116,6 +116,9 @@ msgstr "מפעל לא חוקי \"%1$s\""
 msgid "Invalid price value \"%1$s\""
 msgstr "ערך מחיר לא חוקי \"%1$s\""
 
+msgid "Invalid service attributes"
+msgstr ""
+
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
 msgstr "ערך לא חוקי עבור סוג הכתובת \"%1$s\""
@@ -205,12 +208,23 @@ msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
 msgstr "לא ניתן ליצור ספק \"%1$s\" עבור שירות עם מזהה \"%2$s\""
 
 #, php-format
+msgid "Unable to find category \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unable to find product \"%1$s\""
 msgstr "לא ניתן למצוא את המוצר \"%1$s\""
 
 #, php-format
+msgid "Unable to find supplier \"%1$s\""
+msgstr ""
+
+#, php-format
 msgid "Unknown attributes \"%1$s\""
 msgstr "מאפיינים לא ידועים \"%1$s\""
+
+msgid "Unknown service attributes"
+msgstr ""
 
 #, php-format
 msgid "You are not allowed to manage groups"

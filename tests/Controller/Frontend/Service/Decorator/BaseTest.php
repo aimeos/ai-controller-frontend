@@ -60,6 +60,12 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testConfig()
+	{
+		$this->assertSame( $this->object, $this->object->config( ['key' => 'value'] ) );
+	}
+
+
 	public function testFind()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'service' )->create();

@@ -35,6 +35,15 @@ interface Iface
 	public function compare( string $operator, string $key, $value ) : \Aimeos\Controller\Frontend\Service\Iface;
 
 	/**
+	 * Sets the global configuration for the service providers
+	 *
+	 * @param array $conf Associative list of global provider configuration options
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2024.10
+	 */
+	public function config( array $conf ) : \Aimeos\Controller\Frontend\Service\Iface;
+
+	/**
 	 * Returns the service for the given code
 	 *
 	 * @param string $code Unique service code

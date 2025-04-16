@@ -135,6 +135,7 @@ class Standard
 	 */
 
 
+	private array $config = [];
 	private array $domains = [];
 	private \Aimeos\Base\Criteria\Iface $filter;
 	private \Aimeos\MShop\Common\Manager\Iface $manager;
@@ -178,6 +179,20 @@ class Standard
 	public function compare( string $operator, string $key, $value ) : Iface
 	{
 		$this->addExpression( $this->filter->compare( $operator, $key, $value ) );
+		return $this;
+	}
+
+
+	/**
+	 * Sets the global configuration for the service providers
+	 *
+	 * @param array $conf Associative list of global provider configuration options
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2024.10
+	 */
+	public function config( array $conf ) : Iface
+	{
+		$this->config = $conf;
 		return $this;
 	}
 
@@ -230,7 +245,9 @@ class Standard
 	public function getProvider( string $serviceId ) : \Aimeos\MShop\Service\Provider\Iface
 	{
 		$item = $this->manager->get( $serviceId, $this->domains, true );
-		return $this->manager->getProvider( $item, $item->getType() );
+		$provider = $this->manager->getProvider( $item, $item->getType() );
+
+		return $provider->injectGlobalConfigBE( $this->config );
 	}
 
 
@@ -245,8 +262,10 @@ class Standard
 		$filter = clone $this->filter;
 		$filter->add( $filter->and( $this->getConditions() ) )->order( 'service.position' );
 
-		foreach( $this->manager->search( $filter, $this->domains ) as $id => $item ) {
+		foreach( $this->manager->search( $filter, $this->domains ) as $id => $item )
+		{
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
+			$list[$id]->injectGlobalConfigBE( $this->config );
 		}
 
 		return map( $list );
@@ -287,7 +306,7 @@ class Standard
 		$item = $this->manager->get( $serviceId, [], true );
 
 		$provider = $this->manager->getProvider( $item, $item->getType() );
-		$provider->injectGlobalConfigBE( $urls );
+		$provider->injectGlobalConfigBE( $urls + $this->config );
 
 		return $provider->process( $orderItem, $params );
 	}
@@ -384,7 +403,9 @@ class Standard
 		string $code ) : \Psr\Http\Message\ResponseInterface
 	{
 		$item = $this->manager->find( $code );
+
 		$provider = $this->manager->getProvider( $item, $item->getType() );
+		$provider->injectGlobalConfigBE( $this->config );
 
 		return $provider->updatePush( $request, $response );
 	}
@@ -406,6 +427,7 @@ class Standard
 		$serviceItem = $this->manager->find( $code );
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );
+		$provider->injectGlobalConfigBE( $this->config );
 
 
 		if( ( $orderItem = $provider->updateSync( $request, $orderItem ) ) !== null )

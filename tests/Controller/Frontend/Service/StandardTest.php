@@ -45,6 +45,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testConfig()
+	{
+		$this->assertSame( $this->object, $this->object->config( ['key' => 'value'] ) );
+	}
+
+
 	public function testFind()
 	{
 		$item = $this->object->uses( ['price'] )->find( 'unitdeliverycode' );

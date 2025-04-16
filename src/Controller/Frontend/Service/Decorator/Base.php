@@ -75,6 +75,20 @@ abstract class Base
 
 
 	/**
+	 * Sets the global configuration for the service providers
+	 *
+	 * @param array $conf Associative list of global provider configuration options
+	 * @return \Aimeos\Controller\Frontend\Service\Iface Service controller for fluent interface
+	 * @since 2024.10
+	 */
+	public function config( array $conf ) : \Aimeos\Controller\Frontend\Service\Iface
+	{
+		$this->controller->config( $conf );
+		return $this;
+	}
+
+
+	/**
 	 * Returns the service for the given code
 	 *
 	 * @param string $code Unique service code

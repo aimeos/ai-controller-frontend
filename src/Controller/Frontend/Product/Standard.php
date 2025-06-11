@@ -509,8 +509,6 @@ class Standard
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
-		$this->addExpression( $this->filter->getConditions() );
-
 		$filter->setSortations( $this->getSortations() );
 		$filter->add( $filter->and( $this->getConditions() ) );
 

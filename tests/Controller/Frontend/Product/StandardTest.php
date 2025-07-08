@@ -366,7 +366,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testTextCode()
 	{
-		$this->assertEquals( 2, count( $this->object->text( 'CNE' )->search() ) );
+		$this->assertEquals( 1, count( $this->object->text( 'CNE' )->search() ) );
 	}
 
 

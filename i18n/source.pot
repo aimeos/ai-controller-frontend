@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-09 12:57+0100\n"
+"POT-Creation-Date: 2025-07-08 18:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,8 +25,12 @@ msgid "Adding product with ID \"%1$s\" is not allowed"
 msgstr "Adding product with ID \"%1$s\" is not allowed"
 
 #, php-format
-msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
+msgid ""
+"Available attribute IDs \"%1$s\" do not match the given attribute IDs "
+"\"%2$s\""
+msgstr ""
+"Available attribute IDs \"%1$s\" do not match the given attribute IDs "
+"\"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
@@ -153,7 +157,8 @@ msgstr "No stock for product ID \"%1$s\" and type \"%2$s\" available"
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr "No unique article found for selected attributes and product ID \"%1$s\""
+msgstr ""
+"No unique article found for selected attributes and product ID \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""

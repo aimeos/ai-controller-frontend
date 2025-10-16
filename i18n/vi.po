@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-08 18:44+0200\n"
+"POT-Creation-Date: 2025-10-16 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Vietnamese (http://app.transifex.com/aimeos/aimeos-core/language/vi/)\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "Thêm sản phẩm có ID \"%1$s\" không được phép."
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "Các ID thuộc tính có sẵn \"%1$s\" không khớp với các ID thuộc tính được cung cấp \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "Mục trong giỏ hàng ở vị trí \"%1$d\" không thể thay đổi."
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "Mục trong giỏ hàng ở vị trí \"%1$d\" không thể xóa thủ công."
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "Danh mục không có sẵn"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -46,7 +46,7 @@ msgstr "Lớp \"%1$s\" không thực hiện giao diện \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr ""
+msgstr "Lớp \"%1$s\" không thực hiện giao diện \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
@@ -58,35 +58,35 @@ msgstr "Lớp \"%1$s\" không tìm thấy"
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "Đường dẫn điều khiển trống"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "Mã giảm giá \"%1$s\" không hợp lệ."
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "Mã giảm giá \"%1$s\" không hợp lệ hoặc không còn khả dụng."
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "Phiếu giảm giá cho mã \"%1$s\" hiện không còn khả dụng."
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "Tên miền \"%1$s\" không được hỗ trợ."
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "Các tham chiếu \"%1$s\" không hợp lệ cho sản phẩm có ID \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "Các tham chiếu \"%1$s\" không hợp lệ cho sản phẩm có ID %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "Thông tin địa chỉ không hợp lệ, vui lòng kiểm tra lại thông tin đã nhập."
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +94,11 @@ msgstr "Có ký tự không hợp lệ trong tên lớp \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "Các ký tự không hợp lệ trong tên bộ điều khiển \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "Các ký tự không hợp lệ trong tên bộ điều khiển \"%1$s\" trong \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -114,86 +114,86 @@ msgstr "Thiết bị không hợp lệ \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "Giá trị giá không hợp lệ \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "Thuộc tính dịch vụ không hợp lệ"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "Giá trị không hợp lệ cho loại địa chỉ \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "Loại danh sách cho miền \"%1$s\" và mã \"%2$s\" không được tìm thấy."
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Không tìm thấy bài viết nào cho các thuộc tính đã chọn và ID sản phẩm \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "Không có danh sách khách hàng trong miền"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "Không có mã loại danh sách khách hàng"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "Không tìm thấy mục nào cho \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "Không tìm thấy mục hàng có ID \"%1$s\"."
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "Không có hàng cho sản phẩm có ID \"%1$s\" và loại \"%2$s\"."
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "Không tìm thấy bài viết duy nhất nào cho các thuộc tính đã chọn và ID sản phẩm \"%1$s\"."
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "Không được phép truy cập dữ liệu khách hàng cho ID \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "Số lượng mã giảm giá đã vượt quá giới hạn."
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "Sản phẩm có ID \"%1$s\" không được tìm thấy."
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "Các điều kiện cho mã giảm giá \"%1$s\" không được đáp ứng."
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "Dịch vụ cho loại \"%1$s\" và ID \"%2$s\" không tìm thấy."
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "Trang web hiện không khả dụng."
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "Giới hạn tạm thời đã đạt đến"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "Giới hạn đơn hàng tạm thời đã đạt đến"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "Đơn hàng đã được tạo."
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "Không có đủ sản phẩm \"%1$s\" trong kho."
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +201,35 @@ msgstr "Không thể gọi phương thức \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "Không thể gọi phương thức \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "Không thể tạo nhà cung cấp \"%1$s\" cho dịch vụ có ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "Không thể tìm thấy danh mục \"%1$s\""
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "Không thể tìm thấy sản phẩm \"%1$s\""
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "Không thể tìm thấy nhà cung cấp \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "Các thuộc tính không xác định \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "Thuộc tính dịch vụ không xác định"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "Bạn không được phép quản lý các nhóm."
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "Bạn chỉ có thể thêm đánh giá nếu đã đặt hàng sản phẩm."

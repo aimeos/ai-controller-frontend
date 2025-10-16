@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-08 18:44+0200\n"
+"POT-Creation-Date: 2025-10-16 11:56+0200\n"
 "PO-Revision-Date: 2015-07-09 20:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Thai (http://app.transifex.com/aimeos/aimeos-core/language/th/)\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "%013.2F"
-msgstr ""
+msgstr "%013.2F"
 
 #, php-format
 msgid "Adding product with ID \"%1$s\" is not allowed"
-msgstr ""
+msgstr "ไม่สามารถเพิ่มสินค้าที่มีรหัส \"%1$s\" ได้"
 
 #, php-format
 msgid "Available attribute IDs \"%1$s\" do not match the given attribute IDs \"%2$s\""
-msgstr ""
+msgstr "ID คุณสมบัติที่มีอยู่ \"%1$s\" ไม่ตรงกับ ID คุณสมบัติที่ให้มา \"%2$s\""
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be changed"
-msgstr ""
+msgstr "ไม่สามารถเปลี่ยนแปลงสินค้าในตะกร้าที่ตำแหน่ง \"%1$d\" ได้"
 
 #, php-format
 msgid "Basket item at position \"%1$d\" cannot be deleted manually"
-msgstr ""
+msgstr "ไม่สามารถลบสินค้าในตะกร้าที่ตำแหน่ง \"%1$d\" ได้ด้วยตนเอง"
 
 #, php-format
 msgid "Category is not available"
-msgstr ""
+msgstr "หมวดหมู่ไม่มีให้บริการ"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr ""
+msgstr "คลาส \"%1$s\" ไม่ได้ดำเนินการ \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement interface \"%2$s\""
-msgstr ""
+msgstr "คลาส \"%1$s\" ไม่ได้ดำเนินการตามอินเตอร์เฟซ \"%2$s\""
 
 #, php-format
 msgid "Class \"%1$s\" not available"
-msgstr ""
+msgstr "คลาส \"%1$s\" ไม่มีให้ใช้งาน"
 
 #, php-format
 msgid "Class \"%1$s\" not found"
@@ -58,35 +58,35 @@ msgstr "ไม่พบคลาส \"%1$s\""
 
 #, php-format
 msgid "Controller path is empty"
-msgstr ""
+msgstr "เส้นทางคอนโทรลเลอร์ว่างเปล่า"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid"
-msgstr ""
+msgstr "รหัสคูปอง \"%1$s\" ไม่ถูกต้อง"
 
 #, php-format
 msgid "Coupon code \"%1$s\" is invalid or not available any more"
-msgstr ""
+msgstr "รหัสคูปอง \"%1$s\" ไม่ถูกต้องหรือไม่สามารถใช้ได้อีกต่อไป"
 
 #, php-format
 msgid "Coupon for code \"%1$s\" is not available any more"
-msgstr ""
+msgstr "คูปองสำหรับรหัส \"%1$s\" ไม่มีให้บริการอีกต่อไป"
 
 #, php-format
 msgid "Domain \"%1$s\" is not supported"
-msgstr ""
+msgstr "โดเมน \"%1$s\" ไม่รองรับ"
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID \"%2$s\""
-msgstr ""
+msgstr "การอ้างอิง \"%1$s\" ไม่ถูกต้องสำหรับผลิตภัณฑ์ที่มีรหัส \"%2$s\""
 
 #, php-format
 msgid "Invalid \"%1$s\" references for product with ID %2$s"
-msgstr ""
+msgstr "การอ้างอิง \"%1$s\" ไม่ถูกต้องสำหรับผลิตภัณฑ์ที่มีรหัส %2$s"
 
 #, php-format
 msgid "Invalid address properties, please check your input"
-msgstr ""
+msgstr "คุณสมบัติที่อยู่ไม่ถูกต้อง โปรดตรวจสอบข้อมูลที่คุณป้อน"
 
 #, php-format
 msgid "Invalid characters in class name \"%1$s\""
@@ -94,11 +94,11 @@ msgstr "ตัวอักษรไม่ถูกต้องในชื่อ
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\""
-msgstr ""
+msgstr "ตัวอักขระไม่ถูกต้องในชื่อคอนโทรลเลอร์ \"%1$s\""
 
 #, php-format
 msgid "Invalid characters in controller name \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "ตัวอักขระไม่ถูกต้องในชื่อคอนโทรลเลอร์ \"%1$s\" ใน \"%2$s\""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
@@ -110,90 +110,90 @@ msgstr "โดเมนไม่ถูกต้อง \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "โรงงานไม่ถูกต้อง \"%1$s\""
 
 #, php-format
 msgid "Invalid price value \"%1$s\""
-msgstr ""
+msgstr "ค่าของราคาไม่ถูกต้อง \"%1$s\""
 
 msgid "Invalid service attributes"
-msgstr ""
+msgstr "คุณสมบัติของบริการไม่ถูกต้อง"
 
 #, php-format
 msgid "Invalid value for address type \"%1$s\""
-msgstr ""
+msgstr "ค่าไม่ถูกต้องสำหรับประเภทที่อยู่ \"%1$s\""
 
 #, php-format
 msgid "List type for domain \"%1$s\" and code \"%2$s\" not found"
-msgstr ""
+msgstr "ไม่พบประเภทรายการสำหรับโดเมน \"%1$s\" และรหัส \"%2$s\""
 
 #, php-format
 msgid "No article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "ไม่พบบทความสำหรับคุณลักษณะที่เลือกและรหัสสินค้า \"%1$s\""
 
 #, php-format
 msgid "No customer lists domain"
-msgstr ""
+msgstr "ไม่มีรายชื่อลูกค้าโดเมน"
 
 #, php-format
 msgid "No customer lists type code"
-msgstr ""
+msgstr "ไม่มีรหัสประเภทรายการลูกค้า"
 
 #, php-format
 msgid "No item for \"%1$s\" (%2$s) found"
-msgstr ""
+msgstr "ไม่พบรายการสำหรับ \"%1$s\" (%2$s)"
 
 #, php-format
 msgid "No order item for ID \"%1$s\" found"
-msgstr ""
+msgstr "ไม่พบรายการคำสั่งสำหรับ ID \"%1$s\""
 
 #, php-format
 msgid "No stock for product ID \"%1$s\" and type \"%2$s\" available"
-msgstr ""
+msgstr "ไม่มีสินค้าสำหรับรหัสสินค้า \"%1$s\" และประเภท \"%2$s\""
 
 #, php-format
 msgid "No unique article found for selected attributes and product ID \"%1$s\""
-msgstr ""
+msgstr "ไม่พบบทความที่ไม่ซ้ำกันสำหรับคุณลักษณะที่เลือกและรหัสผลิตภัณฑ์ \"%1$s\""
 
 #, php-format
 msgid "Not allowed to access customer data for ID \"%1$s\""
-msgstr ""
+msgstr "ไม่ได้รับอนุญาตให้เข้าถึงข้อมูลลูกค้าสำหรับรหัส \"%1$s\""
 
 #, php-format
 msgid "Number of coupon codes exceeds the limit"
-msgstr ""
+msgstr "จำนวนรหัสคูปองเกินขีดจำกัด"
 
 #, php-format
 msgid "Product item with ID \"%1$s\" not found"
-msgstr ""
+msgstr "ไม่พบสินค้าที่มีรหัส \"%1$s\""
 
 #, php-format
 msgid "Requirements for coupon code \"%1$s\" aren't met"
-msgstr ""
+msgstr "รหัสคูปอง \"%1$s\" ไม่ตรงตามเงื่อนไข"
 
 #, php-format
 msgid "Service item for type \"%1$s\" and ID \"%2$s\" not found"
-msgstr ""
+msgstr "ไม่พบรายการบริการสำหรับประเภท \"%1$s\" และ ID \"%2$s\""
 
 #, php-format
 msgid "Site is not available"
-msgstr ""
+msgstr "เว็บไซต์ไม่สามารถใช้งานได้"
 
 #, php-format
 msgid "Temporary limit reached"
-msgstr ""
+msgstr "ถึงขีดจำกัดชั่วคราว"
 
 #, php-format
 msgid "Temporary order limit reached"
-msgstr ""
+msgstr "ขีดจำกัดคำสั่งชั่วคราวถึงแล้ว"
 
 #, php-format
 msgid "The order has already been created"
-msgstr ""
+msgstr "คำสั่งซื้อได้ถูกสร้างขึ้นแล้ว"
 
 #, php-format
 msgid "There are not enough products \"%1$s\" in stock"
-msgstr ""
+msgstr "ไม่มีสินค้า \"%1$s\" ในสต็อกเพียงพอ"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
@@ -201,35 +201,35 @@ msgstr "ไม่สามารถเรียกเมธอด \"%1$s\""
 
 #, php-format
 msgid "Unable to call method \"%1$s::%2$s\""
-msgstr ""
+msgstr "ไม่สามารถเรียกเมธอด \"%1$s::%2$s\""
 
 #, php-format
 msgid "Unable to create provider \"%1$s\" for service with ID \"%2$s\""
-msgstr ""
+msgstr "ไม่สามารถสร้างผู้ให้บริการ \"%1$s\" สำหรับบริการที่มี ID \"%2$s\""
 
 #, php-format
 msgid "Unable to find category \"%1$s\""
-msgstr ""
+msgstr "ไม่สามารถค้นหาหมวดหมู่ \"%1$s\" ได้"
 
 #, php-format
 msgid "Unable to find product \"%1$s\""
-msgstr ""
+msgstr "ไม่สามารถค้นหาสินค้า \"%1$s\" ได้"
 
 #, php-format
 msgid "Unable to find supplier \"%1$s\""
-msgstr ""
+msgstr "ไม่พบซัพพลายเออร์ \"%1$s\""
 
 #, php-format
 msgid "Unknown attributes \"%1$s\""
-msgstr ""
+msgstr "คุณลักษณะที่ไม่รู้จัก \"%1$s\""
 
 msgid "Unknown service attributes"
-msgstr ""
+msgstr "คุณลักษณะของบริการที่ไม่ทราบ"
 
 #, php-format
 msgid "You are not allowed to manage groups"
-msgstr ""
+msgstr "คุณไม่ได้รับอนุญาตให้จัดการกลุ่ม"
 
 #, php-format
 msgid "You can only add a review if you have ordered a product"
-msgstr ""
+msgstr "คุณสามารถเพิ่มรีวิวได้เฉพาะเมื่อคุณได้สั่งซื้อสินค้าเท่านั้น"

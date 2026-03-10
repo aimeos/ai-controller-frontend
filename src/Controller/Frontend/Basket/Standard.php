@@ -283,7 +283,7 @@ class Standard
 		if( $total >= $count )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Temporary order limit reached' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 429 );
 		}
 
 
@@ -376,7 +376,7 @@ class Standard
 		if( $product->getFlags() === \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE )
 		{
 			$msg = $this->context()->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be deleted manually' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ), 403 );
 		}
 
 		$this->baskets[$this->type] = $this->get()->deleteProduct( $position );
@@ -399,7 +399,7 @@ class Standard
 		if( $orderProduct->getFlags() & \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Basket item at position "%1$d" cannot be changed' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ) );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $position ), 403 );
 		}
 
 		$manager = \Aimeos\MShop::create( $context, 'product' );
@@ -447,7 +447,7 @@ class Standard
 		if( $allowed <= count( $this->get()->getCoupons() ) )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Number of coupon codes exceeds the limit' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 409 );
 		}
 
 		$this->baskets[$this->type] = $this->get()->addCoupon( $code );
@@ -542,13 +542,13 @@ class Standard
 		if( count( $unknown ) > 0 )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Unknown service attributes' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, $unknown );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 400, null, $unknown );
 		}
 
 		if( count( array_filter( $errors ) ) > 0 )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Invalid service attributes' );
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, -1, null, array_filter( $errors ) );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 400, null, array_filter( $errors ) );
 		}
 
 		// remove service rebate of original price

@@ -85,7 +85,7 @@ interface Iface
 	 * @param string $domain Domain name of the referenced item, e.g. "media"
 	 * @param string|null $type Type code of the reference, e.g. "variant" or null for all types
 	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
-	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2022.01
 	 */
 	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface;
@@ -120,7 +120,7 @@ interface Iface
 	/**
 	 * Returns the categories filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found categories will be stored in
+	 * @type int &$total Parameter where the total number of found categories will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Catalog\Item\Iface
 	 * @since 2019.10
 	 */

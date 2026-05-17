@@ -66,9 +66,9 @@ abstract class Base
 	 * Adds the given compare, combine or sort expression to the list of expressions
 	 *
 	 * @param \Aimeos\Base\Criteria\Expression\Iface|null $expr Compare, combine or sort expression
-	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 * @return static Controller object for chaining method calls
 	 */
-	public function addExpression( ?\Aimeos\Base\Criteria\Expression\Iface $expr = null ) : Iface
+	public function addExpression( ?\Aimeos\Base\Criteria\Expression\Iface $expr = null ) : static
 	{
 		if( $expr instanceof \Aimeos\Base\Criteria\Expression\Sort\Iface ) {
 			$this->sort[] = $expr;
@@ -118,13 +118,13 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Controller\Frontend\Iface Outmost decorator object
 	 */
-	protected function object() : Iface
+	protected function object() : \Aimeos\Controller\Frontend\Iface
 	{
 		if( $this->object !== null ) {
 			return $this->object;
 		}
 
-		return $this;
+		return $this; // @phpstan-ignore return.type
 	}
 
 
@@ -132,9 +132,9 @@ abstract class Base
 	 * Injects the reference of the outmost object
 	 *
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
-	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 * @return static Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : Iface
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : static
 	{
 		$this->object = $object;
 		return $this;
@@ -152,7 +152,7 @@ abstract class Base
 		$list = [];
 
 		if( preg_match_all( '/(?P<key>[^(,]+(\(("([^"]|\")*")?[^)]*\))?),?/', (string) $keys, $list ) !== false ) {
-			return $list['key'] ?? [];
+			return $list['key'];
 		}
 
 		return [];

@@ -37,7 +37,7 @@ abstract class Base
 	{
 		parent::__construct( $context );
 
-		$this->controller = $controller;
+		$this->controller = $controller; // @phpstan-ignore assign.propertyType
 	}
 
 
@@ -51,6 +51,8 @@ abstract class Base
 	 */
 	public function __call( string $name, array $param )
 	{
+		// @phpstan-ignore-next-line
+		// @phpstan-ignore-next-line
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
 
@@ -73,7 +75,7 @@ abstract class Base
 	 * Adds the given address item to the customer object (not yet stored)
 	 *
 	 * @param \Aimeos\MShop\Common\Item\Address\Iface $item Address item to add
-	 * @param int|null $pos Position (key) in the list of address items or null to add the item at the end
+	 * @param int|null $position Position (key) in the list of address items or null to add the item at the end
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 * @since 2019.04
 	 */
@@ -186,7 +188,7 @@ abstract class Base
 	 * Removes the given list item from the customer object (not yet stored)
 	 *
 	 * @param string $domain Domain name the referenced item belongs to
-	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to remove
+	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $listItem List item to remove
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to remove or null if only list item should be removed
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
@@ -269,9 +271,9 @@ abstract class Base
 	 * Injects the reference of the outmost object
 	 *
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
-	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 * @return static Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : static
 	{
 		parent::setObject( $object );
 
@@ -289,6 +291,7 @@ abstract class Base
 	 */
 	protected function getController() : \Aimeos\Controller\Frontend\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->controller;
 	}
 }

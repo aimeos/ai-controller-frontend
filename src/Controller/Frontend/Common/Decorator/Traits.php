@@ -23,9 +23,9 @@ trait Traits
 	 * Adds the given compare, combine or sort expression to the list of expressions
 	 *
 	 * @param \Aimeos\Base\Criteria\Expression\Iface|null $expr Compare, combine or sort expression
-	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 * @return static Controller object for chaining method calls
 	 */
-	public function addExpression( ?\Aimeos\Base\Criteria\Expression\Iface $expr = null ) : \Aimeos\Controller\Frontend\Iface
+	public function addExpression( ?\Aimeos\Base\Criteria\Expression\Iface $expr = null ) : static
 	{
 		$this->getController()->addExpression( $expr );
 		return $this;
@@ -39,7 +39,7 @@ trait Traits
 	 */
 	public function getConditions() : array
 	{
-		$this->getController()->getConditions();
+		return $this->getController()->getConditions();
 	}
 
 
@@ -50,7 +50,7 @@ trait Traits
 	 */
 	public function getSortations() : array
 	{
-		$this->getController()->getSortations();
+		return $this->getController()->getSortations();
 	}
 
 

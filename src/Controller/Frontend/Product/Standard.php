@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyProduct"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the product frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Product\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -159,7 +159,7 @@ class Standard
 		 * products, these products/articles will be displayed in the frontend too
 		 * when disabling this setting!
 		 *
-		 * @param bool FALSE if products must be assigned to categories, TRUE if not
+		 * @type bool FALSE if products must be assigned to categories, TRUE if not
 		 * @since 2010.10
 		 */
 		if( $context->config()->get( 'controller/frontend/product/show-all', false ) == false ) {
@@ -190,8 +190,10 @@ class Standard
 	public function aggregate( string $key, ?string $value = null, ?string $type = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
 
+		// @phpstan-ignore return.type
 		return $this->manager->aggregate( $filter, $key, $value, $type );
 	}
 
@@ -234,6 +236,7 @@ class Standard
 				$manager = \Aimeos\MShop::create( $this->context(), 'catalog' );
 
 				foreach( $ids as $catId ) {
+					// @phpstan-ignore-next-line
 					$list->union( $manager->getTree( $catId, [], $level )->toList() );
 				}
 
@@ -280,6 +283,7 @@ class Standard
 	public function find( string $code ) : \Aimeos\MShop\Product\Item\Iface
 	{
 		$item = $this->manager->find( $code, $this->domains, 'product', null, null );
+		// @phpstan-ignore return.type
 		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $item, 'catalog' );
 	}
 
@@ -306,7 +310,9 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Product\Item\Iface
 	{
+		// @phpstan-ignore-next-line
 		$item = $this->manager->get( $id, $this->domains, null );
+		// @phpstan-ignore return.type
 		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $item, 'catalog' );
 	}
 
@@ -398,9 +404,11 @@ class Standard
 			$format = '%0' . ( $prec > 0 ? 13 : 12 ) . '.' . $prec . 'F';
 			$value = (array) $value;
 
+			// @phpstan-ignore-next-line
 			$this->addExpression( $this->filter->compare( '<=', $func, sprintf( $format, end( $value ) ) ) );
 
 			if( count( $value ) > 1 ) {
+				// @phpstan-ignore-next-line
 				$this->addExpression( $this->filter->compare( '>=', $func, sprintf( $format, reset( $value ) ) ) );
 			}
 		}
@@ -418,6 +426,7 @@ class Standard
 	 */
 	public function product( $prodIds ) : Iface
 	{
+		// @phpstan-ignore-next-line
 		if( !empty( $prodIds ) && ( $ids = array_unique( $this->validateIds( (array) $prodIds ) ) ) !== [] ) {
 			$this->addExpression( $this->filter->compare( '==', 'product.id', $ids ) );
 		}
@@ -476,12 +485,14 @@ class Standard
 		$func = $search->make( 'index.text:url', [$this->context()->locale()->getLanguageId()] );
 		$search->add( $func, '==', $name )->slice( 0, 1 );
 
+		// @phpstan-ignore-next-line
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{
 			$msg = $this->context()->translate( 'controller/frontend', 'Unable to find product "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Product\Exception( sprintf( $msg, $name ), 404 );
 		}
 
+		// @phpstan-ignore return.type
 		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $item, 'catalog' );
 	}
 
@@ -489,7 +500,7 @@ class Standard
 	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found products will be stored in
+	 * @type int &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\Map Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2019.04
 	 */
@@ -504,15 +515,20 @@ class Standard
 		 * The frontend can request any number of items up to that hard limit to
 		 * prevent denial of service attacks by requesting large amount of data.
 		 *
-		 * @param int Number of items
+		 * @type int Number of items
 		 */
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
+		// @phpstan-ignore-next-line
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
 
+		// @phpstan-ignore-next-line
 		$items = $this->manager->search( $filter, $this->domains, $total );
+		// @phpstan-ignore return.type
 		return \Aimeos\MShop::create( $this->context(), 'rule' )->apply( $items, 'catalog' );
 	}
 
@@ -547,6 +563,7 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			// @phpstan-ignore-next-line
 			$sortkey = ltrim( $sortkey, '+-' );
 
 			switch( $sortkey )
@@ -609,6 +626,7 @@ class Standard
 	 */
 	public function supplier( $supIds, string $listtype = 'default' ) : Iface
 	{
+		// @phpstan-ignore-next-line
 		if( !empty( $supIds ) && ( $ids = array_unique( $this->validateIds( (array) $supIds ) ) ) !== [] )
 		{
 			$func = $this->filter->make( 'index.supplier:position', [$listtype, $ids] );
@@ -679,6 +697,7 @@ class Standard
 		$list = [$item->getId()];
 
 		foreach( $item->getChildren() as $child ) {
+			// @phpstan-ignore-next-line
 			$list = array_merge( $list, $this->getCatalogIdsFromTree( $child ) );
 		}
 
@@ -711,6 +730,7 @@ class Standard
 		{
 			if( is_array( $id ) ) {
 				$list[] = $this->validateIds( $id );
+			// @phpstan-ignore-next-line
 			} elseif( $id != '' && preg_match( '/^[A-Za-z0-9\-\_]+$/', $id ) === 1 ) {
 				$list[] = (string) $id;
 			}

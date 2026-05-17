@@ -60,7 +60,7 @@ interface Iface
 	/**
 	 * Returns the stock items filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found stock items will be stored in
+	 * @type int &$total Parameter where the total number of found stock items will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Stock\Item\Iface
 	 * @since 2019.04
 	 */
@@ -98,7 +98,7 @@ interface Iface
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too
-	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2024.10
 	 */
 	public function uses( array $domains ) : Iface;

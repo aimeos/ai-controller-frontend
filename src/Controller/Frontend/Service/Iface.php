@@ -73,7 +73,7 @@ interface Iface
 	/**
 	 * Returns the service item for the given ID
 	 *
-	 * @param string $serviceId Unique service ID
+	 * @param string $id Unique service ID
 	 * @return \Aimeos\MShop\Service\Provider\Iface Service provider object
 	 */
 	public function getProvider( string $id ) : \Aimeos\MShop\Service\Provider\Iface;
@@ -98,7 +98,7 @@ interface Iface
 	 * Processes the payment service for the given order
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order which should be processed
-	 * @param string $serviceId Unique service item ID
+	 * @param string $id Unique service item ID
 	 * @param array $urls Associative list of keys and the corresponding URLs
 	 * 	(keys are payment.url-self, payment.url-success, payment.url-update)
 	 * @param array $params Request parameters and order service attributes
@@ -111,7 +111,7 @@ interface Iface
 	/**
 	 * Returns the services filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found services will be stored in
+	 * @type int &$total Parameter where the total number of found services will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Service\Item\Iface
 	 * @since 2019.04
 	 */

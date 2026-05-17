@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyReview"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2020.10
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the review frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2020.10
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2020.10
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Catalog\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2020.10
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -173,7 +173,9 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.status', '>', 0 );
 
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
+		// @phpstan-ignore return.type
 		return $this->manager->aggregate( $filter, $key, $value, $type );
 	}
 
@@ -202,6 +204,7 @@ class Standard
 	 */
 	public function create( array $vals = [] ) : \Aimeos\MShop\Review\Item\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->create()->setOrderProductId( $vals['review.orderproductid'] ?? '' )->fromArray( $vals );
 	}
 
@@ -209,11 +212,11 @@ class Standard
 	/**
 	 * Deletes the review item for the given ID or IDs
 	 *
-	 * @param array|string $id Unique review ID or list of IDs
+	 * @param array|string $ids Unique review ID or list of IDs
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function delete( $ids ) : Iface
+	public function delete( array|string $ids ) : Iface
 	{
 		$ids = (array) $ids;
 		$filter = $this->manager->filter()->add( ['review.id' => $ids, 'review.customerid' => $this->context()->user()] );
@@ -265,14 +268,14 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Review\Item\Iface
 	{
-		return $this->manager->get( $id, [], null );
+		return $this->manager->get( $id, [], null ); // @phpstan-ignore return.type
 	}
 
 
 	/**
 	 * Returns the reviews for the logged-in user
 	 *
-	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @type int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
@@ -281,7 +284,9 @@ class Standard
 		$filter = clone $this->filter;
 		$cond = $filter->is( 'review.customerid', '==', $this->context()->user() );
 
+		// @phpstan-ignore-next-line
 		$filter->setConditions( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
 
 		return $this->manager->search( $filter, [], $total );
@@ -309,7 +314,7 @@ class Standard
 	 * Adds or updates a review
 	 *
 	 * @param \Aimeos\MShop\Review\Item\Iface $item Review item including required data
-	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
+	 * @return \Aimeos\MShop\Review\Item\Iface Updated review item
 	 * @since 2020.10
 	 */
 	public function save( \Aimeos\MShop\Review\Item\Iface $item ) : \Aimeos\MShop\Review\Item\Iface
@@ -333,6 +338,7 @@ class Standard
 			sprintf( 'You can only add a review if you have ordered a product' )
 		) );
 
+		// @phpstan-ignore-next-line
 		$ordProdItem = \Aimeos\MShop::create( $context, 'order/product' )->get( $item->getOrderProductId() );
 
 		$filter = $this->manager->filter()->add( [
@@ -350,7 +356,7 @@ class Standard
 		 * * 0 : disabled
 		 * * -1 : in review
 		 *
-		 * @param integer Review status value
+		 * @type integer Review status value
 		 * @since 2020.10
 		 */
 		$status = $context->config()->get( 'controller/frontend/review/status', -1 );
@@ -366,6 +372,7 @@ class Standard
 			->setDomain( 'product' )
 			->setStatus( $status );
 
+		// @phpstan-ignore-next-line
 		$item = $this->manager->save( $real );
 
 		$filter = $this->manager->filter( true )->add( [
@@ -375,22 +382,24 @@ class Standard
 
 		if( $status > 0
 			&& ( $entry = $this->manager->aggregate( $filter, 'review.refid', 'review.rating', 'rate' )->first( [] ) ) !== []
+			// @phpstan-ignore-next-line
 			&& !empty( $cnt = current( $entry ) )
 		) {
 			$rateManager = \Aimeos\MShop::create( $context, $domain === 'product' ? 'index' : $domain );
+			// @phpstan-ignore-next-line
 			$rateManager->rate( $item->getRefId(), key( $entry ) / $cnt, $cnt );
 
 			$context->cache()->deleteByTags( [$domain, $domain . '-' . $item->getRefId()] );
 		}
 
-		return $item;
+		return $item; // @phpstan-ignore return.type
 	}
 
 
 	/**
 	 * Returns the reviews filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @type int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
@@ -400,9 +409,12 @@ class Standard
 		$cond = $filter->is( 'review.status', '>', 0 );
 
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
+		// @phpstan-ignore-next-line
 		$filter->slice( $filter->getOffset(), min( $filter->getLimit(), $maxsize ) );
 
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( array_merge( $this->getConditions(), [$cond] ) ) );
 
 		return $this->manager->search( $filter, [], $total );
@@ -438,6 +450,7 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			// @phpstan-ignore-next-line
 			$sortkey = ltrim( $sortkey, '+-' );
 
 			switch( $sortkey )

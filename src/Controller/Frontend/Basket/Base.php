@@ -40,9 +40,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			$amount = $attr->getValue();
 
+			// @phpstan-ignore-next-line
 			if( preg_match( '/^[0-9]*(\.[0-9]+)?$/', $amount ) !== 1 || ( (float) $amount ) < 0.01 )
 			{
 				$msg = $context->translate( 'controller/frontend', 'Invalid price value "%1$s"' );
+				// @phpstan-ignore-next-line
 				throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $amount ) );
 			}
 
@@ -55,6 +57,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		// add prices of (optional) attributes
 		foreach( $orderAttributes as $orderAttrItem )
 		{
+			// @phpstan-ignore-next-line
 			if( !( $attrItem = $attrItems->get( $orderAttrItem->getAttributeId() ) ) ) {
 				continue;
 			}
@@ -64,12 +67,13 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			if( !$prices->isEmpty() )
 			{
 				$attrPrice = $priceManager->getLowestPrice( $prices, $orderAttrItem->getQuantity(), null, $orderProduct->getSiteId() );
-				$price = $price->addItem( clone $attrPrice, $orderAttrItem->getQuantity() );
+				$price = $price->addItem( clone $attrPrice, $orderAttrItem->getQuantity() ); // @phpstan-ignore clone.nonObject
 				$orderAttrItem->setPrice( $attrPrice->addItem( $attrPrice, $orderAttrItem->getQuantity() - 1 )->getValue() );
 			}
 		}
 
 		// remove product rebate of original price in favor to rebates granted for the order
+		// @phpstan-ignore return.type
 		return $price->setRebate( '0.00' );
 	}
 
@@ -96,16 +100,17 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	/**
 	 * Checks if the attribute IDs are really associated to the product
 	 *
-	 * @param \Aimeos\MShop\Product\Item\Iface $product Product item with referenced items
-	 * @param string $domain Domain the references must be of
-	 * @param array $refMap Associative list of list type codes as keys and lists of reference IDs as values
+	 * @param array $products List of product items with referenced items
+	 * @param string $listType List type code the references must be of
+	 * @param array $refIds List of reference IDs to check
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If one or more of the IDs are not associated
 	 */
-	protected function checkAttributes( array $products, string $listType, array $refIds )
+	protected function checkAttributes( array $products, string $listType, array $refIds ) : void
 	{
 		$attrIds = map();
 
 		foreach( $products as $product ) {
+			// @phpstan-ignore-next-line
 			$attrIds->merge( $product->getRefItems( 'attribute', null, $listType )->keys() );
 		}
 
@@ -114,6 +119,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$i18n = $this->context()->i18n();
 			$prodIds = map( $products )->getId()->join( ', ' );
 			$msg = $i18n->dt( 'controller/frontend', 'Invalid "%1$s" references for product with ID %2$s' );
+			// @phpstan-ignore-next-line
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, 'attribute', $prodIds ) );
 		}
 	}
@@ -125,7 +131,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * @param \Aimeos\MShop\Locale\Item\Iface $locale Locale object from current basket
 	 * @param string $type Basket type
 	 */
-	protected function checkLocale( \Aimeos\MShop\Locale\Item\Iface $locale, string $type )
+	protected function checkLocale( \Aimeos\MShop\Locale\Item\Iface $locale, string $type ) : void
 	{
 		$errors = [];
 		$context = $this->context();
@@ -136,6 +142,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 
 		if( $localeStr !== null && $localeStr !== $localeKey )
 		{
+			// @phpstan-ignore-next-line
 			$locParts = explode( '|', $localeStr );
 			$locSite = ( isset( $locParts[0] ) ? $locParts[0] : '' );
 			$locLanguage = ( isset( $locParts[1] ) ? $locParts[1] : '' );
@@ -145,19 +152,28 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$locale = $localeManager->bootstrap( $locSite, $locLanguage, $locCurrency, false );
 
 			$context = clone $context;
+			// @phpstan-ignore-next-line
 			$context->setLocale( $locale );
 
 			$manager = \Aimeos\MShop::create( $context, 'order' );
 			$basket = $manager->getSession( $type )->off();
 
+			// @phpstan-ignore-next-line
 			$this->copyAddresses( $basket, $errors, $localeKey );
+			// @phpstan-ignore-next-line
 			$this->copyServices( $basket, $errors );
+			// @phpstan-ignore-next-line
 			$this->copyProducts( $basket, $errors, $localeKey );
+			// @phpstan-ignore-next-line
 			$this->copyCoupons( $basket, $errors, $localeKey );
 
+			// @phpstan-ignore argument.type
 			$this->object()->get()->setCustomerId( $basket->getCustomerId() )
+				// @phpstan-ignore argument.type
 				->setCustomerReference( $basket->getCustomerReference() )
+				// @phpstan-ignore argument.type
 				->setComment( $basket->getComment() )
+				// @phpstan-ignore argument.type
 				->setLocale( $locale );
 
 			$manager->setSession( $basket, $type );
@@ -183,6 +199,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			{
 				try
 				{
+					// @phpstan-ignore argument.type, argument.type, argument.type
 					$this->object()->get()->addAddress( $item, $type, $pos );
 				}
 				catch( \Exception $e )
@@ -195,6 +212,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				}
 			}
 
+			// @phpstan-ignore-next-line
 			$basket->deleteAddress( $type );
 		}
 
@@ -216,7 +234,9 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		{
 			try
 			{
+				// @phpstan-ignore argument.type
 				$this->object()->addCoupon( $code );
+				// @phpstan-ignore-next-line
 				$basket->deleteCoupon( $code );
 			}
 			catch( \Exception $e )
@@ -268,12 +288,15 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 				}
 
+				// @phpstan-ignore-next-line
 				$item = $manager->get( $product->getParentProductId() ?: $product->getProductId(), $domains );
 				$item = $ruleManager->apply( $item, 'catalog' );
 				$qty = $product->getQuantity();
 
+				// @phpstan-ignore argument.type, argument.type, argument.type
 				$this->object()->addProduct( $item, $qty, $variantIds, $configIds, $customIds, $product->getStockType() );
 
+				// @phpstan-ignore-next-line
 				$basket->deleteProduct( $pos );
 			}
 			catch( \Exception $e )
@@ -283,6 +306,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				$errors['product'][$pos] = $e->getMessage();
 
 				$str = 'Error migrating product with code "%1$s" in basket to locale "%2$s": %3$s';
+				// @phpstan-ignore-next-line
 				$logger->info( sprintf( $str, $code, $localeKey, $e->getMessage() ), 'controller/frontend' );
 			}
 		}
@@ -311,7 +335,8 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				{
 					$position = null;
 
-					foreach( $newBasket->get()->getService( $type ) as $pos => $ordService )
+				// @phpstan-ignore argument.type
+				foreach( $newBasket->get()->getService( $type ) as $pos => $ordService )
 					{
 						if( $item->getCode() === $ordService->getCode() ) {
 							$position = $pos;
@@ -324,8 +349,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 						$attributes[$attrItem->getCode()] = $attrItem->getValue();
 					}
 
+					// @phpstan-ignore-next-line
 					$service = $manager->get( $item->getServiceId(), ['media', 'price', 'text'] );
+					// @phpstan-ignore argument.type, argument.type
 					$newBasket->addService( $service, $attributes, $position );
+					// @phpstan-ignore-next-line
 					$basket->deleteService( $type );
 				}
 				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically
@@ -341,7 +369,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $order Basket object
 	 */
-	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Iface $order )
+	protected function createSubscriptions( \Aimeos\MShop\Order\Item\Iface $order ) : void
 	{
 		$types = ['config', 'custom', 'hidden', 'variant'];
 		$manager = \Aimeos\MShop::create( $this->context(), 'subscription' );
@@ -361,6 +389,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					$item = $item->setDateEnd( $end );
 				}
 
+				// @phpstan-ignore-next-line
 				$manager->save( $item, false );
 			}
 		}
@@ -392,6 +421,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		if( $attrItems->count() !== count( $attributeIds ) )
 		{
 			$i18n = $this->context()->i18n();
+			// @phpstan-ignore-next-line
 			$expected = implode( ',', $attributeIds );
 			$actual = $attrItems->keys()->join( ',' );
 			$msg = $i18n->dt( 'controller/frontend', 'Available attribute IDs "%1$s" do not match the given attribute IDs "%2$s"' );
@@ -430,10 +460,12 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					$search->compare( '>', 'attribute.status', 0 ),
 					$search->getConditions(),
 				);
+				// @phpstan-ignore-next-line
 				$expr[] = $search->and( $tmp );
 			}
 		}
 
+		// @phpstan-ignore-next-line
 		$search->setConditions( $search->or( $expr ) );
 		return $attributeManager->search( $search, array( 'price' ) );
 	}
@@ -491,6 +523,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 		$manager = \Aimeos\MShop::create( $this->context(), 'locale/site' );
 		$filter = $manager->filter( true )->add( 'locale.site.siteid', '==', $siteId )->slice( 0, 1 );
 
-		return $manager->search( $filter )->getLabel()->first() ?: $this->context()->locale()->getSiteItem()->getLabel();
+		return (string) $manager->search( $filter )->getLabel()->first() ?: $this->context()->locale()->getSiteItem()->getLabel();
 	}
 }

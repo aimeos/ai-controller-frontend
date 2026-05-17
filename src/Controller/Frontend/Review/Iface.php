@@ -44,11 +44,11 @@ interface Iface
 	/**
 	 * Deletes the review item for the given ID
 	 *
-	 * @param array|string $id Unique review ID or list of IDs
+	 * @param array|string $ids Unique review ID or list of IDs
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function delete( $ids ) : Iface;
+	public function delete( array|string $ids ) : Iface;
 
 	/**
 	 * Sets the review domain for filtering
@@ -81,7 +81,7 @@ interface Iface
 	/**
 	 * Returns the reviews for the logged-in user
 	 *
-	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @type int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
@@ -107,7 +107,7 @@ interface Iface
 	/**
 	 * Returns the reviews filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @type int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */

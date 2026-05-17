@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyStock"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the stock frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Stock\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -202,6 +202,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Stock\Item\Iface
 	{
+		// @phpstan-ignore-next-line
 		return $this->manager->get( $id, $this->domains, null );
 	}
 
@@ -226,7 +227,7 @@ class Standard
 	/**
 	 * Returns the stock items filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found stock items will be stored in
+	 * @type int &$total Parameter where the total number of found stock items will be stored in
 	 * @return \Aimeos\Map Ordered list of stock items implementing \Aimeos\MShop\Stock\Item\Iface
 	 * @since 2019.04
 	 */
@@ -236,9 +237,12 @@ class Standard
 
 		$this->addExpression( $filter->getConditions() );
 
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
 
+		// @phpstan-ignore-next-line
 		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
@@ -254,6 +258,7 @@ class Standard
 	public function slice( int $start, int $limit ) : Iface
 	{
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
+		// @phpstan-ignore-next-line
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -273,6 +278,7 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			// @phpstan-ignore-next-line
 			$sortkey = ltrim( $sortkey, '+-' );
 
 			switch( $sortkey )
@@ -311,7 +317,7 @@ class Standard
 	 * Sets the referenced domains that will be fetched too when retrieving items
 	 *
 	 * @param array $domains Domain names of the referenced items that should be fetched too
-	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Stock\Iface Stock controller for fluent interface
 	 * @since 2024.10
 	 */
 	public function uses( array $domains ) : Iface

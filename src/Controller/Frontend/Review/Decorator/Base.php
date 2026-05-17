@@ -37,7 +37,7 @@ abstract class Base
 	{
 		parent::__construct( $context );
 
-		$this->controller = $controller;
+		$this->controller = $controller; // @phpstan-ignore assign.propertyType
 	}
 
 
@@ -51,6 +51,8 @@ abstract class Base
 	 */
 	public function __call( string $name, array $param )
 	{
+		// @phpstan-ignore-next-line
+		// @phpstan-ignore-next-line
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
 
@@ -103,6 +105,7 @@ abstract class Base
 	 */
 	public function create( array $values = [] ) : \Aimeos\MShop\Review\Item\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->controller->create( $values );
 	}
 
@@ -110,11 +113,11 @@ abstract class Base
 	/**
 	 * Deletes the review item for the given ID
 	 *
-	 * @param array|string $id Unique review ID or list of IDs
+	 * @param array|string $ids Unique review ID or list of IDs
 	 * @return \Aimeos\Controller\Frontend\Review\Iface Review controller for fluent interface
 	 * @since 2020.10
 	 */
-	public function delete( $ids ) : \Aimeos\Controller\Frontend\Review\Iface
+	public function delete( array|string $ids ) : \Aimeos\Controller\Frontend\Review\Iface
 	{
 		$this->controller->delete( $ids );
 		return $this;
@@ -166,7 +169,7 @@ abstract class Base
 	/**
 	 * Returns the reviews for the logged-in user
 	 *
-	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @type int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
@@ -205,7 +208,7 @@ abstract class Base
 	/**
 	 * Returns the reviews filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found reviews will be stored in
+	 * @type int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
@@ -248,9 +251,9 @@ abstract class Base
 	 * Injects the reference of the outmost object
 	 *
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
-	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 * @return static Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : static
 	{
 		parent::setObject( $object );
 
@@ -267,6 +270,7 @@ abstract class Base
 	 */
 	protected function getController() : \Aimeos\Controller\Frontend\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->controller;
 	}
 }

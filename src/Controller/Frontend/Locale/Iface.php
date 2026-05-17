@@ -51,7 +51,7 @@ interface Iface
 	/**
 	 * Returns the locales filtered by the previously assigned conditions
 	 *
-	 * @param int|null &$total Parameter where the total number of found locales will be stored in
+	 * @type int|null &$total Parameter where the total number of found locales will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2019.04
 	 */

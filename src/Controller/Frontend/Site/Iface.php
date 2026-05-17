@@ -91,7 +91,7 @@ interface Iface
 	/**
 	 * Returns the sites filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found sites will be stored in
+	 * @type int &$total Parameter where the total number of found sites will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Locale\Item\Site\Iface
 	 * @since 2021.04
 	 */

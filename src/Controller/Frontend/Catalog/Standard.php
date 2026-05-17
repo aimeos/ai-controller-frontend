@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCatalog"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the catalog frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Catalog\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -186,6 +186,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->find( $code, $this->domains, null, null, null );
 	}
 
@@ -212,6 +213,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
+		// @phpstan-ignore-next-line
 		return $this->manager->get( $id, $this->domains, null );
 	}
 
@@ -242,6 +244,7 @@ class Standard
 			}
 		}
 
+		// @phpstan-ignore return.type
 		return $list;
 	}
 
@@ -256,8 +259,10 @@ class Standard
 	public function getTree( int $level = Iface::TREE ) : \Aimeos\MShop\Catalog\Item\Iface
 	{
 		$this->addExpression( $this->filter->getConditions() );
+		// @phpstan-ignore-next-line
 		$this->filter->add( $this->filter->and( $this->getConditions() ) );
 
+		// @phpstan-ignore return.type
 		return $this->manager->getTree( $this->root, $this->domains, $level, $this->filter );
 	}
 
@@ -268,7 +273,7 @@ class Standard
 	 * @param string $domain Domain name of the referenced item, e.g. "media"
 	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
 	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
-	 * @return \Aimeos\Controller\Frontend\Supplier\Iface Supplier controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Catalog\Iface Catalog controller for fluent interface
 	 * @since 2019.10
 	 */
 	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface
@@ -311,12 +316,14 @@ class Standard
 	{
 		$search = $this->manager->filter( null )->add( 'catalog.url', '==', $name )->slice( 0, 1 );
 
+		// @phpstan-ignore-next-line
 		if( ( $item = $this->manager->search( $search, $this->domains )->first() ) === null )
 		{
 			$msg = $this->context()->translate( 'controller/frontend', 'Unable to find category "%1$s"' );
 			throw new \Aimeos\Controller\Frontend\Catalog\Exception( sprintf( $msg, $name ), 404 );
 		}
 
+		// @phpstan-ignore return.type
 		return $item;
 	}
 
@@ -338,7 +345,7 @@ class Standard
 	/**
 	 * Returns the categories filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found categories will be stored in
+	 * @type int &$total Parameter where the total number of found categories will be stored in
 	 * @return \Aimeos\Map Ordered list of catalog items implementing \Aimeos\MShop\Catalog\Item\Iface
 	 * @since 2019.10
 	 */
@@ -348,9 +355,12 @@ class Standard
 
 		$this->addExpression( $filter->getConditions() );
 
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
 
+		// @phpstan-ignore-next-line
 		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
@@ -366,6 +376,7 @@ class Standard
 	public function slice( int $start, int $limit ) : Iface
 	{
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
+		// @phpstan-ignore-next-line
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -385,6 +396,7 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			// @phpstan-ignore-next-line
 			$this->addExpression( $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) ) );
 		}
 
@@ -442,7 +454,7 @@ class Standard
 		 * Note: This setting was available between 2014.03 and 2019.04 as
 		 * client/html/catalog/filter/tree/levels-always
 		 *
-		 * @param integer Number of tree levels
+		 * @type integer Number of tree levels
 		 * @since 2019.04
 		 * @category User
 		 * @category Developer
@@ -468,7 +480,7 @@ class Standard
 		 * Note: This setting was available between 2014.03 and 2019.04 as
 		 * client/html/catalog/filter/tree/levels-only
 		 *
-		 * @param integer Number of tree levels
+		 * @type integer Number of tree levels
 		 * @since 2014.03
 		 * @category User
 		 * @category Developer

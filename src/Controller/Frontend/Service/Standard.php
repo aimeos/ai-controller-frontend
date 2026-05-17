@@ -54,7 +54,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyService"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -77,7 +77,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the service frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -101,7 +101,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -126,7 +126,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Catalog\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -206,6 +206,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Service\Item\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->find( $code, $this->domains, null, null, null );
 	}
 
@@ -232,6 +233,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Service\Item\Iface
 	{
+		// @phpstan-ignore-next-line
 		return $this->manager->get( $id, $this->domains, null );
 	}
 
@@ -244,9 +246,11 @@ class Standard
 	 */
 	public function getProvider( string $serviceId ) : \Aimeos\MShop\Service\Provider\Iface
 	{
+		// @phpstan-ignore-next-line
 		$item = $this->manager->get( $serviceId, $this->domains, true );
 		$provider = $this->manager->getProvider( $item, $item->getType() );
 
+		// @phpstan-ignore return.type
 		return $provider->injectGlobalConfigBE( $this->config );
 	}
 
@@ -260,8 +264,10 @@ class Standard
 	{
 		$list = [];
 		$filter = clone $this->filter;
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) )->order( 'service.position' );
 
+		// @phpstan-ignore-next-line
 		foreach( $this->manager->search( $filter, $this->domains ) as $id => $item )
 		{
 			$list[$id] = $this->manager->getProvider( $item, $item->getType() );
@@ -308,6 +314,7 @@ class Standard
 		$provider = $this->manager->getProvider( $item, $item->getType() );
 		$provider->injectGlobalConfigBE( $urls + $this->config );
 
+		// @phpstan-ignore return.type
 		return $provider->process( $orderItem, $params );
 	}
 
@@ -315,16 +322,19 @@ class Standard
 	/**
 	 * Returns the services filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found services will be stored in
+	 * @type int &$total Parameter where the total number of found services will be stored in
 	 * @return \Aimeos\Map Ordered list of service items implementing \Aimeos\MShop\Service\Item\Iface
 	 * @since 2019.04
 	 */
 	public function search( ?int &$total = null ) : \Aimeos\Map
 	{
 		$filter = clone $this->filter;
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
 
+		// @phpstan-ignore-next-line
 		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
@@ -340,6 +350,7 @@ class Standard
 	public function slice( int $start, int $limit ) : Iface
 	{
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
+		// @phpstan-ignore-next-line
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -359,6 +370,7 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			// @phpstan-ignore-next-line
 			$sortkey = ltrim( $sortkey, '+-' );
 
 			switch( $sortkey )
@@ -407,6 +419,7 @@ class Standard
 		$provider = $this->manager->getProvider( $item, $item->getType() );
 		$provider->injectGlobalConfigBE( $this->config );
 
+		// @phpstan-ignore return.type
 		return $provider->updatePush( $request, $response );
 	}
 
@@ -423,6 +436,7 @@ class Standard
 		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$ref = $this->context()->config()->get( 'mshop/order/manager/subdomains', [] );
+		// @phpstan-ignore-next-line
 		$orderItem = \Aimeos\MShop::create( $this->context(), 'order' )->get( $orderid, $ref );
 		$serviceItem = $this->manager->find( $code );
 
@@ -439,6 +453,7 @@ class Standard
 			}
 		}
 
+		// @phpstan-ignore return.type
 		return $orderItem;
 	}
 

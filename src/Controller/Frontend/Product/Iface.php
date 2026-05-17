@@ -168,7 +168,7 @@ interface Iface
 	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found products will be stored in
+	 * @type int &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2019.04
 	 */

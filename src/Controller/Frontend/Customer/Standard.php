@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCustomer"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the customer frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Customer\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -155,7 +155,7 @@ class Standard
 			 * given by their IDs. This is especially useful if those groups limit
 			 * functionality for those users.
 			 *
-			 * @param array List of group IDs
+			 * @type array List of group IDs
 			 * @since 2017.07
 			 * @category User
 			 * @category Developer
@@ -165,7 +165,7 @@ class Standard
 		}
 		else
 		{
-			$this->item = $this->manager->get( $userid, [], true );
+			$this->item = $this->manager->get( $userid, [], true ); // @phpstan-ignore assign.propertyType
 		}
 	}
 
@@ -199,10 +199,12 @@ class Standard
 		$addrItem = $this->item->getPaymentAddress();
 
 		if( $code = $values['customer.code'] ?? null ) {
+			// @phpstan-ignore-next-line
 			$this->item->setCode( $code );
 		}
 
 		if( $password = $values['customer.password'] ?? null ) {
+			// @phpstan-ignore-next-line
 			$this->item = $this->item->setPassword( $password );
 		}
 
@@ -236,6 +238,7 @@ class Standard
 	 */
 	public function addAddressItem( \Aimeos\MShop\Common\Item\Address\Iface $item, ?int $idx = null ) : Iface
 	{
+		// @phpstan-ignore-next-line
 		$this->item = $this->item->addAddressItem( $item, $idx );
 		return $this;
 	}
@@ -285,6 +288,7 @@ class Standard
 	 */
 	public function createAddressItem( array $values = [] ) : \Aimeos\MShop\Customer\Item\Address\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->createAddressItem()->fromArray( $values );
 	}
 
@@ -298,6 +302,7 @@ class Standard
 	 */
 	public function createListItem( array $values = [] ) : \Aimeos\MShop\Common\Item\Lists\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->createListItem()->fromArray( $values );
 	}
 
@@ -311,6 +316,7 @@ class Standard
 	 */
 	public function createPropertyItem( array $values = [] ) : \Aimeos\MShop\Common\Item\Property\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->createPropertyItem()->fromArray( $values );
 	}
 
@@ -323,7 +329,7 @@ class Standard
 	 */
 	public function delete() : Iface
 	{
-		if( $this->item && $this->item->getId() ) {
+		if( $this->item->getId() ) {
 			\Aimeos\MShop::create( $this->context(), 'customer' )->delete( $this->item->getId() );
 		}
 
@@ -348,7 +354,7 @@ class Standard
 	 * Removes the given list item from the customer object (not yet stored)
 	 *
 	 * @param string $domain Domain name the referenced item belongs to
-	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to remove
+	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $listItem List item to remove
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to remove or null if only list item should be removed
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */
@@ -388,6 +394,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Customer\Item\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->find( $code, $this->domains, 'customer', null, null );
 	}
 
@@ -426,10 +433,11 @@ class Standard
 				$this->item->setPassword( $msg['customer.password'] );
 			}
 
+			// @phpstan-ignore-next-line
 			$context->queue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
 		}
 
-		$this->item = $this->manager->save( $this->item );
+		$this->item = $this->manager->save( $this->item ); // @phpstan-ignore assign.propertyType
 		return $this;
 	}
 
@@ -446,6 +454,7 @@ class Standard
 		$this->domains = $domains;
 
 		if( ( $id = $this->context()->user() ) !== null ) {
+			// @phpstan-ignore-next-line
 			$this->item = $this->manager->get( $id, $domains, true );
 		}
 
@@ -458,7 +467,7 @@ class Standard
 	 *
 	 * @throws \Aimeos\Controller\Frontend\Customer\Exception If access isn't allowed
 	 */
-	protected function checkLimit()
+	protected function checkLimit() : void
 	{
 		$total = 0;
 		$context = $this->context();
@@ -474,7 +483,7 @@ class Standard
 		 * is created. If the number of accounts is higher than the configured value,
 		 * an error message will be shown to the user instead of creating a new account.
 		 *
-		 * @param integer Number of customer accounts allowed within the time frame
+		 * @type integer Number of customer accounts allowed within the time frame
 		 * @since 2017.07
 		 * @category Developer
 		 * @see controller/frontend/customer/limit-seconds
@@ -492,7 +501,7 @@ class Standard
 		 * configured in "controller/frontend/customer/limit-count", an error
 		 * message will be shown to the user instead of creating a new account.
 		 *
-		 * @param integer Number of seconds to check customer accounts within
+		 * @type integer Number of seconds to check customer accounts within
 		 * @since 2017.07
 		 * @category Developer
 		 * @see controller/frontend/customer/limit-count

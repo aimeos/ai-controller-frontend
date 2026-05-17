@@ -87,15 +87,18 @@ class Select
 		$confAttr = $this->call( 'getOrderProductAttributes', 'config', array_keys( $config ), [], $config );
 		$hideAttr = $this->call( 'getOrderProductAttributes', 'hidden', $hidden->keys()->toArray() );
 
+		// @phpstan-ignore-next-line
 		$orderProductItem->setAttributeItems( array_merge( $attr, $custAttr, $confAttr, $hideAttr ) );
 
 		$price = $this->call( 'calcPrice', $orderProductItem, $prices, $quantity );
 		$orderProductItem
 			->setPrice( $price )
 			->setSiteId( $siteId ?: $price->getSiteId() )
+			// @phpstan-ignore-next-line
 			->setVendor( $this->getVendor( $siteId ?: $price->getSiteId() ) );
 
-		$this->getController()->get()->addProduct( $orderProductItem );
+			// @phpstan-ignore argument.type
+			$this->getController()->get()->addProduct( $orderProductItem );
 		$this->getController()->save();
 
 		return $this;
@@ -128,18 +131,21 @@ class Select
 		}
 
 		$manager = \Aimeos\MShop::create( $context, 'product' );
+		// @phpstan-ignore-next-line
 		$product = $manager->get( $orderProduct->getProductId(), ['price' => ['default']], true );
 		$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 
 		if( ( $prices = $product->getRefItems( 'price', 'default', 'default' ) )->isEmpty() )
 		{
+			// @phpstan-ignore-next-line
 			$product = $manager->get( $orderProduct->getParentProductId(), ['price' => ['default']], true );
 			$product = \Aimeos\MShop::create( $context, 'rule' )->apply( $product, 'catalog' );
 			$prices = $product->getRefItems( 'price', 'default', 'default' );
 		}
 
 		$price = $this->call( 'calcPrice', $orderProduct, $prices, $quantity );
+		// @phpstan-ignore-next-line
 		$orderProduct = $orderProduct->setQuantity( $quantity )->setPrice( $price );
 
 		$this->getController()->get()->addProduct( $orderProduct, $position );
@@ -153,7 +159,7 @@ class Select
 	 * Returns the variant attributes and updates the price list if necessary.
 	 *
 	 * @param \Aimeos\MShop\Product\Item\Iface $productItem Product item which is replaced if necessary
-	 * @param array $variantAttributeIds List of product variant attribute IDs
+	 * @param array $variant List of product variant attribute IDs
 	 * @return \Aimeos\MShop\Product\Item\Iface Product variant article
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If no product variant is found
 	 */
@@ -176,7 +182,7 @@ class Select
 		 *
 		 * This option replace the "client/html/basket/require-variant" setting.
 		 *
-		 * @param boolean True if a variant must be chosen, false if also the selection product with attributes can be added
+		 * @type boolean True if a variant must be chosen, false if also the selection product with attributes can be added
 		 * @since 2018.01
 		 * @category Developer
 		 * @category User
@@ -207,6 +213,7 @@ class Select
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $productItem->getId() ) );
 		}
 
+		// @phpstan-ignore return.type
 		return current( $items ) ?: $productItem;
 	}
 }

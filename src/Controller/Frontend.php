@@ -19,8 +19,8 @@ namespace Aimeos\Controller;
  */
 class Frontend
 {
-	private static $cache = true;
-	private static $objects = [];
+	private static bool $cache = true;
+	private static array $objects = [];
 
 
 	/**
@@ -28,7 +28,7 @@ class Frontend
 	 *
 	 * @param bool $value True to enable caching, false to disable it.
 	 */
-	public static function cache( bool $value )
+	public static function cache( bool $value ) : void
 	{
 		self::$cache = (bool) $value;
 		self::$objects = [];
@@ -69,6 +69,7 @@ class Frontend
 			self::$objects[$classname] = self::createController( $context, $classname, $iface, $path );
 		}
 
+		// @phpstan-ignore return.type, clone.nonObject
 		return clone self::$objects[$classname];
 	}
 
@@ -82,7 +83,7 @@ class Frontend
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Controller\Frontend\Iface|null $object Frontend controller object for the given name or null to clear
 	 */
-	public static function inject( string $classname, ?\Aimeos\Controller\Frontend\Iface $object = null )
+	public static function inject( string $classname, ?\Aimeos\Controller\Frontend\Iface $object = null ) : void
 	{
 		self::$objects['\\' . ltrim( $classname, '\\' )] = $object;
 	}
@@ -103,11 +104,14 @@ class Frontend
 		$localClass = str_replace( '/', '\\', ucwords( $domain, '/' ) );
 
 		$classprefix = '\\Aimeos\\Controller\\Frontend\\' . ucfirst( $localClass ) . '\\Decorator\\';
+		// @phpstan-ignore-next-line
 		$decorators = array_reverse( $config->get( 'controller/frontend/' . $domain . '/decorators/local', [] ) );
 		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
 
 		$classprefix = '\\Aimeos\\Controller\\Frontend\\Common\\Decorator\\';
+		// @phpstan-ignore-next-line
 		$decorators = array_reverse( $config->get( 'controller/frontend/' . $domain . '/decorators/global', [] ) );
+		// @phpstan-ignore-next-line
 		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
 
 		/** controller/frontend/common/decorators/default
@@ -128,21 +132,24 @@ class Frontend
 		 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" and
 		 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator2".
 		 *
-		 * @param array List of decorator names
+		 * @type array List of decorator names
 		 * @since 2014.03
 		 * @category Developer
 		 */
+		// @phpstan-ignore-next-line
 		$decorators = array_reverse( $config->get( 'controller/frontend/common/decorators/default', [] ) );
 		$excludes = $config->get( 'controller/frontend/' . $domain . '/decorators/excludes', [] );
 
 		foreach( $decorators as $key => $name )
 		{
+			// @phpstan-ignore-next-line
 			if( in_array( $name, $excludes ) ) {
 				unset( $decorators[$key] );
 			}
 		}
 
 		$classprefix = '\\Aimeos\\Controller\\Frontend\\Common\\Decorator\\';
+		// @phpstan-ignore-next-line
 		$controller = self::addDecorators( $context, $controller, $decorators, $classprefix );
 
 		return $controller->setObject( $controller );
@@ -167,12 +174,14 @@ class Frontend
 		foreach( $decorators as $name )
 		{
 			if( ctype_alnum( $name ) === false ) {
+				// @phpstan-ignore-next-line
 				throw new \LogicException( sprintf( 'Invalid class name "%1$s"', $name ), 400 );
 			}
 
 			$controller = \Aimeos\Utils::create( $classprefix . $name, [$controller, $context], $interface );
 		}
 
+		// @phpstan-ignore return.type
 		return $controller;
 	}
 
@@ -190,11 +199,13 @@ class Frontend
 		string $classname, string $interface, string $path ) : \Aimeos\Controller\Frontend\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
+			// @phpstan-ignore return.type
 			return self::$objects[$classname];
 		}
 
 		$cntl = \Aimeos\Utils::create( $classname, [$context], $interface );
 
+		// @phpstan-ignore-next-line
 		return self::addControllerDecorators( $context, $cntl, $path );
 	}
 }

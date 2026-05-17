@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MySite"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2021.04
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the site frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2021.04
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2021.04
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Site\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2021.04
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -185,6 +185,7 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Locale\Item\Site\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->manager->find( $code, [], null, null, null );
 	}
 
@@ -198,7 +199,7 @@ class Standard
 	 */
 	public function get( string $id ) : \Aimeos\MShop\Locale\Item\Site\Iface
 	{
-		return $this->manager->get( $id, [], null );
+		return $this->manager->get( $id, [], null ); // @phpstan-ignore return.type
 	}
 
 
@@ -228,6 +229,7 @@ class Standard
 			}
 		}
 
+		// @phpstan-ignore return.type
 		return $list;
 	}
 
@@ -244,8 +246,10 @@ class Standard
 		$filter = clone $this->filter;
 
 		$this->addExpression( $filter->getConditions() );
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
 
+		// @phpstan-ignore return.type
 		return $this->manager->getTree( $this->root, [], $level, $filter );
 	}
 
@@ -284,7 +288,7 @@ class Standard
 	/**
 	 * Returns the sites filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found sites will be stored in
+	 * @type int &$total Parameter where the total number of found sites will be stored in
 	 * @return \Aimeos\Map Ordered list of site items implementing \Aimeos\MShop\Locale\Item\Site\Iface
 	 * @since 2021.04
 	 */
@@ -294,7 +298,9 @@ class Standard
 
 		$this->addExpression( $filter->getConditions() );
 
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
 
 		return $this->manager->search( $filter, [], $total );
@@ -312,6 +318,7 @@ class Standard
 	public function slice( int $start, int $limit ) : Iface
 	{
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
+		// @phpstan-ignore-next-line
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -331,6 +338,7 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			// @phpstan-ignore-next-line
 			$this->addExpression( $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) ) );
 		}
 

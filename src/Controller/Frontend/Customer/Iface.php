@@ -106,7 +106,7 @@ interface Iface
 	 * Removes the given list item from the customer object (not yet stored)
 	 *
 	 * @param string $domain Domain name the referenced item belongs to
-	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $item List item to remove
+	 * @param \Aimeos\MShop\Common\Item\Lists\Iface $listItem List item to remove
 	 * @param \Aimeos\MShop\Common\Item\Iface|null $refItem Referenced item to remove or null if only list item should be removed
 	 * @return \Aimeos\Controller\Frontend\Customer\Iface Customer controller for fluent interface
 	 */

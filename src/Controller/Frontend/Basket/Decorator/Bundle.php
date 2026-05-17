@@ -30,8 +30,7 @@ class Bundle
 	 * @param array $config List of configurable attribute IDs the customer has chosen from
 	 * @param array $custom Associative list of attribute IDs as keys and arbitrary values that will be added to the ordered product
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @param string|null $supplierid Unique supplier ID the product is from
-	 * @param string|null $siteid Unique site ID the product is from or null for siteid of the product item
+	 * @param string|null $siteId Unique site ID the product is from or null for siteid of the product item
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If the product isn't available
 	 */
@@ -62,16 +61,20 @@ class Bundle
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
 			->setSiteId( $siteId ?: $product->getSiteId() )
+			// @phpstan-ignore-next-line
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) )
+			// @phpstan-ignore-next-line
 			->setProducts( $this->getBundleProducts( $product, $quantity, $stocktype ) );
 
 		$price = $this->call( 'calcPrice', $orderProductItem, $prices, $quantity );
 		$orderProductItem
 			->setPrice( $price )
 			->setSiteId( $siteId ?: $price->getSiteId() )
+			// @phpstan-ignore-next-line
 			->setVendor( $this->getVendor( $siteId ?: $price->getSiteId() ) );
 
-		$this->getController()->get()->addProduct( $orderProductItem );
+			// @phpstan-ignore argument.type
+			$this->getController()->get()->addProduct( $orderProductItem );
 		$this->getController()->save();
 
 		return $this;
@@ -84,7 +87,7 @@ class Bundle
 	 * @param \Aimeos\MShop\Product\Item\Iface $product Bundle product item
 	 * @param float $quantity Amount of products that should by added
 	 * @param string $stocktype Unique code of the stock type to deliver the products from
-	 * @return \Aimeos\MShop\Order\Item\Product\Iface[] List of order product item from bundle
+	 * @return array List of order product item from bundle
 	 */
 	protected function getBundleProducts( \Aimeos\MShop\Product\Item\Iface $product, float $quantity, string $stocktype ) : array
 	{

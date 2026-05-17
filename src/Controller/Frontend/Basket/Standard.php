@@ -51,7 +51,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyBasket"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -74,7 +74,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the basket frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -98,7 +98,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -123,7 +123,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Basket\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -187,9 +187,11 @@ class Standard
 		if( !isset( $this->baskets[$this->type] ) )
 		{
 			$this->baskets[$this->type] = $this->manager->getSession( $this->type );
+			// @phpstan-ignore-next-line
 			$this->checkLocale( $this->baskets[$this->type]->locale(), $this->type );
 		}
 
+		// @phpstan-ignore return.type
 		return $this->baskets[$this->type];
 	}
 
@@ -246,7 +248,7 @@ class Standard
 		 * the configured value, an error message will be shown to the user
 		 * instead of creating a new order.
 		 *
-		 * @param integer Number of orders allowed within the time frame
+		 * @type integer Number of orders allowed within the time frame
 		 * @since 2017.05
 		 * @category Developer
 		 * @see controller/frontend/basket/limit-seconds
@@ -264,7 +266,7 @@ class Standard
 		 * configured in "controller/frontend/basket/limit-count", an error
 		 * message will be shown to the user instead of creating a new order.
 		 *
-		 * @param integer Number of seconds to check orders within
+		 * @type integer Number of seconds to check orders within
 		 * @since 2017.05
 		 * @category Developer
 		 * @see controller/frontend/basket/limit-count
@@ -313,6 +315,7 @@ class Standard
 	public function load( string $id, array $ref = ['order/address', 'order/coupon', 'order/product', 'order/service'],
 		bool $default = true ) : \Aimeos\MShop\Order\Item\Iface
 	{
+		// @phpstan-ignore-next-line
 		return $this->manager->get( $id, $ref, $default );
 	}
 
@@ -350,14 +353,17 @@ class Standard
 			->setQuantity( $quantity )
 			->setStockType( $stocktype )
 			->setSiteId( $siteId ?: $product->getSiteId() )
+			// @phpstan-ignore-next-line
 			->setAttributeItems( array_merge( $custAttr, $confAttr, $hideAttr ) );
 
 		$price = $this->call( 'calcPrice', $orderBaseProductItem, $prices, $quantity );
 		$orderBaseProductItem
 			->setPrice( $price )
 			->setSiteId( $siteId ?: $price->getSiteId() )
+			// @phpstan-ignore-next-line
 			->setVendor( $this->getVendor( $siteId ?: $price->getSiteId() ) );
 
+		// @phpstan-ignore-next-line
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderBaseProductItem );
 		return $this->save();
 	}
@@ -408,6 +414,7 @@ class Standard
 
 		$quantity = $this->call( 'checkQuantity', $product, $quantity );
 		$price = $this->call( 'calcPrice', $orderProduct, $product->getRefItems( 'price', 'default', 'default' ), $quantity );
+		// @phpstan-ignore-next-line
 		$orderProduct = $orderProduct->setQuantity( $quantity )->setPrice( $price );
 
 		$this->baskets[$this->type] = $this->get()->addProduct( $orderProduct, $position );
@@ -437,7 +444,7 @@ class Standard
 		 * "count" of the codes is decreased afterwards. If codes are not personalized
 		 * the codes can be reused in the next order until their "count" reaches zero.
 		 *
-		 * @param integer Positive number of coupon codes including zero
+		 * @type integer Positive number of coupon codes including zero
 		 * @since 2017.08
 		 * @category User
 		 * @category Developer
@@ -490,6 +497,7 @@ class Standard
 		$address = \Aimeos\MShop::create( $context, 'order' )->createAddress()->fromArray( $values );
 		$address->set( 'nostore', ( $values['nostore'] ?? false ) ? true : false );
 
+		// @phpstan-ignore-next-line
 		$this->baskets[$this->type] = $this->get()->addAddress( $address, $type, $position );
 		return $this->save();
 	}
@@ -537,6 +545,7 @@ class Standard
 		$provider = $manager->getProvider( $service, $type );
 
 		$errors = $provider->checkConfigFE( $config );
+		// @phpstan-ignore-next-line
 		$unknown = array_diff_key( $config, $errors );
 
 		if( count( $unknown ) > 0 )
@@ -545,9 +554,11 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 400, null, $unknown );
 		}
 
+		// @phpstan-ignore-next-line
 		if( count( array_filter( $errors ) ) > 0 )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Invalid service attributes' );
+			// @phpstan-ignore-next-line
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 400, null, array_filter( $errors ) );
 		}
 
@@ -559,6 +570,7 @@ class Standard
 		$orderServiceItem = $orderManager->createService()->copyFrom( $service )->setPrice( $price );
 		$orderServiceItem = $provider->setConfigFE( $orderServiceItem, $config );
 
+		// @phpstan-ignore-next-line
 		$this->baskets[$this->type] = $basket->addService( $orderServiceItem, $type, $position );
 		return $this->save();
 	}

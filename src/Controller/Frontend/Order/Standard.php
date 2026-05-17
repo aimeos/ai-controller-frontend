@@ -51,7 +51,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyOrder"!
 	 *
-	 * @param string Last part of the class name
+	 * @type string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -74,7 +74,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the order frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -98,7 +98,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -123,7 +123,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Catalog\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @param array List of decorator names
+	 * @type array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -188,6 +188,7 @@ class Standard
 	 */
 	public function get( string $id, ?bool $default = null ) : \Aimeos\MShop\Order\Item\Iface
 	{
+		// @phpstan-ignore-next-line
 		return $this->manager->get( $id, $this->domains, $default );
 	}
 
@@ -218,13 +219,13 @@ class Standard
 	 */
 	public function save( \Aimeos\MShop\Order\Item\Iface $orderItem ) : \Aimeos\MShop\Order\Item\Iface
 	{
-		return $this->manager->save( $orderItem );
+		return $this->manager->save( $orderItem ); // @phpstan-ignore return.type
 	}
 
 	/**
 	 * Returns the orders filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found attributes will be stored in
+	 * @type int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\Map Ordered list of order items implementing \Aimeos\MShop\Order\Item\Iface
 	 * @since 2019.04
 	 */
@@ -234,9 +235,12 @@ class Standard
 
 		$this->addExpression( $filter->getConditions() );
 
+		// @phpstan-ignore-next-line
 		$filter->add( $filter->and( $this->getConditions() ) );
+		// @phpstan-ignore-next-line
 		$filter->setSortations( $this->getSortations() );
 
+		// @phpstan-ignore-next-line
 		return $this->manager->search( $filter, $this->domains, $total );
 	}
 
@@ -252,6 +256,7 @@ class Standard
 	public function slice( int $start, int $limit ) : Iface
 	{
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
+		// @phpstan-ignore-next-line
 		$this->filter->slice( $start, min( $limit, $maxsize ) );
 		return $this;
 	}
@@ -271,6 +276,7 @@ class Standard
 		foreach( $list as $sortkey )
 		{
 			$direction = ( $sortkey[0] === '-' ? '-' : '+' );
+			// @phpstan-ignore-next-line
 			$this->addExpression( $this->filter->sort( $direction, ltrim( $sortkey, '+-' ) ) );
 		}
 

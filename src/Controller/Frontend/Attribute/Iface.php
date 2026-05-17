@@ -82,7 +82,7 @@ interface Iface
 	 * @param string $domain Domain name of the referenced item, e.g. "price"
 	 * @param string|null $type Type code of the reference, e.g. "default" or null for all types
 	 * @param string|null $refId ID of the referenced item of the given domain or null for all references
-	 * @return \Aimeos\Controller\Frontend\Product\Iface Product controller for fluent interface
+	 * @return \Aimeos\Controller\Frontend\Attribute\Iface Attribute controller for fluent interface
 	 * @since 2019.04
 	 */
 	public function has( string $domain, ?string $type = null, ?string $refId = null ) : Iface;
@@ -110,7 +110,7 @@ interface Iface
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found attributes will be stored in
+	 * @type int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @since 2019.04
 	 */

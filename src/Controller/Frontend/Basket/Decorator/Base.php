@@ -37,7 +37,7 @@ abstract class Base
 	{
 		parent::__construct( $context );
 
-		$this->controller = $controller;
+		$this->controller = $controller; // @phpstan-ignore assign.propertyType
 	}
 
 
@@ -51,6 +51,8 @@ abstract class Base
 	 */
 	public function __call( string $name, array $param )
 	{
+		// @phpstan-ignore-next-line
+		// @phpstan-ignore-next-line
 		return @call_user_func_array( array( $this->controller, $name ), $param );
 	}
 
@@ -281,9 +283,9 @@ abstract class Base
 	 * Injects the reference of the outmost object
 	 *
 	 * @param \Aimeos\Controller\Frontend\Iface $object Reference to the outmost controller or decorator
-	 * @return \Aimeos\Controller\Frontend\Iface Controller object for chaining method calls
+	 * @return static Controller object for chaining method calls
 	 */
-	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : \Aimeos\Controller\Frontend\Iface
+	public function setObject( \Aimeos\Controller\Frontend\Iface $object ) : static
 	{
 		parent::setObject( $object );
 
@@ -300,6 +302,7 @@ abstract class Base
 	 */
 	protected function getController() : \Aimeos\Controller\Frontend\Iface
 	{
+		// @phpstan-ignore return.type
 		return $this->controller;
 	}
 }

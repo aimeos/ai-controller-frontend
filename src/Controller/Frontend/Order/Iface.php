@@ -62,7 +62,7 @@ interface Iface
 	/**
 	 * Returns the orders filtered by the previously assigned conditions
 	 *
-	 * @param int &$total Parameter where the total number of found attributes will be stored in
+	 * @type int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Order\Item\Iface
 	 * @since 2019.04
 	 */

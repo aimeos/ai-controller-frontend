@@ -422,7 +422,7 @@ class Standard
 			// Show only generated passwords in account creation e-mails
 			if( $this->item->getPassword() === '' )
 			{
-				$msg['customer.password'] = substr( sha1( microtime( true ) . getmypid() . rand() ), -8 );
+				$msg['customer.password'] = bin2hex( random_bytes( 8 ) );
 				$this->item->setPassword( $msg['customer.password'] );
 			}
 

@@ -402,7 +402,17 @@ class Standard
 		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$ref = $this->context()->config()->get( 'mshop/order/manager/subdomains', [] );
-		$orderItem = \Aimeos\MShop::create( $this->context(), 'order' )->get( $orderid, $ref );
+		$orderItem = \Aimeos\MShop::create( $this->context(), 'order' )->get( $orderid, array_merge( $ref, ['order/service'] ) );
+
+		// Only the providers of services attached to the order are allowed to update it
+		$codes = $orderItem->getServices()->flat( 1 )->map( fn( $service ) => $service->getCode() );
+
+		if( !$codes->in( $code, true ) )
+		{
+			$msg = $this->context()->translate( 'controller/frontend', 'Service code "%1$s" is not part of the order' );
+			throw new \Aimeos\Controller\Frontend\Service\Exception( sprintf( $msg, $code ) );
+		}
+
 		$serviceItem = $this->manager->find( $code );
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );

@@ -206,6 +206,35 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testSaveUnpaidOrder()
+	{
+		$customer = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' );
+		$this->context->setUser( $customer );
+		$item = $this->getReviewItem();
+
+		$orderId = \Aimeos\MShop::create( $this->context, 'order/product' )->get( $item->getOrderProductId() )->getParentId();
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->get( $orderId );
+
+		$conn = $this->context->db();
+		$sql = 'UPDATE "mshop_order" SET "statuspayment" = ? WHERE "id" = ?';
+		$conn->create( $sql )->bind( 1, \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED, \Aimeos\Base\DB\Statement\Base::PARAM_INT )
+			->bind( 2, $orderId, \Aimeos\Base\DB\Statement\Base::PARAM_INT )->execute()->finish();
+
+		$this->manager->expects( $this->never() )->method( 'save' );
+
+		try
+		{
+			$this->expectException( \Aimeos\Controller\Frontend\Review\Exception::class );
+			$this->object->save( $item );
+		}
+		finally
+		{
+			$conn->create( $sql )->bind( 1, $order->getStatusPayment(), \Aimeos\Base\DB\Statement\Base::PARAM_INT )
+				->bind( 2, $orderId, \Aimeos\Base\DB\Statement\Base::PARAM_INT )->execute()->finish();
+		}
+	}
+
+
 	public function testSaveException()
 	{
 		$this->expectException( \Aimeos\Controller\Frontend\Review\Exception::class );

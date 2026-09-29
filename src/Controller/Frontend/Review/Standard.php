@@ -376,9 +376,10 @@ class Standard
 		$filter = $manager->filter( true )->add( [
 			'order.product.id' => $item->getOrderProductId(),
 			'order.customerid' => $context->user()
-		] );
+		] )->add( 'order.statuspayment', '>', \Aimeos\MShop\Order\Item\Base::PAY_PENDING );
+
 		$manager->search( $filter->slice( 0, 1 ) )->first( new \Aimeos\Controller\Frontend\Review\Exception(
-			sprintf( 'You can only add a review if you have ordered a product' )
+			sprintf( 'You can only add a review if you have ordered and paid a product' )
 		) );
 
 		// @phpstan-ignore-next-line

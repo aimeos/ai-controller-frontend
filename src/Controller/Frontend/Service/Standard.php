@@ -406,6 +406,22 @@ class Standard
 		string $code, string $orderid ) : \Aimeos\MShop\Order\Item\Iface
 	{
 		$orderItem = \Aimeos\MShop::create( $this->context(), 'order' )->get( $orderid );
+
+		// Only the providers of services attached to the order are allowed to update it
+		$manager = \Aimeos\MShop::create( $this->context(), 'order/base/service' );
+		$filter = $manager->filter()->slice( 0, 0x7fffffff );
+		$filter->setConditions( $filter->compare( '==', 'order.base.service.baseid', $orderItem->getBaseId() ) );
+
+		$codes = $manager->search( $filter )->map( function( $service ) {
+			return $service->getCode();
+		} );
+
+		if( !$codes->in( $code, true ) )
+		{
+			$msg = $this->context()->translate( 'controller/frontend', 'Service code "%1$s" is not part of the order' );
+			throw new \Aimeos\Controller\Frontend\Service\Exception( sprintf( $msg, $code ) );
+		}
+
 		$serviceItem = $this->manager->find( $code );
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );

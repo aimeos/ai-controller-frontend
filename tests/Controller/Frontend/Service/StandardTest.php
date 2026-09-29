@@ -188,7 +188,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdateSync()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
+		$service = \Aimeos\MShop::create( $this->context, 'order/base/service' )->create()->setCode( 'unitdeliverycode' );
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create()->setBaseId( '-1' );
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
@@ -201,16 +202,23 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( ['get'] )
 			->getMock();
 
+		$orderServiceManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Service\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->setMethods( ['search'] )
+			->getMock();
+
 		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( ['getProvider'] )
 			->getMock();
 
 		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Service\Standard::class, $orderServiceManager );
 		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
 
 
 		$orderManager->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $item ) );
+		$orderServiceManager->expects( $this->once() )->method( 'search' )->will( $this->returnValue( map( [$service] ) ) );
 		$serviceManager->expects( $this->once() )->method( 'getProvider' )->will( $this->returnValue( $provider ) );
 		$provider->expects( $this->once() )->method( 'updateSync' )->will( $this->returnValue( $item ) );
 		$provider->expects( $this->once() )->method( 'isImplemented' )->will( $this->returnValue( true ) );
@@ -219,6 +227,42 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
 		$object->updateSync( $request, 'unitdeliverycode', -1 );
+	}
+
+
+	public function testUpdateSyncServiceNotInOrder()
+	{
+		$service = \Aimeos\MShop::create( $this->context, 'order/base/service' )->create()->setCode( 'unitdeliverycode' );
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create()->setBaseId( '-1' );
+		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
+
+		$orderManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->setMethods( ['get'] )
+			->getMock();
+
+		$orderServiceManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Service\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->setMethods( ['search'] )
+			->getMock();
+
+		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->setMethods( ['getProvider'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Service\Standard::class, $orderServiceManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
+
+		$orderManager->expects( $this->once() )->method( 'get' )->will( $this->returnValue( $item ) );
+		$orderServiceManager->expects( $this->once() )->method( 'search' )->will( $this->returnValue( map( [$service] ) ) );
+		$serviceManager->expects( $this->never() )->method( 'getProvider' );
+
+		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
+
+		$this->expectException( \Aimeos\Controller\Frontend\Service\Exception::class );
+		$object->updateSync( $request, 'unitpaymentcode', -1 );
 	}
 
 

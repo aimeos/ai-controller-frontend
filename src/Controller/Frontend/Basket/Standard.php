@@ -457,7 +457,54 @@ class Standard
 			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 409 );
 		}
 
-		$this->baskets[$this->type] = $this->get()->addCoupon( $code );
+		/** controller/frontend/basket/coupon/attempts
+		 * Number of invalid coupon codes a client is allowed to enter
+		 *
+		 * To prevent guessing valid coupon codes by brute force, the number of
+		 * invalid codes entered by a client (IP address for anonymous users or
+		 * the account for logged in users) is limited. If the limit is reached,
+		 * no further coupon codes are accepted until the lockout time has passed.
+		 * Use zero to disable the limit.
+		 *
+		 * @type integer Positive number of attempts or zero to disable
+		 * @since 2026.10
+		 * @see controller/frontend/basket/coupon/lockout
+		 */
+		$attempts = (int) $context->config()->get( 'controller/frontend/basket/coupon/attempts', 10 );
+
+		/** controller/frontend/basket/coupon/lockout
+		 * Time in seconds until invalid coupon code attempts are reset
+		 *
+		 * Invalid coupon codes are counted per client and the counter is reset
+		 * after the configured number of seconds since the last invalid code
+		 * has been entered.
+		 *
+		 * @type integer Number of seconds
+		 * @since 2026.10
+		 * @see controller/frontend/basket/coupon/attempts
+		 */
+		$lockout = (int) $context->config()->get( 'controller/frontend/basket/coupon/lockout', 3600 );
+
+		$key = 'controller/frontend/basket/coupon/' . md5( $context->locale()->getSiteId() . '|' . $context->editor() );
+		$cache = $attempts > 0 && $context->editor() !== '' ? $this->cache() : null;
+		$count = (int) $cache?->get( $key, 0 );
+
+		if( $cache && $count >= $attempts )
+		{
+			$msg = $context->translate( 'controller/frontend', 'Too many invalid coupon codes, please try again later' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 429 );
+		}
+
+		try
+		{
+			$this->baskets[$this->type] = $this->get()->addCoupon( $code );
+		}
+		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
+		{
+			$cache?->set( $key, $count + 1, max( 1, $lockout ) );
+			throw $e;
+		}
+
 		return $this->save();
 	}
 
@@ -587,6 +634,21 @@ class Standard
 	{
 		$this->baskets[$this->type] = $this->get()->deleteService( $type, $position );
 		return $this->save();
+	}
+
+
+	/**
+	 * Returns the cache object if available
+	 *
+	 * @return \Aimeos\Base\Cache\Iface|null Cache object or NULL if no cache is configured
+	 */
+	protected function cache() : ?\Aimeos\Base\Cache\Iface
+	{
+		try {
+			return $this->context()->cache();
+		} catch( \Aimeos\MShop\Exception $e ) {
+			return null;
+		}
 	}
 
 

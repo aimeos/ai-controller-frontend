@@ -354,6 +354,69 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddCouponInvalidCodeCounted()
+	{
+		$this->context->config()->set( 'controller/frontend/basket/coupon/lockout', 600 );
+
+		$cache = $this->createMock( \Aimeos\Base\Cache\Iface::class );
+		$cache->method( 'get' )->willReturn( 3 );
+		$cache->expects( $this->once() )->method( 'set' )
+			->with( $this->stringStartsWith( 'controller/frontend/basket/coupon/' ), 4, 600 );
+
+		$this->context->setCache( $cache );
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		$this->expectException( \Aimeos\MShop\Plugin\Provider\Exception::class );
+		$object->addCoupon( 'invalid' );
+	}
+
+
+	public function testAddCouponTooManyAttempts()
+	{
+		$cache = $this->createMock( \Aimeos\Base\Cache\Iface::class );
+		$cache->method( 'get' )->willReturn( '10' );
+		$cache->expects( $this->never() )->method( 'set' );
+
+		$this->context->setCache( $cache );
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+		$object->addProduct( $this->testItem, 2 );
+
+		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
+		$this->expectExceptionCode( 429 );
+		$object->addCoupon( 'GHIJ' );
+	}
+
+
+	public function testAddCouponAttemptsDisabled()
+	{
+		$this->context->config()->set( 'controller/frontend/basket/coupon/attempts', 0 );
+
+		$cache = $this->createMock( \Aimeos\Base\Cache\Iface::class );
+		$cache->method( 'get' )->willReturn( '10' );
+		$cache->expects( $this->never() )->method( 'set' );
+
+		$this->context->setCache( $cache );
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		$this->expectException( \Aimeos\MShop\Plugin\Provider\Exception::class );
+		$object->addCoupon( 'invalid' );
+	}
+
+
+	public function testAddCouponNoEditor()
+	{
+		$cache = $this->createMock( \Aimeos\Base\Cache\Iface::class );
+		$cache->expects( $this->never() )->method( 'get' );
+		$cache->expects( $this->never() )->method( 'set' );
+
+		$this->context->setCache( $cache )->setEditor( '' );
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		$this->expectException( \Aimeos\MShop\Plugin\Provider\Exception::class );
+		$object->addCoupon( 'invalid' );
+	}
+
+
 	public function testDeleteCoupon()
 	{
 		$this->object->addProduct( $this->testItem, 2 );

@@ -195,7 +195,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testUpdateSync()
 	{
-		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
+		$service = \Aimeos\MShop::create( $this->context, 'order/service' )->create()->setCode( 'unitdeliverycode' );
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create()->addService( $service, 'delivery' );
 		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
 
 		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
@@ -227,6 +228,35 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
 		$object->updateSync( $request, 'unitdeliverycode', -1 );
+	}
+
+
+	public function testUpdateSyncServiceNotInOrder()
+	{
+		$service = \Aimeos\MShop::create( $this->context, 'order/service' )->create()->setCode( 'unitdeliverycode' );
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create()->addService( $service, 'delivery' );
+		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
+
+		$orderManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->onlyMethods( ['get'] )
+			->getMock();
+
+		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->onlyMethods( ['getProvider'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
+
+		$orderManager->expects( $this->once() )->method( 'get' )->willReturn( $item );
+		$serviceManager->expects( $this->never() )->method( 'getProvider' );
+
+		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
+
+		$this->expectException( \Aimeos\Controller\Frontend\Service\Exception::class );
+		$object->updateSync( $request, 'unitpaymentcode', -1 );
 	}
 
 

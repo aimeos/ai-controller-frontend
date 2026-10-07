@@ -19,19 +19,23 @@ namespace Aimeos\Controller;
  */
 class Frontend
 {
+	private static ?\Aimeos\MShop\ContextIface $context = null;
 	private static bool $cache = true;
 	private static array $objects = [];
 
 
 	/**
-	 * Enables or disables caching of class instances
+	 * Enables or disables caching of class instances and clears cache, including the MShop manager cache
 	 *
 	 * @param bool $value True to enable caching, false to disable it.
 	 */
 	public static function cache( bool $value ) : void
 	{
 		self::$cache = (bool) $value;
+		self::$context = null;
 		self::$objects = [];
+
+		\Aimeos\MShop::cache( $value );
 	}
 
 
@@ -57,6 +61,12 @@ class Frontend
 		if( empty( $path ) ) {
 			throw new \Aimeos\Controller\Frontend\Exception( 'Controller path is empty', 400 );
 		}
+
+		if( self::$context !== null && self::$context !== $context ) {
+			self::$objects = []; // clear cached objects on context change
+		}
+
+		self::$context = $context;
 
 		if( empty( $name ) ) {
 			$name = $context->config()->get( 'controller/frontend/' . $path . '/name', 'Standard' );

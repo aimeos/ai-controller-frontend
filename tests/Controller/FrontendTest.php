@@ -57,4 +57,21 @@ class FrontendTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\Controller\Frontend::cache( false );
 		$this->assertNotSame( $controller1, $controller2 );
 	}
+
+
+	public function testCacheContextChange()
+	{
+		$context = \TestHelper::context();
+		\Aimeos\Controller\Frontend::cache( true );
+
+		$mock = $this->createStub( \Aimeos\Controller\Frontend\Basket\Standard::class );
+		\Aimeos\Controller\Frontend::inject( '\Aimeos\Controller\Frontend\Basket\Standard', $mock );
+
+		$controller1 = \Aimeos\Controller\Frontend::create( $context, 'basket' );
+		$controller2 = \Aimeos\Controller\Frontend::create( \TestHelper::context(), 'basket' );
+
+		\Aimeos\Controller\Frontend::cache( false );
+		$this->assertInstanceOf( get_class( $mock ), $controller1 );
+		$this->assertNotInstanceOf( get_class( $mock ), $controller2 );
+	}
 }

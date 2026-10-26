@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyProduct"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2017.03
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the product frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Product\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2017.03
 	 * @category Developers
 	 * @see controller/frontend/common/decorators/default
@@ -159,7 +159,7 @@ class Standard
 		 * products, these products/articles will be displayed in the frontend too
 		 * when disabling this setting!
 		 *
-		 * @type bool FALSE if products must be assigned to categories, TRUE if not
+		 * @param bool FALSE if products must be assigned to categories, TRUE if not
 		 * @since 2010.10
 		 */
 		if( $context->config()->get( 'controller/frontend/product/show-all', false ) == false ) {
@@ -500,7 +500,7 @@ class Standard
 	/**
 	 * Returns the products filtered by the previously assigned conditions
 	 *
-	 * @type int &$total Parameter where the total number of found products will be stored in
+	 * @param int &$total Parameter where the total number of found products will be stored in
 	 * @return \Aimeos\Map Ordered list of product items implementing \Aimeos\MShop\Product\Item\Iface
 	 * @since 2019.04
 	 */
@@ -515,7 +515,7 @@ class Standard
 		 * The frontend can request any number of items up to that hard limit to
 		 * prevent denial of service attacks by requesting large amount of data.
 		 *
-		 * @type int Number of items
+		 * @param int Number of items
 		 */
 		$maxsize = $this->context()->config()->get( 'controller/frontend/common/max-size', 500 );
 		// @phpstan-ignore-next-line

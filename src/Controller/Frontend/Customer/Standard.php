@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyCustomer"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the customer frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Customer\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -155,7 +155,7 @@ class Standard
 			 * given by their IDs. This is especially useful if those groups limit
 			 * functionality for those users.
 			 *
-			 * @type array List of group IDs
+			 * @param array List of group IDs
 			 * @since 2017.07
 			 * @category User
 			 * @category Developer
@@ -483,7 +483,7 @@ class Standard
 		 * is created. If the number of accounts is higher than the configured value,
 		 * an error message will be shown to the user instead of creating a new account.
 		 *
-		 * @type integer Number of customer accounts allowed within the time frame
+		 * @param integer Number of customer accounts allowed within the time frame
 		 * @since 2017.07
 		 * @category Developer
 		 * @see controller/frontend/customer/limit-seconds
@@ -501,7 +501,7 @@ class Standard
 		 * configured in "controller/frontend/customer/limit-count", an error
 		 * message will be shown to the user instead of creating a new account.
 		 *
-		 * @type integer Number of seconds to check customer accounts within
+		 * @param integer Number of seconds to check customer accounts within
 		 * @since 2017.07
 		 * @category Developer
 		 * @see controller/frontend/customer/limit-count

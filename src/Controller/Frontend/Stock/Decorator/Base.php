@@ -117,7 +117,7 @@ abstract class Base
 	/**
 	 * Returns the stock items filtered by the previously assigned conditions
 	 *
-	 * @type int &$total Parameter where the total number of found stock items will be stored in
+	 * @param int &$total Parameter where the total number of found stock items will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Stock\Item\Iface
 	 * @since 2019.04
 	 */

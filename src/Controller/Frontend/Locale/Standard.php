@@ -50,7 +50,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyLocale"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -73,7 +73,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the locale frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -97,7 +97,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -122,7 +122,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Locale\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -210,7 +210,7 @@ class Standard
 	/**
 	 * Returns the locales filtered by the previously assigned conditions
 	 *
-	 * @type int|null &$total Parameter where the total number of found locales will be stored in
+	 * @param int|null &$total Parameter where the total number of found locales will be stored in
 	 * @return \Aimeos\Map Ordered list of locale items implementing \Aimeos\MShop\Locale\Item\Iface
 	 * @since 2019.04
 	 */

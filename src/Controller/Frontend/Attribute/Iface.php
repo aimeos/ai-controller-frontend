@@ -110,7 +110,7 @@ interface Iface
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions
 	 *
-	 * @type int &$total Parameter where the total number of found attributes will be stored in
+	 * @param int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @since 2019.04
 	 */

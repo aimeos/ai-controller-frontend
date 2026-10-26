@@ -182,7 +182,7 @@ class Select
 		 *
 		 * This option replace the "client/html/basket/require-variant" setting.
 		 *
-		 * @type boolean True if a variant must be chosen, false if also the selection product with attributes can be added
+		 * @param boolean True if a variant must be chosen, false if also the selection product with attributes can be added
 		 * @since 2018.01
 		 * @category Developer
 		 * @category User

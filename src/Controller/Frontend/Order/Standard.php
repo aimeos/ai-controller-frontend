@@ -51,7 +51,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyOrder"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -74,7 +74,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the order frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -98,7 +98,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -123,7 +123,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Catalog\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -225,7 +225,7 @@ class Standard
 	/**
 	 * Returns the orders filtered by the previously assigned conditions
 	 *
-	 * @type int &$total Parameter where the total number of found attributes will be stored in
+	 * @param int &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\Map Ordered list of order items implementing \Aimeos\MShop\Order\Item\Iface
 	 * @since 2019.04
 	 */

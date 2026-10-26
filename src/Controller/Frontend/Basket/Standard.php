@@ -51,7 +51,7 @@ class Standard
 	 * name with an upper case character and continue only with lower case characters
 	 * or numbers. Avoid chamel case names like "MyBasket"!
 	 *
-	 * @type string Last part of the class name
+	 * @param string Last part of the class name
 	 * @since 2014.03
 	 * @category Developer
 	 */
@@ -74,7 +74,7 @@ class Standard
 	 * common decorators ("\Aimeos\Controller\Frontend\Common\Decorator\*") added via
 	 * "controller/frontend/common/decorators/default" for the basket frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -98,7 +98,7 @@ class Standard
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Controller\Frontend\Common\Decorator\Decorator1" only to the frontend controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -123,7 +123,7 @@ class Standard
 	 * "\Aimeos\Controller\Frontend\Basket\Decorator\Decorator2" only to the frontend
 	 * controller.
 	 *
-	 * @type array List of decorator names
+	 * @param array List of decorator names
 	 * @since 2014.03
 	 * @category Developer
 	 * @see controller/frontend/common/decorators/default
@@ -248,7 +248,7 @@ class Standard
 		 * the configured value, an error message will be shown to the user
 		 * instead of creating a new order.
 		 *
-		 * @type integer Number of orders allowed within the time frame
+		 * @param integer Number of orders allowed within the time frame
 		 * @since 2017.05
 		 * @category Developer
 		 * @see controller/frontend/basket/limit-seconds
@@ -266,7 +266,7 @@ class Standard
 		 * configured in "controller/frontend/basket/limit-count", an error
 		 * message will be shown to the user instead of creating a new order.
 		 *
-		 * @type integer Number of seconds to check orders within
+		 * @param integer Number of seconds to check orders within
 		 * @since 2017.05
 		 * @category Developer
 		 * @see controller/frontend/basket/limit-count
@@ -444,7 +444,7 @@ class Standard
 		 * "count" of the codes is decreased afterwards. If codes are not personalized
 		 * the codes can be reused in the next order until their "count" reaches zero.
 		 *
-		 * @type integer Positive number of coupon codes including zero
+		 * @param integer Positive number of coupon codes including zero
 		 * @since 2017.08
 		 * @category User
 		 * @category Developer
@@ -466,7 +466,7 @@ class Standard
 		 * no further coupon codes are accepted until the lockout time has passed.
 		 * Use zero to disable the limit.
 		 *
-		 * @type integer Positive number of attempts or zero to disable
+		 * @param integer Positive number of attempts or zero to disable
 		 * @since 2026.10
 		 * @see controller/frontend/basket/coupon/lockout
 		 */
@@ -479,7 +479,7 @@ class Standard
 		 * after the configured number of seconds since the last invalid code
 		 * has been entered.
 		 *
-		 * @type integer Number of seconds
+		 * @param integer Number of seconds
 		 * @since 2026.10
 		 * @see controller/frontend/basket/coupon/attempts
 		 */

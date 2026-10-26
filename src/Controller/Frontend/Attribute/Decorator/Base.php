@@ -199,7 +199,7 @@ abstract class Base
 	/**
 	 * Returns the attributes filtered by the previously assigned conditions
 	 *
-	 * @type integer &$total Parameter where the total number of found attributes will be stored in
+	 * @param integer &$total Parameter where the total number of found attributes will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Attribute\Item\Iface
 	 * @since 2019.04
 	 */

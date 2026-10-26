@@ -81,7 +81,7 @@ interface Iface
 	/**
 	 * Returns the reviews for the logged-in user
 	 *
-	 * @type int &$total Parameter where the total number of found reviews will be stored in
+	 * @param int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of review items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */
@@ -107,7 +107,7 @@ interface Iface
 	/**
 	 * Returns the reviews filtered by the previously assigned conditions
 	 *
-	 * @type int &$total Parameter where the total number of found reviews will be stored in
+	 * @param int &$total Parameter where the total number of found reviews will be stored in
 	 * @return \Aimeos\Map Ordered list of items implementing \Aimeos\MShop\Review\Item\Iface
 	 * @since 2020.10
 	 */

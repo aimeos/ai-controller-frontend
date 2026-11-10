@@ -256,9 +256,7 @@ class Standard
 	public function addListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $item,
 		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
-		if( $domain === 'group' ) {
-			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
-		}
+		$this->checkListDomain( $domain );
 
 		$this->item = $this->item->addListItem( $domain, $item, $refItem );
 		return $this;
@@ -361,9 +359,7 @@ class Standard
 	public function deleteListItem( string $domain, \Aimeos\MShop\Common\Item\Lists\Iface $listItem,
 		?\Aimeos\MShop\Common\Item\Iface $refItem = null ) : Iface
 	{
-		if( $domain === 'group' ) {
-			throw new Exception( sprintf( 'You are not allowed to manage groups' ) );
-		}
+		$this->checkListDomain( $domain );
 
 		$this->item = $this->item->deleteListItem( $domain, $listItem, $refItem );
 		return $this;
@@ -394,8 +390,8 @@ class Standard
 	 */
 	public function find( string $code ) : \Aimeos\MShop\Customer\Item\Iface
 	{
-		// @phpstan-ignore return.type
-		return $this->manager->find( $code, $this->domains, 'customer', null, null );
+		// @phpstan-ignore argument.type
+		return $this->checkRefItems( $this->manager->find( $code, $this->domains, 'customer', null, null ) );
 	}
 
 
@@ -451,14 +447,88 @@ class Standard
 	 */
 	public function uses( array $domains ) : Iface
 	{
-		$this->domains = $domains;
+		$extra = array_merge( ['customer/address', 'customer/property'], $this->listDomains() );
+		$this->domains = $domains = $this->checkDomains( $domains, $extra );
 
 		if( ( $id = $this->context()->user() ) !== null ) {
 			// @phpstan-ignore-next-line
-			$this->item = $this->manager->get( $id, $domains, true );
+			$this->item = $this->checkRefItems( $this->manager->get( $id, $domains, true ) );
 		}
 
 		return $this;
+	}
+
+
+	/**
+	 * Removes the referenced items which are not available, e.g. disabled or expired products
+	 *
+	 * Referenced items are fetched by their IDs only, so customers could see
+	 * unpublished items otherwise. The list items themselves are kept.
+	 *
+	 * @param \Aimeos\MShop\Customer\Item\Iface $item Customer item including the referenced items
+	 * @return \Aimeos\MShop\Customer\Item\Iface Customer item with available referenced items only
+	 */
+	protected function checkRefItems( \Aimeos\MShop\Customer\Item\Iface $item ) : \Aimeos\MShop\Customer\Item\Iface
+	{
+		foreach( $item->getListItems( null, null, null, false ) as $listItem )
+		{
+			if( ( $refItem = $listItem->getRefItem() ) !== null && !$refItem->isAvailable() ) {
+				$listItem->setRefItem( null );
+			}
+		}
+
+		return $item;
+	}
+
+
+	/**
+	 * Checks if the current user is allowed to manage list items of the given domain
+	 *
+	 * @param string $domain Domain name of the referenced items
+	 * @throws \Aimeos\Controller\Frontend\Customer\Exception If access isn't allowed
+	 */
+	protected function checkListDomain( string $domain ) : void
+	{
+		if( $domain === 'group' || !in_array( $domain, $this->listDomains(), true ) )
+		{
+			$msg = sprintf( 'You are not allowed to manage items of domain "%1$s"', $domain );
+			throw new \Aimeos\Controller\Frontend\Customer\Exception( $msg );
+		}
+	}
+
+
+	/**
+	 * Returns the domains whose list items customers are allowed to manage
+	 *
+	 * @return array List of domain names
+	 */
+	protected function listDomains() : array
+	{
+		/** controller/frontend/customer/listdomains
+		 * List of domains whose list items customers are allowed to add or remove
+		 *
+		 * Customers can reference items of other domains via list items, e.g.
+		 * products as favorites or watched products. The referenced IDs are
+		 * not checked, so customers can link any item of the configured domains
+		 * and read it afterwards. Managing customer groups is never allowed.
+		 *
+		 * SECURITY: Only add domains whose items are public in your shop, i.e.
+		 * catalog data like products. Never add domains like "order", "basket",
+		 * "subscription", "review", "customer", "service", "coupon", "plugin",
+		 * "rule" or "locale" because customers would be able to read data of
+		 * other customers or the shop configuration. Customers can also remove
+		 * all list items of the configured domains, including those added by
+		 * the shop owner.
+		 *
+		 * The items of the configured domains can also be fetched together with
+		 * the customer item, so they don't need to be added to the
+		 * "controller/frontend/domains" setting as well.
+		 *
+		 * @param array List of domain names
+		 * @since 2026.10
+		 * @see controller/frontend/domains
+		 */
+		return (array) $this->context()->config()->get( 'controller/frontend/customer/listdomains', ['product'] );
 	}
 
 

@@ -374,4 +374,29 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
+
+
+	public function testUsesNotAllowed()
+	{
+		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		$id = $this->object->slice( 0, 1 )->search()->firstKey();
+
+		$manager = \Aimeos\MShop::create( $this->context, 'product/lists' );
+		$listItem = $manager->save( $manager->create()->setParentId( $id )
+			->setDomain( 'customer' )->setType( 'default' )->setRefId( $customerId ) );
+
+		try
+		{
+			$item = $this->object->uses( ['customer', 'text'] )->get( $id );
+			$manager->delete( $listItem );
+		}
+		catch( \Exception $e )
+		{
+			$manager->delete( $listItem );
+			throw $e;
+		}
+
+		$this->assertEquals( 0, count( $item->getListItems( 'customer', null, null, false )->getRefItem()->filter() ) );
+		$this->assertGreaterThan( 0, count( $item->getRefItems( 'text' ) ) );
+	}
 }

@@ -122,6 +122,10 @@ abstract class Base
 		 * are silently removed. Controllers can allow own sub-domains in
 		 * addition, e.g. "customer/address" in the customer controller.
 		 *
+		 * Type domains like "product/type" are always allowed and domains can
+		 * be prefixed by the domain of the item they belong to, e.g.
+		 * "product/text" is allowed if "text" is in the list.
+		 *
 		 * SECURITY: Only add domains whose items are public in your shop, i.e.
 		 * catalog data like products, texts, media or prices. Never add domains
 		 * like "order", "basket", "subscription", "review", "customer", "group",
@@ -143,7 +147,12 @@ abstract class Base
 
 		foreach( $domains as $key => $value )
 		{
-			if( in_array( is_string( $key ) ? $key : $value, $allowed, true ) ) {
+			$name = (string) ( is_string( $key ) ? $key : $value );
+			$parts = explode( '/', $name, 2 );
+
+			if( in_array( $name, $allowed, true ) || str_ends_with( $name, '/type' )
+				|| isset( $parts[1] ) && in_array( $parts[1], $allowed, true ) // e.g. "product/text"
+			) {
 				$list[$key] = $value;
 			}
 		}

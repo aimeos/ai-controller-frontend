@@ -376,6 +376,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUsesDomains()
+	{
+		$domains = ['product/text', 'product/type', 'product/property/type', 'product/customer', 'customer', 'order/product/attribute', 'media' => ['default']];
+		$expected = ['product/text', 'product/type', 'product/property/type', 'media' => ['default']];
+		$property = new \ReflectionProperty( $this->object, 'domains' );
+
+		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );
+	}
+
+
 	public function testUsesNotAllowed()
 	{
 		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();

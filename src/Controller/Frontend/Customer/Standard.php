@@ -429,8 +429,9 @@ class Standard
 				$this->item->setPassword( $msg['customer.password'] );
 			}
 
+			// per-site queue, same name as in the customer/email/account job controller
 			// @phpstan-ignore-next-line
-			$context->queue( 'mq-email', 'customer/email/account' )->add( json_encode( $msg ) );
+			$context->queue( 'mq-email', 'customer/email/account/' . $context->locale()->getSiteId() )->add( json_encode( $msg ) );
 		}
 
 		$this->item = $this->manager->save( $this->item ); // @phpstan-ignore assign.propertyType

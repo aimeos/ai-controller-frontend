@@ -160,6 +160,25 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testStoreQueue()
+	{
+		$queueMock = $this->createMock( '\\Aimeos\\Base\\MQueue\\Queue\\Standard' );
+		$queueMock->expects( $this->once() )->method( 'add' );
+
+		$mqueueMock = $this->createMock( '\\Aimeos\\Base\\MQueue\\Standard' );
+		$mqueueMock->expects( $this->once() )->method( 'getQueue' )
+			->with( 'customer/email/account/' . $this->context->locale()->getSiteId() )
+			->willReturn( $queueMock );
+
+		$managerStub = $this->createStub( '\\Aimeos\\Base\\MQueue\\Manager\\Standard' );
+		$managerStub->method( 'get' )->willReturn( $mqueueMock );
+
+		$this->context->setMessageQueueManager( $managerStub );
+
+		$this->object->add( ['customer.code' => 'cntl-queue'] )->store()->delete();
+	}
+
+
 	public function testUses()
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['product'] ) );

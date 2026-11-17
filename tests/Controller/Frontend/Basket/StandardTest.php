@@ -442,6 +442,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddServiceNotAvailable()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$service = $manager->find( 'unitpaymentcode', [], 'service', 'payment' )
+			->setProvider( 'PrePay,BasketValues' )
+			->setConfig( ['basketvalues.total-value-min' => ['EUR' => '1000000.00']] );
+
+		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
+		$this->object->addService( $service );
+	}
+
+
 	public function testDeleteServices()
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'service' );

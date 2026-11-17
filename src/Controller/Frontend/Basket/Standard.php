@@ -591,6 +591,13 @@ class Standard
 		$manager = \Aimeos\MShop::create( $context, 'service' );
 		$provider = $manager->getProvider( $service, $type );
 
+		// the service list only contains available services but the ID is sent by the client
+		if( $provider->isAvailable( $basket ) !== true )
+		{
+			$msg = $context->translate( 'controller/frontend', 'Service "%1$s" is not available' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $service->getCode() ), 400 );
+		}
+
 		$errors = $provider->checkConfigFE( $config );
 		// @phpstan-ignore-next-line
 		$unknown = array_diff_key( $config, $errors );

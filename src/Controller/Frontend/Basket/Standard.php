@@ -485,7 +485,8 @@ class Standard
 		 */
 		$lockout = (int) $context->config()->get( 'controller/frontend/basket/coupon/lockout', 3600 );
 
-		$key = 'controller/frontend/basket/coupon/' . md5( $context->locale()->getSiteId() . '|' . $context->editor() );
+		// no slashes, they are invalid in cache keys of PSR-16 and TYPO3 caches
+		$key = 'coupon-attempts-' . md5( $context->locale()->getSiteId() . '|' . $context->editor() );
 		$cache = $attempts > 0 && $context->editor() !== '' ? $this->cache() : null;
 		$count = (int) $cache?->get( $key, 0 );
 

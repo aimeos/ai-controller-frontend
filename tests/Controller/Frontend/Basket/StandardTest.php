@@ -361,7 +361,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$cache = $this->createMock( \Aimeos\Base\Cache\Iface::class );
 		$cache->method( 'get' )->willReturn( 3 );
 		$cache->expects( $this->once() )->method( 'set' )
-			->with( $this->stringStartsWith( 'controller/frontend/basket/coupon/' ), 4, 600 );
+			->with( $this->matchesRegularExpression( '/^coupon-attempts-[a-f0-9]{32}$/' ), 4, 600 );
 
 		$this->context->setCache( $cache );
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );

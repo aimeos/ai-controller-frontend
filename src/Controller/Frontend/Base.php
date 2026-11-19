@@ -147,17 +147,40 @@ abstract class Base
 
 		foreach( $domains as $key => $value )
 		{
-			$name = (string) ( is_string( $key ) ? $key : $value );
-			$parts = explode( '/', $name, 2 );
+			// scalar values are used as domain names by the managers even if the key is a string
+			$names = is_string( $key ) ? [$key] : [];
 
-			if( in_array( $name, $allowed, true ) || str_ends_with( $name, '/type' )
-				|| isset( $parts[1] ) && in_array( $parts[1], $allowed, true ) // e.g. "product/text"
-			) {
-				$list[$key] = $value;
+			if( !is_array( $value ) ) {
+				$names[] = (string) $value;
 			}
+
+			foreach( $names as $name )
+			{
+				if( !$this->isAllowedDomain( $name, $allowed ) ) {
+					continue 2;
+				}
+			}
+
+			$list[$key] = $value;
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * Checks if the domain name is allowed
+	 *
+	 * @param string $name Domain name
+	 * @param array $allowed List of allowed domain names
+	 * @return bool TRUE if the domain is allowed, FALSE if not
+	 */
+	private function isAllowedDomain( string $name, array $allowed ) : bool
+	{
+		$parts = explode( '/', $name, 2 );
+
+		return in_array( $name, $allowed, true ) || str_ends_with( $name, '/type' )
+			|| isset( $parts[1] ) && in_array( $parts[1], $allowed, true ); // e.g. "product/text"
 	}
 
 

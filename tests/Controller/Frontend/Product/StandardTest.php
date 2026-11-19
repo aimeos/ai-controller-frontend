@@ -386,6 +386,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUsesDomainsKeyValue()
+	{
+		$domains = ['product' => 'customer', 'text' => 'text', 'media' => 'order', 'customer' => ['default'], 'price' => ['default']];
+		$expected = ['text' => 'text', 'price' => ['default']];
+		$property = new \ReflectionProperty( $this->object, 'domains' );
+
+		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );
+	}
+
+
 	public function testUsesNotAllowed()
 	{
 		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
@@ -397,7 +407,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		try
 		{
-			$item = $this->object->uses( ['customer', 'text'] )->get( $id );
+			$item = $this->object->uses( ['customer', 'product' => 'customer', 'text'] )->get( $id );
 			$manager->delete( $listItem );
 		}
 		catch( \Exception $e )

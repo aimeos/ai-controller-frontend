@@ -51,6 +51,20 @@ interface Iface
 	public function parse( array $conditions ) : Iface;
 
 	/**
+	 * Tests if the stored order can be paid (again)
+	 *
+	 * Coupon codes, free products and similar limits are checked against the
+	 * paid orders and the unfinished orders of the configured time frame only.
+	 * Older unfinished orders and orders whose payment failed don't count any
+	 * more, so paying them later could exceed those limits.
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Stored order item
+	 * @return bool TRUE if the order can be paid, FALSE if the customer must check out again
+	 * @since 2026.10
+	 */
+	public function payable( \Aimeos\MShop\Order\Item\Iface $orderItem ) : bool;
+
+	/**
 	 * Updates the given order item in the storage
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $orderItem Order item object

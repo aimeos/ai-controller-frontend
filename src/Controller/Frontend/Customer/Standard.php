@@ -509,7 +509,7 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/customer/limit-seconds', 14400 );
 
-		$search = $this->manager->filter()->slice( 0, 0 );
+		$search = $this->manager->filter()->slice( 0, 1 );
 		$expr = [
 			$search->compare( '==', 'customer.editor', $context->editor() ),
 			$search->compare( '>=', 'customer.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),

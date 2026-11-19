@@ -417,6 +417,7 @@ class Standard
 
 		$provider = $this->manager->getProvider( $serviceItem, $serviceItem->getType() );
 
+		$status = $orderItem->getStatusPayment();
 
 		if( ( $orderItem = $provider->updateSync( $request, $orderItem ) ) !== null )
 		{
@@ -424,6 +425,16 @@ class Standard
 				&& $provider->isImplemented( \Aimeos\MShop\Service\Provider\Payment\Base::FEAT_QUERY )
 			) {
 				$provider->query( $orderItem );
+			}
+
+			// canceled orders, e.g. replaced by a new order of the same basket, must not be paid any more
+			if( $status === \Aimeos\MShop\Order\Item\Base::PAY_CANCELED
+				&& $orderItem->getStatusPayment() >= \Aimeos\MShop\Order\Item\Base::PAY_PENDING
+			) {
+				$msg = sprintf( 'Payment for canceled order "%1$s" refused, refund it if money has been received', $orderid );
+				$this->context()->logger()->error( $msg, 'controller/frontend' );
+
+				$orderItem->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED );
 			}
 		}
 

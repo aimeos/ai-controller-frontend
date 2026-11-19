@@ -298,10 +298,10 @@ class Standard
 		$basket = $basket->setCustomerId( (string) $context->user() )->finish()->check();
 
 		$this->manager->begin();
-		$this->manager->store( $basket );
+		$this->manager->store( $this->renew( $basket ) );
 		$this->manager->commit();
 
-		$this->save(); // for reusing unpaid orders, might have side effects (!)
+		$this->save(); // keep the basket ID to cancel its orders if the basket is stored again
 		$this->createSubscriptions( $basket );
 
 		return $basket;
@@ -589,5 +589,75 @@ class Standard
 	protected function getManager() : \Aimeos\MShop\Common\Manager\Iface
 	{
 		return $this->manager;
+	}
+
+
+	/**
+	 * Cancels the unfinished orders of the previously stored basket and turns the basket into a new one
+	 *
+	 * Stored baskets are never changed because their orders may be paid already. Instead,
+	 * each stored basket is a new one and the unfinished orders of the previous one can't
+	 * be paid any more.
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Base\Iface $basket Basket object
+	 * @return \Aimeos\MShop\Order\Item\Base\Iface Basket object without IDs
+	 */
+	protected function renew( \Aimeos\MShop\Order\Item\Base\Iface $basket ) : \Aimeos\MShop\Order\Item\Base\Iface
+	{
+		if( $id = $basket->getId() )
+		{
+			$manager = \Aimeos\MShop::create( $this->context(), 'order' );
+
+			$filter = $manager->filter()->slice( 0, 0x7fffffff );
+			$filter->setConditions( $filter->and( [
+				$filter->compare( '==', 'order.baseid', $id ),
+				$filter->compare( '==', 'order.statuspayment', \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED ),
+			] ) );
+
+			foreach( $manager->search( $filter ) as $order ) {
+				$manager->save( $order->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED ) );
+			}
+
+			// sub-items need new IDs too, otherwise they would be moved to the new basket
+			foreach( $basket->getProducts() as $product )
+			{
+				foreach( $product->getProducts() as $subProduct ) {
+					$this->renewItems( $subProduct->getAttributeItems()->push( $subProduct ) );
+				}
+
+				$this->renewItems( $product->getAttributeItems()->push( $product ) );
+			}
+
+			foreach( $basket->getAddresses() as $list ) {
+				$this->renewItems( $list );
+			}
+
+			foreach( $basket->getServices() as $list )
+			{
+				foreach( $list as $service ) {
+					$this->renewItems( $service->getAttributeItems()->push( $service ) );
+				}
+			}
+
+			$basket->setId( null );
+		}
+
+		return $basket;
+	}
+
+
+	/**
+	 * Removes the IDs of the given items so they are stored as new items
+	 *
+	 * @param iterable $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @return \Aimeos\Controller\Frontend\Basket\Standard Same object for fluent interface
+	 */
+	protected function renewItems( iterable $items ) : self
+	{
+		foreach( $items as $item ) {
+			$item->setId( null );
+		}
+
+		return $this;
 	}
 }

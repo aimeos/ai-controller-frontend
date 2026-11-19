@@ -135,6 +135,79 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testStoreCancel()
+	{
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create()->setId( '123' )
+			->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED );
+
+		$basket = $this->storeBasket( [$order] );
+
+		$this->assertNull( $basket->getId() );
+		$this->assertNull( $basket->getProduct( 0 )->getId() );
+		$this->assertNull( $basket->getProduct( 0 )->getAttributeItems()->first()->getId() );
+		$this->assertNull( $basket->getAddress( 'payment', 0 )->getId() );
+		$this->assertNull( $basket->getService( 'payment', 0 )->getId() );
+		$this->assertNull( $basket->getService( 'payment', 0 )->getAttributeItems()->first()->getId() );
+		$this->assertEquals( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED, $order->getStatusPayment() );
+	}
+
+
+	public function testStorePaid()
+	{
+		$basket = $this->storeBasket( [] );
+
+		$this->assertNull( $basket->getId() );
+	}
+
+
+	protected function storeBasket( array $orders ) : \Aimeos\MShop\Order\Item\Base\Iface
+	{
+		$orderStub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['save', 'search'] )
+			->getMock();
+
+		$baseStub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['store'] )
+			->getMock();
+
+		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
+		$orderProductManager = \Aimeos\MShop::create( $this->context, 'order/base/product' );
+		$orderServiceManager = \Aimeos\MShop::create( $this->context, 'order/base/service' );
+
+		$product = $orderProductManager->create()->setId( '1' )->setProductCode( 'CNC' )->setPrice( $priceManager->create() )
+			->setAttributeItems( [$orderProductManager->getSubManager( 'attribute' )->create()->setId( '2' )] );
+		$service = $orderServiceManager->create()->setId( '3' )->setCode( 'unitpaymentcode' )->setPrice( $priceManager->create() )
+			->setAttributeItems( [$orderServiceManager->getSubManager( 'attribute' )->create()->setId( '4' )] );
+		$address = \Aimeos\MShop::create( $this->context, 'order/base/address' )->create()->setId( '5' );
+
+		// sub-managers replace the cached order base manager, so inject the stubs afterwards
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderStub );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Standard::class, $baseStub );
+
+		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Base\Standard::class )
+			->setConstructorArgs( [$priceManager->create(), $this->context->locale()] )
+			->onlyMethods( ['check'] )
+			->getMock();
+
+		$basket->addProduct( $product )->addService( $service, 'payment' )->addAddress( $address, 'payment' )->setId( '123' );
+
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['get'] )
+			->getMock();
+
+		$basket->expects( $this->once() )->method( 'check' )->willReturn( $basket );
+		$object->expects( $this->once() )->method( 'get' )->willReturn( $basket );
+		$orderStub->expects( $this->once() )->method( 'search' )->willReturn( map( $orders ) );
+		$orderStub->expects( $this->exactly( count( $orders ) ) )->method( 'save' )->willReturnArgument( 0 );
+		$baseStub->expects( $this->once() )->method( 'store' )->willReturnArgument( 0 );
+
+		return $object->store();
+	}
+
+
 	public function testStoreMultipleServices()
 	{
 		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );

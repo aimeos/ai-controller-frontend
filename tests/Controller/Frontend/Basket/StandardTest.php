@@ -137,6 +137,61 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testStoreCancel()
+	{
+		$order = \Aimeos\MShop::create( $this->context, 'order' )->create()->setId( '123' )
+			->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED );
+
+		$basket = $this->storeOrder( $order );
+
+		$this->assertNull( $basket->getId() );
+		$this->assertEquals( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED, $order->getStatusPayment() );
+	}
+
+
+	public function testStorePaid()
+	{
+		$basket = $this->storeOrder( null );
+
+		$this->assertNull( $basket->getId() );
+	}
+
+
+	protected function storeOrder( ?\Aimeos\MShop\Order\Item\Iface $order ) : \Aimeos\MShop\Order\Item\Iface
+	{
+		$stub = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['save', 'search', 'type'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $stub );
+
+		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
+
+		$basket = $this->getMockBuilder( \Aimeos\MShop\Order\Item\Standard::class )
+			->setConstructorArgs( ['order.', ['.price' => $priceManager->create(), '.locale' => $this->context->locale()]] )
+			->onlyMethods( ['check'] )
+			->getMock();
+
+		$basket->setId( '123' );
+
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['get'] )
+			->getMock();
+
+		$basket->expects( $this->once() )->method( 'check' )->willReturn( $basket );
+		$object->expects( $this->once() )->method( 'get' )->willReturn( $basket );
+		$stub->expects( $this->atLeastOnce() )->method( 'search' )->willReturnCallback( function( $filter ) use ( $order ) {
+			return map( $order && str_contains( json_encode( $filter->__toArray() ), '"order.id"' ) ? [$order] : [] );
+		} );
+		$stub->expects( $this->exactly( $order ? 2 : 1 ) )->method( 'save' )->willReturnArgument( 0 );
+		$stub->method( 'type' )->willReturn( ['order'] );
+
+		return $object->store();
+	}
+
+
 	public function testStoreMultipleServices()
 	{
 		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );

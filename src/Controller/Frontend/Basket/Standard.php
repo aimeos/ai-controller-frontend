@@ -303,10 +303,10 @@ class Standard
 		$basket->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED )->setDatePayment( null );
 
 		$this->manager->begin();
-		$this->manager->save( $basket );
+		$this->manager->save( $this->renew( $basket ) );
 		$this->manager->commit();
 
-		$this->save(); // for reusing unpaid orders, might have side effects (!)
+		$this->save(); // keep the order ID to cancel the order if the basket is stored again
 		$this->createSubscriptions( $basket );
 
 		return $basket;
@@ -670,5 +670,34 @@ class Standard
 	protected function getManager() : \Aimeos\MShop\Common\Manager\Iface
 	{
 		return $this->manager;
+	}
+
+
+	/**
+	 * Cancels the previously stored order if it's still unfinished and turns the basket into a new order
+	 *
+	 * Stored orders are never changed because they may be paid already. Instead, each
+	 * stored basket becomes a new order and the previous one can't be paid any more.
+	 *
+	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
+	 * @return \Aimeos\MShop\Order\Item\Iface Basket object without order ID
+	 */
+	protected function renew( \Aimeos\MShop\Order\Item\Iface $basket ) : \Aimeos\MShop\Order\Item\Iface
+	{
+		if( $id = $basket->getId() )
+		{
+			$filter = $this->manager->filter()->slice( 0, 1 )->add( [
+				'order.id' => $id,
+				'order.statuspayment' => \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED
+			] );
+
+			if( $order = $this->manager->search( $filter )->first() ) {
+				$this->manager->save( $order->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED ) );
+			}
+
+			$basket->setId( null ); // sub-items get new IDs because their parent ID differs
+		}
+
+		return $basket;
 	}
 }

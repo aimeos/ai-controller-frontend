@@ -270,7 +270,7 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/basket/limit-seconds', 900 );
 
-		$search = $this->manager->filter()->slice( 0, 0 );
+		$search = $this->manager->filter()->slice( 0, 1 );
 		$expr = [
 			$search->compare( '==', 'order.base.editor', $context->editor() ),
 			$search->compare( '>=', 'order.base.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),

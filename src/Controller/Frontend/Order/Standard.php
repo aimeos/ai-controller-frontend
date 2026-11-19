@@ -379,7 +379,7 @@ class Standard
 		 */
 		$seconds = $config->get( 'controller/frontend/order/limit-seconds', 900 );
 
-		$search = $this->manager->filter()->slice( 0, 0 );
+		$search = $this->manager->filter()->slice( 0, 1 );
 		$search->setConditions( $search->and( [
 			$search->compare( '==', 'order.baseid', $baseId ),
 			$search->compare( '>=', 'order.ctime', date( 'Y-m-d H:i:s', time() - $seconds ) ),

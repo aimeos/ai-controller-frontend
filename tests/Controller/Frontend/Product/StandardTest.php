@@ -369,6 +369,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['product/text', 'product/type', 'product/property/type', 'product/customer', 'customer', 'order/product/attribute', 'media' => ['default']];
 		$expected = ['product/text', 'product/type', 'product/property/type', 'media' => ['default']];
 		$property = new \ReflectionProperty( $this->object, 'domains' );
+		$property->setAccessible( true );
 
 		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );
 	}
@@ -379,6 +380,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['product' => 'customer', 'text' => 'text', 'media' => 'order', 'customer' => ['default'], 'price' => ['default']];
 		$expected = ['text' => 'text', 'price' => ['default']];
 		$property = new \ReflectionProperty( $this->object, 'domains' );
+		$property->setAccessible( true );
 
 		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );
 	}

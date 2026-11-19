@@ -193,6 +193,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['customer/address', 'customer/property', 'customer/group', 'product' => ['favorite'], 'text'];
 		$expected = ['customer/address', 'customer/property', 'customer/group', 'product' => ['favorite']];
 		$property = new \ReflectionProperty( $this->object, 'domains' );
+		$property->setAccessible( true );
 
 		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );
 
@@ -209,6 +210,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$domains = ['customer', 'order' => ['download'], 'product' => ['favorite'], 'service', 'text'];
 		$method = new \ReflectionMethod( $this->object, 'checkDomains' );
+		$method->setAccessible( true );
 
 		$this->assertEquals( ['product' => ['favorite'], 2 => 'text'], $method->invoke( $this->object, $domains ) );
 		$this->assertEquals( 1, count( $this->object->uses( $domains )->get()->getRefItems( 'product' ) ) );
@@ -228,6 +230,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setDateEnd( '2000-01-01 00:00:00' ) );
 
 		$method = new \ReflectionMethod( $this->object, 'checkRefItems' );
+		$method->setAccessible( true );
 		$result = $method->invoke( $this->object, $item );
 
 		$this->assertEquals( 3, count( $result->getListItems( 'product', null, null, false ) ) );

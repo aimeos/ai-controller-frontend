@@ -137,6 +137,27 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testStoreMultipleServices()
+	{
+		$priceManager = \Aimeos\MShop::create( $this->context, 'price' );
+		$orderManager = \Aimeos\MShop::create( $this->context, 'order' );
+
+		$basket = $orderManager->create()->off();
+		$basket->addService( $orderManager->createService()->setCode( 'a' )->setPrice( $priceManager->create() ), 'payment' );
+		$basket->addService( $orderManager->createService()->setCode( 'b' )->setPrice( $priceManager->create() ), 'payment' );
+
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Basket\Standard::class )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( ['get'] )
+			->getMock();
+
+		$object->expects( $this->once() )->method( 'get' )->willReturn( $basket );
+
+		$this->expectException( \Aimeos\Controller\Frontend\Basket\Exception::class );
+		$object->store();
+	}
+
+
 	public function testStoreLimit()
 	{
 		$this->context->setEditor( 'core' );
@@ -439,6 +460,37 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->expectException( '\\Aimeos\\Controller\\Frontend\\Basket\\Exception' );
 		$this->object->addService( $service, ['fast shipping' => true, 'air shipping' => false] );
+	}
+
+
+	public function testAddServiceDuplicate()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$service = $manager->find( 'unitdeliverycode', [], 'service', 'delivery' );
+
+		$this->object->addService( $service, [], 0 );
+		$this->object->addService( $service, [], 1 );
+
+		$services = $this->object->get()->getService( 'delivery' );
+		$this->assertEquals( 1, count( $services ) );
+		$this->assertEquals( 'unitdeliverycode', $services[0]->getCode() );
+	}
+
+
+	public function testAddServiceReplace()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'service' );
+		$config = [
+			'directdebit.accountowner' => 'test', 'directdebit.accountno' => '123',
+			'directdebit.bankcode' => '456', 'directdebit.bankname' => 'test',
+		];
+
+		$this->object->addService( $manager->find( 'unitpaymentcode', [], 'service', 'payment' ) );
+		$this->object->addService( $manager->find( 'directdebit-test', [], 'service', 'payment' ), $config );
+
+		$services = $this->object->get()->getService( 'payment' );
+		$this->assertEquals( 1, count( $services ) );
+		$this->assertEquals( 'directdebit-test', $services[0]->getCode() );
 	}
 
 

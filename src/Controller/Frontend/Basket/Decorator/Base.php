@@ -252,7 +252,7 @@ abstract class Base
 	 *
 	 * @param \Aimeos\MShop\Service\Item\Iface $service Service item selected by the customer
 	 * @param array $config Associative list of key/value pairs with the options selected by the customer
-	 * @param int|null $position Position of the address in the list to overwrite
+	 * @param int|null $position Unused because the basket contains only one service per type, existing ones are replaced
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */

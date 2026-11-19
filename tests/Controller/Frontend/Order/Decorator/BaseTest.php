@@ -77,6 +77,21 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPayable()
+	{
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();
+
+		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
+			->disableOriginalConstructor()
+			->getMock();
+		$object = new \Aimeos\Controller\Frontend\Order\Decorator\Example( $stub, $this->context );
+
+		$stub->expects( $this->once() )->method( 'payable' )->willReturn( true );
+
+		$this->assertTrue( $object->payable( $item ) );
+	}
+
+
 	public function testSave()
 	{
 		$item = \Aimeos\MShop::create( $this->context, 'order' )->create();

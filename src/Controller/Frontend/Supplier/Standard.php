@@ -319,7 +319,7 @@ class Standard
 	 */
 	public function uses( array $domains ) : Iface
 	{
-		$this->domains = $domains;
+		$this->domains = $this->checkDomains( $domains );
 		return $this;
 	}
 

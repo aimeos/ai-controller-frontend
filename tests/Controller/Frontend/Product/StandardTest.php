@@ -362,4 +362,49 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertSame( $this->object, $this->object->uses( ['text'] ) );
 	}
+
+
+	public function testUsesDomains()
+	{
+		$domains = ['product/text', 'product/type', 'product/property/type', 'product/customer', 'customer', 'order/product/attribute', 'media' => ['default']];
+		$expected = ['product/text', 'product/type', 'product/property/type', 'media' => ['default']];
+		$property = new \ReflectionProperty( $this->object, 'domains' );
+
+		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );
+	}
+
+
+	public function testUsesDomainsKeyValue()
+	{
+		$domains = ['product' => 'customer', 'text' => 'text', 'media' => 'order', 'customer' => ['default'], 'price' => ['default']];
+		$expected = ['text' => 'text', 'price' => ['default']];
+		$property = new \ReflectionProperty( $this->object, 'domains' );
+
+		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );
+	}
+
+
+	public function testUsesNotAllowed()
+	{
+		$customerId = \Aimeos\MShop::create( $this->context, 'customer' )->find( 'test@example.com' )->getId();
+		$id = $this->object->slice( 0, 1 )->search()->firstKey();
+
+		$manager = \Aimeos\MShop::create( $this->context, 'product/lists' );
+		$listItem = $manager->save( $manager->create()->setParentId( $id )
+			->setDomain( 'customer' )->setType( 'default' )->setRefId( $customerId ) );
+
+		try
+		{
+			$item = $this->object->uses( ['customer', 'product' => 'customer', 'text'] )->get( $id );
+			$manager->delete( $listItem );
+		}
+		catch( \Exception $e )
+		{
+			$manager->delete( $listItem );
+			throw $e;
+		}
+
+		$this->assertEquals( 0, count( $item->getListItems( 'customer', null, null, false )->getRefItem()->filter() ) );
+		$this->assertGreaterThan( 0, count( $item->getRefItems( 'text' ) ) );
+	}
 }

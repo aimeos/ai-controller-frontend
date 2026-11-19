@@ -20,6 +20,10 @@ namespace Aimeos\Controller\Frontend\Basket;
  */
 abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 {
+	/** @var bool True while the basket is migrated to a new locale to avoid saving it for each item */
+	protected bool $migrating = false;
+
+
 	/**
 	 * Calculates and returns the current price for the given order product and product prices.
 	 *
@@ -133,7 +137,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 */
 	protected function checkLocale( \Aimeos\MShop\Locale\Item\Iface $locale, string $type ) : void
 	{
-		$errors = [];
 		$context = $this->context();
 		$session = $context->session();
 
@@ -149,23 +152,33 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			$locCurrency = ( isset( $locParts[2] ) ? $locParts[2] : '' );
 
 			$localeManager = \Aimeos\MShop::create( $context, 'locale' );
-			$locale = $localeManager->bootstrap( $locSite, $locLanguage, $locCurrency, false );
+			$oldLocale = $localeManager->bootstrap( $locSite, $locLanguage, $locCurrency, false );
 
 			$context = clone $context;
 			// @phpstan-ignore-next-line
-			$context->setLocale( $locale );
+			$context->setLocale( $oldLocale );
 
 			$manager = \Aimeos\MShop::create( $context, 'order' );
 			$basket = $manager->getSession( $type )->off();
 
-			// @phpstan-ignore-next-line
-			$this->copyAddresses( $basket, $errors, $localeKey );
-			// @phpstan-ignore-next-line
-			$this->copyServices( $basket, $errors );
-			// @phpstan-ignore-next-line
-			$this->copyProducts( $basket, $errors, $localeKey );
-			// @phpstan-ignore-next-line
-			$this->copyCoupons( $basket, $errors, $localeKey );
+			$this->migrating = true;
+
+			try
+			{
+				// @phpstan-ignore-next-line
+				$this->copyAddresses( $basket, $localeKey );
+				// @phpstan-ignore-next-line
+				$this->copyProducts( $basket, $localeKey );
+				// after products so services aren't recalculated for each product and depend on the full basket
+				// @phpstan-ignore-next-line
+				$this->copyServices( $basket, $localeKey );
+				// @phpstan-ignore-next-line
+				$this->copyCoupons( $basket, $localeKey );
+			}
+			finally
+			{
+				$this->migrating = false;
+			}
 
 			// @phpstan-ignore argument.type
 			$this->object()->get()->setCustomerId( $basket->getCustomerId() )
@@ -176,6 +189,7 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				// @phpstan-ignore argument.type
 				->setLocale( $locale );
 
+			$this->object()->save();
 			$manager->setSession( $basket, $type );
 		}
 
@@ -187,11 +201,9 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Migrates the addresses from the old basket to the current one.
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
-	 * @param array $errors Associative list of previous errors
 	 * @param string $localeKey Unique identifier of the site, language and currency
-	 * @return array Associative list of errors occured
 	 */
-	protected function copyAddresses( \Aimeos\MShop\Order\Item\Iface $basket, array $errors, string $localeKey ) : array
+	protected function copyAddresses( \Aimeos\MShop\Order\Item\Iface $basket, string $localeKey ) : void
 	{
 		foreach( $basket->getAddresses() as $type => $items )
 		{
@@ -201,22 +213,15 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 				{
 					// @phpstan-ignore argument.type, argument.type, argument.type
 					$this->object()->get()->addAddress( $item, $type, $pos );
+					// @phpstan-ignore-next-line
+					$basket->deleteAddress( $type, $pos );
 				}
 				catch( \Exception $e )
 				{
-					$logger = $this->context()->logger();
-					$errors['address'][$type] = $e->getMessage();
-
-					$str = 'Error migrating address with type "%1$s" in basket to locale "%2$s": %3$s';
-					$logger->info( sprintf( $str, $type, $localeKey, $e->getMessage() ), 'controller/frontend' );
+					$this->logMigration( 'address', $type, $localeKey, $e->getMessage() );
 				}
 			}
-
-			// @phpstan-ignore-next-line
-			$basket->deleteAddress( $type );
 		}
-
-		return $errors;
 	}
 
 
@@ -224,13 +229,11 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Migrates the coupons from the old basket to the current one.
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
-	 * @param array $errors Associative list of previous errors
 	 * @param string $localeKey Unique identifier of the site, language and currency
-	 * @return array Associative list of errors occured
 	 */
-	protected function copyCoupons( \Aimeos\MShop\Order\Item\Iface $basket, array $errors, string $localeKey ) : array
+	protected function copyCoupons( \Aimeos\MShop\Order\Item\Iface $basket, string $localeKey ) : void
 	{
-		foreach( $basket->getCoupons() as $code => $list )
+		foreach( $basket->getCoupons()->keys() as $code )
 		{
 			try
 			{
@@ -241,15 +244,9 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			}
 			catch( \Exception $e )
 			{
-				$logger = $this->context()->logger();
-				$errors['coupon'][$code] = $e->getMessage();
-
-				$str = 'Error migrating coupon with code "%1$s" in basket to locale "%2$s": %3$s';
-				$logger->info( sprintf( $str, $code, $localeKey, $e->getMessage() ), 'controller/frontend' );
+				$this->logMigration( 'coupon', $code, $localeKey, $e->getMessage() );
 			}
 		}
-
-		return $errors;
 	}
 
 
@@ -257,20 +254,31 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Migrates the products from the old basket to the current one.
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
-	 * @param array $errors Associative list of previous errors
 	 * @param string $localeKey Unique identifier of the site, language and currency
-	 * @return array Associative list of errors occured
 	 */
-	protected function copyProducts( \Aimeos\MShop\Order\Item\Iface $basket, array $errors, string $localeKey ) : array
+	protected function copyProducts( \Aimeos\MShop\Order\Item\Iface $basket, string $localeKey ) : void
 	{
+		$orderProducts = $basket->getProducts()
+			->filter( fn( $item ) => !( $item->getFlags() & \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE ) );
+
+		$ids = $orderProducts->map( fn( $item ) => $item->getParentProductId() ?: $item->getProductId() )->unique()->all();
+
+		if( empty( $ids ) ) {
+			return;
+		}
+
 		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, 'product' );
-		$ruleManager = \Aimeos\MShop::create( $context, 'rule' );
 		$domains = ['attribute', 'catalog', 'media', 'price', 'product', 'text', 'locale/site'];
+		$filter = $manager->filter( true )->add( 'product.id', '==', $ids )->slice( 0, count( $ids ) );
+		$products = \Aimeos\MShop::create( $context, 'rule' )->apply( $manager->search( $filter, $domains ), 'catalog' );
 
-		foreach( $basket->getProducts() as $pos => $product )
+		foreach( $orderProducts as $pos => $product )
 		{
-			if( $product->getFlags() & \Aimeos\MShop\Order\Item\Product\Base::FLAG_IMMUTABLE ) {
+			if( ( $item = $products->get( $product->getParentProductId() ?: $product->getProductId() ) ) === null )
+			{
+				// @phpstan-ignore argument.type
+				$this->logMigration( 'product', $product->getProductCode(), $localeKey, 'Product not available' );
 				continue;
 			}
 
@@ -288,9 +296,6 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 					}
 				}
 
-				// @phpstan-ignore-next-line
-				$item = $manager->get( $product->getParentProductId() ?: $product->getProductId(), $domains );
-				$item = $ruleManager->apply( $item, 'catalog' );
 				$qty = $product->getQuantity();
 
 				// @phpstan-ignore argument.type, argument.type, argument.type
@@ -301,17 +306,10 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 			}
 			catch( \Exception $e )
 			{
-				$code = $product->getProductCode();
-				$logger = $this->context()->logger();
-				$errors['product'][$pos] = $e->getMessage();
-
-				$str = 'Error migrating product with code "%1$s" in basket to locale "%2$s": %3$s';
-				// @phpstan-ignore-next-line
-				$logger->info( sprintf( $str, $code, $localeKey, $e->getMessage() ), 'controller/frontend' );
+				// @phpstan-ignore argument.type
+				$this->logMigration( 'product', $product->getProductCode(), $localeKey, $e->getMessage() );
 			}
 		}
-
-		return $errors;
 	}
 
 
@@ -319,48 +317,61 @@ abstract class Base extends \Aimeos\Controller\Frontend\Base implements Iface
 	 * Migrates the services from the old basket to the current one.
 	 *
 	 * @param \Aimeos\MShop\Order\Item\Iface $basket Basket object
-	 * @param array $errors Associative list of previous errors
-	 * @return array Associative list of errors occured
+	 * @param string $localeKey Unique identifier of the site, language and currency
 	 */
-	protected function copyServices( \Aimeos\MShop\Order\Item\Iface $basket, array $errors ) : array
+	protected function copyServices( \Aimeos\MShop\Order\Item\Iface $basket, string $localeKey ) : void
 	{
-		$newBasket = $this->object();
-		$manager = \Aimeos\MShop::create( $this->context(), 'service' );
+		$orderServices = $basket->getServices();
 
-		foreach( $basket->getServices() as $type => $list )
-		{
-			foreach( $list as $item )
-			{
-				try
-				{
-					$position = null;
-
-				// @phpstan-ignore argument.type
-				foreach( $newBasket->get()->getService( $type ) as $pos => $ordService )
-					{
-						if( $item->getCode() === $ordService->getCode() ) {
-							$position = $pos;
-						}
-					}
-
-					$attributes = [];
-
-					foreach( $item->getAttributeItems() as $attrItem ) {
-						$attributes[$attrItem->getCode()] = $attrItem->getValue();
-					}
-
-					// @phpstan-ignore-next-line
-					$service = $manager->get( $item->getServiceId(), ['media', 'price', 'text'] );
-					// @phpstan-ignore argument.type, argument.type
-					$newBasket->addService( $service, $attributes, $position );
-					// @phpstan-ignore-next-line
-					$basket->deleteService( $type );
-				}
-				catch( \Exception $e ) { ; } // Don't notify the user as appropriate services can be added automatically
-			}
+		if( empty( $ids = $orderServices->flat( 1 )->getServiceId()->unique()->all() ) ) {
+			return;
 		}
 
-		return $errors;
+		$manager = \Aimeos\MShop::create( $this->context(), 'service' );
+		$filter = $manager->filter( true )->add( 'service.id', '==', $ids )->slice( 0, count( $ids ) );
+		$services = $manager->search( $filter, ['media', 'price', 'text'] );
+
+		foreach( $orderServices as $type => $list )
+		{
+			foreach( $list as $pos => $item )
+			{
+				if( ( $service = $services->get( $item->getServiceId() ) ) === null )
+				{
+					$this->logMigration( 'service', $item->getCode(), $localeKey, 'Service not available' );
+					continue;
+				}
+
+				$attributes = map( $item->getAttributeItems() )
+					->col( 'order.service.attribute.value', 'order.service.attribute.code' )->all();
+
+				try
+				{
+					// @phpstan-ignore argument.type, argument.type
+					$this->object()->addService( $service, $attributes );
+					// @phpstan-ignore-next-line
+					$basket->deleteService( $type, $pos );
+				}
+				catch( \Exception $e )
+				{
+					$this->logMigration( 'service', $item->getCode(), $localeKey, $e->getMessage() );
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Logs an item which couldn't be migrated to the basket of the new locale
+	 *
+	 * @param string $domain Domain of the item, e.g. "address", "coupon", "product" or "service"
+	 * @param string $key Type or code identifying the item
+	 * @param string $localeKey Unique identifier of the site, language and currency
+	 * @param string $msg Reason why the item couldn't be migrated
+	 */
+	protected function logMigration( string $domain, string $key, string $localeKey, string $msg ) : void
+	{
+		$str = 'Error migrating %1$s "%2$s" in basket to locale "%3$s": %4$s';
+		$this->context()->logger()->info( sprintf( $str, $domain, $key, $localeKey, $msg ), 'controller/frontend' );
 	}
 
 

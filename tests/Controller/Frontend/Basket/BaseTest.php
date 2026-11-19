@@ -40,6 +40,30 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testCheckLocaleMigrate()
+	{
+		$context = clone $this->context;
+		$context->setLocale( \Aimeos\MShop::create( $context, 'locale' )->bootstrap( 'unittest', 'en', 'EUR', false ) );
+
+		$product = \Aimeos\MShop::create( $context, 'product' )->find( 'CNC' );
+		$ordProdItem = \Aimeos\MShop::create( $context, 'order/product' )->create()->copyFrom( $product )->setStockType( 'default' );
+
+		$manager = \Aimeos\MShop::create( $context, 'order' );
+		$manager->setSession( $manager->create()->off()->addProduct( $ordProdItem ) );
+
+		$this->context->session()->set( 'aimeos/basket/locale', 'unittest|en|EUR' );
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+		$basket = $object->get();
+
+		$this->assertEquals( 1, count( $basket->getProducts() ) );
+		$this->assertEquals( 'de', $basket->locale()->getLanguageId() );
+		$this->assertEquals( 0, count( \Aimeos\MShop::create( $context, 'order' )->getSession()->getProducts() ) );
+		$this->assertEquals( 1, count( \Aimeos\MShop::create( $this->context, 'order' )->getSession()->getProducts() ) );
+
+		$object->clear();
+	}
+
+
 	public function testCopyAddresses()
 	{
 		$manager = \Aimeos\MShop::create( \TestHelper::context(), 'order' );
@@ -51,14 +75,13 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
-		$result = $this->access( 'copyAddresses' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
+		$this->access( 'copyAddresses' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
-
-		$this->assertEquals( ['test'], $result );
 		$this->assertEquals( 1, count( $object->get()->getAddresses() ) );
 
 		$addr = $object->get()->getAddress( \Aimeos\MShop\Order\Item\Address\Base::TYPE_PAYMENT, 0 );
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Address\Iface::class, $addr );
+		$this->assertEquals( [], $ordBaseItem->getAddress( \Aimeos\MShop\Order\Item\Address\Base::TYPE_PAYMENT ) );
 
 		$object->clear();
 	}
@@ -80,10 +103,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object->expects( $this->once() )->method( 'get' )->will( $this->throwException( new \Exception() ) );
 
-		$result = $this->access( 'copyAddresses' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
+		$this->access( 'copyAddresses' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
-		$this->assertEquals( 1, count( $result ) );
-		$this->assertArrayHasKey( 'address', $result );
+		$this->assertEquals( 1, count( $ordBaseItem->getAddress( \Aimeos\MShop\Order\Item\Address\Base::TYPE_PAYMENT ) ) );
 	}
 
 
@@ -106,10 +128,11 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object->addProduct( $product );
 
-		$result = $this->access( 'copyCoupons' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
+		$this->access( 'copyCoupons' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
 
-		$this->assertEquals( ['test'], $result );
+		$this->assertArrayHasKey( 'OPQR', $object->get()->getCoupons() );
+		$this->assertArrayNotHasKey( 'OPQR', $ordBaseItem->getCoupons() );
 
 		$object->clear();
 	}
@@ -130,10 +153,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object->expects( $this->once() )->method( 'addCoupon' )->will( $this->throwException( new \Exception() ) );
 
-		$result = $this->access( 'copyCoupons' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
+		$this->access( 'copyCoupons' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
-		$this->assertEquals( 1, count( $result ) );
-		$this->assertArrayHasKey( 'coupon', $result );
+		$this->assertArrayHasKey( '90AB', $ordBaseItem->getCoupons() );
 	}
 
 
@@ -150,12 +172,32 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
-		$result = $this->access( 'copyProducts' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
+		$this->access( 'copyProducts' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
-
-		$this->assertEquals( ['test'], $result );
 		$this->assertEquals( 1, count( $object->get()->getProducts() ) );
 		$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Product\Iface::class, $object->get()->getProduct( 0 ) );
+
+		$object->clear();
+	}
+
+
+	public function testCopyProductMissing()
+	{
+		$manager = \Aimeos\MShop::create( \TestHelper::context(), 'order' );
+		$ordBaseItem = $manager->create()->off();
+
+		$product = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' );
+		$ordProdManager = \Aimeos\MShop::create( $this->context, 'order/product' );
+		$ordBaseItem->addProduct( $ordProdManager->create()->copyFrom( $product )->setStockType( 'default' ) );
+		$ordBaseItem->addProduct( $ordProdManager->create()->setProductId( '-1' )->setProductCode( 'missing' ) );
+
+
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		$this->access( 'copyProducts' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
+
+		$this->assertEquals( 1, count( $object->get()->getProducts() ) );
+		$this->assertEquals( ['missing'], $ordBaseItem->getProducts()->getProductCode()->values()->all() );
 
 		$object->clear();
 	}
@@ -179,10 +221,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object->expects( $this->once() )->method( 'addProduct' )->will( $this->throwException( new \Exception() ) );
 
-		$result = $this->access( 'copyProducts' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
+		$this->access( 'copyProducts' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
-		$this->assertEquals( 1, count( $result ) );
-		$this->assertArrayHasKey( 'product', $result );
+		$this->assertEquals( 1, count( $ordBaseItem->getProducts() ) );
 	}
 
 
@@ -202,10 +243,8 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
 
-		$result = $this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, ['test'], 'unittest|en|EUR'] );
+		$this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
-
-		$this->assertEquals( ['test'], $result );
 		$this->assertEquals( 1, count( $object->get()->getServices() ) );
 
 		$services = $object->get()->getService( \Aimeos\MShop\Order\Item\Service\Base::TYPE_DELIVERY );
@@ -213,6 +252,34 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		foreach( $services as $service ) {
 			$this->assertInstanceOf( \Aimeos\MShop\Order\Item\Service\Iface::class, $service );
 		}
+
+		$object->clear();
+	}
+
+
+	public function testCopyServicesMissing()
+	{
+		$manager = \Aimeos\MShop::create( \TestHelper::context(), 'order' );
+		$ordBaseItem = $manager->create();
+
+		$serviceManager = \Aimeos\MShop::create( $this->context, 'service' );
+		$ordServManager = \Aimeos\MShop::create( $this->context, 'order/service' );
+
+		$serviceItem = $serviceManager->find( 'unitdeliverycode', [], 'service', 'delivery' );
+		$ordServItem = $ordServManager->create()->copyFrom( $serviceItem );
+		$missingItem = $ordServManager->create()->copyFrom( $serviceItem )->setCode( 'missing' )->setServiceId( '-1' );
+
+		$ordBaseItem->addService( $ordServItem, \Aimeos\MShop\Order\Item\Service\Base::TYPE_DELIVERY );
+		$ordBaseItem->addService( $missingItem, \Aimeos\MShop\Order\Item\Service\Base::TYPE_DELIVERY );
+
+
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		$this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
+
+
+		$this->assertEquals( 1, count( $object->get()->getService( 'delivery' ) ) );
+		$this->assertEquals( ['missing'], map( $ordBaseItem->getService( 'delivery' ) )->getCode()->values()->all() );
 
 		$object->clear();
 	}
@@ -239,9 +306,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 		$object->expects( $this->once() )->method( 'addService' )->will( $this->throwException( new \Exception() ) );
 
-		$result = $this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, [], 'unittest|en|EUR'] );
+		$this->access( 'copyServices' )->invokeArgs( $object, [$ordBaseItem, 'unittest|en|EUR'] );
 
-		$this->assertEquals( 0, count( $result ) );
+		$this->assertEquals( 1, count( $ordBaseItem->getService( 'delivery' ) ) );
 	}
 
 

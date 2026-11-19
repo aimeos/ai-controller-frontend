@@ -203,7 +203,7 @@ class Standard
 	 */
 	public function save() : Iface
 	{
-		if( isset( $this->baskets[$this->type] ) && $this->baskets[$this->type]->isModified() )
+		if( !$this->migrating && isset( $this->baskets[$this->type] ) && $this->baskets[$this->type]->isModified() )
 		{
 			$this->baskets[$this->type]->setCustomerId( (string) $this->context()->user() );
 			$this->manager->setSession( $this->baskets[$this->type], $this->type );

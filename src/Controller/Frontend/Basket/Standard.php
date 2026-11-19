@@ -289,7 +289,16 @@ class Standard
 		}
 
 
-		$basket = $this->get()->setCustomerId( (string) $context->user() )->finish()->check();
+		$basket = $this->get();
+
+		// only the first service per type is processed, so others would only add their rebates
+		if( !$basket->getServices()->filter( fn( $list ) => count( $list ) > 1 )->isEmpty() )
+		{
+			$msg = $context->translate( 'controller/frontend', 'Please choose your delivery and payment options again' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 400 );
+		}
+
+		$basket = $basket->setCustomerId( (string) $context->user() )->finish()->check();
 		$basket->setStatusDelivery( \Aimeos\MShop\Order\Item\Base::STAT_UNFINISHED )->setDateDelivery( null );
 		$basket->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED )->setDatePayment( null );
 
@@ -569,7 +578,7 @@ class Standard
 	 *
 	 * @param \Aimeos\MShop\Service\Item\Iface $service Service item selected by the customer
 	 * @param array $config Associative list of key/value pairs with the options selected by the customer
-	 * @param int|null $position Position of the service in the list to replace
+	 * @param int|null $position Unused because the basket contains only one service per type, existing ones are replaced
 	 * @return \Aimeos\Controller\Frontend\Basket\Iface Basket frontend object for fluent interface
 	 * @throws \Aimeos\Controller\Frontend\Basket\Exception If given service attributes are invalid
 	 */
@@ -579,15 +588,6 @@ class Standard
 		$context = $this->context();
 
 		$type = $service->getType();
-		$code = $service->getCode();
-
-		foreach( $basket->getService( $type ) as $pos => $ordService )
-		{
-			if( !$position && $ordService->getCode() === $code ) {
-				$position = $pos;
-			}
-		}
-
 		$manager = \Aimeos\MShop::create( $context, 'service' );
 		$provider = $manager->getProvider( $service, $type );
 
@@ -609,15 +609,17 @@ class Standard
 		}
 
 		// @phpstan-ignore-next-line
-		if( count( array_filter( $errors ) ) > 0 )
+		if( !empty( $invalid = array_filter( $errors ) ) )
 		{
 			$msg = $context->translate( 'controller/frontend', 'Invalid service attributes' );
-			// @phpstan-ignore-next-line
-			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 400, null, array_filter( $errors ) );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( $msg, 400, null, $invalid );
 		}
 
+		// only the first service per type is processed, so others would only add their rebates
+		$basket->deleteService( $type );
+
 		// remove service rebate of original price
-		$price = $provider->calcPrice( $this->get(), $config )->setRebate( '0.00' );
+		$price = $provider->calcPrice( $basket, $config )->setRebate( '0.00' );
 
 		$orderManager = \Aimeos\MShop::create( $context, 'order' );
 
@@ -625,7 +627,7 @@ class Standard
 		$orderServiceItem = $provider->setConfigFE( $orderServiceItem, $config );
 
 		// @phpstan-ignore-next-line
-		$this->baskets[$this->type] = $basket->addService( $orderServiceItem, $type, $position );
+		$this->baskets[$this->type] = $basket->addService( $orderServiceItem, $type );
 		return $this->save();
 	}
 

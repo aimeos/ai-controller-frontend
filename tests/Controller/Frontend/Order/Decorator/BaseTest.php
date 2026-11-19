@@ -83,7 +83,9 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$stub = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Standard::class )
 			->disableOriginalConstructor()
 			->getMock();
-		$object = new \Aimeos\Controller\Frontend\Order\Decorator\Example( $stub, $this->context );
+		$object = $this->getMockBuilder( \Aimeos\Controller\Frontend\Order\Decorator\Base::class )
+			->setConstructorArgs( [$stub, $this->context] )
+			->getMockForAbstractClass();
 
 		$stub->expects( $this->once() )->method( 'payable' )->willReturn( true );
 

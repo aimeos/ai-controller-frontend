@@ -103,6 +103,88 @@ abstract class Base
 
 
 	/**
+	 * Removes the domains whose items customers are not allowed to retrieve
+	 *
+	 * @param array $domains Domain names or domain names as keys and list types as values
+	 * @param array $extra Additional domain names allowed by the controller
+	 * @return array Allowed domain names or domain names as keys and list types as values
+	 */
+	protected function checkDomains( array $domains, array $extra = [] ) : array
+	{
+		/** controller/frontend/domains
+		 * List of domains whose items can be fetched by the frontend controllers
+		 *
+		 * The domains passed to the uses() methods of the frontend controllers
+		 * are often taken from the request, e.g. the "include" parameter of the
+		 * JSON REST API. Referenced items are fetched by their IDs without
+		 * checking if they belong to the current customer, so only domains
+		 * whose items are public are allowed. Domains which are not in the list
+		 * are silently removed. Controllers can allow own sub-domains in
+		 * addition, e.g. "customer/address" in the customer controller.
+		 *
+		 * Type domains like "product/type" are always allowed and domains can
+		 * be prefixed by the domain of the item they belong to, e.g.
+		 * "product/text" is allowed if "text" is in the list.
+		 *
+		 * SECURITY: Only add domains whose items are public in your shop, i.e.
+		 * catalog data like products, texts, media or prices. Never add domains
+		 * like "order", "basket", "subscription", "review", "customer", "group",
+		 * "service", "coupon", "plugin", "rule" or "locale" because customers
+		 * would be able to read data of other customers or the shop configuration,
+		 * e.g. customers referenced by products to limit their visibility.
+		 *
+		 * @param array List of domain names
+		 * @since 2026.10
+		 * @see controller/frontend/customer/listdomains
+		 */
+		$default = [
+			'attribute', 'attribute/property', 'catalog', 'locale/site', 'media', 'media/property', 'price',
+			'product', 'product/property', 'stock', 'supplier', 'supplier/address', 'text'
+		];
+		$allowed = (array) $this->context->config()->get( 'controller/frontend/domains', $default );
+		$allowed = array_merge( $allowed, $extra );
+		$list = [];
+
+		foreach( $domains as $key => $value )
+		{
+			// scalar values are used as domain names by the managers even if the key is a string
+			$names = is_string( $key ) ? [$key] : [];
+
+			if( !is_array( $value ) ) {
+				$names[] = (string) $value;
+			}
+
+			foreach( $names as $name )
+			{
+				if( !$this->isAllowedDomain( $name, $allowed ) ) {
+					continue 2;
+				}
+			}
+
+			$list[$key] = $value;
+		}
+
+		return $list;
+	}
+
+
+	/**
+	 * Checks if the domain name is allowed
+	 *
+	 * @param string $name Domain name
+	 * @param array $allowed List of allowed domain names
+	 * @return bool TRUE if the domain is allowed, FALSE if not
+	 */
+	private function isAllowedDomain( string $name, array $allowed ) : bool
+	{
+		$parts = explode( '/', $name, 2 );
+
+		return in_array( $name, $allowed, true ) || str_ends_with( $name, '/type' )
+			|| isset( $parts[1] ) && in_array( $parts[1], $allowed, true ); // e.g. "product/text"
+	}
+
+
+	/**
 	 * Returns the context object.
 	 *
 	 * @return \Aimeos\MShop\ContextIface Context object implementing \Aimeos\MShop\ContextIface

@@ -231,6 +231,46 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUpdateSyncCanceled()
+	{
+		$service = \Aimeos\MShop::create( $this->context, 'order/service' )->create()->setCode( 'unitdeliverycode' );
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create()->addService( $service, 'delivery' )
+			->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED );
+		$request = $this->createStub( \Psr\Http\Message\ServerRequestInterface::class );
+
+		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
+			->onlyMethods( ['updateSync'] )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$orderManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->onlyMethods( ['get'] )
+			->getMock();
+
+		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->onlyMethods( ['getProvider', 'type'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
+
+
+		$serviceManager->method( 'type' )->willReturn( ['service'] );
+		$serviceManager->expects( $this->once() )->method( 'getProvider' )->willReturn( $provider );
+		$orderManager->expects( $this->once() )->method( 'get' )->willReturn( $item );
+		$provider->expects( $this->once() )->method( 'updateSync' )
+			->willReturnCallback( fn( $request, $order ) => $order->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_RECEIVED ) );
+
+
+		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
+		$result = $object->updateSync( $request, 'unitdeliverycode', -1 );
+
+		$this->assertEquals( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED, $result->getStatusPayment() );
+	}
+
+
 	public function testUpdateSyncServiceNotInOrder()
 	{
 		$service = \Aimeos\MShop::create( $this->context, 'order/service' )->create()->setCode( 'unitdeliverycode' );

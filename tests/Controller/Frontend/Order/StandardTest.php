@@ -57,6 +57,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPayable()
+	{
+		$manager = \Aimeos\MShop::create( $this->context, 'order' );
+
+		$recent = $manager->create( ['order.ctime' => date( 'Y-m-d H:i:s' )] );
+		$expired = $manager->create( ['order.ctime' => date( 'Y-m-d H:i:s', time() - 86400 - 60 )] );
+
+		$this->assertTrue( $this->object->payable( $recent->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED ) ) );
+		$this->assertTrue( $this->object->payable( $expired->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_PENDING ) ) );
+		$this->assertFalse( $this->object->payable( $expired->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_UNFINISHED ) ) );
+		$this->assertFalse( $this->object->payable( $recent->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_REFUSED ) ) );
+		$this->assertFalse( $this->object->payable( $recent->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED ) ) );
+	}
+
+
 	public function testSave()
 	{
 		$manager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )

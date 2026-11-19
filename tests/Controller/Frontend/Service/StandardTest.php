@@ -230,6 +230,54 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testUpdateSyncCanceled()
+	{
+		$service = \Aimeos\MShop::create( $this->context, 'order/base/service' )->create()->setCode( 'unitdeliverycode' );
+		$item = \Aimeos\MShop::create( $this->context, 'order' )->create()->setBaseId( '-1' )
+			->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED );
+		$request = $this->getMockBuilder( \Psr\Http\Message\ServerRequestInterface::class )->getMock();
+
+		$provider = $this->getMockBuilder( '\\Aimeos\\MShop\\Service\\Provider\\Delivery\\Standard' )
+			->onlyMethods( ['updateSync'] )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$orderManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->onlyMethods( ['get'] )
+			->getMock();
+
+		$orderServiceManager = $this->getMockBuilder( \Aimeos\MShop\Order\Manager\Base\Service\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->onlyMethods( ['search'] )
+			->getMock();
+
+		$serviceManager = $this->getMockBuilder( \Aimeos\MShop\Service\Manager\Standard::class )
+			->setConstructorArgs( array( $this->context ) )
+			->onlyMethods( ['getProvider'] )
+			->getMock();
+
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Standard::class, $orderManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Order\Manager\Base\Service\Standard::class, $orderServiceManager );
+		\Aimeos\MShop::inject( \Aimeos\MShop\Service\Manager\Standard::class, $serviceManager );
+
+
+		$orderManager->expects( $this->once() )->method( 'get' )->willReturn( $item );
+		$orderServiceManager->expects( $this->once() )->method( 'search' )->willReturn( map( [$service] ) );
+		$serviceManager->expects( $this->once() )->method( 'getProvider' )->willReturn( $provider );
+		$provider->expects( $this->once() )->method( 'updateSync' )
+			->willReturnCallback( function( $request, $order ) {
+				return $order->setStatusPayment( \Aimeos\MShop\Order\Item\Base::PAY_RECEIVED );
+			} );
+
+
+		$object = new \Aimeos\Controller\Frontend\Service\Standard( $this->context );
+		$result = $object->updateSync( $request, 'unitdeliverycode', -1 );
+
+		$this->assertEquals( \Aimeos\MShop\Order\Item\Base::PAY_CANCELED, $result->getStatusPayment() );
+	}
+
+
 	public function testUpdateSyncServiceNotInOrder()
 	{
 		$service = \Aimeos\MShop::create( $this->context, 'order/base/service' )->create()->setCode( 'unitdeliverycode' );

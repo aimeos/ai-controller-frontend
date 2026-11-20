@@ -388,8 +388,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testUsesDomainsKeyValue()
 	{
-		$domains = ['product' => 'customer', 'text' => 'text', 'media' => 'order', 'customer' => ['default'], 'price' => ['default']];
-		$expected = ['text' => 'text', 'price' => ['default']];
+		$domains = ['product' => 'customer', 'text' => 'text', 'media' => 'order', 'customer' => ['default'], 'price' => ['default'], 'catalog' => 'media'];
+		$expected = ['text', 'price' => ['default'], 'media'];
 		$property = new \ReflectionProperty( $this->object, 'domains' );
 
 		$this->assertEquals( $expected, $property->getValue( $this->object->uses( $domains ) ) );

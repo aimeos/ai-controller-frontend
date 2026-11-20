@@ -210,7 +210,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$domains = ['customer', 'order' => ['download'], 'product' => ['favorite'], 'service', 'text'];
 		$method = new \ReflectionMethod( $this->object, 'checkDomains' );
 
-		$this->assertEquals( ['product' => ['favorite'], 2 => 'text'], $method->invoke( $this->object, $domains ) );
+		$this->assertEquals( ['product' => ['favorite'], 'text'], $method->invoke( $this->object, $domains ) );
 		$this->assertEquals( 1, count( $this->object->uses( $domains )->get()->getRefItems( 'product' ) ) );
 	}
 

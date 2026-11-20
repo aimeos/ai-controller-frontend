@@ -145,23 +145,17 @@ abstract class Base
 		$allowed = array_merge( $allowed, $extra );
 		$list = [];
 
-		foreach( $domains as $key => $value )
+		foreach( \Aimeos\Utils::refs( $domains ) as $name => $types )
 		{
-			// scalar values are used as domain names by the managers even if the key is a string
-			$names = is_string( $key ) ? [$key] : [];
-
-			if( !is_array( $value ) ) {
-				$names[] = (string) $value;
+			if( !$this->isAllowedDomain( (string) $name, $allowed ) ) {
+				continue;
 			}
 
-			foreach( $names as $name )
-			{
-				if( !$this->isAllowedDomain( $name, $allowed ) ) {
-					continue 2;
-				}
+			if( $types === null ) {
+				$list[] = $name;
+			} else {
+				$list[$name] = $types;
 			}
-
-			$list[$key] = $value;
 		}
 
 		return $list;

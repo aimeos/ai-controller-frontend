@@ -507,7 +507,7 @@ class Standard
 
 		try
 		{
-			$this->baskets[$this->type] = $this->get()->addCoupon( $code );
+			$basket = $this->get()->addCoupon( $code );
 		}
 		catch( \Aimeos\MShop\Plugin\Provider\Exception $e )
 		{
@@ -515,6 +515,18 @@ class Standard
 			throw $e;
 		}
 
+		// the coupon plugin validated the code, now test if its conditions are met
+		$manager = \Aimeos\MShop::create( $context, 'coupon' );
+		$filter = $manager->filter( true )->add( 'coupon.code.code', '==', $code )->slice( 0, 1 );
+
+		if( ( $item = $manager->search( $filter )->first() ) && !$manager->getProvider( $item, $code )->isAvailable( $basket ) )
+		{
+			$basket->deleteCoupon( $code );
+			$msg = $context->translate( 'controller/frontend', 'The conditions of coupon "%1$s" are not met' );
+			throw new \Aimeos\Controller\Frontend\Basket\Exception( sprintf( $msg, $code ), 400 );
+		}
+
+		$this->baskets[$this->type] = $basket;
 		return $this->save();
 	}
 

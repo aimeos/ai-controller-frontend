@@ -447,6 +447,30 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testAddCouponConditions()
+	{
+		$cache = $this->createMock( \Aimeos\Base\Cache\Iface::class );
+		$cache->method( 'get' )->willReturn( 3 );
+		$cache->expects( $this->never() )->method( 'set' );
+
+		$this->context->setCache( $cache );
+		$object = new \Aimeos\Controller\Frontend\Basket\Standard( $this->context );
+
+		try
+		{
+			$object->addCoupon( 'OPQR' ); // minimum basket value of 9.00 EUR isn't reached
+			$this->fail( 'Basket exception expected' );
+		}
+		catch( \Aimeos\Controller\Frontend\Basket\Exception $e )
+		{
+			$this->assertEquals( 400, $e->getCode() );
+			$this->assertStringContainsString( 'OPQR', $e->getMessage() );
+		}
+
+		$this->assertEquals( 0, count( $object->get()->getCoupons() ) );
+	}
+
+
 	public function testAddCouponTooManyAttempts()
 	{
 		$cache = $this->createMock( \Aimeos\Base\Cache\Iface::class );
